@@ -37,7 +37,7 @@ export default function FAQ() {
             onChange={(e) => setQuery(e.target.value)}
             placeholder="Search 'slow', 'Wi-Fi', 'installation'…"
             aria-label="Search support articles"
-            className="h-13 w-full rounded-full border border-paper/25 bg-paper/10 py-3.5 pl-12 pr-4 text-paper placeholder:text-paper/50 outline-none focus:border-loop"
+            className="h-12 w-full rounded-full border border-paper/25 bg-paper/10 py-3.5 pl-12 pr-4 text-sm text-paper placeholder:text-paper/50 outline-none focus:border-loop"
           />
         </div>
       </PageHero>

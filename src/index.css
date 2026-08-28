@@ -106,7 +106,14 @@
   }
 
   .eyebrow {
-    @apply inline-flex items-center gap-2 text-[11px] font-semibold uppercase tracking-[0.22em] text-ink-soft;
+    display: inline-flex;
+    align-items: center;
+    gap: 0.5rem;
+    font-size: 11px;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.22em;
+    color: hsl(var(--ink-soft));
   }
 
   .display-mono {
@@ -133,6 +140,24 @@
 
   .text-balance {
     text-wrap: balance;
+  }
+
+  .input-base {
+    height: 2.75rem;
+    width: 100%;
+    border-radius: 0.75rem;
+    border: 1px solid hsl(var(--line));
+    background: hsl(var(--paper));
+    padding: 0 0.875rem;
+    font-size: 0.875rem;
+    color: hsl(var(--ink));
+    outline: none;
+    transition: border-color 0.15s, box-shadow 0.15s;
+  }
+  .input-base::placeholder { color: hsl(var(--ink-soft) / 0.5); }
+  .input-base:focus {
+    border-color: hsl(var(--signal));
+    box-shadow: 0 0 0 2px hsl(var(--signal) / 0.15);
   }
 }
 
