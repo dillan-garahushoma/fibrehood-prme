@@ -1,0 +1,77 @@
+{
+  "name": "Lead",
+  "type": "object",
+  "properties": {
+    "name": {
+      "type": "string",
+      "description": "Name of the person requesting a connection or contact."
+    },
+    "phone": {
+      "type": "string",
+      "description": "Primary contact phone number."
+    },
+    "email": {
+      "type": "string",
+      "format": "email",
+      "description": "Optional contact email address."
+    },
+    "address": {
+      "type": "string",
+      "description": "Optional address to check / connect."
+    },
+    "segment": {
+      "type": "string",
+      "enum": [
+        "home",
+        "business",
+        "unsure"
+      ],
+      "default": "unsure",
+      "description": "Whether the enquiry is for home or business connectivity."
+    },
+    "selected_plan": {
+      "type": "string",
+      "description": "Identifier of the plan the lead selected, if any."
+    },
+    "coverage_result": {
+      "type": "string",
+      "enum": [
+        "covered",
+        "near",
+        "not_covered",
+        "unknown"
+      ],
+      "description": "Coverage outcome associated with the lead, if any."
+    },
+    "source": {
+      "type": "string",
+      "enum": [
+        "coverage",
+        "plans",
+        "contact",
+        "direct",
+        "whatsapp"
+      ],
+      "default": "direct",
+      "description": "Where the lead originated in the experience."
+    },
+    "message": {
+      "type": "string",
+      "description": "Optional free-text message from the contact form."
+    },
+    "consent": {
+      "type": "boolean",
+      "default": false,
+      "description": "Whether the lead consented to be contacted."
+    },
+    "utm": {
+      "type": "string",
+      "description": "Optional marketing context (e.g. utm_source/medium/campaign)."
+    }
+  },
+  "required": [
+    "name",
+    "phone",
+    "consent"
+  ]
+}
