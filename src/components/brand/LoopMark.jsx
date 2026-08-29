@@ -13,15 +13,16 @@ export function LoopMark({ className, stroke = 3.4, animated = false }) {
       aria-hidden="true"
       className={cn("text-loop", className)}
     >
-      <g
+      <path
+        d="M22 12C29 4 38 4 38 12C38 20 29 20 22 12C15 4 6 4 6 12C6 20 15 20 22 12Z"
         stroke="currentColor"
         strokeWidth={stroke}
-        fill="none"
-        className={animated ? "[stroke-dasharray:64] animate-dash-flow" : undefined}
-      >
-        <circle cx="14.5" cy="12" r="8.5" />
-        <circle cx="29.5" cy="12" r="8.5" />
-      </g>
+        strokeLinecap="round"
+        strokeLinejoin="round"
+        pathLength={1}
+        strokeDasharray="1"
+        className={animated ? "animate-draw-on" : undefined}
+      />
     </svg>
   );
 }
