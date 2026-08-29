@@ -8,8 +8,8 @@ const AuthContext = createContext();
 export const AuthProvider = ({ children }) => {
   const [user, setUser] = useState(null);
   const [isAuthenticated, setIsAuthenticated] = useState(false);
-  const [isLoadingAuth, setIsLoadingAuth] = useState(true);
-  const [isLoadingPublicSettings, setIsLoadingPublicSettings] = useState(true);
+  const [isLoadingAuth, setIsLoadingAuth] = useState(false);
+  const [isLoadingPublicSettings, setIsLoadingPublicSettings] = useState(false);
   const [authError, setAuthError] = useState(null);
   const [authChecked, setAuthChecked] = useState(false);
   const [appPublicSettings, setAppPublicSettings] = useState(null); // Contains only { id, public_settings }
@@ -19,6 +19,14 @@ export const AuthProvider = ({ children }) => {
   }, []);
 
   const checkAppState = async () => {
+    // Standalone mode: skip the backend public-settings fetch and render
+    // the public site immediately as an unauthenticated visitor.
+    setAuthError(null);
+    setIsLoadingPublicSettings(false);
+    setIsLoadingAuth(false);
+    setIsAuthenticated(false);
+    setAuthChecked(true);
+    return;
     try {
       setIsLoadingPublicSettings(true);
       setAuthError(null);
@@ -91,12 +99,9 @@ export const AuthProvider = ({ children }) => {
 
   const checkUserAuth = async () => {
     try {
-      // Now check if the user is authenticated
-      setIsLoadingAuth(true);
-      const currentUser = await base44.auth.me();
-      setUser(currentUser);
-      setIsAuthenticated(true);
+      // Standalone mode: no backend auth dependency.
       setIsLoadingAuth(false);
+      setIsAuthenticated(false);
       setAuthChecked(true);
     } catch (error) {
       console.error('User auth check failed:', error);
@@ -117,20 +122,9 @@ export const AuthProvider = ({ children }) => {
   const logout = (shouldRedirect = true) => {
     setUser(null);
     setIsAuthenticated(false);
-    
-    if (shouldRedirect) {
-      // Use the SDK's logout method which handles token cleanup and redirect
-      base44.auth.logout(window.location.href);
-    } else {
-      // Just remove the token without redirect
-      base44.auth.logout();
-    }
   };
 
-  const navigateToLogin = () => {
-    // Use the SDK's redirectToLogin method
-    base44.auth.redirectToLogin(window.location.href);
-  };
+  const navigateToLogin = () => {};
 
   return (
     <AuthContext.Provider value={{ 

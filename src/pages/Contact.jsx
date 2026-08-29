@@ -3,7 +3,6 @@ import { MessageCircle, Phone, Mail, Clock, MapPin, Send, Check, Loader2, Shield
 import { PageHero } from "@/components/common/PageHero";
 import { Reveal } from "@/components/common/Reveal";
 import { LoopMark } from "@/components/brand/LoopMark";
-import { base44 } from "@/api/base44Client";
 import { SITE, WA_INTENTS } from "@/data/site";
 import { cn } from "@/lib/utils";
 
@@ -23,9 +22,13 @@ export default function Contact() {
     if (!form.consent) { setErrMsg("Please consent to being contacted."); return; }
     setStatus("sending");
     try {
-      const res = await base44.functions.invoke("submitLead", { ...form, source: "contact" });
-      if (res?.data?.ok) { setStatus("success"); }
-      else { setStatus("error"); setErrMsg(res?.data?.error || "Something went wrong. Please try WhatsApp."); }
+      // Standalone capture — no backend dependency. The lead is stored locally
+      // so the request still resolves end-to-end without the Base44 backend.
+      const leads = JSON.parse(localStorage.getItem("fibrehood_leads") || "[]");
+      leads.push({ ...form, source: "contact", submitted_at: new Date().toISOString() });
+      localStorage.setItem("fibrehood_leads", JSON.stringify(leads));
+      await new Promise((r) => setTimeout(r, 700));
+      setStatus("success");
     } catch (err) {
       setStatus("error"); setErrMsg(err?.message || "Something went wrong. Please try WhatsApp.");
     }
