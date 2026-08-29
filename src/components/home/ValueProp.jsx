@@ -44,16 +44,16 @@ export function ValueProp() {
           </Reveal>
 
           <Reveal delay={0.1} className="relative">
-            <div className="relative overflow-hidden rounded-3xl border border-line shadow-lift">
+            <div className="relative mx-auto max-w-sm overflow-hidden rounded-3xl border border-line shadow-lift">
               <Image
-                src={IMAGES.fibreGlass}
-                alt="Abstract macro rendering of light travelling through a glass fibre optic cable"
+                src={IMAGES.routerNode}
+                alt="Abstract rendering of a FibreHood network router node"
                 fittingType="fill"
-                className="aspect-[4/5] w-full sm:aspect-[5/4] lg:aspect-[4/5]"
+                className="aspect-[4/3] w-full"
               />
-              <div className="absolute inset-0 bg-gradient-to-t from-signal/60 via-transparent to-transparent" />
+              <div className="absolute inset-0 bg-gradient-to-t from-signal/55 via-transparent to-transparent" />
             </div>
-            <div className="absolute -bottom-6 -left-2 hidden max-w-[15rem] rounded-2xl border border-line bg-paper p-5 shadow-lift sm:block">
+            <div className="absolute -bottom-6 left-1/2 hidden max-w-[15rem] -translate-x-1/2 rounded-2xl border border-line bg-paper p-5 shadow-lift sm:block">
               <LoopMark className="h-6 w-10" animated />
               <p className="mt-2 text-xs font-semibold uppercase tracking-wider text-ink-soft">The loop</p>
               <p className="mt-1 text-sm leading-relaxed text-ink">Connection → network → loop → flow → neighbourhood.</p>

@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import { Link } from "react-router-dom";
 import { AnimatePresence, motion } from "framer-motion";
-import { Search, Loader2, Check, Clock, AlertCircle, ArrowRight, MessageCircle, Zap } from "lucide-react";
+import { Search, Loader2, Check, Clock, AlertCircle, ArrowRight, MessageCircle, MapPin } from "lucide-react";
 import { LoopMark } from "@/components/brand/LoopMark";
 import { lookupCoverage, COVERAGE_STATES } from "@/data/network";
 import { getPlan, formatSpeed } from "@/data/plans";
@@ -83,7 +83,7 @@ export function CoverageChecker({ variant = "page", onResult, source = "coverage
               </>
             ) : (
               <>
-                <Zap className="h-4 w-4 text-loop" /> Check coverage
+                <MapPin className="h-4 w-4 text-loop" /> Check coverage
               </>
             )}
           </button>

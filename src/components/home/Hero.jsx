@@ -1,9 +1,11 @@
 import React from "react";
 import { Link } from "react-router-dom";
 import { ArrowRight, MapPin } from "lucide-react";
+import { Image } from "@/components/ui/image";
 import { LoopMark } from "@/components/brand/LoopMark";
 import { CoverageChecker } from "@/components/coverage/CoverageChecker";
 import { SectionLabel } from "@/components/common/SectionLabel";
+import { IMAGES } from "@/data/images";
 
 /** Animated SVG network backdrop for the hero. */
 function NetworkBackdrop() {
@@ -34,7 +36,17 @@ function NetworkBackdrop() {
 export function Hero() {
   return (
     <section className="relative overflow-hidden bg-signal text-paper">
-      <div className="bg-grid-dark absolute inset-0 opacity-40" aria-hidden="true" />
+      {/* Blurred fibre-light backdrop, tinted navy so text stays crisp */}
+      <div className="absolute inset-0" aria-hidden="true">
+        <Image
+          src={IMAGES.lightTrails}
+          alt=""
+          fittingType="fill"
+          className="h-full w-full scale-110 opacity-40 blur-2xl"
+        />
+        <div className="absolute inset-0 bg-gradient-to-b from-signal/90 via-signal/80 to-signal-deep/95" />
+      </div>
+      <div className="bg-grid-dark absolute inset-0 opacity-20" aria-hidden="true" />
       <NetworkBackdrop />
       <div className="pointer-events-none absolute -right-24 top-24 opacity-[0.08]">
         <LoopMark className="h-64 w-[28rem]" stroke={2} animated />
