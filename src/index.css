@@ -216,6 +216,15 @@
   50% { transform: translateY(-10px); }
 }
 
+@keyframes fhPulse {
+  0% { transform: scale(0.5); opacity: 0.85; }
+  100% { transform: scale(2.4); opacity: 0; }
+}
+
+.leaflet-container { font-family: inherit; background: #ECEFF4; }
+.leaflet-tooltip { font-family: inherit; }
+@media (max-width: 639px) { .leaflet-top.leaflet-right { display: none !important; } }
+
 @media (prefers-reduced-motion: reduce) {
   *, *::before, *::after {
     animation-duration: 0.001ms !important;
