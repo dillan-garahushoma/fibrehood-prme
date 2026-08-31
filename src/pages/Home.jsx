@@ -6,6 +6,7 @@ import FeaturedOffer from "@/components/home/FeaturedOffer";
 import HowItWorks from "@/components/home/HowItWorks";
 import NetworkVisual from "@/components/home/NetworkVisual";
 import PlanPreview from "@/components/home/PlanPreview";
+import CoverflowCarousel from "@/components/ui/CoverflowCarousel";
 import RouterSection from "@/components/home/RouterSection";
 import Lifestyle from "@/components/home/Lifestyle";
 import Testimonials from "@/components/home/Testimonials";
@@ -21,6 +22,7 @@ export default function Home() {
       <FeaturedOffer />
       <HowItWorks />
       <NetworkVisual />
+      <CoverflowCarousel />
       <PlanPreview />
       <RouterSection />
       <Lifestyle />
