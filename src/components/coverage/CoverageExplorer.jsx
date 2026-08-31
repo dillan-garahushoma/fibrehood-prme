@@ -119,7 +119,7 @@ export function CoverageExplorer() {
 
   return (
     <div>
-      <div className="overflow-hidden rounded-3xl border border-line bg-paper shadow-lift">
+      <div className="isolate overflow-hidden rounded-3xl border border-line bg-paper shadow-lift">
         <CoverageMap
           areas={areas}
           activeAreaId={activeAreaId}
