@@ -26,4 +26,14 @@ export function Reveal({ children, className, delay = 0, y = 18, as = "div", onc
   );
 }
 
+export const entranceContainer = {
+  hidden: {},
+  show: { transition: { staggerChildren: 0.14, delayChildren: 0.05 } }
+};
+
+export const entranceItem = {
+  hidden: { opacity: 0, y: 18 },
+  show: { opacity: 1, y: 0, transition: { duration: 0.6, ease: [0.16, 1, 0.3, 1] } }
+};
+
 export default Reveal;

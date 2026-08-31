@@ -45,7 +45,7 @@ export default function Contact() {
       <section className="py-16 md:py-20">
         <div className="container-lattice grid gap-10 lg:grid-cols-2 lg:gap-16">
           {/* Contact options */}
-          <div>
+          <Reveal>
             <h2 className="font-heading text-2xl font-bold text-signal">Talk to us</h2>
             <p className="mt-3 text-base leading-relaxed text-ink-soft">
               The fastest path to a real conversation. WhatsApp is our preferred channel for
@@ -73,7 +73,7 @@ export default function Contact() {
               <div className="rounded-2xl bg-fog p-5"><div className="flex items-center gap-2 text-signal"><Clock className="h-4 w-4" /><span className="text-sm font-semibold">Hours</span></div><p className="mt-1 text-sm text-ink-soft">{SITE.hours}</p></div>
               <div className="rounded-2xl bg-fog p-5"><div className="flex items-center gap-2 text-signal"><MapPin className="h-4 w-4" /><span className="text-sm font-semibold">Service area</span></div><p className="mt-1 text-sm text-ink-soft">{SITE.region}</p></div>
             </div>
-          </div>
+          </Reveal>
 
           {/* Form */}
           <Reveal>
@@ -130,7 +130,7 @@ export default function Contact() {
       </section>
 
       <section className="bg-signal py-16 text-paper md:py-20">
-        <div className="container-lattice flex flex-col items-center justify-between gap-6 md:flex-row">
+        <Reveal className="container-lattice flex flex-col items-center justify-between gap-6 md:flex-row">
           <div className="flex items-center gap-4">
             <LoopMark className="h-8 w-14" animated />
             <div>
@@ -139,7 +139,7 @@ export default function Contact() {
             </div>
           </div>
           <a href="/coverage" className="inline-flex items-center gap-2 rounded-full bg-loop px-6 py-3.5 text-sm font-semibold text-signal">Check coverage →</a>
-        </div>
+        </Reveal>
       </section>
     </>
   );

@@ -45,7 +45,7 @@ export default function FAQ() {
       <section className="py-16 md:py-20">
         <div className="container-lattice">
           {/* Category chips */}
-          <div className="flex flex-wrap gap-2">
+          <Reveal className="flex flex-wrap gap-2">
             {[{ id: "all", label: "All" }, ...SUPPORT_CATEGORIES].map((c) => (
               <button
                 key={c.id}
@@ -58,10 +58,10 @@ export default function FAQ() {
                 {c.label}
               </button>
             ))}
-          </div>
+          </Reveal>
 
           {/* Articles */}
-          <div className="mt-10 max-w-3xl">
+          <Reveal className="mt-10 max-w-3xl">
             {filtered.length === 0 ? (
               <div className="rounded-2xl border border-line bg-fog p-10 text-center">
                 <p className="text-ink-soft">No articles match "{query}". Try another term or reach us directly.</p>
@@ -93,7 +93,7 @@ export default function FAQ() {
                 ))}
               </Accordion>
             )}
-          </div>
+          </Reveal>
 
           {/* Escalation */}
           <Reveal className="mt-14 grid gap-4 sm:grid-cols-2">

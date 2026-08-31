@@ -1,17 +1,18 @@
 import React from "react";
 import { PageHero } from "@/components/common/PageHero";
+import { Reveal } from "@/components/common/Reveal";
 
 export function LegalLayout({ title, updated, intro, children }) {
   return (
     <>
       <PageHero eyebrow="Legal" title={title} subtitle={intro} />
       <section className="py-16 md:py-20">
-        <div className="container-lattice max-w-3xl">
+        <Reveal className="container-lattice max-w-3xl">
           {updated && <p className="text-sm text-ink-soft">Last updated: {updated}</p>}
           <div className="legal-content mt-8 space-y-8 text-base leading-relaxed text-ink">
             {children}
           </div>
-        </div>
+        </Reveal>
       </section>
     </>
   );

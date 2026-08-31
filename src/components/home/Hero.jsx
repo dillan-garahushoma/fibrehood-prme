@@ -6,8 +6,11 @@ import { LoopMark } from "@/components/brand/LoopMark";
 import { CoverageChecker } from "@/components/coverage/CoverageChecker";
 import { SectionLabel } from "@/components/common/SectionLabel";
 import { IMAGES } from "@/data/images";
+import { motion, useReducedMotion } from "framer-motion";
+import { entranceContainer, entranceItem } from "@/components/common/Reveal";
 
 export function Hero() {
+  const reduce = useReducedMotion();
   return (
     <section className="relative overflow-hidden bg-signal text-paper">
       {/* Slightly blurred fibre field — eye focuses on the crisp headline + checker */}
@@ -31,8 +34,13 @@ export function Hero() {
         <LoopMark className="h-72 w-[32rem]" stroke={2} animated />
       </div>
 
-      <div className="container-lattice relative pt-28 pb-20 md:pt-36 md:pb-28">
-        <div className="mx-auto max-w-3xl text-center">
+      <motion.div
+        className="container-lattice relative pt-28 pb-20 md:pt-36 md:pb-28"
+        variants={entranceContainer}
+        initial={reduce ? false : "hidden"}
+        animate="show"
+      >
+        <motion.div variants={entranceItem} className="mx-auto max-w-3xl text-center">
           <SectionLabel tone="light" className="justify-center">
             Fibre connectivity, coverage-first
           </SectionLabel>
@@ -50,9 +58,9 @@ export function Hero() {
             Check your address, see exactly what fibre is available, and choose a plan
             that fits your home or business — then get connected with a single request.
           </p>
-        </div>
+        </motion.div>
 
-        <div className="mx-auto mt-10 max-w-2xl">
+        <motion.div variants={entranceItem} className="mx-auto mt-10 max-w-2xl">
           <CoverageChecker variant="hero" source="coverage" />
           <div className="mt-6 flex flex-col items-center justify-center gap-3 sm:flex-row">
             <Link
@@ -66,8 +74,8 @@ export function Hero() {
               Coverage-first — we tell you what's actually available.
             </span>
           </div>
-        </div>
-      </div>
+        </motion.div>
+      </motion.div>
     </section>
   );
 }

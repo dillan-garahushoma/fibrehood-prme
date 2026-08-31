@@ -56,7 +56,7 @@ export default function About() {
       {/* Philosophy */}
       <section className="bg-fog py-20 md:py-28">
         <div className="container-lattice">
-          <div className="max-w-2xl">
+          <Reveal className="max-w-2xl">
             <SectionLabel>The philosophy</SectionLabel>
             <h2 className="mt-4 font-heading text-3xl font-bold tracking-tighter text-signal sm:text-4xl">
               The loop is the brand.
@@ -67,7 +67,7 @@ export default function About() {
               back to support the people it serves. Every part of the experience is built to keep
               that loop unbroken.
             </p>
-          </div>
+          </Reveal>
           <div className="mt-12 grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
             {VALUES.map((v, i) => (
               <Reveal key={v.title} delay={i * 0.06}>
@@ -85,11 +85,13 @@ export default function About() {
       {/* Network narrative */}
       <section className="py-20 md:py-28">
         <div className="container-lattice max-w-4xl">
-          <SectionLabel>How we think about the network</SectionLabel>
-          <h2 className="mt-4 font-heading text-3xl font-bold tracking-tighter text-signal sm:text-4xl">
-            A direct model, end to end.
-          </h2>
-          <p className="mt-5 text-lg leading-relaxed text-ink-soft">{NETWORK.statement}</p>
+          <Reveal>
+            <SectionLabel>How we think about the network</SectionLabel>
+            <h2 className="mt-4 font-heading text-3xl font-bold tracking-tighter text-signal sm:text-4xl">
+              A direct model, end to end.
+            </h2>
+            <p className="mt-5 text-lg leading-relaxed text-ink-soft">{NETWORK.statement}</p>
+          </Reveal>
           <div className="mt-10 grid gap-3 sm:grid-cols-2">
             {NETWORK.path.map((node, i) => (
               <Reveal key={node.id} delay={i * 0.04}>
@@ -108,14 +110,14 @@ export default function About() {
 
       {/* Honest trust */}
       <section className="bg-signal py-16 text-paper md:py-20">
-        <div className="container-lattice flex flex-col items-center gap-8 md:flex-row md:items-center md:justify-between">
+        <Reveal className="container-lattice flex flex-col items-center gap-8 md:flex-row md:items-center md:justify-between">
           <div className="max-w-xl">
             <span className="inline-flex items-center gap-2 rounded-full bg-paper/10 px-3 py-1 text-xs font-semibold uppercase tracking-wider text-loop"><MapPin className="h-3.5 w-3.5" /> Trust, earned honestly</span>
             <h2 className="mt-4 font-heading text-2xl font-bold sm:text-3xl">No invented numbers.</h2>
             <p className="mt-3 text-paper/70">We don't fabricate coverage stats, customer counts, or uptime claims we can't back. Where figures matter, we confirm them — and we mark development data clearly until it's real.</p>
           </div>
           <Link to="/coverage" className="inline-flex items-center gap-2 rounded-full bg-loop px-6 py-3.5 text-sm font-semibold text-signal">Check coverage <ArrowRight className="h-4 w-4" /></Link>
-        </div>
+        </Reveal>
       </section>
     </>
   );

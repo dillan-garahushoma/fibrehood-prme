@@ -47,6 +47,7 @@ export default function Plans() {
       <section className="py-16 md:py-20">
         <div className="container-lattice">
           {/* Segment toggle */}
+          <Reveal>
           <div className="flex flex-col items-start justify-between gap-4 sm:flex-row sm:items-center">
             <div className="inline-flex rounded-full border border-line bg-paper p-1">
               {SEGMENTS.map((s) => (
@@ -66,16 +67,17 @@ export default function Plans() {
               <Info className="h-3.5 w-3.5" /> Select up to 3 plans to compare.
             </p>
           </div>
+          </Reveal>
 
           {/* Category blurbs */}
-          <div className="mt-8 grid gap-4 sm:grid-cols-2">
+          <Reveal className="mt-8 grid gap-4 sm:grid-cols-2">
             {PLAN_CATEGORIES.map((c) => (
               <div key={c.id} className="rounded-2xl border border-line bg-fog p-5">
                 <h3 className="font-heading text-lg font-bold text-signal">{c.label}</h3>
                 <p className="mt-1 text-sm text-ink-soft">{c.blurb}</p>
               </div>
             ))}
-          </div>
+          </Reveal>
 
           {/* Plan grid */}
           <div className="mt-10 grid gap-6 sm:grid-cols-2 xl:grid-cols-4">
@@ -87,7 +89,7 @@ export default function Plans() {
           </div>
 
           {/* What's included / honesty */}
-          <div className="mt-16 grid gap-4 sm:grid-cols-3">
+          <Reveal className="mt-16 grid gap-4 sm:grid-cols-3">
             {[
               { t: "What's included", b: "Router, installation, and support terms are listed per plan. Where a detail is confirmed at your coverage check, we say so." },
               { t: "Contracts", b: "Plans show contract length and installation. Business plans run symmetric with priority capacity." },
@@ -98,7 +100,7 @@ export default function Plans() {
                 <p className="mt-1.5 text-sm leading-relaxed text-ink-soft">{x.b}</p>
               </div>
             ))}
-          </div>
+          </Reveal>
         </div>
       </section>
 
