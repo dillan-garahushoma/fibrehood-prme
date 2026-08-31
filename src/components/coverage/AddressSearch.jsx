@@ -14,7 +14,7 @@ export function AddressSearch({
   error
 }) {
   return (
-    <div className="absolute left-1/2 top-3 z-[1200] w-[calc(100%-1.5rem)] max-w-[560px] -translate-x-1/2">
+    <div className="absolute left-1/2 top-4 z-[1200] w-[calc(100%-1.5rem)] max-w-[560px] -translate-x-1/2">
       <div className="overflow-hidden rounded-2xl border border-paper/15 bg-signal/75 shadow-lift backdrop-blur-xl">
         <div className="flex flex-col gap-2 p-2 sm:flex-row sm:items-center">
           <div className="relative flex-1">

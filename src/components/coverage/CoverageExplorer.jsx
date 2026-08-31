@@ -119,7 +119,7 @@ export function CoverageExplorer() {
 
   return (
     <div>
-      <div className="relative">
+      <div className="overflow-hidden rounded-3xl border border-line bg-paper shadow-lift">
         <CoverageMap
           areas={areas}
           activeAreaId={activeAreaId}
@@ -129,6 +129,7 @@ export function CoverageExplorer() {
           onAreaLeave={() => setHoverId(null)}
           onAreaClick={selectArea}
         >
+          <div className="pointer-events-none absolute inset-x-0 top-0 z-[1100] h-20 bg-gradient-to-b from-signal/30 to-transparent" aria-hidden="true" />
           <AddressSearch
             inputRef={searchRef}
             query={query}
@@ -156,7 +157,7 @@ export function CoverageExplorer() {
         </CoverageMap>
       </div>
 
-      <div className="p-5 sm:p-6">
+      <div className="mt-10">
         <AreaExplorer areas={areas} activeAreaId={activeAreaId} onSelect={selectArea} />
       </div>
     </div>

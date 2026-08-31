@@ -13,7 +13,7 @@ export default function Coverage() {
       {/* Premium coverage hero — transitions directly into the interactive map */}
       <section className="relative overflow-hidden bg-signal text-paper">
         <div className="bg-grid-dark absolute inset-0 opacity-[0.18]" aria-hidden="true" />
-        <div className="container-lattice relative pt-28 pb-10 sm:pt-32">
+        <div className="container-lattice relative pt-28 pb-8 sm:pt-32">
           <Reveal>
             <SectionLabel tone="light">Check your coverage</SectionLabel>
             <h1 className="mt-4 max-w-2xl font-heading text-3xl font-extrabold leading-tight tracking-tighter sm:text-4xl md:text-5xl">
@@ -27,16 +27,12 @@ export default function Coverage() {
       </section>
 
       {/* Interactive coverage discovery — the centrepiece */}
-      <section className="relative z-10 -mt-6">
-        <div className="container-lattice">
-          <Reveal className="overflow-hidden rounded-3xl border border-line bg-paper shadow-lift">
-            <Suspense
-              fallback={<div className="h-[520px] w-full animate-pulse bg-fog sm:h-[600px] lg:h-[680px]" />}
-            >
-              <CoverageExplorer />
-            </Suspense>
-          </Reveal>
-        </div>
+      <section className="container-lattice mt-8 sm:mt-10">
+        <Suspense
+          fallback={<div className="h-[520px] w-full animate-pulse rounded-3xl border border-line bg-fog sm:h-[600px] lg:h-[680px]" />}
+        >
+          <CoverageExplorer />
+        </Suspense>
       </section>
 
       <CoverageSteps />
