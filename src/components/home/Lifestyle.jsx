@@ -2,7 +2,7 @@ import React from "react";
 import { Reveal } from "@/components/common/Reveal";
 import { SectionLabel } from "@/components/common/SectionLabel";
 import { LoopMark } from "@/components/brand/LoopMark";
-import DomainSwitcher from "@/components/home/DomainSwitcher";
+import DomainCollage from "@/components/home/DomainCollage";
 import { IMAGES } from "@/data/images";
 
 export function Lifestyle() {
@@ -25,12 +25,11 @@ export function Lifestyle() {
         </Reveal>
 
         <Reveal className="mt-12" delay={0.1}>
-          <DomainSwitcher
+          <DomainCollage
             images={{
               corporate: IMAGES.domainCorporate,
               retail: IMAGES.domainRetail,
-              hospitality: IMAGES.domainHospitality,
-              industrial: IMAGES.domainIndustrial
+              hospitality: IMAGES.domainHospitality
             }}
           />
         </Reveal>

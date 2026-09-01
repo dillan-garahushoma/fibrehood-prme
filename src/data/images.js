@@ -9,8 +9,7 @@ export const IMAGES = {
   // In-home lifestyle
   inHomeJoy: "https://media.base44.com/images/public/6a9190c938c1fe8b87ce238c/ce92b0068_generated_image.png",
   // What fibre unlocks — business domains
-  domainCorporate: "https://media.base44.com/images/public/6a9190c938c1fe8b87ce238c/9e78570ea_generated_image.png",
-  domainRetail: "https://media.base44.com/images/public/6a9190c938c1fe8b87ce238c/a8b01359f_generated_image.png",
-  domainHospitality: "https://media.base44.com/images/public/6a9190c938c1fe8b87ce238c/1adf59d14_generated_image.png",
-  domainIndustrial: "https://media.base44.com/images/public/6a9190c938c1fe8b87ce238c/1ec2bd04b_generated_image.png"
+  domainCorporate: "https://media.base44.com/images/public/6a9190c938c1fe8b87ce238c/71164c58b_generated_image.png",
+  domainRetail: "https://media.base44.com/images/public/6a9190c938c1fe8b87ce238c/baeeb4e68_generated_image.png",
+  domainHospitality: "https://media.base44.com/images/public/6a9190c938c1fe8b87ce238c/7c270e223_generated_image.png"
 };
