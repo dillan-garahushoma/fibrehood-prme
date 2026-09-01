@@ -25,6 +25,7 @@ export const SITE = {
 };
 
 export const NAV_LINKS = [
+  { label: "Home", to: "/" },
   { label: "Fibre Plans", to: "/plans" },
   { label: "Coverage", to: "/coverage" },
   { label: "About", to: "/about" },

@@ -28,6 +28,9 @@ export function Navbar() {
   const [scrolled, setScrolled] = useState(false);
   const [open, setOpen] = useState(false);
   const location = useLocation();
+  // Solid = the light glass bar (on scroll, or whenever the mobile menu is open).
+  // When not solid, the navbar is transparent over the dark hero — light text/logo.
+  const solid = scrolled || open;
 
   useEffect(() => {
     const onScroll = () => setScrolled(window.scrollY > 12);
@@ -50,12 +53,12 @@ export function Navbar() {
       <div
         className={cn(
           "transition-all duration-300",
-          scrolled ? "glass-nav border-b border-line/70 shadow-signal" : "bg-transparent"
+          solid ? "glass-nav border-b border-line/70 shadow-signal" : "bg-transparent"
         )}
       >
         <nav className="container-lattice flex h-16 items-center justify-between md:h-20">
           <Link to="/" className="focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-loop rounded-md">
-            <Logo tone={scrolled || open ? "ink" : "ink"} />
+            <Logo tone={solid ? "ink" : "light"} />
           </Link>
 
           <div className="hidden items-center gap-8 lg:flex">
@@ -67,7 +70,9 @@ export function Navbar() {
                   to={link.to}
                   className={cn(
                     "relative text-sm font-medium transition-colors",
-                    active ? "text-signal" : "text-ink-soft hover:text-signal"
+                    active
+                      ? (solid ? "text-signal" : "text-paper")
+                      : (solid ? "text-ink-soft hover:text-signal" : "text-paper/80 hover:text-paper")
                   )}
                 >
                   {link.label}
@@ -91,7 +96,10 @@ export function Navbar() {
             onClick={() => setOpen((v) => !v)}
             aria-label={open ? "Close menu" : "Open menu"}
             aria-expanded={open}
-            className="inline-flex h-10 w-10 items-center justify-center rounded-md text-signal transition-colors hover:bg-fog lg:hidden"
+            className={cn(
+              "inline-flex h-10 w-10 items-center justify-center rounded-md transition-colors lg:hidden",
+              solid ? "text-signal hover:bg-fog" : "text-paper hover:bg-paper/10"
+            )}
           >
             {open ? <X className="h-5 w-5" /> : <Menu className="h-5 w-5" />}
           </button>
@@ -108,15 +116,21 @@ export function Navbar() {
             className="glass-nav border-b border-line/70 lg:hidden"
           >
             <div className="container-lattice flex flex-col gap-1 py-4">
-              {NAV_LINKS.map((link) => (
-                <Link
-                  key={link.to}
-                  to={link.to}
-                  className="rounded-lg px-3 py-3 text-base font-medium text-signal transition-colors hover:bg-fog"
-                >
-                  {link.label}
-                </Link>
-              ))}
+              {NAV_LINKS.map((link) => {
+                const active = location.pathname === link.to;
+                return (
+                  <Link
+                    key={link.to}
+                    to={link.to}
+                    className={cn(
+                      "rounded-lg px-3 py-3 text-base font-medium transition-colors hover:bg-fog",
+                      active ? "text-signal" : "text-ink-soft"
+                    )}
+                  >
+                    {link.label}
+                  </Link>
+                );
+              })}
               <div className="mt-2">
                 <PrimaryCTA className="w-full justify-center" onClick={() => setOpen(false)} />
               </div>
