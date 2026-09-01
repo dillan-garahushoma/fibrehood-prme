@@ -11,5 +11,5 @@ export const IMAGES = {
   // What fibre unlocks — business domains
   domainCorporate: "https://media.base44.com/images/public/6a9190c938c1fe8b87ce238c/71164c58b_generated_image.png",
   domainRetail: "https://media.base44.com/images/public/6a9190c938c1fe8b87ce238c/baeeb4e68_generated_image.png",
-  domainHospitality: "https://media.base44.com/images/public/6a9190c938c1fe8b87ce238c/4bc886b4f_generated_image.png"
+  domainHospitality: "https://media.base44.com/images/public/6a9190c938c1fe8b87ce238c/7c270e223_generated_image.png"
 };
