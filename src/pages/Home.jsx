@@ -17,10 +17,10 @@ export default function Home() {
   return (
     <>
       <Hero />
+      <HowItWorks />
       <QuickActions />
       <ValueProp />
       <FeaturedOffer />
-      <HowItWorks />
       <NetworkVisual />
       <CoverflowCarousel />
       <PlanPreview />
