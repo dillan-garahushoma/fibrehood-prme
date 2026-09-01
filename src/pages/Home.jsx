@@ -17,8 +17,8 @@ export default function Home() {
   return (
     <>
       <Hero />
-      <HowItWorks />
       <QuickActions />
+      <HowItWorks />
       <ValueProp />
       <FeaturedOffer />
       <NetworkVisual />
