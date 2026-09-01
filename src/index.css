@@ -138,6 +138,11 @@
     -webkit-backdrop-filter: saturate(180%) blur(14px);
   }
 
+  .glass-chip {
+    backdrop-filter: blur(8px) saturate(140%);
+    -webkit-backdrop-filter: blur(8px) saturate(140%);
+  }
+
   .text-balance {
     text-wrap: balance;
   }
