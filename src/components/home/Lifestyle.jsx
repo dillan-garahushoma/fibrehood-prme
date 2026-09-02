@@ -12,7 +12,7 @@ export function Lifestyle() {
         <LoopMark className="h-72 w-[32rem]" stroke={2} animated />
       </div>
       <div className="container-lattice relative">
-        <Reveal className="mx-auto max-w-3xl text-center md:hidden">
+        <Reveal className="mx-auto max-w-3xl text-center">
           <SectionLabel tone="ink" className="justify-center">What fibre unlocks</SectionLabel>
           <h2 className="mt-4 font-heading text-3xl font-bold tracking-tighter text-signal sm:text-4xl">
             For the places that run on being connected.
