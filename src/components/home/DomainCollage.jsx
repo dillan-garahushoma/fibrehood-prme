@@ -67,7 +67,7 @@ export function DomainCollage({ images }) {
     >
       {/* Large focus image with crossfade */}
       <div className="relative overflow-hidden rounded-[1.75rem] border border-line shadow-lift">
-        <div className="relative aspect-[16/10] w-full sm:aspect-[16/9]">
+        <div className="relative aspect-[16/9] w-full sm:aspect-[2/1]">
           <AnimatePresence mode="wait" initial={false}>
             <motion.div
               key={focusDomain.id}
