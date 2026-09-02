@@ -82,12 +82,12 @@ export function DomainCollage({ images, videoSrc }) {
       </div>
 
       {/* Desktop: rigid 3-column grid with Signal Navy gutter */}
-      <div className="hidden lg:grid lg:grid-cols-[1fr_1.35fr_1fr] lg:grid-rows-2 lg:gap-4">
-        <Cell className="row-span-1" src={images?.[LEFT_TOP]} alt="Corporate offices" label="Corporate offices" />
-        <CenterFrame className="row-span-2" />
-        <Cell className="row-span-1" src={images?.[RIGHT_TOP]} alt="Creative studios" label="Creative studios" />
-        <Cell className="row-span-1" src={images?.[LEFT_BOTTOM]} alt="Healthcare" label="Healthcare" />
-        <Cell className="row-span-1" src={images?.[RIGHT_BOTTOM]} alt="Retail & POS" label="Retail & POS" />
+      <div className="hidden lg:grid lg:h-[34rem] lg:grid-cols-[1fr_1.35fr_1fr] lg:grid-rows-2 lg:gap-4">
+        <Cell className="h-full" src={images?.[LEFT_TOP]} alt="Corporate offices" label="Corporate offices" />
+        <CenterFrame className="h-full row-span-2" />
+        <Cell className="h-full" src={images?.[RIGHT_TOP]} alt="Creative studios" label="Creative studios" />
+        <Cell className="h-full" src={images?.[LEFT_BOTTOM]} alt="Healthcare" label="Healthcare" />
+        <Cell className="h-full" src={images?.[RIGHT_BOTTOM]} alt="Retail & POS" label="Retail & POS" />
       </div>
     </div>
   );
