@@ -17,11 +17,11 @@ export default function Home() {
     <>
       <Hero />
       <EverydayLife />
-      <FeaturedOffer />
+      <CoverflowCarousel />
       <HowItWorks />
       <ValueProp />
+      <FeaturedOffer />
       <NetworkVisual />
-      <CoverflowCarousel />
       <RouterSection />
       <Lifestyle />
       <Testimonials />

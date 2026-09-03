@@ -11,47 +11,29 @@ const ACCENT_DARK = "#E0B400";
 
 export const FLAGSHIP_PLANS = [
   {
-    tag: "#Most popular",
-    titleLine1: "HOME 50",
-    titleLine2: "– 50 MBPS FIBRE",
-    desc: "From $60/month — family streaming, video calls and up to six devices. Unlimited data.",
+    tag: "#Entry-level",
+    titleLine1: "STARTER HOME CONNECT",
+    titleLine2: "UP TO 5 MBPS FIBRE",
+    desc: "US$40/month — everyday connectivity for price-conscious homes.",
     img: IMAGES.fibreGlass,
     ctaText: "See plans",
     ctaUrl: "/plans",
   },
   {
-    tag: "#Home",
-    titleLine1: "HOME 100",
-    titleLine2: "– 100 MBPS FIBRE",
-    desc: "From $90/month — 4K streaming, gaming and a full smart home. Wi-Fi 6 router included.",
+    tag: "#Most popular",
+    titleLine1: "SMART HOME CONNECT",
+    titleLine2: "UP TO 15 MBPS FIBRE",
+    desc: "US$50/month — the package most homes land on.",
     img: IMAGES.lightTrails,
     ctaText: "See plans",
     ctaUrl: "/plans",
   },
   {
-    tag: "#Power home",
-    titleLine1: "HOME 200",
-    titleLine2: "– 200 MBPS FIBRE",
-    desc: "From $130/month — power households and multi-room 4K with priority evening capacity.",
+    tag: "#Higher-performance",
+    titleLine1: "PRO HOME CONNECT",
+    titleLine2: "UP TO 30 MBPS FIBRE",
+    desc: "US$65/month — built for higher-performance households.",
     img: IMAGES.fibreConstellation,
-    ctaText: "See plans",
-    ctaUrl: "/plans",
-  },
-  {
-    tag: "#Business",
-    titleLine1: "BUSINESS 100",
-    titleLine2: "– 100/100 SYMMETRIC",
-    desc: "From $120/month — symmetric fibre for small offices, cloud apps and point-of-sale.",
-    img: IMAGES.routerNode,
-    ctaText: "See plans",
-    ctaUrl: "/plans",
-  },
-  {
-    tag: "#Enterprise",
-    titleLine1: "BUSINESS 500",
-    titleLine2: "– 500/500 SYMMETRIC",
-    desc: "From $380/month — dedicated capacity for multi-site teams, hosted voice and resilience.",
-    img: IMAGES.networkOrb,
     ctaText: "See plans",
     ctaUrl: "/plans",
   },
@@ -228,16 +210,6 @@ export function CoverFlowCarousel({
               opacity = 1;
               zIndex = 30;
               filter = "brightness(1)";
-            } else if (offset === 1) {
-              transform = "translateX(285px) scale(0.84) rotateY(-24deg)";
-              opacity = 0.65;
-              zIndex = 20;
-              filter = "brightness(0.75)";
-            } else if (offset === 2) {
-              transform = "translateX(510px) scale(0.68) rotateY(-38deg)";
-              opacity = 0.38;
-              zIndex = 10;
-              filter = "brightness(0.55) blur(1px)";
             } else if (offset === total - 1) {
               transform = "translateX(-285px) scale(0.84) rotateY(24deg)";
               opacity = 0.65;
@@ -245,6 +217,16 @@ export function CoverFlowCarousel({
               filter = "brightness(0.75)";
             } else if (offset === total - 2) {
               transform = "translateX(-510px) scale(0.68) rotateY(38deg)";
+              opacity = 0.38;
+              zIndex = 10;
+              filter = "brightness(0.55) blur(1px)";
+            } else if (offset === 1) {
+              transform = "translateX(285px) scale(0.84) rotateY(-24deg)";
+              opacity = 0.65;
+              zIndex = 20;
+              filter = "brightness(0.75)";
+            } else if (offset === 2) {
+              transform = "translateX(510px) scale(0.68) rotateY(-38deg)";
               opacity = 0.38;
               zIndex = 10;
               filter = "brightness(0.55) blur(1px)";
@@ -466,6 +448,50 @@ export function CoverFlowCarousel({
               }}
             />
           ))}
+        </div>
+
+        {/* Ultra-Home upsell */}
+        <div
+          className="flex flex-col items-center gap-4 text-center"
+          style={{ marginTop: "40px", zIndex: 30 }}
+        >
+          <div>
+            <p style={{ margin: 0, fontSize: "0.85rem", fontWeight: 500, color: "rgba(255,255,255,0.65)" }}>
+              Need more speed?
+            </p>
+            <p
+              style={{
+                margin: "4px 0 0",
+                fontSize: "1.15rem",
+                fontWeight: 700,
+                letterSpacing: "0.02em",
+                color: "#ffffff",
+              }}
+            >
+              Explore our 100 Mbps Ultra-Home plan.
+            </p>
+          </div>
+          <Link
+            to="/plans"
+            style={{
+              display: "inline-flex",
+              alignItems: "center",
+              gap: "8px",
+              padding: "10px 26px",
+              borderRadius: "9999px",
+              border: "1px solid rgba(255,255,255,0.35)",
+              color: "#ffffff",
+              fontSize: "0.75rem",
+              fontWeight: 700,
+              letterSpacing: "0.14em",
+              textTransform: "uppercase",
+              textDecoration: "none",
+              transition: "all 200ms ease",
+            }}
+          >
+            <span>View All Fibre Plans</span>
+            <ArrowRight size={14} strokeWidth={2.5} />
+          </Link>
         </div>
       </div>
     </section>
