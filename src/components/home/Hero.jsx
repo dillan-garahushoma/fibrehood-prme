@@ -15,20 +15,21 @@ export function Hero() {
 
   return (
     <section className="relative overflow-hidden bg-signal-deep text-paper">
-      {/* Right imagery — bleeds to the edge, fades into the navy panel */}
-      <div className="absolute inset-y-0 right-0 hidden w-[55%] lg:block" aria-hidden="true">
+      {/* Background imagery — full-bleed behind content on mobile, right panel on desktop */}
+      <div className="absolute inset-y-0 right-0 w-full lg:w-[55%]" aria-hidden="true">
         <Image
           src={IMAGES.heroHouse}
           alt=""
           fittingType="fill"
           className="h-full w-full"
         />
+        <div className="absolute inset-0 bg-signal-deep/60 lg:bg-transparent" />
         <div className="absolute inset-0 bg-gradient-to-r from-signal-deep via-signal-deep/25 to-transparent" />
-        <div className="absolute inset-0 bg-gradient-to-t from-signal-deep/60 via-transparent to-signal-deep/30" />
+        <div className="absolute inset-0 bg-gradient-to-t from-signal-deep/70 via-transparent to-signal-deep/30" />
       </div>
 
       <motion.div
-        className="container-lattice relative grid gap-10 pt-28 pb-16 md:pt-36 lg:min-h-[92vh] lg:grid-cols-[45%_55%] lg:items-center lg:pt-24 lg:pb-24"
+        className="container-lattice relative flex min-h-[86svh] items-center pt-28 pb-16 md:pt-36 lg:min-h-[92vh] lg:grid lg:grid-cols-[45%_55%] lg:pt-24 lg:pb-24"
         variants={entranceContainer}
         initial={reduce ? false : "hidden"}
         animate="show"
@@ -71,18 +72,6 @@ export function Hero() {
           </motion.div>
         </div>
 
-        {/* ── Mobile imagery ─────────────────────────────────────────── */}
-        <motion.div variants={entranceItem} className="lg:hidden" aria-hidden="true">
-          <div className="relative overflow-hidden rounded-3xl">
-            <Image
-              src={IMAGES.heroHouse}
-              alt=""
-              fittingType="fill"
-              className="aspect-[16/10] w-full"
-            />
-            <div className="absolute inset-0 bg-gradient-to-t from-signal-deep/50 to-transparent" />
-          </div>
-        </motion.div>
       </motion.div>
     </section>
   );
