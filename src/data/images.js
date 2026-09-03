@@ -8,7 +8,7 @@ export const IMAGES = {
   fibreConstellation: "https://media.base44.com/images/public/6a9190c938c1fe8b87ce238c/cc884749b_generated_image.png",
   networkOrb: "https://media.base44.com/images/public/6a9190c938c1fe8b87ce238c/6757714eb_generated_image.png",
   // In-home lifestyle
-  lifeEvening: "https://media.base44.com/images/public/6a9190c938c1fe8b87ce238c/9145b3b48_generated_image.png",
+  lifeEvening: "https://media.base44.com/images/public/6a9190c938c1fe8b87ce238c/0efb53fee_generated_image.png",
   inHomeJoy: "https://media.base44.com/images/public/6a9190c938c1fe8b87ce238c/ce92b0068_generated_image.png",
   // What fibre unlocks — business domains
   domainCorporate: "https://media.base44.com/images/public/6a9190c938c1fe8b87ce238c/1490330fe_generated_image.png",
