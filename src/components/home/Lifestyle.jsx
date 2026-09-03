@@ -3,7 +3,11 @@ import { Reveal } from "@/components/common/Reveal";
 import { SectionLabel } from "@/components/common/SectionLabel";
 import { LoopMark } from "@/components/brand/LoopMark";
 import DomainCollage from "@/components/home/DomainCollage";
-import { IMAGES } from "@/data/images";
+import corporateImage from "@/components/collage/1490330fe_generated_image.png";
+import healthcareImage from "@/components/collage/e400d5732_generated_image.png";
+import coworkingImage from "@/components/collage/ad8018c58_generated_image.png";
+import retailImage from "@/components/collage/e9ee6dd60_generated_image.png";
+import fibreUnlocksVideo from "@/components/collage/konzept-fotografie-film-hd-auto-.mp4";
 
 export function Lifestyle() {
   return (
@@ -25,13 +29,17 @@ export function Lifestyle() {
         </Reveal>
 
         <Reveal className="mt-12" delay={0.1}>
-          <DomainCollage
-            images={{
-              corporate: IMAGES.domainCorporate,
-              retail: IMAGES.domainRetail,
-              hospitality: IMAGES.domainHospitality
-            }}
-          />
+          <div className="relative left-1/2 w-[calc(100vw-2.5rem)] max-w-[1520px] -translate-x-1/2 sm:w-[calc(100vw-4rem)] lg:w-[calc(100vw-10rem)]">
+            <DomainCollage
+              images={{
+                domainCorporate: corporateImage,
+                domainHealthcare: healthcareImage,
+                domainCoworking: coworkingImage,
+                domainRetail: retailImage
+              }}
+              videoSrc={fibreUnlocksVideo}
+            />
+          </div>
         </Reveal>
       </div>
     </section>
