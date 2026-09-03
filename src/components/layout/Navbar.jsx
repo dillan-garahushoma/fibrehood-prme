@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { Link, useLocation } from "react-router-dom";
 import { AnimatePresence, motion } from "framer-motion";
-import { Menu, X, User } from "lucide-react";
+import { Menu, X, User, Home, Gauge, MapPin, Info, Headset, Mail } from "lucide-react";
 import { Logo } from "@/components/brand/Logo";
 import { NAV_LINKS } from "@/data/site";
 import { useNavOverDark } from "@/hooks/useNavOverDark";
@@ -38,6 +38,16 @@ function ClientPortalLink({ className, onClick }) {
     </Link>
   );
 }
+
+export // Icons for the mobile menu (desktop keeps text-only links).
+const MOBILE_ICONS = {
+  "/": Home,
+  "/plans": Gauge,
+  "/coverage": MapPin,
+  "/about": Info,
+  "/faq": Headset,
+  "/contact": Mail
+};
 
 export function Navbar() {
   const [open, setOpen] = useState(false);
@@ -130,15 +140,17 @@ export function Navbar() {
             <div className="container-lattice flex flex-col gap-1 py-4">
               {NAV_LINKS.map((link) => {
                 const active = location.pathname === link.to;
+                const Icon = MOBILE_ICONS[link.to] || Home;
                 return (
                   <Link
                     key={link.to}
                     to={link.to}
                     className={cn(
-                      "rounded-lg px-3 py-3 text-base font-medium transition-colors hover:bg-fog",
+                      "flex items-center gap-3 rounded-lg px-3 py-3 text-base font-medium transition-colors hover:bg-fog",
                       active ? "text-signal" : "text-ink-soft"
                     )}
                   >
+                    <Icon className="h-5 w-5" />
                     {link.label}
                   </Link>
                 );
