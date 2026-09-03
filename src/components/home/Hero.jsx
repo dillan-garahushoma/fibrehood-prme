@@ -30,7 +30,7 @@ export function Hero() {
       </div>
 
       <motion.div
-        className="container-lattice relative flex min-h-[86svh] flex-col justify-center gap-8 pt-28 pb-12 md:pt-36 lg:min-h-[92vh] lg:grid lg:grid-cols-[45%_55%] lg:content-center lg:gap-6 lg:pt-24 lg:pb-20"
+        className="container-lattice relative flex min-h-[86svh] flex-col justify-center gap-14 pt-28 pb-12 md:pt-36 lg:min-h-[92vh] lg:grid lg:grid-cols-[45%_55%] lg:content-center lg:gap-6 lg:pt-24 lg:pb-20"
         variants={entranceContainer}
         initial={reduce ? false : "hidden"}
         animate="show"
