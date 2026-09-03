@@ -17,9 +17,9 @@ export default function Home() {
     <>
       <Hero />
       <EverydayLife />
+      <FeaturedOffer />
       <HowItWorks />
       <ValueProp />
-      <FeaturedOffer />
       <NetworkVisual />
       <CoverflowCarousel />
       <RouterSection />
