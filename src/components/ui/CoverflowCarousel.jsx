@@ -1,7 +1,7 @@
 import React, { useState, useEffect, useCallback, useRef } from "react";
 import { Link } from "react-router-dom";
 import { ChevronLeft, ChevronRight, ArrowRight } from "lucide-react";
-import { IMAGES } from "@/data/images";
+import PlanCoverCard from "@/components/home/PlanCoverCard";
 
 // Brand palette (inline-styled component)
 const BG = "#071a33";        // deep signal navy
@@ -11,31 +11,47 @@ const ACCENT_DARK = "#E0B400";
 
 export const FLAGSHIP_PLANS = [
   {
-    tag: "#Entry-level",
-    titleLine1: "STARTER HOME CONNECT",
-    titleLine2: "UP TO 5 MBPS FIBRE",
-    desc: "US$40/month — everyday connectivity for price-conscious homes.",
-    img: IMAGES.fibreGlass,
-    ctaText: "See plans",
-    ctaUrl: "/plans",
+    index: "01",
+    tag: "Entry-level",
+    name: "Starter Home Connect",
+    speed: "5",
+    price: 40,
+    blurb: "Everything a smaller household needs, at a price that stays predictable.",
+    features: [
+      "Unlimited data, no fair-use throttling",
+      "HD streaming plus everyday browsing",
+      "Comfortable for 3–5 connected devices",
+      "Wi-Fi router included on install",
+    ],
   },
   {
-    tag: "#Most popular",
-    titleLine1: "SMART HOME CONNECT",
-    titleLine2: "UP TO 15 MBPS FIBRE",
-    desc: "US$50/month — the package most homes land on.",
-    img: IMAGES.lightTrails,
-    ctaText: "See plans",
-    ctaUrl: "/plans",
+    index: "02",
+    tag: "Most popular",
+    featured: true,
+    name: "Smart Home Connect",
+    speed: "15",
+    price: 50,
+    blurb: "The balance most homes settle on — enough headroom for the whole family at once.",
+    features: [
+      "Unlimited data, no fair-use throttling",
+      "Multi-room streaming and video calls together",
+      "Comfortable for 8–12 connected devices",
+      "Wi-Fi router included plus priority support",
+    ],
   },
   {
-    tag: "#Higher-performance",
-    titleLine1: "PRO HOME CONNECT",
-    titleLine2: "UP TO 30 MBPS FIBRE",
-    desc: "US$65/month — built for higher-performance households.",
-    img: IMAGES.fibreConstellation,
-    ctaText: "See plans",
-    ctaUrl: "/plans",
+    index: "03",
+    tag: "Higher performance",
+    name: "Pro Home Connect",
+    speed: "30",
+    price: 65,
+    blurb: "For busy, device-heavy homes where working, gaming and 4K all happen at once.",
+    features: [
+      "Unlimited data, no fair-use throttling",
+      "4K streaming and low-latency gaming",
+      "Comfortable for 15+ connected devices",
+      "Wi-Fi router included plus priority support",
+    ],
   },
 ];
 
@@ -90,58 +106,9 @@ export function CoverFlowCarousel({
 
   if (!items || items.length === 0) return null;
 
-  const isInternal = (url) => url?.startsWith("/");
-
-  const CtaButton = ({ item }) => {
-    const inner = (
-      <>
-        <span>{item.ctaText || "See plans"}</span>
-        <ArrowRight size={13} strokeWidth={2.5} />
-      </>
-    );
-    const baseStyle = {
-      display: "inline-flex",
-      alignItems: "center",
-      gap: "6px",
-      padding: "7px 18px",
-      borderRadius: "9999px",
-      background: `linear-gradient(135deg, ${ACCENT} 0%, ${ACCENT_DARK} 100%)`,
-      color: "#0b1b2a",
-      fontSize: "0.72rem",
-      fontWeight: 800,
-      letterSpacing: "0.14em",
-      textTransform: "uppercase",
-      textDecoration: "none",
-      boxShadow: "0 4px 14px rgba(0,0,0,0.4), 0 0 15px rgba(255,204,0,0.3)",
-      cursor: "pointer",
-      transition: "transform 200ms ease, box-shadow 200ms ease",
-    };
-    if (isInternal(item.ctaUrl) && !onCtaClick) {
-      return (
-        <Link to={item.ctaUrl} style={baseStyle}>
-          {inner}
-        </Link>
-      );
-    }
-    return (
-      <a
-        href={item.ctaUrl || "#"}
-        onClick={(e) => {
-          if (onCtaClick) {
-            e.preventDefault();
-            onCtaClick(item);
-          }
-        }}
-        style={baseStyle}
-      >
-        {inner}
-      </a>
-    );
-  };
-
   return (
     <section
-      className={`relative w-full min-h-[760px] flex items-center justify-center overflow-hidden py-12 select-none ${className}`}
+      className={`relative w-full min-h-[860px] flex items-center justify-center overflow-hidden py-12 select-none ${className}`}
       style={{ backgroundColor: BG, color: "#ffffff", fontFamily: "inherit" }}
       onMouseEnter={() => setIsHovered(true)}
       onMouseLeave={() => setIsHovered(false)}
@@ -150,22 +117,10 @@ export function CoverFlowCarousel({
     >
       {/* Background ambience */}
       <div className="absolute inset-0 overflow-hidden pointer-events-none z-0">
-        <img
-          src={items[currentIndex]?.img}
-          alt=""
-          style={{
-            width: "100%",
-            height: "100%",
-            objectFit: "cover",
-            filter: "brightness(0.22) blur(32px)",
-            transform: "scale(1.15)",
-            transition: "opacity 1000ms ease, filter 1000ms ease",
-          }}
-        />
         <div
           className="absolute inset-0"
           style={{
-            background: `radial-gradient(circle at center, rgba(7,26,51,0.3) 0%, rgba(7,26,51,0.92) 100%)`,
+            background: `radial-gradient(circle at 50% 35%, rgba(20,49,92,0.9) 0%, rgba(7,26,51,0.96) 60%, rgba(5,18,36,1) 100%)`,
           }}
         />
       </div>
@@ -193,40 +148,35 @@ export function CoverFlowCarousel({
 
         {/* 3D Coverflow stage */}
         <div
-          className="relative w-full h-[520px] flex justify-center items-center mb-8"
+          className="relative w-full h-[580px] flex justify-center items-center mb-8"
           style={{ perspective: "1400px" }}
         >
           {items.map((item, idx) => {
-            const offset = (idx - currentIndex + total) % total;
+            // signed distance from the centre card, wrapped to the shortest way round
+            let rel = (idx - currentIndex + total) % total;
+            if (rel > total / 2) rel -= total;
+
+            const dist = Math.abs(rel);
+            const dir = rel > 0 ? 1 : -1;
+            const isCenter = rel === 0;
+
             let transform = "translateX(0px) scale(0.4) rotateY(0deg)";
             let opacity = 0;
             let zIndex = 0;
             let filter = "brightness(0.4) blur(2px)";
-            let isCenter = false;
 
-            if (offset === 0) {
-              isCenter = true;
+            if (isCenter) {
               transform = "translateX(0px) scale(1) rotateY(0deg)";
               opacity = 1;
               zIndex = 30;
               filter = "brightness(1)";
-            } else if (offset === total - 1) {
-              transform = "translateX(-285px) scale(0.84) rotateY(24deg)";
+            } else if (dist === 1) {
+              transform = `translateX(${dir * 285}px) scale(0.84) rotateY(${-dir * 24}deg)`;
               opacity = 0.65;
               zIndex = 20;
               filter = "brightness(0.75)";
-            } else if (offset === total - 2) {
-              transform = "translateX(-510px) scale(0.68) rotateY(38deg)";
-              opacity = 0.38;
-              zIndex = 10;
-              filter = "brightness(0.55) blur(1px)";
-            } else if (offset === 1) {
-              transform = "translateX(285px) scale(0.84) rotateY(-24deg)";
-              opacity = 0.65;
-              zIndex = 20;
-              filter = "brightness(0.75)";
-            } else if (offset === 2) {
-              transform = "translateX(510px) scale(0.68) rotateY(-38deg)";
+            } else if (dist === 2) {
+              transform = `translateX(${dir * 510}px) scale(0.68) rotateY(${-dir * 38}deg)`;
               opacity = 0.38;
               zIndex = 10;
               filter = "brightness(0.55) blur(1px)";
@@ -238,8 +188,8 @@ export function CoverFlowCarousel({
                 onClick={() => !isCenter && goToSlide(idx)}
                 style={{
                   position: "absolute",
-                  width: "330px",
-                  height: "500px",
+                  width: "340px",
+                  height: "540px",
                   borderRadius: "18px",
                   overflow: "hidden",
                   backgroundColor: CARD_BG,
@@ -256,119 +206,14 @@ export function CoverFlowCarousel({
                   cursor: isCenter ? "default" : "pointer",
                 }}
               >
-                <img
-                  src={item.img}
-                  alt={item.titleLine1}
-                  style={{ position: "absolute", inset: 0, width: "100%", height: "100%", objectFit: "cover" }}
-                />
                 <div
                   style={{
-                    position: "absolute",
-                    inset: 0,
-                    background:
-                      "linear-gradient(180deg, rgba(0,0,0,0.4) 0%, rgba(0,0,0,0.1) 25%, rgba(0,0,0,0.68) 60%, rgba(0,0,0,0.96) 100%)",
-                    pointerEvents: "none",
-                    zIndex: 10,
-                  }}
-                />
-                <div
-                  style={{
-                    position: "relative",
                     width: "100%",
                     height: "100%",
-                    padding: "20px 18px 22px",
-                    display: "flex",
-                    flexDirection: "column",
-                    justifyContent: "space-between",
-                    textAlign: "center",
-                    zIndex: 20,
-                    opacity: isCenter ? 1 : 0,
-                    transform: isCenter ? "translateY(0px)" : "translateY(16px)",
-                    transition: "opacity 500ms ease, transform 500ms ease",
                     pointerEvents: isCenter ? "auto" : "none",
                   }}
                 >
-                  <div style={{ textAlign: "right", width: "100%", paddingRight: "4px" }}>
-                    <span
-                      style={{
-                        display: "inline-block",
-                        fontSize: "0.78rem",
-                        fontWeight: 600,
-                        letterSpacing: "0.06em",
-                        color: "rgba(255,255,255,0.9)",
-                        textShadow: "0 2px 6px rgba(0,0,0,0.8)",
-                      }}
-                    >
-                      {item.tag}
-                    </span>
-                  </div>
-
-                  <div
-                    style={{
-                      display: "flex",
-                      flexDirection: "column",
-                      alignItems: "center",
-                      gap: "3px",
-                      marginTop: "auto",
-                      paddingBottom: "4px",
-                    }}
-                  >
-                    <h2
-                      style={{
-                        fontSize: "1.65rem",
-                        fontWeight: 900,
-                        textTransform: "uppercase",
-                        letterSpacing: "0.04em",
-                        color: "#ffffff",
-                        margin: 0,
-                        lineHeight: 1.1,
-                        textShadow: "0 3px 12px rgba(0,0,0,0.95)",
-                      }}
-                    >
-                      {item.titleLine1}
-                    </h2>
-                    {item.titleLine2 && (
-                      <span
-                        style={{
-                          fontSize: "1.1rem",
-                          fontWeight: 700,
-                          textTransform: "uppercase",
-                          letterSpacing: "0.06em",
-                          color: "#f3f0ea",
-                          lineHeight: 1.2,
-                          textShadow: "0 3px 10px rgba(0,0,0,0.9)",
-                        }}
-                      >
-                        {item.titleLine2}
-                      </span>
-                    )}
-                    <div
-                      style={{
-                        width: "34px",
-                        height: "2px",
-                        backgroundColor: ACCENT,
-                        borderRadius: "2px",
-                        margin: "5px auto 4px",
-                        boxShadow: "0 0 8px rgba(255,204,0,0.7)",
-                      }}
-                    />
-                    {item.desc && (
-                      <p
-                        style={{
-                          fontSize: "0.82rem",
-                          fontStyle: "italic",
-                          color: "rgba(255,255,255,0.9)",
-                          maxWidth: "280px",
-                          margin: "0 0 10px",
-                          lineHeight: 1.3,
-                          textShadow: "0 2px 8px rgba(0,0,0,0.9)",
-                        }}
-                      >
-                        {item.desc}
-                      </p>
-                    )}
-                    <CtaButton item={item} />
-                  </div>
+                  <PlanCoverCard plan={item} isCenter={isCenter} />
                 </div>
               </div>
             );
