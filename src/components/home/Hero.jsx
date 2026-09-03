@@ -67,7 +67,7 @@ export function Hero() {
               to="/plans"
               className="inline-flex items-center gap-2 rounded-full border border-paper/25 px-5 py-2.5 text-sm font-semibold text-paper transition-colors hover:bg-paper/10"
             >
-              View plans <ArrowRight className="h-4 w-4" />
+              Explore fibre plans <ArrowRight className="h-4 w-4" />
             </Link>
             <span className="text-xs text-paper/60">
               <MapPin className="mr-1 inline h-3.5 w-3.5 text-loop" />

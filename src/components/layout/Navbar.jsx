@@ -1,41 +1,43 @@
 import React, { useEffect, useState } from "react";
 import { Link, useLocation } from "react-router-dom";
 import { AnimatePresence, motion } from "framer-motion";
-import { Menu, X } from "lucide-react";
+import { Menu, X, MapPin } from "lucide-react";
 import { Logo } from "@/components/brand/Logo";
 import { NAV_LINKS } from "@/data/site";
 import { cn } from "@/lib/utils";
 
-// Routes whose opening section sits on a light/white background — the navbar
-// turns glassy immediately there so it stays visible. Every current page opens
-// on a dark Signal Navy hero, so this starts empty; add routes as pages go light.
-const LIGHT_TOP_ROUTES = [];
+function PrimaryCTA({ className, onClick }) {
+  return (
+    <Link
+      to="/coverage"
+      onClick={onClick}
+      className={cn(
+        "group inline-flex items-center gap-2 rounded-full bg-loop px-5 py-2.5 text-sm font-semibold text-signal transition-all",
+        "hover:shadow-loop focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-loop focus-visible:ring-offset-2 focus-visible:ring-offset-signal",
+        className
+      )}
+    >
+      <MapPin className="h-4 w-4" />
+      Check Coverage
+      <span className="transition-transform group-hover:translate-x-0.5">→</span>
+    </Link>
+  );
+}
 
 export function Navbar() {
-  const [pastHero, setPastHero] = useState(false);
+  const [scrolled, setScrolled] = useState(false);
   const [open, setOpen] = useState(false);
   const location = useLocation();
-
-  const lightTop = LIGHT_TOP_ROUTES.includes(location.pathname);
-
-  // Solid = the light glass bar — once the nav has scrolled past the page's
-  // hero, on pages that open on a white background, or while the mobile menu is
-  // open. Otherwise the nav keeps the hero's colour: transparent, full-white
-  // FibreHood logo, light text.
-  const solid = pastHero || open || lightTop;
+  // Solid = the light glass bar (on scroll, or whenever the mobile menu is open).
+  // When not solid, the navbar is transparent over the dark hero — light text/logo.
+  const solid = scrolled || open;
 
   useEffect(() => {
-    // Go glassy once the navbar has scrolled past the hero section — while
-    // over the dark hero it stays transparent so the hero carries the tone.
-    const onScroll = () => {
-      const hero = document.querySelector("main section");
-      const threshold = hero ? hero.offsetTop + hero.offsetHeight - 80 : 24;
-      setPastHero(window.scrollY > threshold);
-    };
+    const onScroll = () => setScrolled(window.scrollY > 12);
     onScroll();
     window.addEventListener("scroll", onScroll, { passive: true });
     return () => window.removeEventListener("scroll", onScroll);
-  }, [location.pathname]);
+  }, []);
 
   useEffect(() => {
     setOpen(false);
@@ -56,10 +58,7 @@ export function Navbar() {
       >
         <nav className="container-lattice flex h-16 items-center justify-between md:h-20">
           <Link to="/" className="focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-loop rounded-md">
-            <Logo
-              tone={solid ? "ink" : "light"}
-              loopClassName={solid ? undefined : "text-paper"}
-            />
+            <Logo tone={solid ? "ink" : "light"} />
           </Link>
 
           <div className="hidden items-center gap-8 lg:flex">
@@ -88,23 +87,8 @@ export function Navbar() {
             })}
           </div>
 
-          <div className="hidden items-center gap-6 lg:flex">
-            <Link
-              to="/login"
-              className={cn(
-                "text-sm font-medium transition-colors",
-                solid ? "text-ink-soft hover:text-signal" : "text-paper/80 hover:text-paper"
-              )}
-            >
-              Sign In
-            </Link>
-            <Link
-              to="/portal"
-              className="group inline-flex items-center gap-2 rounded-full bg-loop px-5 py-2.5 text-sm font-semibold text-signal transition-all hover:shadow-loop focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-loop"
-            >
-              Client Portal
-              <span className="transition-transform group-hover:translate-x-0.5">→</span>
-            </Link>
+          <div className="hidden lg:block">
+            <PrimaryCTA />
           </div>
 
           <button
@@ -147,20 +131,8 @@ export function Navbar() {
                   </Link>
                 );
               })}
-              <div className="mt-3 space-y-2 border-t border-line/70 pt-3">
-                <Link
-                  to="/login"
-                  className="block rounded-lg px-3 py-3 text-base font-medium text-ink-soft transition-colors hover:bg-fog hover:text-signal"
-                >
-                  Sign In
-                </Link>
-                <Link
-                  to="/portal"
-                  className="flex items-center justify-center gap-2 rounded-full bg-loop px-5 py-3 text-sm font-semibold text-signal"
-                >
-                  Client Portal
-                  <span>→</span>
-                </Link>
+              <div className="mt-2">
+                <PrimaryCTA className="w-full justify-center" onClick={() => setOpen(false)} />
               </div>
             </div>
           </motion.div>
