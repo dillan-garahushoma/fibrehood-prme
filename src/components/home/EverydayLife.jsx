@@ -36,7 +36,7 @@ export function EverydayLife() {
         <LifePhoto reduce={reduce} />
 
         {/* ── Ledger column ─────────────────────────────────────── */}
-        <div className="flex flex-col border-t border-line/70 bg-paper px-5 py-14 sm:px-10 lg:border-t-0 lg:px-14 lg:py-20">
+        <div className="order-1 flex flex-col border-t border-line/70 bg-paper px-5 pb-10 pt-14 sm:px-10 lg:order-none lg:border-t-0 lg:px-14 lg:py-20">
           <motion.div
             initial={reduce ? false : { opacity: 0, y: 16 }}
             whileInView={{ opacity: 1, y: 0 }}
