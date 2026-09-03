@@ -1,6 +1,5 @@
 import React from "react";
 import Hero from "@/components/home/Hero";
-import QuickActions from "@/components/home/QuickActions";
 import ValueProp from "@/components/home/ValueProp";
 import FeaturedOffer from "@/components/home/FeaturedOffer";
 import HowItWorks from "@/components/home/HowItWorks";
@@ -16,7 +15,6 @@ export default function Home() {
   return (
     <>
       <Hero />
-      <QuickActions />
       <HowItWorks />
       <ValueProp />
       <FeaturedOffer />

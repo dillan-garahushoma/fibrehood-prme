@@ -57,19 +57,23 @@ export function CoverageChecker({ variant = "page", onResult, source = "coverage
       <form onSubmit={submit} className="relative">
         <div
           className={cn(
-            "flex flex-col gap-2 rounded-2xl border bg-paper p-2 shadow-signal transition-all sm:flex-row sm:items-center",
-            state === "searching" ? "border-loop" : "border-line"
+            "flex flex-col gap-2 rounded-2xl p-2 transition-all sm:flex-row sm:items-center",
+            variant === "hero" ? "bg-transparent" : "border bg-paper shadow-signal",
+            state === "searching" && variant !== "hero" ? "border-loop" : (variant !== "hero" ? "border-line" : "")
           )}
         >
           <div className="flex flex-1 items-center gap-3 px-3">
-            <Search className="h-5 w-5 shrink-0 text-ink-soft" />
+            <Search className={cn("h-5 w-5 shrink-0", variant === "hero" ? "text-paper/70" : "text-ink-soft")} />
             <input
               type="text"
               value={address}
               onChange={(e) => setAddress(e.target.value)}
               placeholder="Enter your street address or postal code"
               aria-label="Your address"
-              className="h-12 w-full bg-transparent text-base text-ink outline-none placeholder:text-ink-soft/60"
+              className={cn(
+                "h-12 w-full bg-transparent text-base outline-none",
+                variant === "hero" ? "text-paper placeholder:text-paper/60" : "text-ink placeholder:text-ink-soft/60"
+              )}
             />
           </div>
           <button

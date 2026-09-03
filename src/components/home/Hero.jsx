@@ -6,7 +6,8 @@ import { CoverageChecker } from "@/components/coverage/CoverageChecker";
 import { IMAGES } from "@/data/images";
 import { PLANS } from "@/data/plans";
 import { motion, useReducedMotion } from "framer-motion";
-import { entranceContainer, entranceItem } from "@/components/common/Reveal";
+import { entranceContainer, entranceItem, Reveal } from "@/components/common/Reveal";
+import { SectionLabel } from "@/components/common/SectionLabel";
 
 const STARTING_PRICE = Math.min(...PLANS.filter((p) => p.segment === "home").map((p) => p.price));
 
@@ -56,13 +57,7 @@ export function Hero() {
           </motion.div>
 
           <motion.div variants={entranceItem} className="mt-8 flex flex-col gap-3 sm:flex-row sm:items-center">
-            <Link
-              to="/coverage"
-              className="inline-flex items-center justify-center gap-2 rounded-full bg-loop px-6 py-3 text-sm font-semibold text-signal transition-all hover:shadow-loop"
-            >
-              <MapPin className="h-4 w-4" />
-              Check Coverage
-            </Link>
+
             <Link
               to="/plans"
               className="inline-flex items-center justify-center gap-2 rounded-full border border-paper/40 px-6 py-3 text-sm font-semibold text-paper transition-colors hover:border-paper hover:bg-paper/10"
@@ -73,6 +68,26 @@ export function Hero() {
         </div>
 
       </motion.div>
+
+      {/* ── Bottom: Coverage Checker ─────────────── */}
+      <div className="relative z-20 pb-8 lg:pb-12">
+        <div className="container-lattice">
+          <div className="mx-auto max-w-3xl">
+            <div className="mb-4 flex flex-col items-center text-center">
+              <SectionLabel tone="light" className="justify-center drop-shadow-sm">
+                Check if FibreHood is live at your address
+              </SectionLabel>
+            </div>
+            <Reveal className="relative overflow-hidden rounded-2xl border border-paper/15 bg-signal-deep/60 p-2 shadow-lift backdrop-blur-xl md:p-2">
+              {/* loop accent hairlines */}
+              <div className="absolute inset-x-0 top-0 h-px bg-gradient-to-r from-transparent via-loop/60 to-transparent" aria-hidden="true" />
+              <div className="absolute inset-x-0 bottom-0 h-px bg-gradient-to-r from-transparent via-loop/60 to-transparent" aria-hidden="true" />
+              
+              <CoverageChecker variant="hero" source="hero-bottom" />
+            </Reveal>
+          </div>
+        </div>
+      </div>
     </section>
   );
 }
