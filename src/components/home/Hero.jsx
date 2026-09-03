@@ -30,7 +30,7 @@ export function Hero() {
       </div>
 
       <motion.div
-        className="container-lattice relative flex min-h-[86svh] flex-col pt-28 pb-12 md:pt-36 lg:min-h-[92vh] lg:grid lg:grid-cols-[45%_55%] lg:grid-rows-[1fr_auto] lg:pt-24 lg:pb-20"
+        className="container-lattice relative flex min-h-[90svh] flex-col pt-28 pb-16 md:pt-36 lg:min-h-[92vh] lg:grid lg:grid-cols-[45%_55%] lg:grid-rows-[1fr_auto] lg:pt-24 lg:pb-20"
         variants={entranceContainer}
         initial={reduce ? false : "hidden"}
         animate="show"
@@ -65,9 +65,9 @@ export function Hero() {
         </div>
 
         {/* ── Coverage checker — sits inside the hero, close under the content ── */}
-        <div className="relative z-20 lg:col-span-2">
+        <div className="relative z-20 mt-14 sm:mt-16 lg:col-span-2 lg:mt-0">
           <div className="mx-auto max-w-3xl">
-            <div className="mb-4 flex flex-col items-center text-center">
+            <div className="mb-5 flex flex-col items-center text-center">
               <SectionLabel tone="light" className="justify-center drop-shadow-sm">
                 Check if FibreHood is live at your address
               </SectionLabel>
