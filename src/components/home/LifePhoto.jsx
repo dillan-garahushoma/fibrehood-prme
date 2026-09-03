@@ -12,8 +12,8 @@ const EASE = [0.16, 1, 0.3, 1];
  */
 export function LifePhoto({ reduce }) {
   return (
-    <div className="relative flex flex-col lg:min-h-[640px] lg:pt-14">
-      <div className="relative aspect-[4/3] w-full overflow-hidden sm:aspect-[16/10] lg:aspect-auto lg:flex-1 lg:rounded-t-3xl">
+    <div className="relative flex flex-col lg:min-h-[640px] lg:px-10 lg:pb-20 lg:pt-[7.25rem]">
+      <div className="relative aspect-[4/3] w-full overflow-hidden sm:aspect-[16/10] lg:aspect-auto lg:flex-1 lg:rounded-3xl">
         <motion.div
           className="h-full w-full"
           initial={reduce ? false : { opacity: 0.7, scale: 1.06 }}

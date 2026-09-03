@@ -36,7 +36,7 @@ export function EverydayLife() {
         <LifePhoto reduce={reduce} />
 
         {/* ── Ledger column ─────────────────────────────────────── */}
-        <div className="flex flex-col border-t border-line/70 bg-paper px-5 py-14 sm:px-10 lg:border-l lg:border-t-0 lg:px-14 lg:py-20">
+        <div className="flex flex-col border-t border-line/70 bg-paper px-5 py-14 sm:px-10 lg:border-t-0 lg:px-14 lg:py-20">
           <motion.div
             initial={reduce ? false : { opacity: 0, y: 16 }}
             whileInView={{ opacity: 1, y: 0 }}
@@ -67,7 +67,7 @@ export function EverydayLife() {
                 </span>
                 <div className="min-w-0">
                   <div className="flex flex-wrap items-baseline justify-between gap-x-6 gap-y-1">
-                    <h3 className="text-[11px] font-semibold uppercase tracking-[0.22em] text-ink">
+                    <h3 className="text-[13px] font-semibold uppercase tracking-[0.2em] text-ink">
                       {useCase.title}
                     </h3>
                     <p className="display-mono shrink-0 text-right text-[10px] font-semibold uppercase leading-snug tracking-[0.04em] text-loop">
