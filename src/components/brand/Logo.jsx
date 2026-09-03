@@ -6,7 +6,7 @@ import { LoopMark } from "./LoopMark";
  * FibreHood wordmark: "fibre" + infinity loop (replaces "oo") + "d".
  * The loop is rendered in Loop Yellow; the rest follows the surrounding tone.
  */
-export function Logo({ className, tone = "ink", showTagline = true, taglineClass }) {
+export function Logo({ className, tone = "ink", loopClass = "text-loop", showTagline = true, taglineClass }) {
   const wordColor = tone === "light" ? "text-paper" : "text-signal";
   const tagColor = tone === "light" ? "text-paper/60" : "text-ink-soft";
 

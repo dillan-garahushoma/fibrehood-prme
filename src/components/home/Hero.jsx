@@ -2,77 +2,85 @@ import React from "react";
 import { Link } from "react-router-dom";
 import { ArrowRight, MapPin } from "lucide-react";
 import { Image } from "@/components/ui/image";
-import { LoopMark } from "@/components/brand/LoopMark";
 import { CoverageChecker } from "@/components/coverage/CoverageChecker";
-import { SectionLabel } from "@/components/common/SectionLabel";
 import { IMAGES } from "@/data/images";
+import { PLANS } from "@/data/plans";
 import { motion, useReducedMotion } from "framer-motion";
 import { entranceContainer, entranceItem } from "@/components/common/Reveal";
 
+const STARTING_PRICE = Math.min(...PLANS.filter((p) => p.segment === "home").map((p) => p.price));
+
 export function Hero() {
   const reduce = useReducedMotion();
+
   return (
-    <section className="relative overflow-hidden bg-signal text-paper">
-      {/* Slightly blurred fibre field — eye focuses on the crisp headline + checker */}
-      <div className="absolute inset-0" aria-hidden="true">
+    <section className="relative overflow-hidden bg-signal-deep text-paper">
+      {/* Right imagery — bleeds to the edge, fades into the navy panel */}
+      <div className="absolute inset-y-0 right-0 hidden w-[55%] lg:block" aria-hidden="true">
         <Image
-          src={IMAGES.fibreConstellation}
+          src={IMAGES.heroHouse}
           alt=""
           fittingType="fill"
-          className="h-full w-full scale-105 blur-lg"
+          className="h-full w-full"
         />
-        <div className="absolute inset-0 bg-signal/30" />
-        <div
-          className="absolute inset-0"
-          style={{
-            background:
-              "radial-gradient(115% 95% at 50% 32%, rgba(7,34,72,0.35) 0%, rgba(7,34,72,0.62) 55%, rgba(4,18,40,0.96) 100%)",
-          }}
-        />
-      </div>
-      <div className="pointer-events-none absolute -right-24 top-20 opacity-[0.07]">
-        <LoopMark className="h-72 w-[32rem]" stroke={2} animated />
+        <div className="absolute inset-0 bg-gradient-to-r from-signal-deep via-signal-deep/25 to-transparent" />
+        <div className="absolute inset-0 bg-gradient-to-t from-signal-deep/60 via-transparent to-signal-deep/30" />
       </div>
 
       <motion.div
-        className="container-lattice relative pt-28 pb-20 md:pt-36 md:pb-28"
+        className="container-lattice relative grid gap-10 pt-28 pb-16 md:pt-36 lg:min-h-[92vh] lg:grid-cols-[45%_55%] lg:items-center lg:pt-24 lg:pb-24"
         variants={entranceContainer}
         initial={reduce ? false : "hidden"}
         animate="show"
       >
-        <motion.div variants={entranceItem} className="mx-auto max-w-3xl text-center">
-          <SectionLabel tone="light" className="justify-center">
-            Fibre connectivity, coverage-first
-          </SectionLabel>
+        {/* ── Left: headline, price, coverage check, CTAs ─────────────── */}
+        <div className="relative z-10">
+          <motion.h1
+            variants={entranceItem}
+            className="max-w-xl font-heading text-4xl font-extrabold leading-[1.05] tracking-tighter text-paper sm:text-5xl lg:text-[3.6rem]"
+          >
+            Fast, reliable fibre internet for your home<span className="text-loop">.</span>
+          </motion.h1>
 
-          <h1 className="mt-6 font-heading text-4xl font-extrabold leading-[1.05] tracking-tighter text-paper [text-shadow:0_2px_30px_rgba(4,18,40,0.55)] sm:text-5xl md:text-6xl">
-            Bridging the
-            <span className="relative mx-2 inline-block">
-              <span className="text-loop">access gap</span>
-              <span className="absolute -bottom-1 left-0 right-0 h-1 rounded-full bg-loop/70" />
+          <motion.div variants={entranceItem} className="mt-8 flex items-end gap-2">
+            <span className="text-sm font-medium text-paper/70">Starting from</span>
+            <span className="font-heading text-4xl font-extrabold tracking-tight text-loop sm:text-5xl">
+              US${STARTING_PRICE}
             </span>
-            with fibre that reaches you.
-          </h1>
+            <span className="pb-1 text-sm font-medium text-paper/80">/month</span>
+          </motion.div>
 
-          <p className="mx-auto mt-6 max-w-xl text-base leading-relaxed text-paper/80 [text-shadow:0_1px_20px_rgba(4,18,40,0.6)] sm:text-lg">
-            Check your address, see exactly what fibre is available, and choose a plan
-            that fits your home or business — then get connected with a single request.
-          </p>
-        </motion.div>
+          <motion.div variants={entranceItem} className="mt-8 max-w-xl">
+            <CoverageChecker variant="hero" source="coverage" />
+          </motion.div>
 
-        <motion.div variants={entranceItem} className="mx-auto mt-10 max-w-2xl">
-          <CoverageChecker variant="hero" source="coverage" />
-          <div className="mt-6 flex flex-col items-center justify-center gap-3 sm:flex-row">
+          <motion.div variants={entranceItem} className="mt-8 flex flex-col gap-3 sm:flex-row sm:items-center">
+            <Link
+              to="/coverage"
+              className="inline-flex items-center justify-center gap-2 rounded-full bg-loop px-6 py-3 text-sm font-semibold text-signal transition-all hover:shadow-loop"
+            >
+              <MapPin className="h-4 w-4" />
+              Check Coverage
+            </Link>
             <Link
               to="/plans"
-              className="inline-flex items-center gap-2 rounded-full border border-paper/25 px-5 py-2.5 text-sm font-semibold text-paper transition-colors hover:bg-paper/10"
+              className="inline-flex items-center justify-center gap-2 rounded-full border border-paper/40 px-6 py-3 text-sm font-semibold text-paper transition-colors hover:border-paper hover:bg-paper/10"
             >
-              Explore fibre plans <ArrowRight className="h-4 w-4" />
+              View Plans <ArrowRight className="h-4 w-4" />
             </Link>
-            <span className="text-xs text-paper/60">
-              <MapPin className="mr-1 inline h-3.5 w-3.5 text-loop" />
-              Coverage-first — we tell you what's actually available.
-            </span>
+          </motion.div>
+        </div>
+
+        {/* ── Mobile imagery ─────────────────────────────────────────── */}
+        <motion.div variants={entranceItem} className="lg:hidden" aria-hidden="true">
+          <div className="relative overflow-hidden rounded-3xl">
+            <Image
+              src={IMAGES.heroHouse}
+              alt=""
+              fittingType="fill"
+              className="aspect-[16/10] w-full"
+            />
+            <div className="absolute inset-0 bg-gradient-to-t from-signal-deep/50 to-transparent" />
           </div>
         </motion.div>
       </motion.div>

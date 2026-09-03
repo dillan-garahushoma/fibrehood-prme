@@ -1,43 +1,51 @@
 import React, { useEffect, useState } from "react";
 import { Link, useLocation } from "react-router-dom";
 import { AnimatePresence, motion } from "framer-motion";
-import { Menu, X, MapPin } from "lucide-react";
+import { Menu, X, User } from "lucide-react";
 import { Logo } from "@/components/brand/Logo";
 import { NAV_LINKS } from "@/data/site";
+import { useNavOverDark } from "@/hooks/useNavOverDark";
 import { cn } from "@/lib/utils";
 
-function PrimaryCTA({ className, onClick }) {
+function SignUpButton({ className, onClick }) {
   return (
     <Link
-      to="/coverage"
+      to="/register"
       onClick={onClick}
       className={cn(
-        "group inline-flex items-center gap-2 rounded-full bg-loop px-5 py-2.5 text-sm font-semibold text-signal transition-all",
-        "hover:shadow-loop focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-loop focus-visible:ring-offset-2 focus-visible:ring-offset-signal",
+        "inline-flex items-center gap-2 rounded-full bg-loop px-5 py-2.5 text-sm font-semibold text-signal transition-all",
+        "hover:shadow-loop focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-loop focus-visible:ring-offset-2",
         className
       )}
     >
-      <MapPin className="h-4 w-4" />
-      Check Coverage
-      <span className="transition-transform group-hover:translate-x-0.5">→</span>
+      Sign Up
+    </Link>
+  );
+}
+
+function ClientPortalLink({ className, onClick }) {
+  return (
+    <Link
+      to="/login"
+      onClick={onClick}
+      className={cn(
+        "inline-flex items-center gap-2 text-sm font-medium transition-colors hover:text-loop",
+        className
+      )}
+    >
+      <User className="h-4 w-4" />
+      Client Portal
     </Link>
   );
 }
 
 export function Navbar() {
-  const [scrolled, setScrolled] = useState(false);
   const [open, setOpen] = useState(false);
   const location = useLocation();
-  // Solid = the light glass bar (on scroll, or whenever the mobile menu is open).
-  // When not solid, the navbar is transparent over the dark hero — light text/logo.
-  const solid = scrolled || open;
-
-  useEffect(() => {
-    const onScroll = () => setScrolled(window.scrollY > 12);
-    onScroll();
-    window.addEventListener("scroll", onScroll, { passive: true });
-    return () => window.removeEventListener("scroll", onScroll);
-  }, []);
+  // Transparent (light logo + white links) while over a dark hero;
+  // light glass bar everywhere else so it stays visible.
+  const overDark = useNavOverDark(location.pathname);
+  const solid = !overDark || open;
 
   useEffect(() => {
     setOpen(false);
@@ -47,6 +55,11 @@ export function Navbar() {
     document.body.style.overflow = open ? "hidden" : "";
     return () => { document.body.style.overflow = ""; };
   }, [open]);
+
+  const linkTone = (active) =>
+    active
+      ? (solid ? "text-signal" : "text-paper")
+      : (solid ? "text-ink-soft hover:text-signal" : "text-paper/80 hover:text-paper");
 
   return (
     <header className="fixed inset-x-0 top-0 z-50">
@@ -58,7 +71,10 @@ export function Navbar() {
       >
         <nav className="container-lattice flex h-16 items-center justify-between md:h-20">
           <Link to="/" className="focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-loop rounded-md">
-            <Logo tone={solid ? "ink" : "light"} />
+            <Logo
+              tone={solid ? "ink" : "light"}
+              loopClass={solid ? "text-loop" : "text-paper"}
+            />
           </Link>
 
           <div className="hidden items-center gap-8 lg:flex">
@@ -68,12 +84,7 @@ export function Navbar() {
                 <Link
                   key={link.to}
                   to={link.to}
-                  className={cn(
-                    "relative text-sm font-medium transition-colors",
-                    active
-                      ? (solid ? "text-signal" : "text-paper")
-                      : (solid ? "text-ink-soft hover:text-signal" : "text-paper/80 hover:text-paper")
-                  )}
+                  className={cn("relative text-sm font-medium transition-colors", linkTone(active))}
                 >
                   {link.label}
                   {active && (
@@ -87,8 +98,9 @@ export function Navbar() {
             })}
           </div>
 
-          <div className="hidden lg:block">
-            <PrimaryCTA />
+          <div className="hidden items-center gap-6 lg:flex">
+            <ClientPortalLink className={solid ? "text-ink-soft" : "text-paper/80"} />
+            <SignUpButton />
           </div>
 
           <button
@@ -131,8 +143,12 @@ export function Navbar() {
                   </Link>
                 );
               })}
-              <div className="mt-2">
-                <PrimaryCTA className="w-full justify-center" onClick={() => setOpen(false)} />
+              <div className="mt-2 flex flex-col gap-3">
+                <ClientPortalLink
+                  className="px-3 text-base text-ink-soft"
+                  onClick={() => setOpen(false)}
+                />
+                <SignUpButton className="w-full justify-center" onClick={() => setOpen(false)} />
               </div>
             </div>
           </motion.div>
