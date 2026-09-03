@@ -30,13 +30,13 @@ export function Hero() {
       </div>
 
       <motion.div
-        className="container-lattice relative flex min-h-[86svh] flex-col pt-28 pb-12 md:pt-36 lg:min-h-[92vh] lg:grid lg:grid-cols-[45%_55%] lg:content-between lg:gap-6 lg:pt-24 lg:pb-20"
+        className="container-lattice relative flex min-h-[86svh] flex-col pt-28 pb-12 md:pt-36 lg:min-h-[92vh] lg:grid lg:grid-cols-[45%_55%] lg:grid-rows-[1fr_auto] lg:pt-24 lg:pb-20"
         variants={entranceContainer}
         initial={reduce ? false : "hidden"}
         animate="show"
       >
         {/* ── Left: headline, price, CTAs ───────────────────────────── */}
-        <div className="relative z-10 my-auto">
+        <div className="relative z-10 my-auto lg:self-center">
           <motion.h1
             variants={entranceItem}
             className="max-w-xl font-heading text-4xl font-extrabold leading-[1.05] tracking-tighter text-paper sm:text-5xl lg:text-[3.6rem]"
