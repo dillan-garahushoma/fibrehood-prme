@@ -24,6 +24,7 @@ export const FIBRE_PRICING = [
     billingPeriod: "month",
     badge: null,
     description: "Perfect for light browsing, email and everyday essentials.",
+    idealFor: "1–3 devices · browsing, email, calls",
     features: HOME_FEATURES,
     accent: "gold",
     ctaText: HOME_CTA.text,
@@ -41,6 +42,7 @@ export const FIBRE_PRICING = [
     billingPeriod: "month",
     badge: "Most Popular",
     description: "Great for families, streaming and connected homes.",
+    idealFor: "4–6 devices · HD streaming, family WiFi",
     features: HOME_FEATURES,
     accent: "gold",
     featured: true,
@@ -59,6 +61,7 @@ export const FIBRE_PRICING = [
     billingPeriod: "month",
     badge: null,
     description: "More speed for work-from-home, gaming and HD streaming.",
+    idealFor: "7–10 devices · 4K streaming, gaming, WFH",
     features: HOME_FEATURES,
     accent: "green",
     ctaText: HOME_CTA.text,
@@ -76,10 +79,12 @@ export const FIBRE_PRICING = [
     billingPeriod: "month",
     badge: null,
     description: "Maximum home speed for heavy streaming, gaming and multiple devices.",
+    idealFor: "10+ devices · heavy streaming, smart home",
     features: HOME_FEATURES,
     accent: "blue",
-    ctaText: HOME_CTA.text,
-    ctaUrl: HOME_CTA.url
+    teaser: true,
+    ctaText: "Explore on plans page",
+    ctaUrl: "/plans#ultra"
   },
   // ── SME Fibre ────────────────────────────────────────────────────────
   {

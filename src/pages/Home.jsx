@@ -4,7 +4,7 @@ import EverydayLife from "@/components/home/EverydayLife";
 import ValueProp from "@/components/home/ValueProp";
 import HowItWorks from "@/components/home/HowItWorks";
 import NetworkVisual from "@/components/home/NetworkVisual";
-import CoverflowCarousel from "@/components/ui/CoverflowCarousel";
+import FeaturedPricing from "@/components/home/FeaturedPricing";
 import RouterSection from "@/components/home/RouterSection";
 import Lifestyle from "@/components/home/Lifestyle";
 import Testimonials from "@/components/home/Testimonials";
@@ -16,7 +16,7 @@ export default function Home() {
     <>
       <Hero />
       <EverydayLife />
-      <CoverflowCarousel />
+      <FeaturedPricing />
       <HowItWorks />
       <ValueProp />
       <NetworkVisual />

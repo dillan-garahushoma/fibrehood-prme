@@ -1,6 +1,7 @@
 import React from "react";
 import { Link } from "react-router-dom";
-import { ArrowRight, Check, Gauge, Wifi } from "lucide-react";
+import { motion, useReducedMotion } from "framer-motion";
+import { ArrowRight, Check } from "lucide-react";
 import { ACCENTS } from "@/data/fibrePricing";
 
 // FibreHood brand tokens
@@ -13,13 +14,13 @@ const WHITE = "#FFFFFF";
 
 /**
  * FibreHood "network tile" pricing card.
- * Hierarchy: icon → UP TO → speed (anchor) → plan name → divider → price → inclusions → CTA.
- * Content stays visible on every card; the carousel's depth-of-field blur handles focus.
+ * Hierarchy: plan name (header) → ideal-for → speed (anchor) → divider → price → inclusions → CTA.
+ * Featured (Smart) card uses a warm glass-gradient surface + corner "Most Popular" pill.
  */
 export function PricingCard({ item, isCenter, onCtaClick }) {
   const accent = ACCENTS[item.accent] || ACCENTS.gold;
   const featured = !!item.featured;
-  const isHome = item.category === "home";
+  const reduce = useReducedMotion();
 
   return (
     <div
@@ -31,38 +32,37 @@ export function PricingCard({ item, isCenter, onCtaClick }) {
         overflow: "hidden",
         backgroundColor: WHITE,
         border: featured
-          ? `1.5px solid ${GOLD}`
-          : `1px solid ${accent.hex}22`,
+          ? `1.5px solid ${GOLD}88`
+          : `1px solid rgba(7,34,72,0.10)`,
         boxShadow: featured
-          ? `0 0 0 1px ${GOLD}55, 0 26px 60px rgba(7,34,72,0.20), 0 0 30px ${GOLD}40`
+          ? `0 0 0 1px ${GOLD}44, 0 26px 60px rgba(7,34,72,0.20), 0 0 30px ${GOLD}33`
           : "0 18px 44px rgba(7,34,72,0.13)",
       }}
     >
-      {/* Tier accent edge — extremely subtle */}
-      <div
-        style={{
-          position: "absolute",
-          top: 0,
-          bottom: 0,
-          left: 0,
-          width: "4px",
-          background: `linear-gradient(180deg, ${accent.hex}, ${accent.hex}11)`,
-          opacity: featured ? 0.9 : 0.5,
-        }}
-      />
+      {/* Featured warm glass-gradient surface */}
+      {featured && (
+        <div
+          style={{
+            position: "absolute",
+            inset: 0,
+            background:
+              "linear-gradient(165deg, #FFFFFF 0%, #FFFDF6 38%, #FFF7DE 100%)",
+            pointerEvents: "none",
+          }}
+        />
+      )}
 
       {/* Faint radial gold glow behind the speed (featured only) */}
       {featured && (
         <div
           style={{
             position: "absolute",
-            top: "120px",
-            left: "50%",
-            transform: "translateX(-50%)",
+            top: "150px",
+            left: "30%",
             width: "240px",
             height: "240px",
             borderRadius: "50%",
-            background: `radial-gradient(circle, ${GOLD}22 0%, transparent 68%)`,
+            background: `radial-gradient(circle, ${GOLD}1F 0%, transparent 68%)`,
             pointerEvents: "none",
           }}
         />
@@ -78,7 +78,7 @@ export function PricingCard({ item, isCenter, onCtaClick }) {
           left: 0,
           width: "100%",
           height: "110px",
-          opacity: featured ? 0.5 : 0.32,
+          opacity: featured ? 0.5 : 0.3,
           pointerEvents: "none",
         }}
         aria-hidden="true"
@@ -90,89 +90,120 @@ export function PricingCard({ item, isCenter, onCtaClick }) {
             <stop offset="100%" stopColor={accent.hex} stopOpacity="0" />
           </linearGradient>
         </defs>
-        {/* flowing fibre strands */}
         <path d="M-10,95 C60,60 120,110 180,70 C240,35 300,90 350,55"
           fill="none" stroke={`url(#fibre-${item.id})`} strokeWidth="1.2" />
         <path d="M-10,80 C70,110 140,55 210,95 C270,128 320,70 350,90"
           fill="none" stroke={`url(#fibre-${item.id})`} strokeWidth="1" />
         <path d="M-10,105 C80,75 150,120 220,85 C280,56 310,100 350,80"
           fill="none" stroke={`url(#fibre-${item.id})`} strokeWidth="0.8" />
-        {/* nodes */}
         {[[60,82],[130,96],[200,72],[270,98]].map(([cx,cy],i) => (
           <circle key={i} cx={cx} cy={cy} r="2" fill={accent.hex} opacity="0.5" />
         ))}
       </svg>
 
-      {/* MOST POPULAR gold tab (featured only) */}
+      {/* MOST POPULAR — frosted corner pill (featured only) */}
       {item.badge && featured && (
-        <div
+        <motion.div
+          initial={reduce ? false : { opacity: 0, x: 14, y: -6 }}
+          animate={{ opacity: 1, x: 0, y: 0 }}
+          transition={{ duration: 0.6, ease: [0.16, 1, 0.3, 1] }}
           style={{
             position: "absolute",
-            top: "0",
-            left: "50%",
-            transform: "translateX(-50%)",
+            top: 0,
+            right: 0,
             zIndex: 6,
+            overflow: "hidden",
+            borderRadius: "0 24px 0 14px",
           }}
         >
-          <span
+          <div
             style={{
-              display: "inline-block",
-              padding: "6px 16px",
-              borderRadius: "0 0 10px 10px",
-              background: `linear-gradient(135deg, ${GOLD} 0%, ${GOLD_DEEP} 100%)`,
+              position: "relative",
+              padding: "8px 16px 8px 14px",
+              background:
+                "linear-gradient(135deg, rgba(255,255,255,0.82) 0%, rgba(255,247,210,0.86) 100%)",
+              backdropFilter: "blur(10px) saturate(150%)",
+              WebkitBackdropFilter: "blur(10px) saturate(150%)",
               color: NAVY,
-              fontSize: "0.58rem",
+              fontSize: "0.56rem",
               fontWeight: 800,
-              letterSpacing: "0.18em",
+              letterSpacing: "0.16em",
               textTransform: "uppercase",
               whiteSpace: "nowrap",
-              boxShadow: "0 6px 14px rgba(255,204,0,0.35)",
+              boxShadow: "0 6px 16px rgba(255,204,0,0.28)",
+              borderLeft: `1px solid ${GOLD}55`,
+              borderBottom: `1px solid ${GOLD}55`,
             }}
           >
             {item.badge}
-          </span>
-        </div>
+            {/* shimmer sheen */}
+            {!reduce && (
+              <motion.div
+                aria-hidden="true"
+                initial={{ x: "-120%" }}
+                animate={{ x: "220%" }}
+                transition={{ duration: 2.4, repeat: Infinity, repeatDelay: 2.2, ease: "easeInOut" }}
+                style={{
+                  position: "absolute",
+                  top: 0,
+                  left: 0,
+                  width: "40%",
+                  height: "100%",
+                  background:
+                    "linear-gradient(90deg, transparent, rgba(255,255,255,0.7), transparent)",
+                  pointerEvents: "none",
+                }}
+              />
+            )}
+          </div>
+        </motion.div>
       )}
 
-      {/* Content — always visible */}
+      {/* Content — always visible, left-aligned editorial */}
       <div
         style={{
           position: "relative",
           width: "100%",
           height: "100%",
-          padding: featured ? "40px 26px 24px" : "30px 26px 24px",
+          padding: featured ? "26px 24px 22px" : "26px 24px 22px",
           display: "flex",
           flexDirection: "column",
-          alignItems: "center",
-          textAlign: "center",
+          alignItems: "flex-start",
+          textAlign: "left",
           zIndex: 4,
           pointerEvents: isCenter ? "auto" : "none",
         }}
       >
-        {/* Speedometer / network icon */}
-        <div
-          style={{
-            width: "42px",
-            height: "42px",
-            borderRadius: "12px",
-            background: `${accent.hex}10`,
-            display: "flex",
-            alignItems: "center",
-            justifyContent: "center",
-            marginBottom: "14px",
-            flexShrink: 0,
-          }}
-        >
-          {isHome ? (
-            <Gauge size={21} strokeWidth={2.2} color={accent.hex} />
-          ) : (
-            <Wifi size={21} strokeWidth={2.2} color={accent.hex} />
-          )}
+        {/* Plan name header lockup */}
+        <div style={{ lineHeight: 1.1, width: "100%" }}>
+          <div
+            style={{
+              fontSize: "0.92rem",
+              fontWeight: 800,
+              color: NAVY,
+              letterSpacing: "0.12em",
+              textTransform: "uppercase",
+            }}
+          >
+            {item.planName}
+          </div>
+          <div
+            style={{
+              fontSize: "0.7rem",
+              fontWeight: 500,
+              color: NAVY_SOFT,
+              marginTop: "3px",
+              letterSpacing: "0.04em",
+            }}
+          >
+            {item.planSubtitle}
+          </div>
         </div>
 
         {/* UP TO eyebrow */}
         <span
           style={{
+            marginTop: "18px",
             fontSize: "0.6rem",
             fontWeight: 700,
             letterSpacing: "0.3em",
@@ -188,18 +219,17 @@ export function PricingCard({ item, isCenter, onCtaClick }) {
           style={{
             display: "flex",
             alignItems: "baseline",
-            justifyContent: "center",
             gap: "5px",
             marginTop: "2px",
           }}
         >
           <span
             style={{
-              fontSize: "clamp(2.8rem, 10vw, 3.5rem)",
+              fontSize: "clamp(2.8rem, 13vw, 3.6rem)",
               fontWeight: 900,
               color: NAVY,
               letterSpacing: "-0.05em",
-              lineHeight: 0.95,
+              lineHeight: 0.92,
             }}
           >
             {item.speed}
@@ -215,30 +245,20 @@ export function PricingCard({ item, isCenter, onCtaClick }) {
           </span>
         </div>
 
-        {/* Plan name lockup — smaller, scannable */}
-        <div style={{ marginTop: "10px", lineHeight: 1.1 }}>
+        {/* Ideal-for ladder */}
+        {item.idealFor && (
           <div
             style={{
-              fontSize: "0.92rem",
-              fontWeight: 800,
-              color: NAVY,
-              letterSpacing: "0.12em",
-              textTransform: "uppercase",
-            }}
-          >
-            {item.planName}
-          </div>
-          <div
-            style={{
-              fontSize: "0.72rem",
+              marginTop: "8px",
+              fontSize: "0.7rem",
               fontWeight: 500,
               color: NAVY_SOFT,
-              marginTop: "2px",
+              lineHeight: 1.3,
             }}
           >
-            {item.planSubtitle}
+            {item.idealFor}
           </div>
-        </div>
+        )}
 
         {/* Hairline divider */}
         <div
@@ -247,8 +267,8 @@ export function PricingCard({ item, isCenter, onCtaClick }) {
             height: "2px",
             background: featured ? GOLD : accent.hex,
             borderRadius: "2px",
-            margin: "13px 0 11px",
-            opacity: featured ? 0.9 : 0.55,
+            margin: "14px 0 12px",
+            opacity: featured ? 0.9 : 0.5,
           }}
         />
 
@@ -257,7 +277,6 @@ export function PricingCard({ item, isCenter, onCtaClick }) {
           style={{
             display: "flex",
             alignItems: "baseline",
-            justifyContent: "center",
             gap: "4px",
           }}
         >
@@ -292,7 +311,7 @@ export function PricingCard({ item, isCenter, onCtaClick }) {
           </span>
         </div>
 
-        {/* Inclusions — the 4 FibreHood benefits */}
+        {/* Inclusions — the FibreHood benefits */}
         <div
           style={{
             display: "flex",
@@ -369,7 +388,7 @@ function CtaButton({ item, featured, onCtaClick }) {
       ? `linear-gradient(135deg, ${GOLD} 0%, ${GOLD_DEEP} 100%)`
       : NAVY,
     color: featured ? NAVY : WHITE,
-    fontSize: "0.68rem",
+    fontSize: "0.66rem",
     fontWeight: 800,
     letterSpacing: "0.12em",
     textTransform: "uppercase",
