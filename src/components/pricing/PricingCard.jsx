@@ -14,8 +14,8 @@ const WHITE = "#FFFFFF";
 
 /**
  * FibreHood "network tile" pricing card.
- * Hierarchy: plan name (header) → ideal-for → speed (anchor) → divider → price → inclusions → CTA.
- * Featured (Smart) card uses a warm glass-gradient surface + corner "Most Popular" pill.
+ * Sections distribute evenly top-to-bottom (no single void):
+ * header → speed → divider+price → inclusions → CTA.
  */
 export function PricingCard({ item, isCenter, onCtaClick }) {
   const accent = ACCENTS[item.accent] || ACCENTS.gold;
@@ -136,7 +136,6 @@ export function PricingCard({ item, isCenter, onCtaClick }) {
             }}
           >
             {item.badge}
-            {/* shimmer sheen */}
             {!reduce && (
               <motion.div
                 aria-hidden="true"
@@ -159,22 +158,23 @@ export function PricingCard({ item, isCenter, onCtaClick }) {
         </motion.div>
       )}
 
-      {/* Content — always visible, left-aligned editorial */}
+      {/* Content — evenly distributed, left-aligned editorial */}
       <div
         style={{
           position: "relative",
           width: "100%",
           height: "100%",
-          padding: featured ? "26px 24px 22px" : "26px 24px 22px",
+          padding: "26px 24px 22px",
           display: "flex",
           flexDirection: "column",
+          justifyContent: "space-between",
           alignItems: "flex-start",
           textAlign: "left",
           zIndex: 4,
           pointerEvents: isCenter ? "auto" : "none",
         }}
       >
-        {/* Plan name header lockup */}
+        {/* Group 1 — plan name header lockup */}
         <div style={{ lineHeight: 1.1, width: "100%" }}>
           <div
             style={{
@@ -200,121 +200,102 @@ export function PricingCard({ item, isCenter, onCtaClick }) {
           </div>
         </div>
 
-        {/* UP TO eyebrow */}
-        <span
-          style={{
-            marginTop: "18px",
-            fontSize: "0.6rem",
-            fontWeight: 700,
-            letterSpacing: "0.3em",
-            textTransform: "uppercase",
-            color: NAVY_FAINT,
-          }}
-        >
-          Up to
-        </span>
-
-        {/* Speed — the primary visual anchor */}
-        <div
-          style={{
-            display: "flex",
-            alignItems: "baseline",
-            gap: "5px",
-            marginTop: "2px",
-          }}
-        >
+        {/* Group 2 — speed block */}
+        <div style={{ width: "100%" }}>
           <span
             style={{
-              fontSize: "clamp(2.8rem, 13vw, 3.6rem)",
-              fontWeight: 900,
-              color: NAVY,
-              letterSpacing: "-0.05em",
-              lineHeight: 0.92,
-            }}
-          >
-            {item.speed}
-          </span>
-          <span
-            style={{
-              fontSize: "0.82rem",
+              fontSize: "0.6rem",
               fontWeight: 700,
-              color: NAVY_SOFT,
+              letterSpacing: "0.3em",
+              textTransform: "uppercase",
+              color: NAVY_FAINT,
             }}
           >
-            {item.speedUnit}
+            Up to
           </span>
-        </div>
-
-        {/* Ideal-for ladder */}
-        {item.idealFor && (
           <div
             style={{
-              marginTop: "8px",
-              fontSize: "0.7rem",
-              fontWeight: 500,
-              color: NAVY_SOFT,
-              lineHeight: 1.3,
+              display: "flex",
+              alignItems: "baseline",
+              gap: "5px",
+              marginTop: "2px",
             }}
           >
-            {item.idealFor}
+            <span
+              style={{
+                fontSize: "clamp(2.8rem, 13vw, 3.6rem)",
+                fontWeight: 900,
+                color: NAVY,
+                letterSpacing: "-0.05em",
+                lineHeight: 0.92,
+              }}
+            >
+              {item.speed}
+            </span>
+            <span
+              style={{
+                fontSize: "0.82rem",
+                fontWeight: 700,
+                color: NAVY_SOFT,
+              }}
+            >
+              {item.speedUnit}
+            </span>
           </div>
-        )}
-
-        {/* Breathing space — push the price block lower, use the card height */}
-        <div style={{ flex: 1, minHeight: 16 }} />
-
-        {/* Hairline divider */}
-        <div
-          style={{
-            width: "38px",
-            height: "2px",
-            background: featured ? GOLD : accent.hex,
-            borderRadius: "2px",
-            margin: "14px 0 12px",
-            opacity: featured ? 0.9 : 0.5,
-          }}
-        />
-
-        {/* Price — clearly separated */}
-        <div
-          style={{
-            display: "flex",
-            alignItems: "baseline",
-            gap: "4px",
-          }}
-        >
-          <span
-            style={{
-              fontSize: "0.7rem",
-              fontWeight: 700,
-              color: NAVY_SOFT,
-            }}
-          >
-            {item.currency}
-          </span>
-          <span
-            style={{
-              fontSize: "1.85rem",
-              fontWeight: 900,
-              color: NAVY,
-              letterSpacing: "-0.02em",
-              lineHeight: 1,
-            }}
-          >
-            {item.price}
-          </span>
-          <span
-            style={{
-              fontSize: "0.68rem",
-              fontWeight: 600,
-              color: NAVY_SOFT,
-            }}
-          >
-            /{item.billingPeriod}
-          </span>
+          {item.idealFor && (
+            <div
+              style={{
+                marginTop: "8px",
+                fontSize: "0.7rem",
+                fontWeight: 500,
+                color: NAVY_SOFT,
+                lineHeight: 1.3,
+              }}
+            >
+              {item.idealFor}
+            </div>
+          )}
         </div>
 
-        {/* Inclusions — the FibreHood benefits */}
+        {/* Group 3 — wide centered hairline + price */}
+        <div style={{ width: "100%" }}>
+          <div
+            style={{
+              width: "100%",
+              height: "1px",
+              background: featured ? GOLD : accent.hex,
+              opacity: featured ? 0.7 : 0.35,
+              marginBottom: "12px",
+            }}
+          />
+          <div
+            style={{
+              display: "flex",
+              alignItems: "baseline",
+              gap: "4px",
+            }}
+          >
+            <span style={{ fontSize: "0.7rem", fontWeight: 700, color: NAVY_SOFT }}>
+              {item.currency}
+            </span>
+            <span
+              style={{
+                fontSize: "1.85rem",
+                fontWeight: 900,
+                color: NAVY,
+                letterSpacing: "-0.02em",
+                lineHeight: 1,
+              }}
+            >
+              {item.price}
+            </span>
+            <span style={{ fontSize: "0.68rem", fontWeight: 600, color: NAVY_SOFT }}>
+              /{item.billingPeriod}
+            </span>
+          </div>
+        </div>
+
+        {/* Group 4 — inclusions */}
         <div
           style={{
             display: "flex",
@@ -322,7 +303,6 @@ export function PricingCard({ item, isCenter, onCtaClick }) {
             gap: "6px",
             alignItems: "flex-start",
             width: "100%",
-            margin: "16px 0 14px",
           }}
         >
           {item.features.map((feat) => (
@@ -364,7 +344,7 @@ export function PricingCard({ item, isCenter, onCtaClick }) {
           ))}
         </div>
 
-        {/* CTA — full width */}
+        {/* Group 5 — CTA */}
         <div style={{ width: "100%" }}>
           <CtaButton item={item} featured={featured} onCtaClick={onCtaClick} />
         </div>
