@@ -2,7 +2,6 @@ import React, { useEffect, useState } from "react";
 import { Link, useLocation } from "react-router-dom";
 import { AnimatePresence, motion } from "framer-motion";
 import { Menu, X, User, Home, Gauge, MapPin, Info, Headset, Mail } from "lucide-react";
-import { Logo } from "@/components/brand/Logo";
 import { NAV_LINKS } from "@/data/site";
 import { useNavOverDark } from "@/hooks/useNavOverDark";
 import { cn } from "@/lib/utils";
@@ -80,13 +79,6 @@ export function Navbar() {
         )}
       >
         <nav className="container-lattice flex h-16 items-center justify-between md:h-20">
-          <Link to="/" className="focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-loop rounded-md">
-            <Logo
-              tone={solid ? "ink" : "light"}
-              loopClass={solid ? "text-loop" : "text-paper"}
-            />
-          </Link>
-
           <div className="hidden items-center gap-8 lg:flex">
             {NAV_LINKS.map((link) => {
               const active = location.pathname === link.to;

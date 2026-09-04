@@ -6,6 +6,7 @@ import { CoverageChecker } from "@/components/coverage/CoverageChecker";
 import { SectionLabel } from "@/components/common/SectionLabel";
 import { Reveal, entranceContainer, entranceItem } from "@/components/common/Reveal";
 import { IMAGES } from "@/data/images";
+import { Logo } from "@/components/brand/Logo";
 import { PLANS } from "@/data/plans";
 import { motion, useReducedMotion } from "framer-motion";
 
@@ -37,6 +38,14 @@ export function Hero() {
       >
         {/* ── Left: headline, price, CTAs ───────────────────────────── */}
         <div className="relative z-10 my-auto lg:self-center">
+          <motion.div variants={entranceItem} className="mb-6">
+            <Logo
+              tone="light"
+              loopClass="text-paper"
+              taglineClass="text-paper/90"
+              className="text-2xl sm:text-3xl"
+            />
+          </motion.div>
           <motion.h1
             variants={entranceItem}
             className="max-w-xl font-heading text-4xl font-extrabold leading-[1.05] tracking-tighter text-paper sm:text-5xl lg:text-[3.6rem]"
