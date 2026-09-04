@@ -20,17 +20,13 @@ const STEPS = [
     num: "01",
     icon: MapPin,
     title: "Check coverage",
-    body: "Enter your address to see if FibreHood is available in your area.",
-    to: "/coverage",
-    cta: "Check now"
+    body: "Enter your address to see if FibreHood is available in your area."
   },
   {
     num: "02",
     icon: ClipboardList,
     title: "Choose your plan",
-    body: "Pick the fibre plan that best fits your home and lifestyle.",
-    to: "/plans",
-    cta: "View plans"
+    body: "Pick the fibre plan that best fits your home and lifestyle."
   },
   {
     num: "03",
@@ -98,18 +94,18 @@ export function ConnectionJourney() {
 
                   {/* card */}
                   <div className="flex flex-1 flex-col rounded-2xl border border-line bg-card p-7 shadow-signal transition-transform duration-300 hover:-translate-y-1">
-                    {/* step number */}
+                    {/* step badge + icon */}
                     <div className="flex items-center justify-between">
-                      <span className="font-heading text-4xl font-extrabold leading-none tracking-tighter text-signal">
-                        {step.num}
+                      <span className="flex h-10 w-10 items-center justify-center rounded-full bg-signal text-paper">
+                        <span className="display-mono text-sm font-bold">{step.num}</span>
                       </span>
-                      <span className="flex h-11 w-11 items-center justify-center rounded-full bg-fog text-signal">
-                        <Icon className="h-5 w-5" strokeWidth={1.6} />
+                      <span className="flex h-12 w-12 items-center justify-center rounded-full bg-fog text-signal">
+                        <Icon className="h-6 w-6" strokeWidth={1.6} />
                       </span>
                     </div>
 
                     {/* loop underline accent */}
-                    <span className="mt-5 h-0.5 w-10 rounded-full bg-loop" />
+                    <span className="mt-6 h-0.5 w-10 rounded-full bg-loop" />
 
                     <h3 className="mt-4 font-heading text-lg font-bold tracking-tight text-signal">
                       {step.title}
@@ -117,16 +113,6 @@ export function ConnectionJourney() {
                     <p className="mt-2 text-sm leading-relaxed text-ink-soft">
                       {step.body}
                     </p>
-
-                    {step.to && (
-                      <Link
-                        to={step.to}
-                        className="mt-5 inline-flex items-center gap-1.5 text-sm font-semibold text-signal transition-colors hover:text-loop"
-                      >
-                        {step.cta}
-                        <ArrowRight className="h-3.5 w-3.5" />
-                      </Link>
-                    )}
                   </div>
 
                   {/* mobile vertical connector */}
