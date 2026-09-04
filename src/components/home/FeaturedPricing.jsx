@@ -7,7 +7,10 @@ import Reveal from "@/components/common/Reveal";
 
 // Homepage featured pricing gateway: residential ladder (Starter → Smart → Pro)
 // plus the Ultra-Home teaser card. SME plans live only on /plans.
-const FEATURED_ITEMS = FIBRE_PRICING.filter((p) => p.category === "home");
+const FEATURED_ITEMS = [
+  ...FIBRE_PRICING.filter((p) => p.category === "home"),
+  FIBRE_PRICING.find((p) => p.id === "sme-offer"),
+];
 
 export default function FeaturedPricing() {
   return (

@@ -86,6 +86,25 @@ export const FIBRE_PRICING = [
     ctaText: "Explore on plans page",
     ctaUrl: "/plans#ultra"
   },
+  {
+    id: "sme-offer",
+    category: "sme",
+    planName: "Business",
+    planSubtitle: "SME Fibre",
+    speed: 50,
+    speedUnit: "Mbps",
+    price: 75,
+    currency: "US$",
+    billingPeriod: "month",
+    badge: null,
+    description: "Dedicated fibre for growing teams and connected workplaces.",
+    idealFor: "5–15 seats · cloud tools, VoIP, POS",
+    features: ["Dedicated business support", "US$100 activation", "SLA-backed uptime", "Scalable to 100 Mbps"],
+    accent: "navy",
+    teaser: true,
+    ctaText: "View business plans",
+    ctaUrl: "/plans#business"
+  },
   // ── SME Fibre ────────────────────────────────────────────────────────
   {
     id: "sme-basic",

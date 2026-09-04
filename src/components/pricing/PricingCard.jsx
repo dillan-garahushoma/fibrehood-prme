@@ -178,10 +178,10 @@ export function PricingCard({ item, isCenter, onCtaClick }) {
         <div style={{ lineHeight: 1.1, width: "100%" }}>
           <div
             style={{
-              fontSize: "0.92rem",
+              fontSize: "1.08rem",
               fontWeight: 800,
               color: NAVY,
-              letterSpacing: "0.12em",
+              letterSpacing: "0.08em",
               textTransform: "uppercase",
             }}
           >
@@ -259,6 +259,9 @@ export function PricingCard({ item, isCenter, onCtaClick }) {
             {item.idealFor}
           </div>
         )}
+
+        {/* Breathing space — push the price block lower, use the card height */}
+        <div style={{ flex: 1, minHeight: 16 }} />
 
         {/* Hairline divider */}
         <div
@@ -362,7 +365,7 @@ export function PricingCard({ item, isCenter, onCtaClick }) {
         </div>
 
         {/* CTA — full width */}
-        <div style={{ marginTop: "auto", width: "100%" }}>
+        <div style={{ width: "100%" }}>
           <CtaButton item={item} featured={featured} onCtaClick={onCtaClick} />
         </div>
       </div>
