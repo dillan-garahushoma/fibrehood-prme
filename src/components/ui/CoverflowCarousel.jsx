@@ -1,71 +1,23 @@
 import React, { useState, useEffect, useCallback, useRef } from "react";
 import { Link } from "react-router-dom";
-import { ChevronLeft, ChevronRight, ArrowRight } from "lucide-react";
-import { IMAGES } from "@/data/images";
+import { ChevronLeft, ChevronRight, ArrowRight, Check, Gauge, Wifi } from "lucide-react";
+import { FIBRE_PRICING, ACCENTS } from "@/data/fibrePricing";
 
-// Brand palette (inline-styled component)
-const BG = "#071a33";        // deep signal navy
-const CARD_BG = "#0f2240";   // card surface
-const ACCENT = "#FFCC00";    // loop yellow
-const ACCENT_DARK = "#E0B400";
-
-export const FLAGSHIP_PLANS = [
-  {
-    tag: "#Most popular",
-    titleLine1: "HOME 50",
-    titleLine2: "– 50 MBPS FIBRE",
-    desc: "From $60/month — family streaming, video calls and up to six devices. Unlimited data.",
-    img: IMAGES.fibreGlass,
-    ctaText: "See plans",
-    ctaUrl: "/plans",
-  },
-  {
-    tag: "#Home",
-    titleLine1: "HOME 100",
-    titleLine2: "– 100 MBPS FIBRE",
-    desc: "From $90/month — 4K streaming, gaming and a full smart home. Wi-Fi 6 router included.",
-    img: IMAGES.lightTrails,
-    ctaText: "See plans",
-    ctaUrl: "/plans",
-  },
-  {
-    tag: "#Power home",
-    titleLine1: "HOME 200",
-    titleLine2: "– 200 MBPS FIBRE",
-    desc: "From $130/month — power households and multi-room 4K with priority evening capacity.",
-    img: IMAGES.fibreConstellation,
-    ctaText: "See plans",
-    ctaUrl: "/plans",
-  },
-  {
-    tag: "#Business",
-    titleLine1: "BUSINESS 100",
-    titleLine2: "– 100/100 SYMMETRIC",
-    desc: "From $120/month — symmetric fibre for small offices, cloud apps and point-of-sale.",
-    img: IMAGES.routerNode,
-    ctaText: "See plans",
-    ctaUrl: "/plans",
-  },
-  {
-    tag: "#Enterprise",
-    titleLine1: "BUSINESS 500",
-    titleLine2: "– 500/500 SYMMETRIC",
-    desc: "From $380/month — dedicated capacity for multi-site teams, hosted voice and resilience.",
-    img: IMAGES.networkOrb,
-    ctaText: "See plans",
-    ctaUrl: "/plans",
-  },
-];
+// FibreHood brand tokens
+const NAVY = "#072248";
+const NAVY_SOFT = "#3A5A85";
+const PAPER = "#F7F9FB";
+const ACCENT = "#FFCC00";
 
 export function CoverFlowCarousel({
-  items = FLAGSHIP_PLANS,
-  sectionLabel = "FLAGSHIP PLANS",
+  items = FIBRE_PRICING,
+  sectionLabel = "FIBREHOOD FIBRE PLANS",
   autoplay = true,
   autoplayDelay = 5000,
   className = "",
   onCtaClick,
 }) {
-  const [currentIndex, setCurrentIndex] = useState(0);
+  const [currentIndex, setCurrentIndex] = useState(1); // start on featured Smart card
   const [isHovered, setIsHovered] = useState(false);
   const touchStartX = useRef(0);
   const total = items.length;
@@ -110,29 +62,35 @@ export function CoverFlowCarousel({
 
   const isInternal = (url) => url?.startsWith("/");
 
-  const CtaButton = ({ item }) => {
+  const CtaButton = ({ item, featured }) => {
     const inner = (
       <>
-        <span>{item.ctaText || "See plans"}</span>
+        <span>{item.ctaText || "Check availability"}</span>
         <ArrowRight size={13} strokeWidth={2.5} />
       </>
     );
     const baseStyle = {
       display: "inline-flex",
       alignItems: "center",
+      justifyContent: "center",
       gap: "6px",
-      padding: "7px 18px",
+      padding: "9px 20px",
       borderRadius: "9999px",
-      background: `linear-gradient(135deg, ${ACCENT} 0%, ${ACCENT_DARK} 100%)`,
-      color: "#0b1b2a",
-      fontSize: "0.72rem",
+      background: featured
+        ? `linear-gradient(135deg, ${ACCENT} 0%, #E0B400 100%)`
+        : NAVY,
+      color: featured ? NAVY : "#ffffff",
+      fontSize: "0.7rem",
       fontWeight: 800,
-      letterSpacing: "0.14em",
+      letterSpacing: "0.12em",
       textTransform: "uppercase",
       textDecoration: "none",
-      boxShadow: "0 4px 14px rgba(0,0,0,0.4), 0 0 15px rgba(255,204,0,0.3)",
+      boxShadow: featured
+        ? "0 6px 18px rgba(255,204,0,0.4)"
+        : "0 6px 16px rgba(7,34,72,0.22)",
       cursor: "pointer",
       transition: "transform 200ms ease, box-shadow 200ms ease",
+      width: "100%",
     };
     if (isInternal(item.ctaUrl) && !onCtaClick) {
       return (
@@ -157,33 +115,351 @@ export function CoverFlowCarousel({
     );
   };
 
+  const PricingCard = ({ item, isCenter }) => {
+    const accent = ACCENTS[item.accent] || ACCENTS.gold;
+    const featured = !!item.featured;
+
+    return (
+      <div
+        style={{
+          position: "relative",
+          width: "100%",
+          height: "100%",
+          borderRadius: "20px",
+          overflow: "hidden",
+          backgroundColor: "#ffffff",
+          border: featured
+            ? `1.5px solid ${ACCENT}`
+            : `1px solid rgba(7,34,72,0.10)`,
+          boxShadow: featured
+            ? `0 24px 60px rgba(7,34,72,0.18), 0 0 28px ${accent.glow}`
+            : "0 16px 40px rgba(7,34,72,0.12)",
+        }}
+      >
+        {/* Subtle accent top band */}
+        <div
+          style={{
+            position: "absolute",
+            top: 0,
+            left: 0,
+            right: 0,
+            height: "5px",
+            background: `linear-gradient(90deg, ${accent.hex}, ${featured ? ACCENT : accent.hex})`,
+          }}
+        />
+
+        {/* Faint network motif */}
+        <div
+          style={{
+            position: "absolute",
+            top: "-30px",
+            right: "-30px",
+            width: "160px",
+            height: "160px",
+            borderRadius: "50%",
+            background: `radial-gradient(circle, ${accent.soft} 0%, transparent 70%)`,
+            pointerEvents: "none",
+          }}
+        />
+
+        {/* Badge */}
+        {item.badge && (
+          <div
+            style={{
+              position: "absolute",
+              top: "16px",
+              left: "50%",
+              transform: "translateX(-50%)",
+              zIndex: 5,
+            }}
+          >
+            <span
+              style={{
+                display: "inline-block",
+                padding: "4px 14px",
+                borderRadius: "9999px",
+                background: `linear-gradient(135deg, ${ACCENT} 0%, #E0B400 100%)`,
+                color: NAVY,
+                fontSize: "0.6rem",
+                fontWeight: 800,
+                letterSpacing: "0.16em",
+                textTransform: "uppercase",
+                boxShadow: "0 4px 12px rgba(255,204,0,0.35)",
+              }}
+            >
+              {item.badge}
+            </span>
+          </div>
+        )}
+
+        {/* Content */}
+        <div
+          style={{
+            position: "relative",
+            width: "100%",
+            height: "100%",
+            padding: item.badge ? "44px 22px 22px" : "28px 22px 22px",
+            display: "flex",
+            flexDirection: "column",
+            alignItems: "center",
+            textAlign: "center",
+            zIndex: 4,
+            opacity: isCenter ? 1 : 0,
+            transform: isCenter ? "translateY(0px)" : "translateY(14px)",
+            transition: "opacity 500ms ease, transform 500ms ease",
+            pointerEvents: isCenter ? "auto" : "none",
+          }}
+        >
+          {/* Speed icon */}
+          <div
+            style={{
+              width: "44px",
+              height: "44px",
+              borderRadius: "12px",
+              background: accent.soft,
+              display: "flex",
+              alignItems: "center",
+              justifyContent: "center",
+              marginBottom: "10px",
+            }}
+          >
+            {item.category === "home" ? (
+              <Gauge size={22} strokeWidth={2.2} color={accent.hex} />
+            ) : (
+              <Wifi size={22} strokeWidth={2.2} color={accent.hex} />
+            )}
+          </div>
+
+          {/* UP TO label */}
+          <span
+            style={{
+              fontSize: "0.62rem",
+              fontWeight: 700,
+              letterSpacing: "0.28em",
+              textTransform: "uppercase",
+              color: NAVY_SOFT,
+              marginBottom: "2px",
+            }}
+          >
+            Up to
+          </span>
+
+          {/* Speed — the hero */}
+          <div
+            style={{
+              display: "flex",
+              alignItems: "baseline",
+              justifyContent: "center",
+              gap: "5px",
+              lineHeight: 1,
+            }}
+          >
+            <span
+              style={{
+                fontSize: "3.6rem",
+                fontWeight: 900,
+                color: NAVY,
+                letterSpacing: "-0.04em",
+                lineHeight: 0.95,
+              }}
+            >
+              {item.speed}
+            </span>
+            <span
+              style={{
+                fontSize: "0.85rem",
+                fontWeight: 700,
+                color: NAVY_SOFT,
+                letterSpacing: "0.02em",
+              }}
+            >
+              {item.speedUnit}
+            </span>
+          </div>
+
+          {/* Plan name */}
+          <div style={{ marginTop: "8px" }}>
+            <div
+              style={{
+                fontSize: "0.95rem",
+                fontWeight: 800,
+                color: NAVY,
+                letterSpacing: "0.1em",
+                textTransform: "uppercase",
+                lineHeight: 1.1,
+              }}
+            >
+              {item.planName}
+            </div>
+            <div
+              style={{
+                fontSize: "0.78rem",
+                fontWeight: 500,
+                color: NAVY_SOFT,
+                letterSpacing: "0.02em",
+                marginTop: "1px",
+              }}
+            >
+              {item.planSubtitle}
+            </div>
+          </div>
+
+          {/* Divider */}
+          <div
+            style={{
+              width: "40px",
+              height: "2px",
+              background: accent.hex,
+              borderRadius: "2px",
+              margin: "12px 0 10px",
+              opacity: 0.7,
+            }}
+          />
+
+          {/* Price */}
+          <div
+            style={{
+              display: "flex",
+              alignItems: "baseline",
+              justifyContent: "center",
+              gap: "4px",
+            }}
+          >
+            <span
+              style={{
+                fontSize: "0.72rem",
+                fontWeight: 700,
+                color: NAVY_SOFT,
+                letterSpacing: "0.04em",
+              }}
+            >
+              {item.currency}
+            </span>
+            <span
+              style={{
+                fontSize: "1.85rem",
+                fontWeight: 900,
+                color: NAVY,
+                letterSpacing: "-0.02em",
+                lineHeight: 1,
+              }}
+            >
+              {item.price}
+            </span>
+            <span
+              style={{
+                fontSize: "0.7rem",
+                fontWeight: 600,
+                color: NAVY_SOFT,
+              }}
+            >
+              /{item.billingPeriod}
+            </span>
+          </div>
+
+          {/* Description */}
+          {item.description && (
+            <p
+              style={{
+                fontSize: "0.7rem",
+                color: NAVY_SOFT,
+                lineHeight: 1.35,
+                maxWidth: "250px",
+                margin: "8px 0 10px",
+                fontStyle: "normal",
+              }}
+            >
+              {item.description}
+            </p>
+          )}
+
+          {/* Features */}
+          <div
+            style={{
+              display: "flex",
+              flexDirection: "column",
+              gap: "5px",
+              alignItems: "flex-start",
+              width: "100%",
+              marginBottom: "14px",
+              marginTop: "2px",
+            }}
+          >
+            {item.features.map((feat, i) => (
+              <div
+                key={i}
+                style={{
+                  display: "flex",
+                  alignItems: "center",
+                  gap: "7px",
+                  width: "100%",
+                }}
+              >
+                <span
+                  style={{
+                    flexShrink: 0,
+                    width: "16px",
+                    height: "16px",
+                    borderRadius: "50%",
+                    background: accent.soft,
+                    display: "flex",
+                    alignItems: "center",
+                    justifyContent: "center",
+                  }}
+                >
+                  <Check size={10} strokeWidth={3} color={accent.hex} />
+                </span>
+                <span
+                  style={{
+                    fontSize: "0.7rem",
+                    fontWeight: 500,
+                    color: NAVY,
+                    textAlign: "left",
+                    lineHeight: 1.2,
+                  }}
+                >
+                  {feat}
+                </span>
+              </div>
+            ))}
+          </div>
+
+          {/* CTA */}
+          <div style={{ marginTop: "auto", width: "100%" }}>
+            <CtaButton item={item} featured={featured} />
+          </div>
+        </div>
+      </div>
+    );
+  };
+
   return (
     <section
       className={`relative w-full min-h-[760px] flex items-center justify-center overflow-hidden py-12 select-none ${className}`}
-      style={{ backgroundColor: BG, color: "#ffffff", fontFamily: "inherit" }}
+      style={{ backgroundColor: PAPER, color: NAVY, fontFamily: "inherit" }}
       onMouseEnter={() => setIsHovered(true)}
       onMouseLeave={() => setIsHovered(false)}
       onTouchStart={handleTouchStart}
       onTouchEnd={handleTouchEnd}
     >
-      {/* Background ambience */}
+      {/* Light premium background with subtle network motif */}
       <div className="absolute inset-0 overflow-hidden pointer-events-none z-0">
-        <img
-          src={items[currentIndex]?.img}
-          alt=""
+        <div
+          className="absolute inset-0 bg-grid"
+          style={{ opacity: 0.5 }}
+        />
+        <div
+          className="absolute inset-0"
           style={{
-            width: "100%",
-            height: "100%",
-            objectFit: "cover",
-            filter: "brightness(0.22) blur(32px)",
-            transform: "scale(1.15)",
-            transition: "opacity 1000ms ease, filter 1000ms ease",
+            background:
+              "radial-gradient(circle at 50% 30%, rgba(255,204,0,0.08) 0%, transparent 55%), linear-gradient(180deg, #FFFFFF 0%, #F7F9FB 100%)",
           }}
         />
         <div
           className="absolute inset-0"
           style={{
-            background: `radial-gradient(circle at center, rgba(7,26,51,0.3) 0%, rgba(7,26,51,0.92) 100%)`,
+            background:
+              "radial-gradient(circle at 50% 55%, rgba(7,34,72,0.05) 0%, transparent 65%)",
           }}
         />
       </div>
@@ -199,7 +475,7 @@ export function CoverFlowCarousel({
                 fontWeight: 700,
                 letterSpacing: "0.3em",
                 textTransform: "uppercase",
-                color: ACCENT,
+                color: NAVY,
                 margin: 0,
               }}
             >
@@ -211,7 +487,7 @@ export function CoverFlowCarousel({
 
         {/* 3D Coverflow stage */}
         <div
-          className="relative w-full h-[520px] flex justify-center items-center mb-8"
+          className="relative w-full h-[540px] flex justify-center items-center mb-8"
           style={{ perspective: "1400px" }}
         >
           {items.map((item, idx) => {
@@ -219,7 +495,7 @@ export function CoverFlowCarousel({
             let transform = "translateX(0px) scale(0.4) rotateY(0deg)";
             let opacity = 0;
             let zIndex = 0;
-            let filter = "brightness(0.4) blur(2px)";
+            let filter = "brightness(0.85) blur(2px)";
             let isCenter = false;
 
             if (offset === 0) {
@@ -230,24 +506,24 @@ export function CoverFlowCarousel({
               filter = "brightness(1)";
             } else if (offset === 1) {
               transform = "translateX(285px) scale(0.84) rotateY(-24deg)";
-              opacity = 0.65;
+              opacity = 0.7;
               zIndex = 20;
-              filter = "brightness(0.75)";
+              filter = "brightness(0.96)";
             } else if (offset === 2) {
               transform = "translateX(510px) scale(0.68) rotateY(-38deg)";
-              opacity = 0.38;
+              opacity = 0.4;
               zIndex = 10;
-              filter = "brightness(0.55) blur(1px)";
+              filter = "brightness(0.92) blur(1px)";
             } else if (offset === total - 1) {
               transform = "translateX(-285px) scale(0.84) rotateY(24deg)";
-              opacity = 0.65;
+              opacity = 0.7;
               zIndex = 20;
-              filter = "brightness(0.75)";
+              filter = "brightness(0.96)";
             } else if (offset === total - 2) {
               transform = "translateX(-510px) scale(0.68) rotateY(38deg)";
-              opacity = 0.38;
+              opacity = 0.4;
               zIndex = 10;
-              filter = "brightness(0.55) blur(1px)";
+              filter = "brightness(0.92) blur(1px)";
             }
 
             return (
@@ -257,137 +533,17 @@ export function CoverFlowCarousel({
                 style={{
                   position: "absolute",
                   width: "330px",
-                  height: "500px",
-                  borderRadius: "18px",
-                  overflow: "hidden",
-                  backgroundColor: CARD_BG,
-                  border: "1px solid rgba(255, 255, 255, 0.12)",
+                  height: "520px",
                   transform,
                   opacity,
                   zIndex,
                   filter,
                   transformOrigin: "center center",
                   transition: "all 800ms cubic-bezier(0.25, 1, 0.5, 1)",
-                  boxShadow: isCenter
-                    ? `0 25px 60px rgba(0,0,0,0.9), 0 0 35px rgba(255,204,0,0.25)`
-                    : "0 15px 35px rgba(0,0,0,0.5)",
                   cursor: isCenter ? "default" : "pointer",
                 }}
               >
-                <img
-                  src={item.img}
-                  alt={item.titleLine1}
-                  style={{ position: "absolute", inset: 0, width: "100%", height: "100%", objectFit: "cover" }}
-                />
-                <div
-                  style={{
-                    position: "absolute",
-                    inset: 0,
-                    background:
-                      "linear-gradient(180deg, rgba(0,0,0,0.4) 0%, rgba(0,0,0,0.1) 25%, rgba(0,0,0,0.68) 60%, rgba(0,0,0,0.96) 100%)",
-                    pointerEvents: "none",
-                    zIndex: 10,
-                  }}
-                />
-                <div
-                  style={{
-                    position: "relative",
-                    width: "100%",
-                    height: "100%",
-                    padding: "20px 18px 22px",
-                    display: "flex",
-                    flexDirection: "column",
-                    justifyContent: "space-between",
-                    textAlign: "center",
-                    zIndex: 20,
-                    opacity: isCenter ? 1 : 0,
-                    transform: isCenter ? "translateY(0px)" : "translateY(16px)",
-                    transition: "opacity 500ms ease, transform 500ms ease",
-                    pointerEvents: isCenter ? "auto" : "none",
-                  }}
-                >
-                  <div style={{ textAlign: "right", width: "100%", paddingRight: "4px" }}>
-                    <span
-                      style={{
-                        display: "inline-block",
-                        fontSize: "0.78rem",
-                        fontWeight: 600,
-                        letterSpacing: "0.06em",
-                        color: "rgba(255,255,255,0.9)",
-                        textShadow: "0 2px 6px rgba(0,0,0,0.8)",
-                      }}
-                    >
-                      {item.tag}
-                    </span>
-                  </div>
-
-                  <div
-                    style={{
-                      display: "flex",
-                      flexDirection: "column",
-                      alignItems: "center",
-                      gap: "3px",
-                      marginTop: "auto",
-                      paddingBottom: "4px",
-                    }}
-                  >
-                    <h2
-                      style={{
-                        fontSize: "1.65rem",
-                        fontWeight: 900,
-                        textTransform: "uppercase",
-                        letterSpacing: "0.04em",
-                        color: "#ffffff",
-                        margin: 0,
-                        lineHeight: 1.1,
-                        textShadow: "0 3px 12px rgba(0,0,0,0.95)",
-                      }}
-                    >
-                      {item.titleLine1}
-                    </h2>
-                    {item.titleLine2 && (
-                      <span
-                        style={{
-                          fontSize: "1.1rem",
-                          fontWeight: 700,
-                          textTransform: "uppercase",
-                          letterSpacing: "0.06em",
-                          color: "#f3f0ea",
-                          lineHeight: 1.2,
-                          textShadow: "0 3px 10px rgba(0,0,0,0.9)",
-                        }}
-                      >
-                        {item.titleLine2}
-                      </span>
-                    )}
-                    <div
-                      style={{
-                        width: "34px",
-                        height: "2px",
-                        backgroundColor: ACCENT,
-                        borderRadius: "2px",
-                        margin: "5px auto 4px",
-                        boxShadow: "0 0 8px rgba(255,204,0,0.7)",
-                      }}
-                    />
-                    {item.desc && (
-                      <p
-                        style={{
-                          fontSize: "0.82rem",
-                          fontStyle: "italic",
-                          color: "rgba(255,255,255,0.9)",
-                          maxWidth: "280px",
-                          margin: "0 0 10px",
-                          lineHeight: 1.3,
-                          textShadow: "0 2px 8px rgba(0,0,0,0.9)",
-                        }}
-                      >
-                        {item.desc}
-                      </p>
-                    )}
-                    <CtaButton item={item} />
-                  </div>
-                </div>
+                <PricingCard item={item} isCenter={isCenter} />
               </div>
             );
           })}
@@ -405,15 +561,15 @@ export function CoverFlowCarousel({
             width: "46px",
             height: "46px",
             borderRadius: "50%",
-            backgroundColor: "rgba(0,0,0,0.55)",
-            border: "1px solid rgba(255,255,255,0.2)",
-            color: "#ffffff",
+            backgroundColor: "#ffffff",
+            border: `1px solid rgba(7,34,72,0.12)`,
+            color: NAVY,
             display: "flex",
             alignItems: "center",
             justifyContent: "center",
             backdropFilter: "blur(8px)",
             cursor: "pointer",
-            boxShadow: "0 8px 24px rgba(0,0,0,0.4)",
+            boxShadow: "0 8px 24px rgba(7,34,72,0.12)",
             zIndex: 40,
             transition: "all 200ms ease",
           }}
@@ -431,15 +587,15 @@ export function CoverFlowCarousel({
             width: "46px",
             height: "46px",
             borderRadius: "50%",
-            backgroundColor: "rgba(0,0,0,0.55)",
-            border: "1px solid rgba(255,255,255,0.2)",
-            color: "#ffffff",
+            backgroundColor: "#ffffff",
+            border: `1px solid rgba(7,34,72,0.12)`,
+            color: NAVY,
             display: "flex",
             alignItems: "center",
             justifyContent: "center",
             backdropFilter: "blur(8px)",
             cursor: "pointer",
-            boxShadow: "0 8px 24px rgba(0,0,0,0.4)",
+            boxShadow: "0 8px 24px rgba(7,34,72,0.12)",
             zIndex: 40,
             transition: "all 200ms ease",
           }}
@@ -458,10 +614,10 @@ export function CoverFlowCarousel({
                 height: "8px",
                 width: idx === currentIndex ? "28px" : "8px",
                 borderRadius: "9999px",
-                backgroundColor: idx === currentIndex ? ACCENT : "rgba(255,255,255,0.25)",
+                backgroundColor: idx === currentIndex ? ACCENT : "rgba(7,34,72,0.2)",
                 border: "none",
                 cursor: "pointer",
-                boxShadow: idx === currentIndex ? "0 0 10px rgba(255,204,0,0.7)" : "none",
+                boxShadow: idx === currentIndex ? "0 0 10px rgba(255,204,0,0.5)" : "none",
                 transition: "all 300ms ease",
               }}
             />
