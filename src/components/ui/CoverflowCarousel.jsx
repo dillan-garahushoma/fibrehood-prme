@@ -147,24 +147,24 @@ export function CoverFlowCarousel({
               filter = "brightness(1)";
             } else if (offset === 1) {
               transform = `translateX(${near}px) scale(0.84) rotateY(-24deg)`;
-              opacity = 0.7;
+              opacity = isMobile ? 0.55 : 0.92;
               zIndex = 20;
-              filter = "brightness(0.96)";
+              filter = "blur(3px) brightness(0.97)";
             } else if (offset === 2) {
               transform = `translateX(${far}px) scale(0.68) rotateY(-38deg)`;
-              opacity = isMobile ? 0 : 0.4;
+              opacity = isMobile ? 0 : 0.7;
               zIndex = 10;
-              filter = "brightness(0.92) blur(1px)";
+              filter = "blur(7px) brightness(0.94)";
             } else if (offset === total - 1) {
               transform = `translateX(-${near}px) scale(0.84) rotateY(24deg)`;
-              opacity = 0.7;
+              opacity = isMobile ? 0.55 : 0.92;
               zIndex = 20;
-              filter = "brightness(0.96)";
+              filter = "blur(3px) brightness(0.97)";
             } else if (offset === total - 2) {
               transform = `translateX(-${far}px) scale(0.68) rotateY(38deg)`;
-              opacity = isMobile ? 0 : 0.4;
+              opacity = isMobile ? 0 : 0.7;
               zIndex = 10;
-              filter = "brightness(0.92) blur(1px)";
+              filter = "blur(7px) brightness(0.94)";
             }
 
             return (
@@ -180,7 +180,7 @@ export function CoverFlowCarousel({
                   zIndex,
                   filter,
                   transformOrigin: "center center",
-                  transition: "all 800ms cubic-bezier(0.25, 1, 0.5, 1)",
+                  transition: "all 1050ms cubic-bezier(0.22, 1, 0.36, 1)",
                   cursor: isCenter ? "default" : "pointer",
                 }}
               >
