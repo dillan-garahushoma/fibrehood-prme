@@ -3,7 +3,7 @@ import { Link } from "react-router-dom";
 import { motion, useReducedMotion } from "framer-motion";
 import {
   MapPin,
-  ClipboardList,
+  ClipboardCheck,
   CalendarCheck,
   Wifi,
   ArrowRight,
@@ -26,7 +26,7 @@ const STEPS = [
   },
   {
     num: "02",
-    icon: ClipboardList,
+    icon: ClipboardCheck,
     title: "Choose your plan",
     body: "Pick the fibre plan that best fits your home and lifestyle.",
     to: "/plans",
@@ -87,31 +87,28 @@ export function ConnectionJourney() {
                   {/* desktop horizontal connector between cards */}
                   {i < STEPS.length - 1 && (
                     <div
-                      className="absolute top-12 -right-6 z-20 hidden w-6 items-center lg:flex"
+                      className="absolute top-[2.75rem] -right-7 z-20 hidden w-7 items-center lg:flex"
                       aria-hidden="true"
                     >
-                      <span className="h-2 w-2 rounded-full bg-loop shadow-loop" />
                       <span className="h-px flex-1 border-t border-dashed border-line" />
-                      <span className="h-1.5 w-1.5 rounded-full bg-line" />
+                      <span className="mx-1 h-2.5 w-2.5 rounded-full bg-loop shadow-loop" />
+                      <span className="h-px flex-1 border-t border-dashed border-line" />
                     </div>
                   )}
 
                   {/* card */}
                   <div className="flex flex-1 flex-col rounded-2xl border border-line bg-card p-7 shadow-signal transition-transform duration-300 hover:-translate-y-1">
-                    {/* step number */}
-                    <div className="flex items-center justify-between">
-                      <span className="font-heading text-4xl font-extrabold leading-none tracking-tighter text-signal">
+                    {/* number badge + icon */}
+                    <div className="flex items-center gap-3">
+                      <span className="flex h-12 w-12 items-center justify-center rounded-full bg-signal font-heading text-sm font-bold tracking-tight text-paper">
                         {step.num}
                       </span>
-                      <span className="flex h-11 w-11 items-center justify-center rounded-full bg-fog text-signal">
+                      <span className="flex h-12 w-12 items-center justify-center rounded-full bg-fog text-signal">
                         <Icon className="h-5 w-5" strokeWidth={1.6} />
                       </span>
                     </div>
 
-                    {/* loop underline accent */}
-                    <span className="mt-5 h-0.5 w-10 rounded-full bg-loop" />
-
-                    <h3 className="mt-4 font-heading text-lg font-bold tracking-tight text-signal">
+                    <h3 className="mt-5 font-heading text-lg font-bold tracking-tight text-signal">
                       {step.title}
                     </h3>
                     <p className="mt-2 text-sm leading-relaxed text-ink-soft">
@@ -135,8 +132,8 @@ export function ConnectionJourney() {
                       className="mx-auto my-2 flex flex-col items-center sm:hidden"
                       aria-hidden="true"
                     >
-                      <span className="h-2 w-2 rounded-full bg-loop" />
                       <span className="h-6 w-px border-l border-dashed border-line" />
+                      <span className="h-2.5 w-2.5 rounded-full bg-loop" />
                     </div>
                   )}
                 </Reveal>
@@ -157,7 +154,8 @@ export function ConnectionJourney() {
                   Manage everything online.
                 </h3>
                 <p className="mt-1 text-sm text-ink-soft">
-                  Your Client Portal — long after the install.
+                  After installation, manage your account, pay bills, track usage
+                  and get support in one place.
                 </p>
               </div>
             </div>
