@@ -13,7 +13,7 @@ export function Logo({ className, tone = "ink", loopClass = "text-loop", showTag
   return (
     <span className={cn("inline-flex flex-col leading-none", className)}>
       <span className={cn("flex items-end font-heading font-extrabold tracking-tighter", wordColor)}>
-        <span>fibre</span>
+        <span>fibreh</span>
         <LoopMark className={cn("mx-[1px] mb-[0.18em] h-[0.74em] w-[1.18em] shrink-0", loopClass)} />
         <span>d</span>
       </span>

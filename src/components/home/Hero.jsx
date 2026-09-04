@@ -6,7 +6,6 @@ import { CoverageChecker } from "@/components/coverage/CoverageChecker";
 import { SectionLabel } from "@/components/common/SectionLabel";
 import { Reveal, entranceContainer, entranceItem } from "@/components/common/Reveal";
 import { IMAGES } from "@/data/images";
-import { Logo } from "@/components/brand/Logo";
 import { PLANS } from "@/data/plans";
 import { motion, useReducedMotion } from "framer-motion";
 
@@ -38,11 +37,10 @@ export function Hero() {
       >
         {/* Brand logo — sits at navbar level, shows through the transparent nav */}
         <div className="absolute inset-x-0 top-0 z-20 flex h-16 items-center md:h-20">
-          <Logo
-            tone="light"
-            loopClass="text-paper"
-            showTagline={false}
-            className="text-xl sm:text-2xl"
+          <img 
+            src="/white.png" 
+            alt="FibreHood" 
+            className="h-10 md:h-12 w-auto object-contain" 
           />
         </div>
 
