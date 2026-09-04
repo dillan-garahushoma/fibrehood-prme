@@ -2,7 +2,6 @@ import React from "react";
 import Hero from "@/components/home/Hero";
 import EverydayLife from "@/components/home/EverydayLife";
 import ValueProp from "@/components/home/ValueProp";
-import FlagshipPlans from "@/components/home/FlagshipPlans";
 import HowItWorks from "@/components/home/HowItWorks";
 import NetworkVisual from "@/components/home/NetworkVisual";
 import CoverflowCarousel from "@/components/ui/CoverflowCarousel";
@@ -17,11 +16,10 @@ export default function Home() {
     <>
       <Hero />
       <EverydayLife />
-      <FlagshipPlans />
+      <CoverflowCarousel />
       <HowItWorks />
       <ValueProp />
       <NetworkVisual />
-      <CoverflowCarousel />
       <RouterSection />
       <Lifestyle />
       <Testimonials />
