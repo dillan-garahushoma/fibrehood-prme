@@ -2,6 +2,7 @@ import React, { useEffect, useState } from "react";
 import { Link, useLocation } from "react-router-dom";
 import { AnimatePresence, motion } from "framer-motion";
 import { Menu, X, User, Home, Gauge, MapPin, Info, Headset, Mail } from "lucide-react";
+import { Logo } from "@/components/brand/Logo";
 import { NAV_LINKS } from "@/data/site";
 import { useNavOverDark } from "@/hooks/useNavOverDark";
 import { cn } from "@/lib/utils";
@@ -79,6 +80,10 @@ export function Navbar() {
         )}
       >
         <nav className="container-lattice flex h-16 items-center justify-between md:h-20">
+          <div className="pointer-events-none select-none opacity-0" aria-hidden="true">
+            <Logo tone="ink" />
+          </div>
+
           <div className="hidden items-center gap-8 lg:flex">
             {NAV_LINKS.map((link) => {
               const active = location.pathname === link.to;

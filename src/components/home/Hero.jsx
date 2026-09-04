@@ -36,16 +36,18 @@ export function Hero() {
         initial={reduce ? false : "hidden"}
         animate="show"
       >
+        {/* Brand logo — sits at navbar level, shows through the transparent nav */}
+        <div className="absolute inset-x-0 top-0 z-20 flex h-16 items-center md:h-20">
+          <Logo
+            tone="light"
+            loopClass="text-paper"
+            showTagline={false}
+            className="text-xl sm:text-2xl"
+          />
+        </div>
+
         {/* ── Left: headline, price, CTAs ───────────────────────────── */}
         <div className="relative z-10 my-auto lg:self-center">
-          <motion.div variants={entranceItem} className="mb-6">
-            <Logo
-              tone="light"
-              loopClass="text-paper"
-              taglineClass="text-paper/90"
-              className="text-2xl sm:text-3xl"
-            />
-          </motion.div>
           <motion.h1
             variants={entranceItem}
             className="max-w-xl font-heading text-4xl font-extrabold leading-[1.05] tracking-tighter text-paper sm:text-5xl lg:text-[3.6rem]"
