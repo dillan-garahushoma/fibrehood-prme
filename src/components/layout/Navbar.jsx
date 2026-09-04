@@ -80,12 +80,9 @@ export function Navbar() {
         )}
       >
         <nav className="container-lattice flex h-16 items-center justify-between md:h-20">
-          <Link to="/" className="focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-loop rounded-md">
-            <Logo
-              tone={solid ? "ink" : "light"}
-              loopClass={solid ? "text-loop" : "text-paper"}
-            />
-          </Link>
+          <div className="pointer-events-none select-none opacity-0" aria-hidden="true">
+            <Logo tone="ink" />
+          </div>
 
           <div className="hidden items-center gap-8 lg:flex">
             {NAV_LINKS.map((link) => {

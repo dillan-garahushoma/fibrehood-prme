@@ -1,74 +1,40 @@
 import React, { useState, useEffect, useCallback, useRef } from "react";
-import { Link } from "react-router-dom";
-import { ChevronLeft, ChevronRight, ArrowRight } from "lucide-react";
-import { IMAGES } from "@/data/images";
+import { ChevronLeft, ChevronRight } from "lucide-react";
+import { FIBRE_PRICING } from "@/data/fibrePricing";
+import PricingCard from "@/components/pricing/PricingCard";
 
-// Brand palette (inline-styled component)
-const BG = "#071a33";        // deep signal navy
-const CARD_BG = "#0f2240";   // card surface
-const ACCENT = "#FFCC00";    // loop yellow
-const ACCENT_DARK = "#E0B400";
-
-export const FLAGSHIP_PLANS = [
-  {
-    tag: "#Most popular",
-    titleLine1: "HOME 50",
-    titleLine2: "– 50 MBPS FIBRE",
-    desc: "From $60/month — family streaming, video calls and up to six devices. Unlimited data.",
-    img: IMAGES.fibreGlass,
-    ctaText: "See plans",
-    ctaUrl: "/plans",
-  },
-  {
-    tag: "#Home",
-    titleLine1: "HOME 100",
-    titleLine2: "– 100 MBPS FIBRE",
-    desc: "From $90/month — 4K streaming, gaming and a full smart home. Wi-Fi 6 router included.",
-    img: IMAGES.lightTrails,
-    ctaText: "See plans",
-    ctaUrl: "/plans",
-  },
-  {
-    tag: "#Power home",
-    titleLine1: "HOME 200",
-    titleLine2: "– 200 MBPS FIBRE",
-    desc: "From $130/month — power households and multi-room 4K with priority evening capacity.",
-    img: IMAGES.fibreConstellation,
-    ctaText: "See plans",
-    ctaUrl: "/plans",
-  },
-  {
-    tag: "#Business",
-    titleLine1: "BUSINESS 100",
-    titleLine2: "– 100/100 SYMMETRIC",
-    desc: "From $120/month — symmetric fibre for small offices, cloud apps and point-of-sale.",
-    img: IMAGES.routerNode,
-    ctaText: "See plans",
-    ctaUrl: "/plans",
-  },
-  {
-    tag: "#Enterprise",
-    titleLine1: "BUSINESS 500",
-    titleLine2: "– 500/500 SYMMETRIC",
-    desc: "From $380/month — dedicated capacity for multi-site teams, hosted voice and resilience.",
-    img: IMAGES.networkOrb,
-    ctaText: "See plans",
-    ctaUrl: "/plans",
-  },
-];
+// FibreHood brand tokens
+const NAVY = "#072248";
+const PAPER = "#F7F9FB";
+const ACCENT = "#FFCC00";
 
 export function CoverFlowCarousel({
-  items = FLAGSHIP_PLANS,
-  sectionLabel = "FLAGSHIP PLANS",
+  items = FIBRE_PRICING,
+  sectionLabel = "FIBREHOOD FIBRE PLANS",
   autoplay = true,
   autoplayDelay = 5000,
   className = "",
   onCtaClick,
 }) {
-  const [currentIndex, setCurrentIndex] = useState(0);
+  const [currentIndex, setCurrentIndex] = useState(1); // start on featured Smart card
   const [isHovered, setIsHovered] = useState(false);
+  const [vw, setVw] = useState(typeof window !== "undefined" ? window.innerWidth : 1440);
   const touchStartX = useRef(0);
   const total = items.length;
+
+  useEffect(() => {
+    const onResize = () => setVw(window.innerWidth);
+    window.addEventListener("resize", onResize);
+    return () => window.removeEventListener("resize", onResize);
+  }, []);
+
+  // Responsive stage metrics — card keeps its proportions, offsets scale with viewport.
+  const isMobile = vw < 640;
+  const isTablet = vw >= 640 && vw < 1024;
+  const cardW = isMobile ? Math.min(300, vw - 56) : isTablet ? 310 : 330;
+  const cardH = isMobile ? 500 : isTablet ? 510 : 520;
+  const near = isMobile ? Math.round(cardW * 0.62) : isTablet ? 230 : 285;
+  const far = isMobile ? Math.round(cardW * 1.05) : isTablet ? 410 : 510;
 
   const nextSlide = useCallback(() => {
     setCurrentIndex((prev) => (prev + 1) % total);
@@ -108,82 +74,33 @@ export function CoverFlowCarousel({
 
   if (!items || items.length === 0) return null;
 
-  const isInternal = (url) => url?.startsWith("/");
-
-  const CtaButton = ({ item }) => {
-    const inner = (
-      <>
-        <span>{item.ctaText || "See plans"}</span>
-        <ArrowRight size={13} strokeWidth={2.5} />
-      </>
-    );
-    const baseStyle = {
-      display: "inline-flex",
-      alignItems: "center",
-      gap: "6px",
-      padding: "7px 18px",
-      borderRadius: "9999px",
-      background: `linear-gradient(135deg, ${ACCENT} 0%, ${ACCENT_DARK} 100%)`,
-      color: "#0b1b2a",
-      fontSize: "0.72rem",
-      fontWeight: 800,
-      letterSpacing: "0.14em",
-      textTransform: "uppercase",
-      textDecoration: "none",
-      boxShadow: "0 4px 14px rgba(0,0,0,0.4), 0 0 15px rgba(255,204,0,0.3)",
-      cursor: "pointer",
-      transition: "transform 200ms ease, box-shadow 200ms ease",
-    };
-    if (isInternal(item.ctaUrl) && !onCtaClick) {
-      return (
-        <Link to={item.ctaUrl} style={baseStyle}>
-          {inner}
-        </Link>
-      );
-    }
-    return (
-      <a
-        href={item.ctaUrl || "#"}
-        onClick={(e) => {
-          if (onCtaClick) {
-            e.preventDefault();
-            onCtaClick(item);
-          }
-        }}
-        style={baseStyle}
-      >
-        {inner}
-      </a>
-    );
-  };
-
   return (
     <section
       className={`relative w-full min-h-[760px] flex items-center justify-center overflow-hidden py-12 select-none ${className}`}
-      style={{ backgroundColor: BG, color: "#ffffff", fontFamily: "inherit" }}
+      style={{ backgroundColor: PAPER, color: NAVY, fontFamily: "inherit" }}
       onMouseEnter={() => setIsHovered(true)}
       onMouseLeave={() => setIsHovered(false)}
       onTouchStart={handleTouchStart}
       onTouchEnd={handleTouchEnd}
     >
-      {/* Background ambience */}
+      {/* Light premium background with subtle network motif */}
       <div className="absolute inset-0 overflow-hidden pointer-events-none z-0">
-        <img
-          src={items[currentIndex]?.img}
-          alt=""
+        <div
+          className="absolute inset-0 bg-grid"
+          style={{ opacity: 0.5 }}
+        />
+        <div
+          className="absolute inset-0"
           style={{
-            width: "100%",
-            height: "100%",
-            objectFit: "cover",
-            filter: "brightness(0.22) blur(32px)",
-            transform: "scale(1.15)",
-            transition: "opacity 1000ms ease, filter 1000ms ease",
+            background:
+              "radial-gradient(circle at 50% 30%, rgba(255,204,0,0.08) 0%, transparent 55%), linear-gradient(180deg, #FFFFFF 0%, #F7F9FB 100%)",
           }}
         />
         <div
           className="absolute inset-0"
           style={{
-            background: `radial-gradient(circle at center, rgba(7,26,51,0.3) 0%, rgba(7,26,51,0.92) 100%)`,
+            background:
+              "radial-gradient(circle at 50% 55%, rgba(7,34,72,0.05) 0%, transparent 65%)",
           }}
         />
       </div>
@@ -199,7 +116,7 @@ export function CoverFlowCarousel({
                 fontWeight: 700,
                 letterSpacing: "0.3em",
                 textTransform: "uppercase",
-                color: ACCENT,
+                color: NAVY,
                 margin: 0,
               }}
             >
@@ -211,15 +128,15 @@ export function CoverFlowCarousel({
 
         {/* 3D Coverflow stage */}
         <div
-          className="relative w-full h-[520px] flex justify-center items-center mb-8"
-          style={{ perspective: "1400px" }}
+          className="relative w-full flex justify-center items-center mb-8"
+          style={{ perspective: "1400px", height: `${cardH + 20}px` }}
         >
           {items.map((item, idx) => {
             const offset = (idx - currentIndex + total) % total;
             let transform = "translateX(0px) scale(0.4) rotateY(0deg)";
             let opacity = 0;
             let zIndex = 0;
-            let filter = "brightness(0.4) blur(2px)";
+            let filter = "brightness(0.85) blur(2px)";
             let isCenter = false;
 
             if (offset === 0) {
@@ -229,25 +146,25 @@ export function CoverFlowCarousel({
               zIndex = 30;
               filter = "brightness(1)";
             } else if (offset === 1) {
-              transform = "translateX(285px) scale(0.84) rotateY(-24deg)";
-              opacity = 0.65;
+              transform = `translateX(${near}px) scale(0.84) rotateY(-24deg)`;
+              opacity = isMobile ? 0.55 : 0.92;
               zIndex = 20;
-              filter = "brightness(0.75)";
+              filter = "blur(3px) brightness(0.97)";
             } else if (offset === 2) {
-              transform = "translateX(510px) scale(0.68) rotateY(-38deg)";
-              opacity = 0.38;
+              transform = `translateX(${far}px) scale(0.68) rotateY(-38deg)`;
+              opacity = isMobile ? 0 : 0.7;
               zIndex = 10;
-              filter = "brightness(0.55) blur(1px)";
+              filter = "blur(7px) brightness(0.94)";
             } else if (offset === total - 1) {
-              transform = "translateX(-285px) scale(0.84) rotateY(24deg)";
-              opacity = 0.65;
+              transform = `translateX(-${near}px) scale(0.84) rotateY(24deg)`;
+              opacity = isMobile ? 0.55 : 0.92;
               zIndex = 20;
-              filter = "brightness(0.75)";
+              filter = "blur(3px) brightness(0.97)";
             } else if (offset === total - 2) {
-              transform = "translateX(-510px) scale(0.68) rotateY(38deg)";
-              opacity = 0.38;
+              transform = `translateX(-${far}px) scale(0.68) rotateY(38deg)`;
+              opacity = isMobile ? 0 : 0.7;
               zIndex = 10;
-              filter = "brightness(0.55) blur(1px)";
+              filter = "blur(7px) brightness(0.94)";
             }
 
             return (
@@ -256,138 +173,18 @@ export function CoverFlowCarousel({
                 onClick={() => !isCenter && goToSlide(idx)}
                 style={{
                   position: "absolute",
-                  width: "330px",
-                  height: "500px",
-                  borderRadius: "18px",
-                  overflow: "hidden",
-                  backgroundColor: CARD_BG,
-                  border: "1px solid rgba(255, 255, 255, 0.12)",
+                  width: `${cardW}px`,
+                  height: `${cardH}px`,
                   transform,
                   opacity,
                   zIndex,
                   filter,
                   transformOrigin: "center center",
-                  transition: "all 800ms cubic-bezier(0.25, 1, 0.5, 1)",
-                  boxShadow: isCenter
-                    ? `0 25px 60px rgba(0,0,0,0.9), 0 0 35px rgba(255,204,0,0.25)`
-                    : "0 15px 35px rgba(0,0,0,0.5)",
+                  transition: "all 1050ms cubic-bezier(0.22, 1, 0.36, 1)",
                   cursor: isCenter ? "default" : "pointer",
                 }}
               >
-                <img
-                  src={item.img}
-                  alt={item.titleLine1}
-                  style={{ position: "absolute", inset: 0, width: "100%", height: "100%", objectFit: "cover" }}
-                />
-                <div
-                  style={{
-                    position: "absolute",
-                    inset: 0,
-                    background:
-                      "linear-gradient(180deg, rgba(0,0,0,0.4) 0%, rgba(0,0,0,0.1) 25%, rgba(0,0,0,0.68) 60%, rgba(0,0,0,0.96) 100%)",
-                    pointerEvents: "none",
-                    zIndex: 10,
-                  }}
-                />
-                <div
-                  style={{
-                    position: "relative",
-                    width: "100%",
-                    height: "100%",
-                    padding: "20px 18px 22px",
-                    display: "flex",
-                    flexDirection: "column",
-                    justifyContent: "space-between",
-                    textAlign: "center",
-                    zIndex: 20,
-                    opacity: isCenter ? 1 : 0,
-                    transform: isCenter ? "translateY(0px)" : "translateY(16px)",
-                    transition: "opacity 500ms ease, transform 500ms ease",
-                    pointerEvents: isCenter ? "auto" : "none",
-                  }}
-                >
-                  <div style={{ textAlign: "right", width: "100%", paddingRight: "4px" }}>
-                    <span
-                      style={{
-                        display: "inline-block",
-                        fontSize: "0.78rem",
-                        fontWeight: 600,
-                        letterSpacing: "0.06em",
-                        color: "rgba(255,255,255,0.9)",
-                        textShadow: "0 2px 6px rgba(0,0,0,0.8)",
-                      }}
-                    >
-                      {item.tag}
-                    </span>
-                  </div>
-
-                  <div
-                    style={{
-                      display: "flex",
-                      flexDirection: "column",
-                      alignItems: "center",
-                      gap: "3px",
-                      marginTop: "auto",
-                      paddingBottom: "4px",
-                    }}
-                  >
-                    <h2
-                      style={{
-                        fontSize: "1.65rem",
-                        fontWeight: 900,
-                        textTransform: "uppercase",
-                        letterSpacing: "0.04em",
-                        color: "#ffffff",
-                        margin: 0,
-                        lineHeight: 1.1,
-                        textShadow: "0 3px 12px rgba(0,0,0,0.95)",
-                      }}
-                    >
-                      {item.titleLine1}
-                    </h2>
-                    {item.titleLine2 && (
-                      <span
-                        style={{
-                          fontSize: "1.1rem",
-                          fontWeight: 700,
-                          textTransform: "uppercase",
-                          letterSpacing: "0.06em",
-                          color: "#f3f0ea",
-                          lineHeight: 1.2,
-                          textShadow: "0 3px 10px rgba(0,0,0,0.9)",
-                        }}
-                      >
-                        {item.titleLine2}
-                      </span>
-                    )}
-                    <div
-                      style={{
-                        width: "34px",
-                        height: "2px",
-                        backgroundColor: ACCENT,
-                        borderRadius: "2px",
-                        margin: "5px auto 4px",
-                        boxShadow: "0 0 8px rgba(255,204,0,0.7)",
-                      }}
-                    />
-                    {item.desc && (
-                      <p
-                        style={{
-                          fontSize: "0.82rem",
-                          fontStyle: "italic",
-                          color: "rgba(255,255,255,0.9)",
-                          maxWidth: "280px",
-                          margin: "0 0 10px",
-                          lineHeight: 1.3,
-                          textShadow: "0 2px 8px rgba(0,0,0,0.9)",
-                        }}
-                      >
-                        {item.desc}
-                      </p>
-                    )}
-                    <CtaButton item={item} />
-                  </div>
-                </div>
+                <PricingCard item={item} isCenter={isCenter} onCtaClick={onCtaClick} />
               </div>
             );
           })}
@@ -399,21 +196,21 @@ export function CoverFlowCarousel({
           aria-label="Previous"
           style={{
             position: "absolute",
-            left: "24px",
+            left: isMobile ? "2px" : "24px",
             top: "50%",
             transform: "translateY(-50%)",
-            width: "46px",
-            height: "46px",
+            width: isMobile ? "40px" : "46px",
+            height: isMobile ? "40px" : "46px",
             borderRadius: "50%",
-            backgroundColor: "rgba(0,0,0,0.55)",
-            border: "1px solid rgba(255,255,255,0.2)",
-            color: "#ffffff",
+            backgroundColor: "#ffffff",
+            border: `1px solid rgba(7,34,72,0.12)`,
+            color: NAVY,
             display: "flex",
             alignItems: "center",
             justifyContent: "center",
             backdropFilter: "blur(8px)",
             cursor: "pointer",
-            boxShadow: "0 8px 24px rgba(0,0,0,0.4)",
+            boxShadow: "0 8px 24px rgba(7,34,72,0.12)",
             zIndex: 40,
             transition: "all 200ms ease",
           }}
@@ -425,21 +222,21 @@ export function CoverFlowCarousel({
           aria-label="Next"
           style={{
             position: "absolute",
-            right: "24px",
+            right: isMobile ? "2px" : "24px",
             top: "50%",
             transform: "translateY(-50%)",
-            width: "46px",
-            height: "46px",
+            width: isMobile ? "40px" : "46px",
+            height: isMobile ? "40px" : "46px",
             borderRadius: "50%",
-            backgroundColor: "rgba(0,0,0,0.55)",
-            border: "1px solid rgba(255,255,255,0.2)",
-            color: "#ffffff",
+            backgroundColor: "#ffffff",
+            border: `1px solid rgba(7,34,72,0.12)`,
+            color: NAVY,
             display: "flex",
             alignItems: "center",
             justifyContent: "center",
             backdropFilter: "blur(8px)",
             cursor: "pointer",
-            boxShadow: "0 8px 24px rgba(0,0,0,0.4)",
+            boxShadow: "0 8px 24px rgba(7,34,72,0.12)",
             zIndex: 40,
             transition: "all 200ms ease",
           }}
@@ -458,10 +255,10 @@ export function CoverFlowCarousel({
                 height: "8px",
                 width: idx === currentIndex ? "28px" : "8px",
                 borderRadius: "9999px",
-                backgroundColor: idx === currentIndex ? ACCENT : "rgba(255,255,255,0.25)",
+                backgroundColor: idx === currentIndex ? ACCENT : "rgba(7,34,72,0.2)",
                 border: "none",
                 cursor: "pointer",
-                boxShadow: idx === currentIndex ? "0 0 10px rgba(255,204,0,0.7)" : "none",
+                boxShadow: idx === currentIndex ? "0 0 10px rgba(255,204,0,0.5)" : "none",
                 transition: "all 300ms ease",
               }}
             />

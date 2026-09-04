@@ -6,6 +6,7 @@ import { CoverageChecker } from "@/components/coverage/CoverageChecker";
 import { SectionLabel } from "@/components/common/SectionLabel";
 import { Reveal, entranceContainer, entranceItem } from "@/components/common/Reveal";
 import { IMAGES } from "@/data/images";
+import { Logo } from "@/components/brand/Logo";
 import { PLANS } from "@/data/plans";
 import { motion, useReducedMotion } from "framer-motion";
 
@@ -35,6 +36,16 @@ export function Hero() {
         initial={reduce ? false : "hidden"}
         animate="show"
       >
+        {/* Brand logo — sits at navbar level, shows through the transparent nav */}
+        <div className="absolute inset-x-0 top-0 z-20 flex h-16 items-center md:h-20">
+          <Logo
+            tone="light"
+            loopClass="text-paper"
+            showTagline={false}
+            className="text-xl sm:text-2xl"
+          />
+        </div>
+
         {/* ── Left: headline, price, CTAs ───────────────────────────── */}
         <div className="relative z-10 my-auto lg:self-center">
           <motion.h1
