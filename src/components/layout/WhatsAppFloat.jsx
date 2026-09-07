@@ -1,16 +1,16 @@
 import React, { useEffect, useState } from "react";
 import { AnimatePresence, motion, useReducedMotion } from "framer-motion";
-import { MessageCircle, X } from "lucide-react";
+import { MessageCircle } from "lucide-react";
 import { WA_INTENTS } from "@/data/site";
 
 /**
- * Floating WhatsApp action. Appears after a short scroll. Includes a subtle
- * pulse and a dismissible hint. Hidden when reduced-motion is requested.
+ * Floating WhatsApp action — single consolidated entry point.
+ * Mobile: round yellow bubble. Desktop: navy pill with icon + text.
+ * "Speak to an advisor" replaces the old "architect" language.
  */
 export function WhatsAppFloat() {
   const reduce = useReducedMotion();
   const [show, setShow] = useState(false);
-  const [hint, setHint] = useState(true);
 
   useEffect(() => {
     if (reduce) return;
@@ -26,7 +26,7 @@ export function WhatsAppFloat() {
         href={WA_INTENTS.connect()}
         target="_blank"
         rel="noreferrer"
-        aria-label="Chat with FibreHood on WhatsApp"
+        aria-label="Speak to a FibreHood advisor on WhatsApp"
         className="fixed bottom-5 right-5 z-40 inline-flex h-12 w-12 items-center justify-center rounded-full bg-loop text-signal shadow-lift"
       >
         <MessageCircle className="h-5 w-5" />
@@ -37,43 +37,26 @@ export function WhatsAppFloat() {
   return (
     <AnimatePresence>
       {show && (
-        <motion.div
+        <motion.a
+          href={WA_INTENTS.connect()}
+          target="_blank"
+          rel="noreferrer"
+          aria-label="Speak to a FibreHood advisor on WhatsApp"
           initial={{ opacity: 0, y: 24, scale: 0.9 }}
           animate={{ opacity: 1, y: 0, scale: 1 }}
           exit={{ opacity: 0, y: 24, scale: 0.9 }}
           transition={{ duration: 0.25, ease: "easeOut" }}
-          className="fixed bottom-5 right-5 z-40 flex items-center gap-3"
+          whileHover={{ scale: 1.05 }}
+          className="fixed bottom-5 right-5 z-40 inline-flex items-center rounded-full sm:gap-2 sm:bg-signal sm:py-2.5 sm:pl-2.5 sm:pr-5 sm:shadow-lift"
         >
-          <AnimatePresence>
-            {hint && (
-              <motion.div
-                initial={{ opacity: 0, x: 10 }}
-                animate={{ opacity: 1, x: 0 }}
-                exit={{ opacity: 0, x: 10 }}
-                className="relative hidden items-center gap-2 rounded-full bg-signal px-4 py-2.5 text-sm font-medium text-paper shadow-lift sm:flex"
-              >
-                Speak to a human architect now
-                <button
-                  onClick={() => setHint(false)}
-                  aria-label="Dismiss"
-                  className="text-paper/60 hover:text-paper"
-                >
-                  <X className="h-3.5 w-3.5" />
-                </button>
-              </motion.div>
-            )}
-          </AnimatePresence>
-          <a
-            href={WA_INTENTS.connect()}
-            target="_blank"
-            rel="noreferrer"
-            aria-label="Chat with FibreHood on WhatsApp"
-            className="relative inline-flex h-14 w-14 items-center justify-center rounded-full bg-loop text-signal shadow-lift transition-transform hover:scale-105"
-          >
+          <span className="relative flex h-14 w-14 items-center justify-center rounded-full bg-loop text-signal shadow-lift sm:h-8 sm:w-8 sm:shadow-none">
             <span className="absolute inset-0 rounded-full bg-loop/60 animate-signal-pulse" />
-            <MessageCircle className="relative h-6 w-6" />
-          </a>
-        </motion.div>
+            <MessageCircle className="relative h-6 w-5 sm:h-5 sm:w-5" />
+          </span>
+          <span className="hidden text-sm font-medium text-paper sm:inline">
+            Speak to an advisor
+          </span>
+        </motion.a>
       )}
     </AnimatePresence>
   );
