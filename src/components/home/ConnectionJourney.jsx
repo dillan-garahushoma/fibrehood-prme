@@ -61,64 +61,63 @@ export function ConnectionJourney() {
         </Reveal>
       </div>
 
-      {/* ── Desktop: scroll-driven stepper ──────────────────────────── */}
-      <div
-        ref={stepperRef}
-        className={`relative ${reduce ? "hidden" : "hidden lg:block lg:h-[360vh]"}`}
-      >
-        <div className="sticky top-20 h-[calc(100vh-5rem)] overflow-hidden">
-          <div className="container-lattice grid h-full grid-cols-[260px_1fr] items-center gap-12">
-            {/* Progress rail */}
-            <StepProgressRail activeStep={activeStep} />
-
-            {/* Content panel */}
-            <div className="flex h-full flex-col justify-center">
-              <div className="relative h-[400px]">
-                <AnimatePresence mode="wait">
-                  <motion.div
-                    key={activeStep}
-                    initial={reduce ? false : { opacity: 0, y: 24 }}
-                    animate={{ opacity: 1, y: 0 }}
-                    exit={reduce ? undefined : { opacity: 0, y: -24 }}
-                    transition={{ duration: 0.4, ease: EASE }}
-                    className="h-full"
-                  >
-                    {renderStepVisual(activeStep)}
-                  </motion.div>
-                </AnimatePresence>
+      {/* ── Reduced motion: stacked steps ────────────────────────── */}
+      {reduce ? (
+        <div className="container-lattice space-y-8 pb-12">
+          {STEPS.map((step, i) => (
+            <Reveal key={step.num} className="flex flex-col gap-3">
+              <div className="flex items-center gap-3">
+                <span className="flex h-10 w-10 shrink-0 items-center justify-center rounded-full bg-signal font-heading text-sm font-bold text-paper">
+                  {step.num}
+                </span>
+                <h3 className="font-heading text-lg font-bold text-signal">{step.title}</h3>
               </div>
+              <p className="text-sm leading-relaxed text-ink-soft">{step.body}</p>
+              <div className="h-[300px] overflow-hidden rounded-2xl border border-line">
+                {renderStepVisual(i)}
+              </div>
+            </Reveal>
+          ))}
+        </div>
+      ) : (
+        /* ── Scroll-driven stepper — all viewports ─────────────── */
+        <div ref={stepperRef} className="relative h-[360vh]">
+          <div className="sticky top-16 h-[calc(100vh-4rem)] overflow-hidden lg:top-20 lg:h-[calc(100vh-5rem)]">
+            <div className="container-lattice flex h-full flex-col justify-center gap-6 lg:grid lg:grid-cols-[260px_1fr] lg:items-center lg:gap-12">
+              {/* Rail — horizontal on mobile, vertical on desktop */}
+              <StepProgressRail variant="horizontal" activeStep={activeStep} className="lg:hidden" />
+              <StepProgressRail variant="vertical" activeStep={activeStep} className="hidden lg:block" />
 
-              {/* Step text */}
-              <div className="mt-8">
-                <h3 className="font-heading text-xl font-bold tracking-tight text-signal">
-                  {STEPS[activeStep].title}
-                </h3>
-                <p className="mt-2 max-w-md text-sm leading-relaxed text-ink-soft">
-                  {STEPS[activeStep].body}
-                </p>
+              {/* Content panel */}
+              <div className="flex flex-col gap-5 lg:gap-8">
+                <div className="relative h-[260px] sm:h-[300px] lg:h-[400px]">
+                  <AnimatePresence mode="wait">
+                    <motion.div
+                      key={activeStep}
+                      initial={{ opacity: 0, y: 24 }}
+                      animate={{ opacity: 1, y: 0 }}
+                      exit={{ opacity: 0, y: -24 }}
+                      transition={{ duration: 0.4, ease: EASE }}
+                      className="h-full"
+                    >
+                      {renderStepVisual(activeStep)}
+                    </motion.div>
+                  </AnimatePresence>
+                </div>
+
+                <div>
+                  <h3 className="font-heading text-lg font-bold tracking-tight text-signal sm:text-xl">
+                    {STEPS[activeStep].title}
+                  </h3>
+                  <p className="mt-2 max-w-md text-sm leading-relaxed text-ink-soft">
+                    {STEPS[activeStep].body}
+                  </p>
+                </div>
               </div>
             </div>
           </div>
         </div>
-      </div>
-
-      {/* ── Mobile / reduced motion: stacked steps ────────────────── */}
-      <div className={`container-lattice space-y-8 pb-12 ${reduce ? "" : "lg:hidden"}`}>
-        {STEPS.map((step, i) => (
-          <Reveal key={step.num} className="flex flex-col gap-3">
-            <div className="flex items-center gap-3">
-              <span className="flex h-10 w-10 shrink-0 items-center justify-center rounded-full bg-signal font-heading text-sm font-bold text-paper">
-                {step.num}
-              </span>
-              <h3 className="font-heading text-lg font-bold text-signal">{step.title}</h3>
-            </div>
-            <p className="text-sm leading-relaxed text-ink-soft">{step.body}</p>
-            <div className="h-[300px] overflow-hidden rounded-2xl border border-line">
-              {renderStepVisual(i)}
-            </div>
-          </Reveal>
-        ))}
-      </div>
+      )}
 
       {/* ── Portal Preview ─────────────────────────────────────────── */}
       <div className="container-lattice pb-20 md:pb-28">

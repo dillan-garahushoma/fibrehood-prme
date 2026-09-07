@@ -8,9 +8,36 @@ const STEPS = [
   { num: "04", title: "Get connected" },
 ];
 
-export function StepProgressRail({ activeStep }) {
+export function StepProgressRail({ activeStep, variant = "vertical", className }) {
+  if (variant === "horizontal") {
+    return (
+      <div className={cn("flex items-center justify-between gap-1", className)}>
+        {STEPS.map((step, i) => (
+          <React.Fragment key={step.num}>
+            <span className={cn(
+              "relative z-10 flex h-9 w-9 shrink-0 items-center justify-center rounded-full font-heading text-xs font-bold transition-all duration-300",
+              i === activeStep
+                ? "bg-signal text-paper shadow-signal"
+                : i < activeStep
+                  ? "bg-signal/10 text-signal"
+                  : "bg-fog text-ink-soft/40"
+            )}>
+              {step.num}
+            </span>
+            {i < STEPS.length - 1 && (
+              <span className={cn(
+                "h-px flex-1 transition-colors duration-300",
+                i < activeStep ? "bg-signal/30" : "bg-line"
+              )} />
+            )}
+          </React.Fragment>
+        ))}
+      </div>
+    );
+  }
+
   return (
-    <div className="relative">
+    <div className={cn("relative", className)}>
       <span className="absolute left-[22px] top-3 h-[calc(100%-1.5rem)] w-px bg-line" aria-hidden="true" />
       <div className="space-y-1">
         {STEPS.map((step, i) => (
