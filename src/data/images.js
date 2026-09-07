@@ -15,5 +15,10 @@ export const IMAGES = {
   domainRetail: "https://media.base44.com/images/public/6a9190c938c1fe8b87ce238c/e9ee6dd60_generated_image.png",
   domainHospitality: "https://media.base44.com/images/public/6a9190c938c1fe8b87ce238c/1072f6899_generated_image.png",
   domainHealthcare: "https://media.base44.com/images/public/6a9190c938c1fe8b87ce238c/e400d5732_generated_image.png",
-  domainCoworking: "https://media.base44.com/images/public/6a9190c938c1fe8b87ce238c/ad8018c58_generated_image.png"
+  domainCoworking: "https://media.base44.com/images/public/6a9190c938c1fe8b87ce238c/ad8018c58_generated_image.png",
+  // Connection Journey step icons (line-art, navy + amber)
+  stepIcon01: "https://media.base44.com/images/public/6a9190c938c1fe8b87ce238c/8032be7a8_generated_image.png",
+  stepIcon02: "https://media.base44.com/images/public/6a9190c938c1fe8b87ce238c/aa669d252_generated_image.png",
+  stepIcon03: "https://media.base44.com/images/public/6a9190c938c1fe8b87ce238c/ce38636ef_generated_image.png",
+  stepIcon04: "https://media.base44.com/images/public/6a9190c938c1fe8b87ce238c/448335e4f_generated_image.png"
 };
