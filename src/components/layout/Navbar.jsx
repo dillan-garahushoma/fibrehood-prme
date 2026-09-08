@@ -79,7 +79,7 @@ export function Navbar() {
           solid ? "glass-nav border-b border-line/70 shadow-signal" : "bg-transparent"
         )}
       >
-        <nav className="container-lattice flex h-16 items-center justify-between md:h-20">
+        <nav className="container-lattice flex h-12 items-center justify-between md:h-14">
           <div className="pointer-events-none select-none opacity-0" aria-hidden="true">
             <Logo tone="ink" />
           </div>

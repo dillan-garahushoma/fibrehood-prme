@@ -34,7 +34,7 @@ export function Footer() {
       <div className="container-lattice relative">
         <div className="grid gap-12 py-16 md:grid-cols-12 md:py-20">
           <div className="md:col-span-4">
-            <Logo tone="ink" loopClass="text-loop" />
+            <Logo tone="ink" loopClass="text-ink" />
             <p className="mt-5 max-w-xs text-sm leading-relaxed text-ink-soft">
               FibreHood builds direct fibre connections for homes and businesses —
               coverage-first, locally supported, and straightforward from check to connection.
