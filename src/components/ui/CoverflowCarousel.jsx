@@ -15,12 +15,30 @@ export function CoverFlowCarousel({
   autoplayDelay = 5000,
   className = "",
   onCtaClick,
+  startIndex = 1,
+  transparent = false,
 }) {
-  const [currentIndex, setCurrentIndex] = useState(1); // start on featured Smart card
+  const [currentIndex, setCurrentIndex] = useState(startIndex); // start on featured Smart card
   const [isHovered, setIsHovered] = useState(false);
   const [vw, setVw] = useState(typeof window !== "undefined" ? window.innerWidth : 1440);
   const touchStartX = useRef(0);
+  const sectionRef = useRef(null);
   const total = items.length;
+
+  // Reset to the start card whenever the section scrolls out of view, so users
+  // always return to the first card instead of a mid-shuffle position.
+  useEffect(() => {
+    const node = sectionRef.current;
+    if (!node) return;
+    const observer = new IntersectionObserver(
+      ([entry]) => {
+        if (!entry.isIntersecting) setCurrentIndex(startIndex);
+      },
+      { threshold: 0.05 }
+    );
+    observer.observe(node);
+    return () => observer.disconnect();
+  }, [startIndex]);
 
   useEffect(() => {
     const onResize = () => setVw(window.innerWidth);
@@ -76,34 +94,37 @@ export function CoverFlowCarousel({
 
   return (
     <section
+      ref={sectionRef}
       className={`relative w-full min-h-[760px] flex items-center justify-center overflow-hidden py-12 select-none ${className}`}
-      style={{ backgroundColor: PAPER, color: NAVY, fontFamily: "inherit" }}
+      style={{ backgroundColor: transparent ? "transparent" : PAPER, color: NAVY, fontFamily: "inherit" }}
       onMouseEnter={() => setIsHovered(true)}
       onMouseLeave={() => setIsHovered(false)}
       onTouchStart={handleTouchStart}
       onTouchEnd={handleTouchEnd}
     >
       {/* Light premium background with subtle network motif */}
-      <div className="absolute inset-0 overflow-hidden pointer-events-none z-0">
-        <div
-          className="absolute inset-0 bg-grid"
-          style={{ opacity: 0.5 }}
-        />
-        <div
-          className="absolute inset-0"
-          style={{
-            background:
-              "radial-gradient(circle at 50% 30%, rgba(255,204,0,0.08) 0%, transparent 55%), linear-gradient(180deg, #FFFFFF 0%, #F7F9FB 100%)",
-          }}
-        />
-        <div
-          className="absolute inset-0"
-          style={{
-            background:
-              "radial-gradient(circle at 50% 55%, rgba(7,34,72,0.05) 0%, transparent 65%)",
-          }}
-        />
-      </div>
+      {!transparent && (
+        <div className="absolute inset-0 overflow-hidden pointer-events-none z-0">
+          <div
+            className="absolute inset-0 bg-grid"
+            style={{ opacity: 0.5 }}
+          />
+          <div
+            className="absolute inset-0"
+            style={{
+              background:
+                "radial-gradient(circle at 50% 30%, rgba(255,204,0,0.08) 0%, transparent 55%), linear-gradient(180deg, #FFFFFF 0%, #F7F9FB 100%)",
+            }}
+          />
+          <div
+            className="absolute inset-0"
+            style={{
+              background:
+                "radial-gradient(circle at 50% 55%, rgba(7,34,72,0.05) 0%, transparent 65%)",
+            }}
+          />
+        </div>
+      )}
 
       <div className="relative w-full max-w-6xl mx-auto px-4 z-10 flex flex-col items-center">
         {/* Eyebrow */}
