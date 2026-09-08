@@ -1,63 +1,42 @@
-import React from "react";
-import { motion, useReducedMotion } from "framer-motion";
-import { Image } from "@/components/ui/image";
-import { IMAGES } from "@/data/images";
-import { Wifi, ArrowDown, ArrowUp } from "lucide-react";
+import React, { useReducedMotion } from "react";
+import { motion } from "framer-motion";
+import { ConnectionGlobe } from "@/components/home/step/ConnectionGlobe";
 
+/**
+ * Step 04 — "Get connected".
+ * The globe is the focus: a rotating dot-matrix sphere with live connection
+ * badges tracking real nodes. A small status strip anchors the bottom so the
+ * "you're online" payoff reads clearly, while the periphery dissolves away.
+ */
 export function Step4Connected() {
   const reduce = useReducedMotion();
 
   return (
-    <div className="relative h-full w-full overflow-hidden rounded-2xl border border-line">
-      <Image
-        src={IMAGES.lifeEvening}
-        alt="A connected home in the evening, streaming and browsing"
-        fittingType="fill"
-        className="absolute inset-0 h-full w-full"
+    <div className="relative h-full w-full overflow-hidden">
+      {/* soft radial vignette so the globe lifts off the surface */}
+      <div
+        className="absolute inset-0"
+        style={{
+          background: "radial-gradient(ellipse 60% 55% at 50% 48%, hsl(var(--paper)) 0%, transparent 75%)",
+        }}
       />
-      <div className="absolute inset-0 bg-gradient-to-t from-signal-deep/80 via-signal-deep/20 to-transparent" />
 
+      <ConnectionGlobe />
+
+      {/* status strip */}
       <motion.div
-        className="absolute bottom-4 left-4 right-4 rounded-2xl border border-paper/15 bg-signal-deep/70 p-4 backdrop-blur-xl"
-        initial={reduce ? false : { opacity: 0, y: 20 }}
+        initial={reduce ? false : { opacity: 0, y: 16 }}
         animate={{ opacity: 1, y: 0 }}
-        transition={{ delay: 0.2, duration: 0.6, ease: [0.16, 1, 0.3, 1] }}
+        transition={{ delay: 0.25, duration: 0.6, ease: [0.16, 1, 0.3, 1] }}
+        className="absolute -bottom-3 -left-3 flex items-center gap-2.5 rounded-2xl border border-line bg-card px-4 py-3 shadow-lift"
       >
-        <div className="flex items-center justify-between">
-          <div className="flex items-center gap-2">
-            <span className="relative flex h-2.5 w-2.5">
-              <span className="absolute inline-flex h-full w-full rounded-full bg-green-400 opacity-75 animate-ping" />
-              <span className="relative inline-flex h-2.5 w-2.5 rounded-full bg-green-400" />
-            </span>
-            <span className="text-sm font-semibold text-paper">Connection Active</span>
-          </div>
-          <Wifi className="h-4 w-4 text-loop" strokeWidth={1.6} />
-        </div>
-
-        <div className="mt-4 grid grid-cols-2 gap-3">
-          <div className="rounded-xl bg-paper/10 p-3">
-            <div className="flex items-center gap-1.5 text-paper/60">
-              <ArrowDown className="h-3 w-3" strokeWidth={2} />
-              <span className="text-[11px] font-medium">Download</span>
-            </div>
-            <p className="mt-1 font-heading text-xl font-bold text-paper">
-              48<span className="text-xs font-normal text-paper/60"> Mbps</span>
-            </p>
-          </div>
-          <div className="rounded-xl bg-paper/10 p-3">
-            <div className="flex items-center gap-1.5 text-paper/60">
-              <ArrowUp className="h-3 w-3" strokeWidth={2} />
-              <span className="text-[11px] font-medium">Upload</span>
-            </div>
-            <p className="mt-1 font-heading text-xl font-bold text-paper">
-              22<span className="text-xs font-normal text-paper/60"> Mbps</span>
-            </p>
-          </div>
-        </div>
-
-        <div className="mt-3 flex items-center justify-between text-[11px] text-paper/50">
-          <span>Uptime: 99.8%</span>
-          <span>Latency: 8ms</span>
+        <span className="relative flex h-2.5 w-2.5">
+          <span className="absolute inline-flex h-full w-full rounded-full bg-green-400 opacity-75 animate-ping" />
+          <span className="relative inline-flex h-2.5 w-2.5 rounded-full bg-green-500" />
+        </span>
+        <div className="leading-tight">
+          <p className="text-xs font-bold text-signal">You're connected</p>
+          <p className="text-[10px] text-ink-soft">Live · 99.8% uptime</p>
         </div>
       </motion.div>
     </div>

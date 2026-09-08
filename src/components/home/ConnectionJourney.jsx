@@ -9,10 +9,22 @@ import { PortalPreview } from "@/components/home/PortalPreview";
 import { cn } from "@/lib/utils";
 
 const STEPS = [
-  { title: "Check coverage", body: "It starts with a simple check. Enter your address to instantly see if FibreHood's blazing-fast network is available in your neighborhood." },
-  { title: "Choose your plan", body: "Once you're in the zone, choose a fibre plan tailored to your lifestyle—whether you're streaming in 4K, working from home, or gaming without lag." },
-  { title: "Schedule installation", body: "Next, you pick a time that works for you. Our expert technicians handle the entire installation quickly and cleanly, with zero hassle." },
-  { title: "Get connected", body: "That's it. We take care of the setup so you can start enjoying seamless, ultra-reliable internet from day one." }
+  {
+    title: "Check coverage",
+    body: "Type your address. In seconds, you'll know exactly what speeds are live at your door — no sales calls, no waiting on hold. Most homes qualify on the spot."
+  },
+  {
+    title: "Choose your plan",
+    body: "Pick the speed that fits your life. One transparent price, no hidden fees, no surprises at checkout. Upgrade or downgrade anytime you change your mind."
+  },
+  {
+    title: "Schedule installation",
+    body: "Grab a slot that suits you. Our certified crew arrives on time, runs the fibre cleanly, and leaves your space exactly as they found it — usually in under two hours."
+  },
+  {
+    title: "Get connected",
+    body: "You're live. Stream, work, game, and run the whole house on a connection built to stay up — backed by real local support the rare day it doesn't."
+  }
 ];
 
 // Deliberate, buttery-smooth ease (Apple-style)
