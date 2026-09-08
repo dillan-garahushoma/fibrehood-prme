@@ -1,10 +1,10 @@
 import React from "react";
 import { Link } from "react-router-dom";
 import { ArrowRight } from "lucide-react";
-import { Image } from "@/components/ui/image";
 import { Reveal } from "@/components/common/Reveal";
 import { SectionLabel } from "@/components/common/SectionLabel";
 import { IMAGES } from "@/data/images";
+import whyFibreHoodBackground from "../../../img-hero-7.jpg";
 
 /**
  * Section 05 — "Why FibreHood?"
@@ -42,8 +42,17 @@ const PROOF = [
 
 export function ValueProp() {
   return (
-    <section className="relative bg-paper py-24 md:py-36">
-      <div className="container-lattice">
+    <section className="relative isolate overflow-hidden py-24 md:py-36">
+      <div className="pointer-events-none absolute -inset-2" aria-hidden="true">
+        <img
+          src={whyFibreHoodBackground}
+          alt=""
+          className="h-full w-full scale-[1.04] object-cover blur-[7px]"
+        />
+        <div className="absolute inset-0 bg-paper/52" />
+      </div>
+
+      <div className="container-lattice relative z-10">
         {/* ── Head: copy + framed photo ─────────────────────────────── */}
         <div className="grid gap-12 lg:grid-cols-[minmax(0,0.96fr)_minmax(0,0.74fr)] lg:items-center lg:gap-16 xl:gap-24">
           <Reveal className="max-w-[650px]">
@@ -63,13 +72,10 @@ export function ValueProp() {
 
           <Reveal delay={0.1} className="relative">
             <figure className="relative min-h-[320px] overflow-hidden rounded-lg lg:min-h-[430px]">
-              <Image
-                src={IMAGES.fibreInstallation}
-                alt="A FibreHood technician splicing fibre at a street-side distribution box"
-                fittingType="fill"
-                className="h-full w-full"
-                focalPointX={0.5}
-                focalPointY={0.42}
+              <img
+                src={IMAGES.domainCorporate}
+                alt="A connected corporate office workspace"
+                className="h-full w-full object-cover"
               />
               <div
                 className="pointer-events-none absolute inset-0"
@@ -116,10 +122,10 @@ export function ValueProp() {
         <Reveal delay={0.14} className="mt-12 lg:mt-16">
           <Link
             to="/about"
-            className="group inline-flex items-center gap-2 text-base font-semibold text-signal transition-colors hover:text-ink"
+            className="group relative inline-flex items-center gap-2 text-base font-semibold text-signal transition-[color,gap] duration-300 hover:gap-3 hover:text-ink after:absolute after:-bottom-1 after:left-0 after:h-px after:w-full after:origin-left after:scale-x-0 after:bg-loop after:transition-transform after:duration-300 group-hover:after:scale-x-100 motion-reduce:transition-none motion-reduce:after:transition-none"
           >
             Discover FibreHood
-            <ArrowRight className="h-4 w-4 transition-transform group-hover:translate-x-1" />
+            <ArrowRight className="h-4 w-4 transition-transform duration-300 group-hover:translate-x-1 motion-reduce:transition-none" />
           </Link>
         </Reveal>
       </div>
