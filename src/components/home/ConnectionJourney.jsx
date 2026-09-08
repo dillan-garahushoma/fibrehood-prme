@@ -1,21 +1,23 @@
-import React, { useRef, useState } from "react";
-import { motion, AnimatePresence, useScroll, useMotionValueEvent, useReducedMotion } from "framer-motion";
+import React, { useState } from "react";
+import { motion, AnimatePresence, useReducedMotion } from "framer-motion";
 import { Reveal } from "@/components/common/Reveal";
-import { StepProgressRail } from "@/components/home/StepProgressRail";
 import { Step1Coverage } from "@/components/home/step/Step1Coverage";
 import { Step2Plans } from "@/components/home/step/Step2Plans";
 import { Step3Calendar } from "@/components/home/step/Step3Calendar";
 import { Step4Connected } from "@/components/home/step/Step4Connected";
 import { PortalPreview } from "@/components/home/PortalPreview";
+import { cn } from "@/lib/utils";
 
 const STEPS = [
-  { num: "01", title: "Check coverage", body: "Enter your address to see if FibreHood is available in your area." },
-  { num: "02", title: "Choose your plan", body: "Pick the fibre plan that best fits your home and lifestyle." },
-  { num: "03", title: "Schedule installation", body: "Select a convenient time and our team will take care of the rest." },
-  { num: "04", title: "Get connected", body: "We install, set up and get you online — fast. It's that easy!" },
+  { title: "Check coverage", body: "It starts with a simple check. Enter your address to instantly see if FibreHood's blazing-fast network is available in your neighborhood." },
+  { title: "Choose your plan", body: "Once you're in the zone, choose a fibre plan tailored to your lifestyle—whether you're streaming in 4K, working from home, or gaming without lag." },
+  { title: "Schedule installation", body: "Next, you pick a time that works for you. Our expert technicians handle the entire installation quickly and cleanly, with zero hassle." },
+  { title: "Get connected", body: "That's it. We take care of the setup so you can start enjoying seamless, ultra-reliable internet from day one." }
 ];
 
-const EASE = [0.16, 1, 0.3, 1];
+// Deliberate, buttery-smooth ease (Apple-style)
+const EASE = [0.22, 1, 0.36, 1];
+const TRANSITION = { duration: 0.6, ease: EASE };
 
 function renderStepVisual(index) {
   switch (index) {
@@ -29,23 +31,12 @@ function renderStepVisual(index) {
 
 export function ConnectionJourney() {
   const reduce = useReducedMotion();
-  const stepperRef = useRef(null);
   const [activeStep, setActiveStep] = useState(0);
-
-  const { scrollYProgress } = useScroll({
-    target: stepperRef,
-    offset: ["start start", "end end"],
-  });
-
-  useMotionValueEvent(scrollYProgress, "change", (latest) => {
-    const step = Math.min(3, Math.max(0, Math.floor(latest * 4)));
-    setActiveStep(step);
-  });
 
   return (
     <section className="relative bg-paper">
       {/* ── Header ─────────────────────────────────────────────────── */}
-      <div className="container-lattice pt-20 pb-12 md:pt-28 md:pb-16">
+      <div className="container-lattice pt-20 pb-6 md:pt-28 md:pb-8">
         <Reveal className="mx-auto max-w-[600px] text-center">
           <span className="eyebrow">
             <span className="h-px w-6 bg-ink-soft/30" />
@@ -63,59 +54,134 @@ export function ConnectionJourney() {
 
       {/* ── Reduced motion: stacked steps ────────────────────────── */}
       {reduce ? (
-        <div className="container-lattice space-y-8 pb-12">
+        <div className="container-lattice space-y-16 pb-12">
           {STEPS.map((step, i) => (
-            <Reveal key={step.num} className="flex flex-col gap-3">
-              <div className="flex items-center gap-3">
-                <span className="flex h-10 w-10 shrink-0 items-center justify-center rounded-full bg-signal font-heading text-sm font-bold text-paper">
-                  {step.num}
-                </span>
-                <h3 className="font-heading text-lg font-bold text-signal">{step.title}</h3>
+            <Reveal key={i} className="flex flex-col gap-6 lg:grid lg:grid-cols-[1fr_1.2fr] lg:items-center lg:gap-24">
+              <div className="flex flex-col">
+                <h3 className="font-heading text-2xl font-bold tracking-tight text-signal lg:text-4xl mb-3 lg:mb-5">
+                  {step.title}
+                </h3>
+                <p className="text-base leading-relaxed text-ink-soft lg:text-lg">{step.body}</p>
               </div>
-              <p className="text-sm leading-relaxed text-ink-soft">{step.body}</p>
-              <div className="h-[300px] overflow-hidden rounded-2xl border border-line">
+              <div className="h-[300px] w-full overflow-hidden rounded-2xl border border-line sm:h-[400px] lg:h-[550px]">
                 {renderStepVisual(i)}
               </div>
             </Reveal>
           ))}
         </div>
       ) : (
-        /* ── Scroll-driven stepper — all viewports ─────────────── */
-        <div ref={stepperRef} className="relative h-[360vh]">
-          <div className="sticky top-16 h-[calc(100vh-4rem)] overflow-hidden lg:top-20 lg:h-[calc(100vh-5rem)]">
-            <div className="container-lattice flex h-full flex-col justify-center gap-6 lg:grid lg:grid-cols-[260px_1fr] lg:items-center lg:gap-12">
-              {/* Rail — horizontal on mobile, vertical on desktop */}
-              <StepProgressRail variant="horizontal" activeStep={activeStep} className="lg:hidden" />
-              <StepProgressRail variant="vertical" activeStep={activeStep} className="hidden lg:block" />
-
-              {/* Content panel */}
-              <div className="flex flex-col gap-5 lg:gap-8">
-                <div className="relative h-[260px] sm:h-[300px] lg:h-[400px]">
-                  <AnimatePresence mode="wait">
+        /* ── Native Scrollytelling Stepper — all viewports ─────────────── */
+        <div className="relative">
+          
+          {/* Mobile Layout */}
+          <div className="lg:hidden relative">
+            <div className="sticky top-20 z-20 bg-paper/95 backdrop-blur-md pt-4 pb-4">
+              <div className="container-lattice">
+                <div className="relative h-[280px] sm:h-[400px] w-full">
+                  <AnimatePresence>
                     <motion.div
                       key={activeStep}
-                      initial={{ opacity: 0, y: 24 }}
+                      initial={{ opacity: 0, y: 40 }}
                       animate={{ opacity: 1, y: 0 }}
-                      exit={{ opacity: 0, y: -24 }}
-                      transition={{ duration: 0.4, ease: EASE }}
-                      className="h-full"
+                      exit={{ opacity: 0, y: -40 }}
+                      transition={TRANSITION}
+                      className="absolute inset-0 h-full w-full rounded-2xl overflow-hidden border border-line shadow-sm bg-paper"
                     >
                       {renderStepVisual(activeStep)}
                     </motion.div>
                   </AnimatePresence>
                 </div>
-
-                <div>
-                  <h3 className="font-heading text-lg font-bold tracking-tight text-signal sm:text-xl">
-                    {STEPS[activeStep].title}
-                  </h3>
-                  <p className="mt-2 max-w-md text-sm leading-relaxed text-ink-soft">
-                    {STEPS[activeStep].body}
-                  </p>
-                </div>
               </div>
             </div>
+
+            <div className="container-lattice relative z-10 pb-[10vh]">
+              {STEPS.map((step, i) => (
+                <div 
+                  key={i} 
+                  className={cn(
+                    "flex flex-col",
+                    i === 0 ? "pt-8 pb-[15vh]" : "justify-center h-[50vh]"
+                  )}
+                >
+                  <motion.div
+                    onViewportEnter={() => setActiveStep(i)}
+                    initial={{ opacity: i === 0 ? 1 : 0.2 }}
+                    whileInView={{ opacity: 1 }}
+                    viewport={{ 
+                      margin: i === 0 ? "-40% 0px 0px 0px" : "-40% 0px -15% 0px", 
+                      amount: "some" 
+                    }}
+                    transition={TRANSITION}
+                  >
+                    <h3 className="font-heading text-2xl font-bold tracking-tight text-signal mb-3">
+                      {step.title}
+                    </h3>
+                    <p className="text-base leading-relaxed text-ink-soft">
+                      {step.body}
+                    </p>
+                  </motion.div>
+                </div>
+              ))}
+            </div>
           </div>
+
+          {/* Desktop Layout */}
+          <div className="hidden lg:block relative pb-[20vh]">
+            <div className="container-lattice flex flex-col lg:grid lg:grid-cols-[1fr_1.2fr] lg:gap-24">
+              
+              {/* Left: Native scrolling text */}
+              <div className="w-full">
+                {STEPS.map((step, i) => (
+                  <div 
+                    key={i} 
+                    className={cn(
+                      "flex flex-col",
+                      i === 0 ? "pt-[150px] pb-[25vh]" : "justify-center h-[60vh]"
+                    )}
+                  >
+                    <motion.div
+                      onViewportEnter={() => setActiveStep(i)}
+                      initial={{ opacity: i === 0 ? 1 : 0.2 }}
+                      whileInView={{ opacity: 1 }}
+                      viewport={{ 
+                        margin: i === 0 ? "-20% 0px 0px 0px" : "-20% 0px -20% 0px", 
+                        amount: "some" 
+                      }}
+                      transition={TRANSITION}
+                      className="max-w-md"
+                    >
+                      <h3 className="font-heading text-2xl font-bold tracking-tight text-signal lg:text-4xl mb-3 lg:mb-5">
+                        {step.title}
+                      </h3>
+                      <p className="text-base leading-relaxed text-ink-soft lg:text-lg">
+                        {step.body}
+                      </p>
+                    </motion.div>
+                  </div>
+                ))}
+              </div>
+
+              {/* Right: Sticky Content panel */}
+              <div className="relative w-full h-full">
+                <div className="sticky top-[calc(50vh-275px)] h-[550px] w-full">
+                  <AnimatePresence>
+                    <motion.div
+                      key={activeStep}
+                      initial={{ opacity: 0, y: 40 }}
+                      animate={{ opacity: 1, y: 0 }}
+                      exit={{ opacity: 0, y: -40 }}
+                      transition={TRANSITION}
+                      className="absolute inset-0 h-full w-full rounded-2xl overflow-hidden border border-line shadow-sm bg-paper"
+                    >
+                      {renderStepVisual(activeStep)}
+                    </motion.div>
+                  </AnimatePresence>
+                </div>
+              </div>
+
+            </div>
+          </div>
+          
         </div>
       )}
 
