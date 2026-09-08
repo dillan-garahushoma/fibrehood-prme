@@ -113,7 +113,7 @@ export function ConnectionJourney() {
                     initial={{ opacity: i === 0 ? 1 : 0.2 }}
                     whileInView={{ opacity: 1 }}
                     viewport={{ 
-                      margin: i === 0 ? "-40% 0px 0px 0px" : "-40% 0px -15% 0px", 
+                      margin: i === 0 ? "0px 0px -50% 0px" : "-45% 0px -45% 0px", 
                       amount: "some" 
                     }}
                     transition={TRANSITION}
@@ -149,7 +149,7 @@ export function ConnectionJourney() {
                       initial={{ opacity: i === 0 ? 1 : 0.2 }}
                       whileInView={{ opacity: 1 }}
                       viewport={{ 
-                        margin: i === 0 ? "-20% 0px 0px 0px" : "-20% 0px -20% 0px", 
+                        margin: i === 0 ? "0px 0px -50% 0px" : "-45% 0px -45% 0px", 
                         amount: "some" 
                       }}
                       transition={TRANSITION}
