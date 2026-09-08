@@ -25,14 +25,20 @@ export function CoverFlowCarousel({
   const sectionRef = useRef(null);
   const total = items.length;
 
-  // Reset to the start card whenever the section scrolls out of view, so users
-  // always return to the first card instead of a mid-shuffle position.
+  // Reset to the start card when the section leaves the viewport after being
+  // visible, so users always come back to the first card on re-entry.
   useEffect(() => {
     const node = sectionRef.current;
     if (!node) return;
+    let wasVisible = false;
     const observer = new IntersectionObserver(
       ([entry]) => {
-        if (!entry.isIntersecting) setCurrentIndex(startIndex);
+        if (entry.isIntersecting) {
+          wasVisible = true;
+        } else if (wasVisible) {
+          setCurrentIndex(startIndex);
+          wasVisible = false;
+        }
       },
       { threshold: 0.05 }
     );

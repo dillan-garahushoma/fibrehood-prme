@@ -51,11 +51,12 @@ export default function FeaturedPricing() {
           </Reveal>
         </div>
 
-        {/* Carousel — starts on the first card, no autoplay shuffling */}
+        {/* Carousel — starts on the first card, resets on re-entry, autoplay kept */}
         <CoverFlowCarousel
           items={FEATURED_ITEMS}
           sectionLabel={null}
-          autoplay={false}
+          autoplay={true}
+          autoplayDelay={5000}
           startIndex={0}
           transparent
         />
