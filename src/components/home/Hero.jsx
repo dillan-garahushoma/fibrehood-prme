@@ -36,11 +36,11 @@ export function Hero() {
         animate="show"
       >
         {/* Brand logo — sits at navbar level, shows through the transparent nav */}
-        <div className="absolute inset-x-0 top-0 z-20 flex h-[7.5rem] items-center md:h-[9rem]">
+        <div className="absolute inset-x-0 top-0 z-20 flex items-start">
           <img
             src="/white.png"
             alt="FibreHood"
-            className="h-[7.5rem] md:h-[9rem] w-auto object-contain"
+            className="-mt-9 h-[7.5rem] w-auto object-contain md:-mt-11 md:h-[9rem]"
           />
         </div>
 
