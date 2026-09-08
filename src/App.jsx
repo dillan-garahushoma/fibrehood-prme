@@ -15,7 +15,6 @@ import Contact from '@/pages/Contact';
 import FAQ from '@/pages/FAQ';
 import Privacy from '@/pages/Privacy';
 import Terms from '@/pages/Terms';
-import ConnectionDemos from '@/pages/ConnectionDemos';
 import Login from '@/pages/Login';
 import Register from '@/pages/Register';
 import ForgotPassword from '@/pages/ForgotPassword';
@@ -60,7 +59,6 @@ const AuthenticatedApp = () => {
         <Route path="/faq" element={<FAQ />} />
         <Route path="/privacy" element={<Privacy />} />
         <Route path="/terms" element={<Terms />} />
-        <Route path="/connection-demos" element={<ConnectionDemos />} />
       </Route>
       <Route path="*" element={<PageNotFound />} />
     </Routes>
