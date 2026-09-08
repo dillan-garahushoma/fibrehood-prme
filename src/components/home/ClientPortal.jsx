@@ -1,55 +1,65 @@
 import React from "react";
 import { Link } from "react-router-dom";
 import { motion, useReducedMotion } from "framer-motion";
-import { ArrowRight, CreditCard, UserCircle, Headset } from "lucide-react";
+import { ArrowRight, CreditCard, UserCircle, Headset, Wifi, Activity } from "lucide-react";
 import { Reveal } from "@/components/common/Reveal";
 import { LoopMark } from "@/components/brand/LoopMark";
 
 /**
- * Section 06 — Client Portal.
- * Shifts the page from "FibreHood sells you internet" to "FibreHood gives you
- * an ongoing digital service." A focused dashboard mockup (not the full
- * portal) sells the experience; three concise capabilities + a CTA into the
- * portal login close it out.
+ * Section 06 — Client Portal (MVP).
+ * A focused, premium dashboard mockup that sells the ongoing digital service.
+ * Dark navy "product surface" with a floating glass card, ambient loop glow,
+ * a live connection readout, usage meter, billing snapshot and quick tiles.
  */
 
 const CAPABILITIES = [
   {
     icon: UserCircle,
     title: "Manage your account",
-    body: "Keep your customer and service details in one place.",
+    body: "Customer and service details, kept in one place.",
   },
   {
     icon: CreditCard,
     title: "Stay on top of billing",
-    body: "Access statements, billing information and payment status.",
+    body: "Statements, payment status and renewal dates.",
   },
   {
     icon: Headset,
     title: "Get help when you need it",
-    body: "Find support resources and keep track of service issues.",
+    body: "Track service issues and reach support directly.",
   },
 ];
 
 const EASE = [0.16, 1, 0.3, 1];
+
+function Stat({ label, value, sub }) {
+  return (
+    <div className="rounded-xl border border-line bg-paper px-4 py-3">
+      <p className="text-[10px] font-semibold uppercase tracking-[0.14em] text-ink-soft">{label}</p>
+      <p className="mt-1 font-heading text-lg font-bold tracking-tight text-signal">{value}</p>
+      {sub && <p className="text-[10px] text-ink-soft/80">{sub}</p>}
+    </div>
+  );
+}
 
 function PortalDashboard() {
   const reduce = useReducedMotion();
 
   return (
     <div className="relative">
-      {/* ambient glow so the card reads as a product surface */}
-      <div className="pointer-events-none absolute -inset-6 -z-10 rounded-[2rem] bg-signal/5 blur-2xl" />
+      {/* ambient loop glow — the card floats on a product surface */}
+      <div className="pointer-events-none absolute -inset-8 -z-10 rounded-[2.5rem] bg-loop/10 blur-3xl" />
+      <div className="pointer-events-none absolute -inset-8 -z-10 rounded-[2.5rem] bg-signal/10 blur-2xl" />
 
       <motion.div
-        initial={reduce ? false : { opacity: 0, y: 20 }}
+        initial={reduce ? false : { opacity: 0, y: 22 }}
         whileInView={{ opacity: 1, y: 0 }}
-        viewport={{ once: true, amount: 0.3 }}
-        transition={{ duration: 0.6, ease: EASE }}
-        className="overflow-hidden rounded-2xl border border-line bg-card shadow-lift"
+        viewport={{ once: true, amount: 0.25 }}
+        transition={{ duration: 0.7, ease: EASE }}
+        className="relative overflow-hidden rounded-2xl border border-paper/15 bg-card/95 shadow-lift backdrop-blur-xl"
       >
         {/* app chrome */}
-        <div className="flex items-center justify-between border-b border-line bg-fog px-5 py-3">
+        <div className="flex items-center justify-between border-b border-line bg-fog/80 px-5 py-3">
           <div className="flex items-center gap-2">
             <LoopMark className="h-4 w-7" />
             <span className="text-xs font-semibold tracking-tight text-signal">Client Portal</span>
@@ -71,7 +81,7 @@ function PortalDashboard() {
           </div>
 
           {/* connection status */}
-          <div className="flex items-center justify-between rounded-xl border border-line bg-paper px-4 py-3">
+          <div className="flex items-center justify-between rounded-xl border border-line bg-signal/[0.04] px-4 py-3">
             <div className="flex items-center gap-2.5">
               <span className="relative flex h-2.5 w-2.5">
                 <span className="absolute inline-flex h-full w-full rounded-full bg-green-400 opacity-75 animate-ping" />
@@ -82,21 +92,36 @@ function PortalDashboard() {
                 <p className="text-sm font-semibold text-signal">Connected</p>
               </div>
             </div>
-            <span className="rounded-full bg-signal/10 px-2.5 py-1 text-[11px] font-semibold text-signal">
+            <span className="inline-flex items-center gap-1.5 rounded-full bg-signal/10 px-2.5 py-1 text-[11px] font-semibold text-signal">
+              <Wifi className="h-3 w-3" strokeWidth={2.2} />
               Fibre 40 Mbps
             </span>
           </div>
 
+          {/* usage meter */}
+          <div className="rounded-xl border border-line bg-paper px-4 py-3.5">
+            <div className="flex items-center justify-between">
+              <p className="text-[10px] font-semibold uppercase tracking-[0.14em] text-ink-soft">Data this month</p>
+              <span className="inline-flex items-center gap-1 text-[10px] font-medium text-ink-soft">
+                <Activity className="h-3 w-3 text-loop" strokeWidth={2.2} /> Fair-use, no caps
+              </span>
+            </div>
+            <div className="mt-2.5 h-1.5 w-full overflow-hidden rounded-full bg-fog">
+              <div
+                className="h-full rounded-full bg-gradient-to-r from-signal to-loop"
+                style={{ width: "62%" }}
+              />
+            </div>
+            <div className="mt-1.5 flex items-center justify-between text-[10px] text-ink-soft">
+              <span>186 GB used</span>
+              <span>unlimited on-net</span>
+            </div>
+          </div>
+
           {/* stats */}
           <div className="grid grid-cols-2 gap-3">
-            <div className="rounded-xl border border-line bg-paper px-4 py-3">
-              <p className="text-[10px] uppercase tracking-wide text-ink-soft">Account balance</p>
-              <p className="mt-0.5 font-heading text-lg font-bold text-signal">US$40.00</p>
-            </div>
-            <div className="rounded-xl border border-line bg-paper px-4 py-3">
-              <p className="text-[10px] uppercase tracking-wide text-ink-soft">Next billing date</p>
-              <p className="mt-0.5 font-heading text-lg font-bold text-signal">01 Oct</p>
-            </div>
+            <Stat label="Account balance" value="US$40.00" sub="Due 01 Oct" />
+            <Stat label="Next billing" value="01 Oct" sub="Auto-renew on" />
           </div>
 
           {/* quick tiles */}
@@ -108,7 +133,7 @@ function PortalDashboard() {
             ].map((t) => (
               <div
                 key={t.label}
-                className="flex flex-col items-center gap-2 rounded-xl border border-line bg-paper px-3 py-4"
+                className="flex flex-col items-center gap-2 rounded-xl border border-line bg-paper px-3 py-4 transition-colors hover:border-signal/30"
               >
                 <span className="grid h-9 w-9 place-items-center rounded-lg bg-signal/10 text-signal">
                   <t.icon className="h-4 w-4" strokeWidth={1.7} />
@@ -126,9 +151,10 @@ function PortalDashboard() {
 export function ClientPortal() {
   return (
     <section className="relative overflow-hidden bg-signal py-20 text-paper md:py-28">
-      {/* faint grid for a product-surface feel */}
+      {/* faint grid + glow for a product-surface feel */}
       <div className="pointer-events-none absolute inset-0 bg-grid-dark opacity-40" />
       <div className="pointer-events-none absolute -right-24 top-1/3 h-72 w-72 rounded-full bg-loop/15 blur-3xl" />
+      <div className="pointer-events-none absolute -left-24 bottom-1/4 h-72 w-72 rounded-full bg-loop/10 blur-3xl" />
 
       <div className="container-lattice relative">
         <div className="grid items-center gap-12 lg:grid-cols-2 lg:gap-16">
