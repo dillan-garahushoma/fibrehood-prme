@@ -8,80 +8,68 @@ import { IMAGES } from "@/data/images";
 
 /**
  * Section 05 — "Why FibreHood?"
- * The trust bridge: after plans + how-it-works, this introduces the company
- * behind the connection. Editorial bleed — the technician photo is frameless
- * and bleeds toward the section edge; proof points render as hairline ledger
- * rows beneath the narrative, echoing EverydayLife's ledger rhythm.
+ * Calm editorial split: frameless photo left, narrative right with generous
+ * whitespace, then proof points as a vertically-divided column grid below —
+ * each column a small label, a heading, and a short body line.
  */
 
 const PROOF = [
   {
-    title: "Reliable network",
-    body: "Fibre infrastructure engineered for dependable, everyday uptime.",
+    label: "Network",
+    title: "Reliable infrastructure",
+    body: "Fibre engineered for dependable, everyday uptime — built to stay up.",
   },
   {
-    title: "Local support",
+    label: "Support",
+    title: "Local, on the ground",
     body: "Help from people who know your network and your neighbourhood.",
   },
   {
-    title: "High-speed connectivity",
-    body: "Speeds that keep up with the whole household, all at once.",
+    label: "Speed",
+    title: "Keeps up with everyone",
+    body: "Bandwidth that holds when the whole household is online at once.",
   },
   {
-    title: "Future ready",
-    body: "A network built to grow with demand — not just to sell today.",
+    label: "Future",
+    title: "Built to grow",
+    body: "A network designed to scale with demand — not just to sell today.",
   },
 ];
 
 export function ValueProp() {
   return (
-    <section className="relative bg-paper py-20 md:py-28">
+    <section className="relative bg-paper py-24 md:py-36">
       <div className="container-lattice">
-        <div className="grid gap-10 lg:grid-cols-[1fr_1.05fr] lg:gap-16">
-          {/* ── Left: frameless photo bleed ──────────────────────────── */}
-          <Reveal className="relative lg:-ml-12 lg:pl-12">
+        {/* ── Editorial split: photo + narrative ─────────────────────── */}
+        <div className="grid gap-12 lg:grid-cols-2 lg:gap-24">
+          <Reveal className="relative">
             <Image
               src={IMAGES.fibreInstallation}
               alt="A FibreHood technician splicing fibre at a street-side distribution box"
               fittingType="fill"
-              className="aspect-[4/5] w-full sm:aspect-[5/6] lg:h-full lg:aspect-[4/5]"
+              className="aspect-[4/5] w-full lg:aspect-[5/6]"
               focalPointX={0.5}
               focalPointY={0.42}
             />
           </Reveal>
 
-          {/* ── Right: narrative + ledger ─────────────────────────────── */}
           <Reveal delay={0.08} className="flex flex-col justify-center">
             <SectionLabel>Why FibreHood</SectionLabel>
-            <span className="mt-3 h-px w-10 bg-loop" aria-hidden="true" />
 
-            <h2 className="mt-5 font-heading text-3xl font-bold leading-[1.05] tracking-tighter text-signal sm:text-4xl lg:text-[2.75rem]">
+            <h2 className="mt-8 font-heading text-4xl font-bold leading-[1.06] tracking-tighter text-signal sm:text-5xl lg:text-[3.25rem]">
               Built for today.
               <br />
               <span className="text-loop">Ready for tomorrow.</span>
             </h2>
 
-            <p className="mt-5 max-w-md text-base leading-relaxed text-ink-soft lg:text-lg">
-              Reliable connectivity starts with the network behind it. FibreHood is
-              building fibre infrastructure designed around the communities we serve —
-              delivering dependable connectivity today while expanding to reach more
-              homes tomorrow.
+            <p className="mt-7 max-w-md text-lg leading-relaxed text-ink-soft">
+              Reliable connectivity starts with the network behind it. FibreHood
+              builds fibre infrastructure around the communities we serve —
+              delivering dependable connectivity today while expanding to reach
+              more homes tomorrow.
             </p>
 
-            {/* proof points — hairline ledger rows */}
-            <div className="mt-9 divide-y divide-line border-t border-line">
-              {PROOF.map((p) => (
-                <div key={p.title} className="flex flex-col gap-1 py-4 sm:flex-row sm:items-baseline sm:gap-5">
-                  <h3 className="w-44 shrink-0 text-sm font-semibold uppercase tracking-wide text-signal">
-                    {p.title}
-                  </h3>
-                  <p className="text-sm leading-relaxed text-ink-soft">{p.body}</p>
-                </div>
-              ))}
-            </div>
-
-            {/* exit into About */}
-            <div className="mt-9">
+            <div className="mt-10">
               <Link
                 to="/about"
                 className="group inline-flex items-center gap-2 text-base font-semibold text-signal transition-colors hover:text-ink"
@@ -92,6 +80,32 @@ export function ValueProp() {
             </div>
           </Reveal>
         </div>
+
+        {/* ── Proof points: vertically-divided column grid ───────────── */}
+        <Reveal delay={0.1} className="mt-24 lg:mt-32">
+          <div className="grid grid-cols-1 border-t border-line sm:grid-cols-2 lg:grid-cols-4">
+            {PROOF.map((p, i) => (
+              <div
+                key={p.label}
+                className={[
+                  "px-0 py-8 sm:px-8 lg:py-10",
+                  i === 0 ? "sm:pl-0" : "",
+                  i === PROOF.length - 1 ? "sm:pr-0" : "",
+                  "border-line",
+                  i > 0 ? "sm:border-l" : "",
+                ].join(" ")}
+              >
+                <p className="text-[11px] font-semibold uppercase tracking-[0.22em] text-ink-soft/70">
+                  {p.label}
+                </p>
+                <h3 className="mt-4 font-heading text-xl font-semibold tracking-tight text-signal">
+                  {p.title}
+                </h3>
+                <p className="mt-3 text-sm leading-relaxed text-ink-soft">{p.body}</p>
+              </div>
+            ))}
+          </div>
+        </Reveal>
       </div>
     </section>
   );
