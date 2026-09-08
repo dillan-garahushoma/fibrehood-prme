@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import { motion, AnimatePresence, useReducedMotion } from "framer-motion";
 import { Reveal } from "@/components/common/Reveal";
-import { Step1Coverage } from "@/components/home/step/Step1Coverage";
+import { CoverageMapDemo } from "@/components/home/step/CoverageMapDemo";
 import { Step2Plans } from "@/components/home/step/Step2Plans";
 import { Step3Calendar } from "@/components/home/step/Step3Calendar";
 import { Step4Connected } from "@/components/home/step/Step4Connected";
@@ -21,7 +21,7 @@ const TRANSITION = { duration: 0.6, ease: EASE };
 
 function renderStepVisual(index) {
   switch (index) {
-    case 0: return <Step1Coverage />;
+    case 0: return <CoverageMapDemo />;
     case 1: return <Step2Plans />;
     case 2: return <Step3Calendar />;
     case 3: return <Step4Connected />;
@@ -85,7 +85,12 @@ export function ConnectionJourney() {
                       animate={{ opacity: 1, y: 0 }}
                       exit={{ opacity: 0, y: -40 }}
                       transition={TRANSITION}
-                      className="absolute inset-0 h-full w-full rounded-2xl overflow-hidden border border-line shadow-sm bg-paper"
+                      className={cn(
+                        "absolute inset-0 h-full w-full",
+                        activeStep === 0
+                          ? "overflow-visible"
+                          : "overflow-hidden rounded-2xl border border-line bg-paper shadow-sm"
+                      )}
                     >
                       {renderStepVisual(activeStep)}
                     </motion.div>
@@ -171,7 +176,12 @@ export function ConnectionJourney() {
                       animate={{ opacity: 1, y: 0 }}
                       exit={{ opacity: 0, y: -40 }}
                       transition={TRANSITION}
-                      className="absolute inset-0 h-full w-full rounded-2xl overflow-hidden border border-line shadow-sm bg-paper"
+                      className={cn(
+                        "absolute inset-0 h-full w-full",
+                        activeStep === 0
+                          ? "overflow-visible"
+                          : "overflow-hidden rounded-2xl border border-line bg-paper shadow-sm"
+                      )}
                     >
                       {renderStepVisual(activeStep)}
                     </motion.div>
