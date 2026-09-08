@@ -13,7 +13,7 @@ import { cn } from "@/lib/utils";
 const SEGMENTS = [
   { id: "all", label: "All plans" },
   { id: "home", label: "Home" },
-  { id: "business", label: "Business" }
+  { id: "business", label: "SME" }
 ];
 
 export default function Plans() {
@@ -41,7 +41,7 @@ export default function Plans() {
       <PageHero
         eyebrow="Fibre plan discovery"
         title="Find the fibre package that fits."
-        subtitle="Compare by speed, price, and what's included. Packages are indicative — your coverage check confirms availability at your address."
+        subtitle="Compare by speed, price, and what's included. Your coverage check confirms availability at your address."
       />
 
       <section className="py-16 md:py-20">
@@ -91,9 +91,9 @@ export default function Plans() {
           {/* What's included / honesty */}
           <Reveal className="mt-16 grid gap-4 sm:grid-cols-3">
             {[
-              { t: "What's included", b: "Router, installation, and support terms are listed per plan. Where a detail is confirmed at your coverage check, we say so." },
-              { t: "Contracts", b: "Plans show contract length and installation. Business plans run symmetric with priority capacity." },
-              { t: "No invented specs", b: "Pricing shown is indicative development data and clearly marked. Real figures are confirmed before you commit." }
+              { t: "What's included", b: "Router, activation, and support terms are listed per plan. Home activation from US$65; SME activation US$100." },
+              { t: "Contracts", b: "All plans run month-to-month with no lock-in. SME plans are symmetric with priority capacity." },
+              { t: "Confirm at checkout", b: "Final pricing and installation are confirmed at your coverage check before you commit." }
             ].map((x) => (
               <div key={x.t} className="rounded-2xl border border-line bg-paper p-5">
                 <h3 className="font-semibold text-signal">{x.t}</h3>

@@ -26,7 +26,7 @@ export function PlanCard({ plan, selected = false, onToggle, featured = false })
         <div className="flex items-center gap-2">
           <span className={cn("inline-flex items-center gap-1.5 rounded-full px-2.5 py-1 text-xs font-medium", isBiz ? "bg-signal text-paper" : "bg-fog text-ink-soft")}>
             {isBiz ? <Building2 className="h-3.5 w-3.5" /> : <Home className="h-3.5 w-3.5" />}
-            {isBiz ? "Business" : "Home"}
+            {isBiz ? "SME" : "Home"}
           </span>
           <span className="text-xs text-ink-soft">{plan.type}</span>
         </div>
