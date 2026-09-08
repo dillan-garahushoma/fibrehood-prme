@@ -42,6 +42,9 @@ export function PlanCard({ plan, selected = false, onToggle, featured = false })
           <span className="display-mono font-semibold text-ink">{formatSpeed(plan.upload)}</span>
           <span>upload</span>
         </div>
+        {plan.usageLabel && (
+          <p className="mt-2 text-[11px] font-semibold uppercase tracking-wider text-signal/70">{plan.usageLabel}</p>
+        )}
 
         <div className="mt-5 flex items-baseline gap-1">
           <span className="text-lg font-semibold text-signal">${plan.price}</span>
@@ -88,20 +91,20 @@ export function PlanCard({ plan, selected = false, onToggle, featured = false })
             {selected ? "Selected for comparison" : "Add to compare"}
           </button>
         )}
+        <Link
+          to="/coverage"
+          className="inline-flex w-full items-center justify-center gap-2 rounded-xl bg-signal px-4 py-3 text-sm font-semibold text-paper transition-colors hover:bg-signal-deep"
+        >
+          Check availability <ArrowRight className="h-4 w-4" />
+        </Link>
         <a
           href={WA_INTENTS.plan(plan.name)}
           target="_blank"
           rel="noreferrer"
-          className="inline-flex w-full items-center justify-center gap-2 rounded-xl bg-signal px-4 py-3 text-sm font-semibold text-paper transition-colors hover:bg-signal-deep"
+          className="mt-2 inline-flex w-full items-center justify-center gap-1.5 text-xs font-medium text-ink-soft hover:text-signal"
         >
-          <MessageCircle className="h-4 w-4 text-loop" /> Request connection
+          <MessageCircle className="h-3.5 w-3.5" /> Talk to us on WhatsApp
         </a>
-        <Link
-          to="/coverage"
-          className="mt-2 inline-flex w-full items-center justify-center gap-1 text-xs font-medium text-ink-soft hover:text-signal"
-        >
-          Check availability first <ArrowRight className="h-3 w-3" />
-        </Link>
       </div>
     </div>
   );

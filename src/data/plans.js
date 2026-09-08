@@ -17,6 +17,7 @@ export const PLANS = [
     contract: "Month-to-month",
     installation: "Activation from US$65",
     activation: "from US$65",
+    usageLabel: "Light usage",
     features: [
       "Unlimited data allowance",
       "Wi-Fi router included",
@@ -43,6 +44,7 @@ export const PLANS = [
     contract: "Month-to-month",
     installation: "Activation from US$65",
     activation: "from US$65",
+    usageLabel: "Family usage",
     features: [
       "Unlimited data allowance",
       "Wi-Fi router included",
@@ -69,6 +71,7 @@ export const PLANS = [
     contract: "Month-to-month",
     installation: "Activation from US$65",
     activation: "from US$65",
+    usageLabel: "Serious home usage",
     features: [
       "Unlimited data allowance",
       "Wi-Fi router included",
@@ -95,6 +98,7 @@ export const PLANS = [
     contract: "Month-to-month",
     installation: "Activation from US$65",
     activation: "from US$65",
+    usageLabel: "Heavy / connected home",
     features: [
       "Unlimited data allowance",
       "Wi-Fi router included",
@@ -122,6 +126,7 @@ export const PLANS = [
     contract: "Month-to-month",
     installation: "US$100 activation fee",
     activation: "US$100",
+    usageLabel: "Everyday business",
     features: [
       "Symmetric 30/30 Mbps",
       "US$100 activation fee",
@@ -148,6 +153,7 @@ export const PLANS = [
     contract: "Month-to-month",
     installation: "US$100 activation fee",
     activation: "US$100",
+    usageLabel: "Growing teams",
     features: [
       "Symmetric 50/50 Mbps",
       "US$100 activation fee",
@@ -174,6 +180,7 @@ export const PLANS = [
     contract: "Month-to-month",
     installation: "US$100 activation fee",
     activation: "US$100",
+    usageLabel: "Demanding operations",
     features: [
       "Symmetric 100/100 Mbps",
       "US$100 activation fee",
@@ -190,7 +197,7 @@ export const PLANS = [
 
 export const PLAN_CATEGORIES = [
   { id: "home", label: "Home Fibre", blurb: "Everyday connectivity for households. Activation from US$65." },
-  { id: "business", label: "SME Fibre", blurb: "Symmetric business fibre. US$100 activation fee." }
+  { id: "business", label: "SME Fibre", blurb: "Symmetric connectivity for growing businesses. US$100 activation fee." }
 ];
 
 /** Group plans by segment. */
