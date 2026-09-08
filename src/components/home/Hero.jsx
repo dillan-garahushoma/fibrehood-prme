@@ -35,15 +35,13 @@ export function Hero() {
         initial={reduce ? false : "hidden"}
         animate="show"
       >
-        {/* Brand logo — rendered in the hero, aligned to the navbar's horizontal band */}
-        <div className="absolute inset-x-0 top-0 z-20 flex h-12 items-center md:h-14">
-          <div className="container-lattice w-full">
-            <img
-              src="/white.png"
-              alt="FibreHood"
-              className="h-8 w-auto object-contain md:h-10"
-            />
-          </div>
+        {/* Brand logo — sits at navbar level, shows through the transparent nav */}
+        <div className="absolute inset-x-0 top-0 z-20 flex h-[7.5rem] items-center md:h-[9rem]">
+          <img
+            src="/white.png"
+            alt="FibreHood"
+            className="h-[7.5rem] md:h-[9rem] w-auto object-contain"
+          />
         </div>
 
         {/* ── Left: headline, price, CTAs ───────────────────────────── */}
