@@ -1,7 +1,7 @@
 import React, { useMemo, useState } from "react";
 import { Link } from "react-router-dom";
 import { Check, X, GitCompare, ArrowRight, Info } from "lucide-react";
-import { PageHero } from "@/components/common/PageHero";
+import { PlansHero } from "@/components/plans/PlansHero";
 import { PlanCard } from "@/components/plans/PlanCard";
 import { PLANS, PLAN_CATEGORIES, formatSpeed } from "@/data/plans";
 import { Reveal } from "@/components/common/Reveal";
@@ -38,13 +38,9 @@ export default function Plans() {
 
   return (
     <>
-      <PageHero
-        eyebrow="Fibre plan discovery"
-        title="Find the fibre package that fits."
-        subtitle="Compare by speed, price, and what's included. Your coverage check confirms availability at your address."
-      />
+      <PlansHero />
 
-      <section className="py-16 md:py-20">
+      <section id="plans" className="py-16 md:py-20">
         <div className="container-lattice">
           {/* Segment toggle */}
           <Reveal>
