@@ -1,6 +1,6 @@
 import React from "react";
-import { ArrowRight } from "lucide-react";
 import { Link } from "react-router-dom";
+import { ArrowRight } from "lucide-react";
 import { Image } from "@/components/ui/image";
 import { Reveal } from "@/components/common/Reveal";
 import { SectionLabel } from "@/components/common/SectionLabel";
@@ -8,31 +8,35 @@ import { IMAGES } from "@/data/images";
 
 /**
  * Section 05 — "Why FibreHood?"
- * Calm editorial split: frameless photo left, narrative right with generous
- * whitespace, then proof points as a vertically-divided column grid below —
- * each column a small label, a heading, and a short body line.
+ * Ported from a Dominus "Why" section: editorial two-column head (copy + framed
+ * photo with overlaid caption) over a hairline-divided column ledger of proof
+ * points. Typography and colour adapted to FibreHood tokens.
  */
 
 const PROOF = [
   {
-    label: "Network",
-    title: "Reliable infrastructure",
-    body: "Fibre engineered for dependable, everyday uptime — built to stay up.",
+    label: "Reliable network",
+    title: "Connectivity that holds",
+    summary:
+      "Fibre infrastructure engineered for dependable, everyday uptime — built to stay up when it matters most.",
   },
   {
-    label: "Support",
-    title: "Local, on the ground",
-    body: "Help from people who know your network and your neighbourhood.",
+    label: "Local support",
+    title: "Help that knows you",
+    summary:
+      "Support from people who know your network and your neighbourhood — not a distant call centre reading a script.",
   },
   {
-    label: "Speed",
-    title: "Keeps up with everyone",
-    body: "Bandwidth that holds when the whole household is online at once.",
+    label: "High-speed connectivity",
+    title: "Built for the whole house",
+    summary:
+      "Speeds that keep up with every stream, call, and device in the home — all running at once, without compromise.",
   },
   {
-    label: "Future",
-    title: "Built to grow",
-    body: "A network designed to scale with demand — not just to sell today.",
+    label: "Future ready",
+    title: "Designed to grow",
+    summary:
+      "A network built to scale with demand and expand to more homes — not just sold to meet today's numbers.",
   },
 ];
 
@@ -40,71 +44,82 @@ export function ValueProp() {
   return (
     <section className="relative bg-paper py-24 md:py-36">
       <div className="container-lattice">
-        {/* ── Editorial split: photo + narrative ─────────────────────── */}
-        <div className="grid gap-12 lg:grid-cols-2 lg:gap-24">
-          <Reveal className="relative">
-            <Image
-              src={IMAGES.fibreInstallation}
-              alt="A FibreHood technician splicing fibre at a street-side distribution box"
-              fittingType="fill"
-              className="aspect-[4/5] w-full lg:aspect-[5/6]"
-              focalPointX={0.5}
-              focalPointY={0.42}
-            />
-          </Reveal>
-
-          <Reveal delay={0.08} className="flex flex-col justify-center">
+        {/* ── Head: copy + framed photo ─────────────────────────────── */}
+        <div className="grid gap-12 lg:grid-cols-[minmax(0,0.96fr)_minmax(0,0.74fr)] lg:items-center lg:gap-16 xl:gap-24">
+          <Reveal className="max-w-[650px]">
             <SectionLabel>Why FibreHood</SectionLabel>
-
-            <h2 className="mt-8 font-heading text-4xl font-bold leading-[1.06] tracking-tighter text-signal sm:text-5xl lg:text-[3.25rem]">
+            <h2 className="mt-8 font-heading text-4xl font-bold leading-[1.04] tracking-tighter text-signal sm:text-5xl lg:text-[4.25rem]">
               Built for today.
               <br />
-              <span className="text-loop">Ready for tomorrow.</span>
+              <em className="font-medium italic text-loop">Ready for tomorrow.</em>
             </h2>
-
-            <p className="mt-7 max-w-md text-lg leading-relaxed text-ink-soft">
+            <p className="mt-6 max-w-[560px] text-base leading-[1.86] text-ink-soft lg:text-lg">
               Reliable connectivity starts with the network behind it. FibreHood
               builds fibre infrastructure around the communities we serve —
               delivering dependable connectivity today while expanding to reach
               more homes tomorrow.
             </p>
+          </Reveal>
 
-            <div className="mt-10">
-              <Link
-                to="/about"
-                className="group inline-flex items-center gap-2 text-base font-semibold text-signal transition-colors hover:text-ink"
-              >
-                Discover FibreHood
-                <ArrowRight className="h-4 w-4 transition-transform group-hover:translate-x-1" />
-              </Link>
-            </div>
+          <Reveal delay={0.1} className="relative">
+            <figure className="relative min-h-[320px] overflow-hidden rounded-lg border border-line shadow-lift lg:min-h-[430px]">
+              <Image
+                src={IMAGES.fibreInstallation}
+                alt="A FibreHood technician splicing fibre at a street-side distribution box"
+                fittingType="fill"
+                className="h-full w-full"
+                focalPointX={0.5}
+                focalPointY={0.42}
+              />
+              <div
+                className="pointer-events-none absolute inset-0"
+                aria-hidden="true"
+                style={{
+                  background:
+                    "linear-gradient(180deg, rgba(7,34,72,0.06), rgba(7,34,72,0.44))",
+                }}
+              />
+              <figcaption className="absolute bottom-4 left-4 z-[2] text-[0.66rem] font-semibold uppercase tracking-wide text-paper">
+                Connectivity engineered for everyday uptime
+              </figcaption>
+            </figure>
           </Reveal>
         </div>
 
-        {/* ── Proof points: vertically-divided column grid ───────────── */}
-        <Reveal delay={0.1} className="mt-24 lg:mt-32">
-          <div className="grid grid-cols-1 border-t border-line sm:grid-cols-2 lg:grid-cols-4">
-            {PROOF.map((p, i) => (
-              <div
-                key={p.label}
+        {/* ── Proof ledger: hairline-divided columns ────────────────── */}
+        <Reveal delay={0.12} className="mt-16 lg:mt-24">
+          <div className="grid grid-cols-1 border-y border-line sm:grid-cols-2 lg:grid-cols-4">
+            {PROOF.map((item, i) => (
+              <article
+                key={item.label}
                 className={[
-                  "px-0 py-8 sm:px-8 lg:py-10",
-                  i === 0 ? "sm:pl-0" : "",
-                  i === PROOF.length - 1 ? "sm:pr-0" : "",
-                  "border-line",
-                  i > 0 ? "sm:border-l" : "",
+                  "p-8 md:p-10",
+                  i < PROOF.length - 1 ? "border-b border-line sm:border-b-0 sm:border-r" : "",
                 ].join(" ")}
               >
-                <p className="text-[11px] font-semibold uppercase tracking-[0.22em] text-ink-soft/70">
-                  {p.label}
-                </p>
-                <h3 className="mt-4 font-heading text-xl font-semibold tracking-tight text-signal">
-                  {p.title}
+                <span className="mb-3 block text-[11px] font-semibold uppercase tracking-[0.22em] text-loop">
+                  {item.label}
+                </span>
+                <h3 className="font-heading text-2xl font-semibold leading-tight tracking-tight text-signal">
+                  {item.title}
                 </h3>
-                <p className="mt-3 text-sm leading-relaxed text-ink-soft">{p.body}</p>
-              </div>
+                <p className="mt-3 text-sm leading-[1.78] text-ink-soft">
+                  {item.summary}
+                </p>
+              </article>
             ))}
           </div>
+        </Reveal>
+
+        {/* ── Exit into About ────────────────────────────────────────── */}
+        <Reveal delay={0.14} className="mt-12 lg:mt-16">
+          <Link
+            to="/about"
+            className="group inline-flex items-center gap-2 text-base font-semibold text-signal transition-colors hover:text-ink"
+          >
+            Discover FibreHood
+            <ArrowRight className="h-4 w-4 transition-transform group-hover:translate-x-1" />
+          </Link>
         </Reveal>
       </div>
     </section>
