@@ -4,9 +4,7 @@ import EverydayLife from "@/components/home/EverydayLife";
 import ValueProp from "@/components/home/ValueProp";
 import ClientPortal from "@/components/home/ClientPortal";
 import ConnectionJourney from "@/components/home/ConnectionJourney";
-import NetworkVisual from "@/components/home/NetworkVisual";
 import FeaturedPricing from "@/components/home/FeaturedPricing";
-import RouterSection from "@/components/home/RouterSection";
 import Lifestyle from "@/components/home/Lifestyle";
 import Testimonials from "@/components/home/Testimonials";
 import CoverageCTA from "@/components/home/CoverageCTA";
@@ -21,8 +19,6 @@ export default function Home() {
       <ConnectionJourney />
       <ValueProp />
       <ClientPortal />
-      <NetworkVisual />
-      <RouterSection />
       <Lifestyle />
       <Testimonials />
       <CoverageCTA />
