@@ -62,7 +62,7 @@ export function ValueProp() {
           </Reveal>
 
           <Reveal delay={0.1} className="relative">
-            <figure className="relative min-h-[320px] overflow-hidden rounded-lg border border-line shadow-lift lg:min-h-[430px]">
+            <figure className="relative min-h-[320px] overflow-hidden rounded-lg lg:min-h-[430px]">
               <Image
                 src={IMAGES.fibreInstallation}
                 alt="A FibreHood technician splicing fibre at a street-side distribution box"
@@ -76,10 +76,11 @@ export function ValueProp() {
                 aria-hidden="true"
                 style={{
                   background:
-                    "linear-gradient(180deg, rgba(7,34,72,0.06), rgba(7,34,72,0.44))",
+                    "linear-gradient(180deg, rgba(7,34,72,0.02), rgba(7,34,72,0.34))",
+                  backdropFilter: "saturate(0.7) contrast(1.04)",
                 }}
               />
-              <figcaption className="absolute bottom-4 left-4 z-[2] text-[0.66rem] font-semibold uppercase tracking-wide text-paper">
+              <figcaption className="absolute bottom-4 left-4 z-[2] text-[0.66rem] font-medium uppercase tracking-wide text-paper/90">
                 Connectivity engineered for everyday uptime
               </figcaption>
             </figure>
