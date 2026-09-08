@@ -62,7 +62,7 @@ export function ValueProp() {
           </Reveal>
 
           <Reveal delay={0.1} className="relative">
-            <figure className="relative min-h-[320px] overflow-hidden rounded-lg lg:min-h-[430px]">
+            <figure className="relative min-h-[320px] overflow-hidden lg:min-h-[430px]">
               <Image
                 src={IMAGES.fibreInstallation}
                 alt="A FibreHood technician splicing fibre at a street-side distribution box"
