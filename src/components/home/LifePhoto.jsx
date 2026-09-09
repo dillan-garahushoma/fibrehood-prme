@@ -13,7 +13,7 @@ const EASE = [0.16, 1, 0.3, 1];
 export function LifePhoto({ reduce }) {
   return (
     <motion.div
-      className="relative aspect-[4/3] w-full overflow-hidden rounded-2xl lg:aspect-[6/5]"
+      className="relative aspect-[4/3] w-full overflow-hidden lg:aspect-[6/5]"
       initial={reduce ? false : { opacity: 0, y: 24 }}
       whileInView={{ opacity: 1, y: 0 }}
       viewport={{ once: true, amount: 0.25 }}
