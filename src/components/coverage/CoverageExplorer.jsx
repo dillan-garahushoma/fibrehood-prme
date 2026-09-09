@@ -12,15 +12,15 @@ import { cn } from "@/lib/utils";
 
 let nonceSeed = 0;
 
-function Legend() {
+function MapLegend() {
   return (
-    <div className="absolute bottom-3 left-3 z-[1000] flex flex-col gap-1.5 rounded-xl border border-paper/15 bg-signal/75 px-3 py-2.5 text-[11px] text-paper backdrop-blur-md">
+    <div className="absolute bottom-3 left-3 z-[1000] flex flex-wrap gap-x-4 gap-y-1.5 rounded-lg border border-line bg-paper/85 px-3 py-2 text-[11px] text-ink-soft backdrop-blur-sm">
       {STATUS_ORDER.map((s) => {
         const meta = statusMeta(s);
         return (
-          <div key={s} className="flex items-center gap-2">
-            <span className={cn("inline-block h-2 w-2 rounded-full", meta.dotClass)} />
-            <span className="text-paper/85">{meta.label}</span>
+          <div key={s} className="flex items-center gap-1.5">
+            <span className={cn("inline-block h-1.5 w-1.5 rounded-full", meta.dotClass)} />
+            <span>{meta.label}</span>
           </div>
         );
       })}
@@ -53,7 +53,7 @@ export function CoverageExplorer() {
     window.setTimeout(() => {
       setResult(resolveCoverage(input));
       setChecking(false);
-    }, 650);
+    }, 600);
   }, []);
 
   const reset = () => {
@@ -81,9 +81,9 @@ export function CoverageExplorer() {
 
   return (
     <>
-      <section className="container-lattice -mt-10 sm:-mt-14">
-        <div className="grid gap-5 lg:grid-cols-[minmax(0,420px)_minmax(0,1fr)] lg:gap-6">
-          {/* Task A — check my coverage */}
+      <section className="container-lattice">
+        <div className="grid gap-5 lg:grid-cols-[minmax(0,400px)_minmax(0,1fr)] lg:gap-8">
+          {/* Task A — check my coverage (the hero of this page) */}
           <div className="lg:sticky lg:top-24 lg:self-start">
             <AnimatePresence mode="wait">
               {checking || result ? (
@@ -98,8 +98,8 @@ export function CoverageExplorer() {
             </AnimatePresence>
           </div>
 
-          {/* The map is visual confirmation, not the hero */}
-          <div className="isolate overflow-hidden rounded-2xl border border-line bg-paper shadow-signal">
+          {/* The map is quiet visual confirmation, not the focus */}
+          <div className="overflow-hidden rounded-xl border border-line bg-fog/30">
             <CoverageMap
               areas={areas}
               activeAreaId={activeAreaId}
@@ -108,9 +108,9 @@ export function CoverageExplorer() {
               onAreaHover={setHoverId}
               onAreaLeave={() => setHoverId(null)}
               onAreaClick={selectArea}
-              className="relative h-[380px] w-full overflow-hidden sm:h-[460px] lg:h-[560px]"
+              className="relative h-[360px] w-full overflow-hidden sm:h-[440px] lg:h-[520px]"
             >
-              <Legend />
+              <MapLegend />
             </CoverageMap>
           </div>
         </div>
@@ -118,12 +118,7 @@ export function CoverageExplorer() {
 
       <NetworkExplorer areas={areas} activeAreaId={activeAreaId} onSelect={selectArea} />
 
-      <SignupFlow
-        open={signupOpen}
-        location={result}
-        onClose={() => setSignupOpen(false)}
-        onChangeAddress={reset}
-      />
+      <SignupFlow open={signupOpen} location={result} onClose={() => setSignupOpen(false)} onChangeAddress={reset} />
       <InterestFlow
         open={!!interest}
         intent={interest || LEAD_INTENT.REGISTER_INTEREST}

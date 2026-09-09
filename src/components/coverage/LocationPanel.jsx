@@ -10,7 +10,7 @@ const TABS = [
 ];
 
 const fieldClass =
-  "h-11 w-full rounded-xl border border-line bg-paper px-3.5 text-sm text-ink outline-none transition-shadow placeholder:text-ink-soft/50 focus:border-loop focus:ring-2 focus:ring-loop/30";
+  "h-11 w-full rounded-lg border border-line bg-paper px-3.5 text-sm text-ink outline-none transition-shadow placeholder:text-ink-soft/50 focus:border-signal focus:ring-2 focus:ring-signal/15";
 
 /**
  * The one place a customer tells us where they are — address search, device
@@ -94,8 +94,9 @@ export function LocationPanel({ onResolve }) {
   };
 
   return (
-    <div className="rounded-2xl border border-line bg-paper p-5 shadow-signal sm:p-6">
-      <div className="flex flex-wrap gap-1 rounded-xl border border-line bg-fog p-1">
+    <div className="rounded-xl border border-line bg-paper p-5 sm:p-6">
+      {/* Segmented tabs — paper/ink, no navy fills */}
+      <div className="flex gap-1 rounded-lg border border-line bg-fog p-1">
         {TABS.map((t) => (
           <button
             key={t.id}
@@ -106,8 +107,8 @@ export function LocationPanel({ onResolve }) {
               setAmbiguous([]);
             }}
             className={cn(
-              "h-9 flex-1 rounded-lg px-3 text-sm font-semibold transition-colors",
-              tab === t.id ? "bg-signal text-paper" : "text-ink-soft hover:text-signal"
+              "h-9 flex-1 rounded-md px-3 text-sm font-semibold transition-colors",
+              tab === t.id ? "bg-paper text-ink shadow-sm" : "text-ink-soft hover:text-ink"
             )}
           >
             {t.label}
@@ -132,7 +133,7 @@ export function LocationPanel({ onResolve }) {
                 type="button"
                 onClick={() => onQueryChange("")}
                 aria-label="Clear"
-                className="absolute right-3 top-1/2 -translate-y-1/2 text-ink-soft hover:text-signal"
+                className="absolute right-3 top-1/2 -translate-y-1/2 text-ink-soft hover:text-ink"
               >
                 <X className="h-4 w-4" />
               </button>
@@ -140,7 +141,7 @@ export function LocationPanel({ onResolve }) {
           </div>
 
           {suggestions.length > 0 && query && (
-            <ul className="mt-2 overflow-hidden rounded-xl border border-line">
+            <ul className="mt-2 overflow-hidden rounded-lg border border-line">
               {suggestions.map((s) => (
                 <li key={s.id} className="border-b border-line last:border-b-0">
                   <button
@@ -160,7 +161,7 @@ export function LocationPanel({ onResolve }) {
             <button
               type="button"
               onClick={checkAddress}
-              className="inline-flex h-12 flex-1 items-center justify-center gap-2 rounded-xl bg-signal px-6 text-sm font-semibold text-paper transition-colors hover:bg-signal-deep"
+              className="inline-flex h-12 flex-1 items-center justify-center gap-2 rounded-lg bg-ink px-6 text-sm font-semibold text-paper transition-colors hover:bg-signal"
             >
               Check coverage <ArrowRight className="h-4 w-4" />
             </button>
@@ -168,7 +169,7 @@ export function LocationPanel({ onResolve }) {
               type="button"
               onClick={useMyLocation}
               disabled={locating}
-              className="inline-flex h-12 items-center justify-center gap-2 rounded-xl border border-line bg-paper px-5 text-sm font-semibold text-ink transition-colors hover:bg-fog disabled:opacity-70"
+              className="inline-flex h-12 items-center justify-center gap-2 rounded-lg border border-line bg-paper px-5 text-sm font-semibold text-ink transition-colors hover:bg-fog disabled:opacity-70"
             >
               {locating ? <Loader2 className="h-4 w-4 animate-spin" /> : <LocateFixed className="h-4 w-4 text-loop" />}
               Use my location
@@ -214,7 +215,7 @@ export function LocationPanel({ onResolve }) {
             type="button"
             onClick={checkGuided}
             disabled={!suburbId}
-            className="inline-flex h-12 w-full items-center justify-center gap-2 rounded-xl bg-signal px-6 text-sm font-semibold text-paper transition-colors hover:bg-signal-deep disabled:opacity-50"
+            className="inline-flex h-12 w-full items-center justify-center gap-2 rounded-lg bg-ink px-6 text-sm font-semibold text-paper transition-colors hover:bg-signal disabled:opacity-50"
           >
             Check coverage <ArrowRight className="h-4 w-4" />
           </button>
@@ -222,8 +223,8 @@ export function LocationPanel({ onResolve }) {
       )}
 
       {ambiguous.length > 0 && (
-        <div className="mt-4 rounded-xl border border-line bg-fog/60 p-3.5">
-          <p className="text-sm font-semibold text-signal">We found a few matching locations</p>
+        <div className="mt-4 rounded-lg border border-line bg-fog/60 p-3.5">
+          <p className="text-sm font-semibold text-ink">We found a few matching locations</p>
           <p className="mt-0.5 text-xs text-ink-soft">Choose the right one so we can check the correct area.</p>
           <div className="mt-3 flex flex-wrap gap-2">
             {ambiguous.map((s) => (
@@ -231,7 +232,7 @@ export function LocationPanel({ onResolve }) {
                 key={s.id}
                 type="button"
                 onClick={() => pick(s)}
-                className="rounded-lg border border-line bg-paper px-3 py-1.5 text-xs font-medium text-ink transition-colors hover:border-loop"
+                className="rounded-md border border-line bg-paper px-3 py-1.5 text-xs font-medium text-ink transition-colors hover:border-signal"
               >
                 {s.label}
               </button>
@@ -241,7 +242,7 @@ export function LocationPanel({ onResolve }) {
       )}
 
       {error && (
-        <div className="mt-4 flex items-start gap-2.5 rounded-xl border border-destructive/25 bg-destructive/5 px-3.5 py-3 text-sm text-destructive">
+        <div className="mt-4 flex items-start gap-2.5 rounded-lg border border-destructive/25 bg-destructive/5 px-3.5 py-3 text-sm text-destructive">
           <AlertCircle className="mt-0.5 h-4 w-4 shrink-0" />
           <span>{error}</span>
         </div>
