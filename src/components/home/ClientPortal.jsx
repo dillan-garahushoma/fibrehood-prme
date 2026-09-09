@@ -1,16 +1,18 @@
-import React from "react";
+import React, { useState, useEffect, useRef } from "react";
 import { Link } from "react-router-dom";
-import { motion, useReducedMotion } from "framer-motion";
-import { ArrowRight, CreditCard, UserCircle, Headset } from "lucide-react";
+import { motion, AnimatePresence, useReducedMotion, useInView } from "framer-motion";
+import { ArrowRight, Check, CreditCard, Headset, UserCircle } from "lucide-react";
 import { Reveal } from "@/components/common/Reveal";
 import { LoopMark } from "@/components/brand/LoopMark";
+import { cn } from "@/lib/utils";
 
 /**
  * Section 06 — Client Portal.
- * Shifts the page from "FibreHood sells you internet" to "FibreHood gives you
- * an ongoing digital service." A focused dashboard mockup (not the full
- * portal) sells the experience; three concise capabilities + a CTA into the
- * portal login close it out.
+ * "Your FibreHood. In your hands."
+ * An interactive, tabbed showcase demonstrating the core pillars of the Client Portal:
+ * 1. Manage account
+ * 2. Stay on top of billing
+ * 3. Support / instant messaging
  */
 
 const CAPABILITIES = [
@@ -22,137 +24,265 @@ const CAPABILITIES = [
   {
     icon: CreditCard,
     title: "Stay on top of billing",
-    body: "Access statements, billing information and payment status.",
+    body: "Statements, balances and payment status, whenever you need them.",
   },
   {
     icon: Headset,
     title: "Get help when you need it",
-    body: "Find support resources and keep track of service issues.",
+    body: "Message the team that actually knows your line — no call queue.",
   },
 ];
 
-const EASE = [0.16, 1, 0.3, 1];
+const CYCLE_INTERVAL_MS = 3600;
 
-function PortalDashboard() {
-  const reduce = useReducedMotion();
+function AccountState() {
+  return (
+    <motion.div
+      key="state-0"
+      initial={{ opacity: 0, y: 10 }}
+      animate={{ opacity: 1, y: 0 }}
+      exit={{ opacity: 0, y: -10 }}
+      transition={{ duration: 0.35, ease: [0.16, 1, 0.3, 1] }}
+      className="space-y-4"
+    >
+      {/* Greeting */}
+      <div className="flex items-center justify-between">
+        <div>
+          <p className="text-xs text-paper/50">Good afternoon,</p>
+          <p className="font-heading text-xl font-extrabold tracking-tight text-paper">Morlean</p>
+        </div>
+        <div className="grid h-9 w-9 place-items-center rounded-full bg-loop text-xs font-bold text-signal shadow-sm">
+          DM
+        </div>
+      </div>
+
+      {/* Connection status */}
+      <div className="flex items-center justify-between rounded-xl border border-paper/10 bg-paper/10 px-4 py-3">
+        <div className="flex items-center gap-3">
+          <span className="relative flex h-2.5 w-2.5">
+            <span className="absolute inline-flex h-full w-full rounded-full bg-emerald-400 opacity-75 animate-ping" />
+            <span className="relative inline-flex h-2.5 w-2.5 rounded-full bg-emerald-500" />
+          </span>
+          <div>
+            <p className="text-[10px] uppercase tracking-wider text-paper/50">Your connection</p>
+            <p className="text-sm font-semibold text-paper">Connected · Fibre 40 Mbps</p>
+          </div>
+        </div>
+      </div>
+
+      {/* Grid details */}
+      <div className="grid grid-cols-2 gap-3">
+        <div className="rounded-xl border border-paper/10 bg-paper/10 px-4 py-3">
+          <p className="text-[10px] uppercase tracking-wider text-paper/50">Service address</p>
+          <p className="mt-0.5 text-sm font-semibold text-paper">14 Borrowdale Rd</p>
+        </div>
+        <div className="rounded-xl border border-paper/10 bg-paper/10 px-4 py-3">
+          <p className="text-[10px] uppercase tracking-wider text-paper/50">Plan</p>
+          <p className="mt-0.5 text-sm font-semibold text-paper">Home 40</p>
+        </div>
+      </div>
+    </motion.div>
+  );
+}
+
+function BillingState() {
+  return (
+    <motion.div
+      key="state-1"
+      initial={{ opacity: 0, y: 10 }}
+      animate={{ opacity: 1, y: 0 }}
+      exit={{ opacity: 0, y: -10 }}
+      transition={{ duration: 0.35, ease: [0.16, 1, 0.3, 1] }}
+      className="space-y-4"
+    >
+      <div className="rounded-xl border border-paper/10 bg-paper/10 p-4">
+        <div className="flex items-center justify-between">
+          <span className="text-xs text-paper/50">Amount due</span>
+          <span className="rounded-full bg-loop/20 px-2.5 py-0.5 text-[10px] font-semibold text-loop">
+            Due 01 Oct
+          </span>
+        </div>
+        <p className="mt-2 font-heading text-3xl font-extrabold tracking-tight text-paper">US$40.00</p>
+        <p className="mt-1 text-xs text-paper/50">Home 40 · 24-month plan</p>
+      </div>
+
+      <button
+        type="button"
+        className="flex w-full items-center justify-center gap-2 rounded-xl bg-loop py-3 text-sm font-bold text-signal transition-all hover:bg-loopsoft active:scale-[0.99]"
+      >
+        <CreditCard className="h-4 w-4" strokeWidth={2} />
+        Pay now
+      </button>
+
+      <div className="flex items-center gap-2 text-xs text-paper/50">
+        <Check className="h-3.5 w-3.5 text-emerald-400" strokeWidth={2.5} />
+        Auto-pay is on for this account
+      </div>
+    </motion.div>
+  );
+}
+
+function SupportState() {
+  const [typedText, setTypedText] = useState("");
+  const [showReply, setShowReply] = useState(false);
+
+  useEffect(() => {
+    let cancelled = false;
+    const phrase = "My internet's been slow since last night";
+    setTypedText("");
+    setShowReply(false);
+
+    const timer = setTimeout(async () => {
+      for (let i = 0; i <= phrase.length; i++) {
+        if (cancelled) return;
+        setTypedText(phrase.slice(0, i));
+        await new Promise((r) => setTimeout(r, 28 + Math.random() * 20));
+      }
+      if (cancelled) return;
+      await new Promise((r) => setTimeout(r, 350));
+      if (cancelled) return;
+      setShowReply(true);
+    }, 450);
+
+    return () => {
+      cancelled = true;
+      clearTimeout(timer);
+    };
+  }, []);
 
   return (
-    <div className="relative">
-      {/* ambient glow so the card reads as a product surface */}
-      <div className="pointer-events-none absolute -inset-6 -z-10 rounded-[2rem] bg-signal/5 blur-2xl" />
-
-      <motion.div
-        initial={reduce ? false : { opacity: 0, y: 20 }}
-        whileInView={{ opacity: 1, y: 0 }}
-        viewport={{ once: true, amount: 0.3 }}
-        transition={{ duration: 0.6, ease: EASE }}
-        className="overflow-hidden rounded-2xl border border-line bg-card shadow-lift"
-      >
-        {/* app chrome */}
-        <div className="flex items-center justify-between border-b border-line bg-fog px-5 py-3">
-          <div className="flex items-center gap-2">
-            <LoopMark className="h-4 w-7" />
-            <span className="text-xs font-semibold tracking-tight text-signal">Client Portal</span>
-          </div>
-          <span className="text-[10px] font-medium text-ink-soft">portal.fibrehood.app</span>
+    <motion.div
+      key="state-2"
+      initial={{ opacity: 0, y: 10 }}
+      animate={{ opacity: 1, y: 0 }}
+      exit={{ opacity: 0, y: -10 }}
+      transition={{ duration: 0.35, ease: [0.16, 1, 0.3, 1] }}
+      className="space-y-3.5"
+    >
+      <div className="flex items-start gap-2.5">
+        <span className="grid h-6 w-6 shrink-0 place-items-center rounded-full bg-loop text-[9px] font-bold text-signal">
+          FH
+        </span>
+        <div className="rounded-2xl rounded-tl-sm border border-paper/10 bg-paper/10 px-3.5 py-2.5 text-[13.5px] text-paper/90">
+          Hi — what can we help with today?
         </div>
+      </div>
 
-        {/* body */}
-        <div className="space-y-5 p-6">
-          {/* greeting */}
-          <div className="flex items-center justify-between">
-            <div>
-              <p className="text-xs text-ink-soft">Good afternoon,</p>
-              <p className="font-heading text-xl font-bold tracking-tight text-signal">Dillan</p>
-            </div>
-            <span className="grid h-9 w-9 place-items-center rounded-full bg-signal text-xs font-bold text-paper">
-              DM
-            </span>
-          </div>
+      <div className="flex items-center gap-1.5 rounded-xl border border-paper/15 bg-paper/5 px-3.5 py-2.5">
+        <span className="min-h-[20px] text-[13.5px] text-paper">
+          {typedText}
+        </span>
+        <span className="inline-block h-3.5 w-0.5 -translate-y-0.5 bg-loop animate-pulse" />
+      </div>
 
-          {/* connection status */}
-          <div className="flex items-center justify-between rounded-xl border border-line bg-paper px-4 py-3">
-            <div className="flex items-center gap-2.5">
-              <span className="relative flex h-2.5 w-2.5">
-                <span className="absolute inline-flex h-full w-full rounded-full bg-green-400 opacity-75 animate-ping" />
-                <span className="relative inline-flex h-2.5 w-2.5 rounded-full bg-green-500" />
-              </span>
-              <div className="leading-tight">
-                <p className="text-[10px] uppercase tracking-wide text-ink-soft">Your connection</p>
-                <p className="text-sm font-semibold text-signal">Connected</p>
-              </div>
-            </div>
-            <span className="rounded-full bg-signal/10 px-2.5 py-1 text-[11px] font-semibold text-signal">
-              Fibre 40 Mbps
-            </span>
+      {showReply && (
+        <motion.div
+          initial={{ opacity: 0, y: 6 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.3 }}
+          className="flex items-start gap-2.5"
+        >
+          <span className="grid h-6 w-6 shrink-0 place-items-center rounded-full bg-loop text-[9px] font-bold text-signal">
+            FH
+          </span>
+          <div className="rounded-2xl rounded-tl-sm border border-paper/10 bg-paper/10 px-3.5 py-2.5 text-[13.5px] text-paper/90">
+            Running a line check now — I'll stay on until it's sorted.
           </div>
-
-          {/* stats */}
-          <div className="grid grid-cols-2 gap-3">
-            <div className="rounded-xl border border-line bg-paper px-4 py-3">
-              <p className="text-[10px] uppercase tracking-wide text-ink-soft">Account balance</p>
-              <p className="mt-0.5 font-heading text-lg font-bold text-signal">US$40.00</p>
-            </div>
-            <div className="rounded-xl border border-line bg-paper px-4 py-3">
-              <p className="text-[10px] uppercase tracking-wide text-ink-soft">Next billing date</p>
-              <p className="mt-0.5 font-heading text-lg font-bold text-signal">01 Oct</p>
-            </div>
-          </div>
-
-          {/* quick tiles */}
-          <div className="grid grid-cols-3 gap-3">
-            {[
-              { icon: CreditCard, label: "Billing" },
-              { icon: UserCircle, label: "Account" },
-              { icon: Headset, label: "Support" },
-            ].map((t) => (
-              <div
-                key={t.label}
-                className="flex flex-col items-center gap-2 rounded-xl border border-line bg-paper px-3 py-4"
-              >
-                <span className="grid h-9 w-9 place-items-center rounded-lg bg-signal/10 text-signal">
-                  <t.icon className="h-4 w-4" strokeWidth={1.7} />
-                </span>
-                <span className="text-[11px] font-medium text-ink">{t.label}</span>
-              </div>
-            ))}
-          </div>
-        </div>
-      </motion.div>
-    </div>
+        </motion.div>
+      )}
+    </motion.div>
   );
 }
 
 export function ClientPortal() {
-  return (
-    <section className="relative overflow-hidden bg-signal py-20 text-paper md:py-28">
-      {/* faint grid for a product-surface feel */}
-      <div className="pointer-events-none absolute inset-0 bg-grid-dark opacity-40" />
-      <div className="pointer-events-none absolute -right-24 top-1/3 h-72 w-72 rounded-full bg-loop/15 blur-3xl" />
+  const [active, setActive] = useState(0);
+  const reduce = useReducedMotion();
+  const stageRef = useRef(null);
+  const isInView = useInView(stageRef, { amount: 0.3 });
+  const timerRef = useRef(null);
 
-      <div className="container-lattice relative">
-        <div className="grid items-center gap-12 lg:grid-cols-2 lg:gap-16">
-          {/* ── Left: narrative + CTA ─────────────────────────────── */}
+  // Auto-rotation when in view
+  useEffect(() => {
+    if (reduce || !isInView) return undefined;
+
+    timerRef.current = setInterval(() => {
+      setActive((prev) => (prev + 1) % CAPABILITIES.length);
+    }, CYCLE_INTERVAL_MS);
+
+    return () => {
+      if (timerRef.current) clearInterval(timerRef.current);
+    };
+  }, [isInView, reduce, active]);
+
+  const handleSelect = (index) => {
+    setActive(index);
+    if (timerRef.current) clearInterval(timerRef.current);
+  };
+
+  return (
+    <section className="relative overflow-hidden bg-signal-deep py-20 text-paper md:py-28">
+      {/* Clean homepage hero background with subtle warm glow */}
+      <div className="pointer-events-none absolute -right-24 top-[30%] h-80 w-80 rounded-full bg-loop/10 blur-[90px]" />
+
+      <div className="container-lattice relative z-10">
+        <div className="grid grid-cols-1 items-center gap-14 lg:grid-cols-2 lg:gap-16">
+          {/* ── Left: narrative + interactive capabilities + CTA ── */}
           <Reveal>
-            <span className="eyebrow text-paper/70">
+            <div className="flex items-center gap-2.5 text-xs font-semibold uppercase tracking-[0.16em] text-paper/70">
               <span className="h-px w-6 bg-paper/30" />
               Client Portal
-            </span>
-            <h2 className="mt-4 font-heading text-3xl font-bold leading-[1.05] tracking-tighter sm:text-4xl lg:text-[2.75rem]">
+            </div>
+
+            <h2 className="mt-4 font-heading text-3xl font-extrabold leading-[1.08] tracking-tight text-paper sm:text-4xl lg:text-[2.75rem]">
               Your FibreHood.
               <br />
               <span className="text-loop">In your hands.</span>
             </h2>
+
             <p className="mt-5 max-w-md text-base leading-relaxed text-paper/80 lg:text-lg">
-              Stay in control of your connection with the FibreHood Client Portal.
-              Manage your account, keep track of your service, access billing
-              information and get the support you need — all in one place.
+              Stay in control of your connection from the FibreHood Client Portal — manage your account, keep track of billing and reach support, all in one place.
             </p>
+
+            {/* Interactive capabilities buttons */}
+            <div className="mt-7 flex flex-col gap-3">
+              {CAPABILITIES.map((cap, index) => {
+                const isSelected = active === index;
+                const IconComponent = cap.icon;
+                return (
+                  <button
+                    key={cap.title}
+                    type="button"
+                    onClick={() => handleSelect(index)}
+                    className={cn(
+                      "group flex w-full items-start gap-4 rounded-2xl border p-4 text-left transition-all duration-200",
+                      isSelected
+                        ? "border-loop/40 bg-paper/10 shadow-[0_4px_24px_rgba(0,0,0,0.18)]"
+                        : "border-paper/10 bg-transparent hover:border-paper/20 hover:bg-paper/5"
+                    )}
+                  >
+                    <div
+                      className={cn(
+                        "flex h-10 w-10 shrink-0 items-center justify-center rounded-xl transition-colors duration-200",
+                        isSelected
+                          ? "bg-loop text-signal"
+                          : "bg-paper/10 text-loop group-hover:bg-paper/15"
+                      )}
+                    >
+                      <IconComponent className="h-5 w-5" strokeWidth={1.8} />
+                    </div>
+                    <div>
+                      <span className="block text-sm font-semibold text-paper">{cap.title}</span>
+                      <span className="mt-1 block text-[13.5px] leading-snug text-paper/60">{cap.body}</span>
+                    </div>
+                  </button>
+                );
+              })}
+            </div>
 
             <div className="mt-8">
               <Link
                 to="/login"
-                className="group inline-flex items-center gap-2 rounded-full bg-loop px-6 py-3 text-sm font-semibold text-signal transition-colors hover:bg-loopsoft"
+                className="group inline-flex items-center gap-2 rounded-full bg-loop px-6 py-3 text-sm font-semibold text-signal transition-colors duration-200 hover:bg-loopsoft"
               >
                 Explore Client Portal
                 <ArrowRight className="h-4 w-4 transition-transform group-hover:translate-x-1" />
@@ -166,29 +296,61 @@ export function ClientPortal() {
             </div>
           </Reveal>
 
-          {/* ── Right: dashboard mockup ──────────────────────────── */}
-          <div className="lg:pl-4">
-            <PortalDashboard />
+          {/* ── Right: Stage & Interactive Glass Panel ── */}
+          <div ref={stageRef} className="relative">
+            {/* Depth blocks in background */}
+            <div
+              className="pointer-events-none absolute -inset-6 z-0 grid grid-cols-3 gap-3 p-6 opacity-40 blur-[2.5px]"
+              aria-hidden="true"
+            >
+              <div className="flex flex-col gap-3">
+                <div className="h-14 rounded-xl bg-paper/10" />
+                <div className="h-24 rounded-xl bg-paper/10" />
+                <div className="h-10 rounded-xl bg-paper/10" />
+              </div>
+              <div className="flex flex-col gap-3 pt-6">
+                <div className="h-10 rounded-xl bg-paper/10" />
+                <div className="h-28 rounded-xl bg-paper/10" />
+              </div>
+              <div className="flex flex-col gap-3">
+                <div className="h-20 rounded-xl bg-paper/10" />
+                <div className="h-14 rounded-xl bg-paper/10" />
+                <div className="h-10 rounded-xl bg-paper/10" />
+              </div>
+            </div>
+
+            {/* Main frosted glass panel */}
+            <div
+              className="relative z-10 overflow-hidden rounded-[28px] border border-paper/15 bg-signal-deep/85 p-6 pt-9 backdrop-blur-2xl shadow-2xl sm:p-8 sm:pt-10"
+              style={{
+                WebkitMaskImage: "linear-gradient(to bottom, transparent 0, #000 36px, #000 calc(100% - 24px), transparent 100%)",
+                maskImage: "linear-gradient(to bottom, transparent 0, #000 36px, #000 calc(100% - 24px), transparent 100%)",
+              }}
+            >
+              {/* Panel head */}
+              <div className="flex items-center gap-2.5 border-b border-paper/10 pb-4">
+                <LoopMark className="h-3.5 w-6 text-loop" />
+                <span className="text-xs font-semibold text-paper/80">Client Portal</span>
+                <span className="ml-auto flex items-center gap-1.5 text-[11px] font-medium text-paper/50">
+                  <span className="relative flex h-2 w-2">
+                    <span className="absolute inline-flex h-full w-full rounded-full bg-loop opacity-75 animate-ping" />
+                    <span className="relative inline-flex h-2 w-2 rounded-full bg-loop" />
+                  </span>
+                  Live
+                </span>
+              </div>
+
+              {/* Panel body with animated state changes */}
+              <div className="min-h-[230px] pt-4">
+                <AnimatePresence mode="wait">
+                  {active === 0 && <AccountState key="state-0" />}
+                  {active === 1 && <BillingState key="state-1" />}
+                  {active === 2 && <SupportState key="state-2" />}
+                </AnimatePresence>
+              </div>
+            </div>
           </div>
         </div>
-
-        {/* ── Capabilities ──────────────────────────────────────── */}
-        <Reveal delay={0.1}>
-          <div className="mt-14 grid gap-6 sm:grid-cols-3 lg:mt-16">
-            {CAPABILITIES.map((c) => (
-              <div
-                key={c.title}
-                className="rounded-2xl border border-paper/15 bg-paper/5 p-5 backdrop-blur-sm"
-              >
-                <span className="grid h-10 w-10 place-items-center rounded-xl bg-loop/20 text-loop">
-                  <c.icon className="h-5 w-5" strokeWidth={1.7} />
-                </span>
-                <h3 className="mt-4 text-sm font-semibold text-paper">{c.title}</h3>
-                <p className="mt-1 text-sm leading-relaxed text-paper/70">{c.body}</p>
-              </div>
-            ))}
-          </div>
-        </Reveal>
       </div>
     </section>
   );
