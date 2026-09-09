@@ -2,6 +2,7 @@ import React, { useEffect } from "react";
 import { MapContainer, TileLayer, Polygon, Marker, Tooltip, useMap, ZoomControl } from "react-leaflet";
 import L from "leaflet";
 import "leaflet/dist/leaflet.css";
+import { statusMeta } from "@/data/coverageStatus";
 
 const ZIM_CENTER = [-18.6, 29.6];
 
@@ -25,23 +26,15 @@ function MapController({ flyTarget, onReady }) {
   useEffect(() => {
     if (!flyTarget?.nonce) return;
     map.flyTo([flyTarget.lat, flyTarget.lng], flyTarget.zoom ?? 14, { duration: 1.3, easeLinearity: 0.25 });
-    const onDone = () => {
-      map.off("moveend", onDone);
-      if (typeof window !== "undefined" && window.innerWidth < 640) {
-        map.panBy([0, 90], { animate: true });
-      }
-    };
-    map.on("moveend", onDone);
-    return () => map.off("moveend", onDone);
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [flyTarget?.nonce]);
 
   return null;
 }
 
-export function CoverageMap({ areas, activeAreaId, flyTarget, marker, onReady, onAreaHover, onAreaLeave, onAreaClick, children }) {
+export function CoverageMap({ areas, activeAreaId, flyTarget, marker, onReady, onAreaHover, onAreaLeave, onAreaClick, className, children }) {
   return (
-    <div className="relative h-[520px] w-full overflow-hidden sm:h-[600px] lg:h-[680px]">
+    <div className={className || "relative h-full w-full overflow-hidden"}>
       <MapContainer
         center={ZIM_CENTER}
         zoom={6}
@@ -61,15 +54,16 @@ export function CoverageMap({ areas, activeAreaId, flyTarget, marker, onReady, o
 
         {areas.map((a) => {
           const active = activeAreaId === a.id;
+          const meta = statusMeta(a.status);
           return (
             <Polygon
               key={a.id}
               positions={a.polygon}
               pathOptions={{
-                color: active ? "#FFCC00" : "#072248",
-                weight: active ? 2.5 : 1.5,
-                fillColor: active ? "#FFCC00" : "#072248",
-                fillOpacity: active ? 0.24 : 0.12
+                color: active ? "#072248" : meta.mapColor,
+                weight: active ? 3 : 1.5,
+                fillColor: meta.mapColor,
+                fillOpacity: active ? 0.42 : 0.2
               }}
               eventHandlers={{
                 mouseover: () => onAreaHover?.(a.id),
@@ -79,7 +73,7 @@ export function CoverageMap({ areas, activeAreaId, flyTarget, marker, onReady, o
             >
               <Tooltip sticky direction="top">
                 <div className="font-semibold text-signal">{a.name}</div>
-                <div className="text-xs text-ink-soft">FibreHood Fibre Available</div>
+                <div className="text-xs text-ink-soft">{meta.label}</div>
               </Tooltip>
             </Polygon>
           );
