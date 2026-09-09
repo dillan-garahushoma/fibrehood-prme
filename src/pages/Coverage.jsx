@@ -1,7 +1,9 @@
 import React, { Suspense, lazy } from "react";
 import { Link } from "react-router-dom";
 import { MessageCircle, ArrowRight } from "lucide-react";
+import { Image } from "@/components/ui/image";
 import { Reveal } from "@/components/common/Reveal";
+import { IMAGES } from "@/data/images";
 import { WA_INTENTS } from "@/data/site";
 
 const CoverageExplorer = lazy(() => import("@/components/coverage/CoverageExplorer"));
@@ -9,41 +11,60 @@ const CoverageExplorer = lazy(() => import("@/components/coverage/CoverageExplor
 export default function Coverage() {
   return (
     <>
-      {/* Hero — paper-led, one quiet kicker, yellow only as a period */}
-      <section className="relative overflow-hidden bg-paper">
-        <div className="bg-grid absolute inset-0 opacity-[0.5]" aria-hidden="true" />
-        <div className="container-lattice relative pb-16 pt-28 sm:pt-32 lg:pb-20">
+      {/* Hero — navy, full-bleed image, mirroring the homepage hero */}
+      <section className="relative overflow-hidden bg-signal-deep text-paper">
+        <div className="absolute inset-y-0 right-0 w-full lg:w-[58%]" aria-hidden="true">
+          <Image src={IMAGES.coverageAerial} alt="" fittingType="fill" className="h-full w-full" />
+          <div className="absolute inset-0 bg-signal-deep/65 lg:bg-transparent" />
+          <div className="absolute inset-0 bg-gradient-to-r from-signal-deep via-signal-deep/30 to-transparent" />
+          <div className="absolute inset-0 bg-gradient-to-t from-signal-deep/70 via-transparent to-signal-deep/30" />
+        </div>
+
+        <div className="container-lattice relative flex min-h-[78svh] flex-col justify-center py-28 md:py-36 lg:min-h-[82vh]">
           <Reveal className="max-w-2xl">
-            <span className="eyebrow">
+            <span className="eyebrow text-paper/70">
               <span className="h-px w-7 bg-loop" aria-hidden="true" />
               Check your coverage
             </span>
-            <h1 className="mt-6 font-heading text-4xl font-extrabold leading-[1.05] tracking-tighter text-ink sm:text-5xl lg:text-[3.5rem]">
+            <h1 className="mt-6 font-heading text-4xl font-extrabold leading-[1.05] tracking-tighter text-paper sm:text-5xl lg:text-[3.6rem]">
               Tell us where you are.
               <br />
               We'll tell you what you can do<span className="text-loop">.</span>
             </h1>
-            <p className="mt-5 max-w-xl text-base leading-relaxed text-ink-soft">
+            <p className="mt-5 max-w-xl text-base leading-relaxed text-paper/75">
               Search your address, use your current location, or choose your area. We'll confirm FibreHood's status at
               your location and take you straight to the right next step.
             </p>
+            <div className="mt-8 flex flex-col gap-3 sm:flex-row sm:items-center">
+              <a
+                href="#checker"
+                className="inline-flex items-center justify-center gap-2 rounded-full bg-loop px-6 py-3 text-sm font-semibold text-signal transition-colors hover:bg-loopsoft"
+              >
+                Check your address <ArrowRight className="h-4 w-4" />
+              </a>
+              <Link
+                to="/plans"
+                className="inline-flex items-center justify-center gap-2 rounded-full border border-paper/40 px-6 py-3 text-sm font-semibold text-paper transition-colors hover:border-paper hover:bg-paper/10"
+              >
+                View plans
+              </Link>
+            </div>
           </Reveal>
         </div>
       </section>
 
-      {/* Checker + result + quiet map, then network ledger */}
-      <Suspense
-        fallback={
-          <div className="container-lattice">
-            <div className="grid gap-5 lg:grid-cols-[minmax(0,400px)_minmax(0,1fr)]">
-              <div className="h-[320px] animate-pulse rounded-xl border border-line bg-fog/40" />
-              <div className="h-[380px] animate-pulse rounded-xl border border-line bg-fog/40 sm:h-[460px] lg:h-[520px]" />
+      {/* Checker + result + network ledger */}
+      <div id="checker">
+        <Suspense
+          fallback={
+            <div className="container-lattice py-16">
+              <div className="mx-auto h-[320px] max-w-xl animate-pulse rounded-xl border border-line bg-fog/40" />
             </div>
-          </div>
-        }
-      >
-        <CoverageExplorer />
-      </Suspense>
+          }
+        >
+          <CoverageExplorer />
+        </Suspense>
+      </div>
 
       {/* Support — a quiet ledger row, not a heavy card */}
       <section className="container-lattice pb-20 pt-4">
