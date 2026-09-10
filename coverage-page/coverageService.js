@@ -2,17 +2,15 @@
 // coverage-related. Today it reads dev fixtures; tomorrow it can be swapped for
 // a real GIS / serviceability backend without changing any UI code.
 //
-// Contract:
-//   searchAddresses(query)        -> suggestion[]         (autocomplete)
-//   geocode(suggestion)            -> { lat, lng, label }  (resolve a selection)
-//   getCurrentPosition()            -> Promise<{lat,lng}>   (browser geolocation)
-//   reverseGeocode(lat, lng)        -> string               (coords -> readable address)
-//   getCoverageAreas()              -> CoverageArea[]        (polygon boundaries)
-//   checkCoverage(lat, lng)         -> { status, area, areaId, distance }
+// Two separate concepts, deliberately not merged into one enum:
+//   • resolution  — how precisely we located the customer (EXACT/AREA/NEARBY/NOT_FOUND)
+//   • status      — FibreHood's deployment state there (LIVE/IN_PROGRESS/PLANNED/NOT_STARTED)
 //
-// Coverage statuses: "COVERED" | "NEARBY" | "NOT_COVERED"
+// Every input method (address, device location, guided selection) funnels into
+// resolveCoverage() — there is only one coverage engine.
 
-import { COVERAGE_AREAS, ADDRESS_LOCALITIES } from "@/data/coverageAreas";
+import { COVERAGE_AREAS, ADDRESS_LOCALITIES, TOWNS } from "@/data/coverageAreas";
+import { DEPLOYMENT_STATUS, RESOLUTION, CONFIDENCE, STATUS_ORDER } from "@/data/coverageStatus";
 
 const NEARBY_RADIUS_M = 6000;
 
@@ -47,6 +45,8 @@ export function pointInPolygon(point, polygon) {
   return inside;
 }
 
+/* ── Location discovery ─────────────────────────────────────────────── */
+
 /** Debounced-friendly address autocomplete over the local locality dataset. */
 export function searchAddresses(query) {
   const q = (query || "").trim().toLowerCase();
@@ -58,22 +58,17 @@ export function searchAddresses(query) {
     .map((l) => ({ id: l.id, label: `${l.name}, ${l.region}`, lat: l.lat, lng: l.lng }));
 }
 
-export function geocode(suggestion) {
-  return { lat: suggestion.lat, lng: suggestion.lng, label: suggestion.label };
-}
-
 /** Request browser geolocation. Rejects with { code, message } on failure. */
 export function getCurrentPosition() {
   return new Promise((resolve, reject) => {
     if (typeof navigator === "undefined" || !("geolocation" in navigator)) {
-      return reject({ code: "unsupported", message: "Location services are unavailable on this device. Try entering your address manually." });
+      return reject({ code: "unsupported", message: "Location services are unavailable on this device. Enter your address instead." });
     }
     navigator.geolocation.getCurrentPosition(
       (pos) => resolve({ lat: pos.coords.latitude, lng: pos.coords.longitude, accuracy: pos.coords.accuracy }),
       (err) => {
-        if (err.code === 1) return reject({ code: "denied", message: "Location permission was denied. Try entering your address manually." });
-        if (err.code === 3) return reject({ code: "unavailable", message: "We couldn't determine your location. Try entering your address manually." });
-        reject({ code: "error", message: "We couldn't determine your location. Try entering your address manually." });
+        if (err.code === 1) return reject({ code: "denied", message: "Location permission was denied. Enter your address instead." });
+        reject({ code: "unavailable", message: "We couldn't determine your location. Enter your address instead." });
       },
       { enableHighAccuracy: true, timeout: 10000, maximumAge: 300000 }
     );
@@ -92,24 +87,119 @@ export function reverseGeocode(lat, lng) {
     }
   }
   if (!best) return `${lat.toFixed(4)}, ${lng.toFixed(4)}`;
-  if (bestD < 3000) return `${best.name}, ${best.region}`;
-  return `Near ${best.name}, ${best.region}`;
+  return bestD < 3000 ? `${best.name}, ${best.region}` : `Near ${best.name}, ${best.region}`;
 }
+
+/* ── Guided location hierarchy ───────────────────────────────────────── */
+
+export function getTowns() {
+  return TOWNS;
+}
+
+export function getSuburbs(townId) {
+  return TOWNS.find((t) => t.id === townId)?.suburbs || [];
+}
+
+export function getMdus(townId, suburbId) {
+  return getSuburbs(townId).find((s) => s.id === suburbId)?.mdus || [];
+}
+
+/* ── Coverage areas & derived statistics ─────────────────────────────── */
 
 export function getCoverageAreas() {
   return COVERAGE_AREAS;
 }
 
+export function getArea(areaId) {
+  return COVERAGE_AREAS.find((a) => a.id === areaId) || null;
+}
+
+/** Zone counts grouped by status — derived from records, never hardcoded in UI. */
+export function getDeploymentStats() {
+  const zones = COVERAGE_AREAS.flatMap((a) => a.zones || []);
+  const counts = STATUS_ORDER.reduce((acc, s) => ({ ...acc, [s]: 0 }), {});
+  for (const z of zones) counts[z.status] = (counts[z.status] || 0) + 1;
+  return { counts, total: zones.length };
+}
+
+/** Most recent update timestamp across all coverage records. */
+export function getCoverageUpdatedAt() {
+  const stamps = COVERAGE_AREAS.flatMap((a) => [a.updatedAt, ...(a.zones || []).map((z) => z.updatedAt)]).filter(Boolean);
+  return stamps.sort().slice(-1)[0] || null;
+}
+
+/* ── The coverage engine ─────────────────────────────────────────────── */
+
 /**
- * Evaluate a coordinate against FibreHood coverage data.
- * Returns { status, area, areaId, distance }.
+ * Resolve a location and determine FibreHood's deployment status there.
+ *
+ * input: { lat, lng, label, townId?, suburbId?, mduId?, method, accuracy? }
+ * returns a normalized CoverageResult.
  */
-export function checkCoverage(lat, lng) {
-  for (const area of COVERAGE_AREAS) {
-    if (pointInPolygon([lat, lng], area.polygon)) {
-      return { status: "COVERED", area, areaId: area.id, distance: 0 };
+export function resolveCoverage(input) {
+  const { lat, lng, label, townId, suburbId, mduId, method = "address" } = input;
+
+  const base = {
+    label,
+    lat,
+    lng,
+    townId,
+    suburbId,
+    mduId,
+    method,
+    zone: null,
+    mdu: null,
+    distance: null
+  };
+
+  // A tracked MDU carries its own readiness — the most precise answer we have.
+  if (mduId && townId && suburbId) {
+    const mdu = getMdus(townId, suburbId).find((m) => m.id === mduId);
+    if (mdu) {
+      const suburb = getSuburbs(townId).find((s) => s.id === suburbId);
+      const area = suburb?.areaId ? getArea(suburb.areaId) : null;
+      return {
+        ...base,
+        lat: lat ?? mdu.lat,
+        lng: lng ?? mdu.lng,
+        status: mdu.status,
+        resolution: RESOLUTION.EXACT,
+        confidence: CONFIDENCE.HIGH,
+        area,
+        areaId: area?.id || null,
+        mdu,
+        updatedAt: mdu.updatedAt
+      };
     }
   }
+
+  if (typeof lat !== "number" || typeof lng !== "number") {
+    return {
+      ...base,
+      status: DEPLOYMENT_STATUS.NOT_STARTED,
+      resolution: RESOLUTION.NOT_FOUND,
+      confidence: CONFIDENCE.LOW,
+      area: null,
+      areaId: null,
+      updatedAt: null
+    };
+  }
+
+  for (const area of COVERAGE_AREAS) {
+    if (pointInPolygon([lat, lng], area.polygon)) {
+      return {
+        ...base,
+        status: area.status,
+        resolution: mduId || method === "device" ? RESOLUTION.EXACT : RESOLUTION.AREA,
+        confidence: method === "device" ? CONFIDENCE.HIGH : CONFIDENCE.MEDIUM,
+        area,
+        areaId: area.id,
+        distance: 0,
+        updatedAt: area.updatedAt
+      };
+    }
+  }
+
   let nearest = null;
   let nd = Infinity;
   for (const area of COVERAGE_AREAS) {
@@ -119,8 +209,28 @@ export function checkCoverage(lat, lng) {
       nearest = area;
     }
   }
+
   if (nearest && nd <= NEARBY_RADIUS_M) {
-    return { status: "NEARBY", area: nearest, areaId: nearest.id, distance: Math.round(nd) };
+    return {
+      ...base,
+      status: nearest.status,
+      resolution: RESOLUTION.NEARBY,
+      confidence: CONFIDENCE.LOW,
+      area: nearest,
+      areaId: nearest.id,
+      distance: Math.round(nd),
+      updatedAt: nearest.updatedAt
+    };
   }
-  return { status: "NOT_COVERED", area: null, areaId: null, distance: nd === Infinity ? null : Math.round(nd) };
+
+  return {
+    ...base,
+    status: DEPLOYMENT_STATUS.NOT_STARTED,
+    resolution: RESOLUTION.NOT_FOUND,
+    confidence: CONFIDENCE.LOW,
+    area: null,
+    areaId: null,
+    distance: nd === Infinity ? null : Math.round(nd),
+    updatedAt: null
+  };
 }

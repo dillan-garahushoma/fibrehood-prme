@@ -1,0 +1,241 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Coverage flow — final preview</title>
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.9.4/leaflet.min.css">
+<script src="https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.9.4/leaflet.min.js"></script>
+<style>
+  :root{
+    --paper:#FBF9F4; --ink:#14171F; --ink-soft:#6B7080;
+    --signal:#072248; --signal-deep:#051733; --loop:#FFCC00; --fog:#F1EFE7; --line:#E4E0D3;
+  }
+  *{box-sizing:border-box;}
+  html,body{margin:0;min-height:100%;background:var(--paper);font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif;color:var(--ink);}
+  .page{display:flex;flex-direction:column;align-items:center;padding:40px 18px 90px;gap:16px;}
+  .replay{border:1px solid var(--line);background:var(--paper);color:var(--ink);font:inherit;font-size:13px;font-weight:600;padding:8px 16px;border-radius:9px;cursor:pointer;}
+  .replay:hover{background:var(--fog);}
+
+  .stage{position:relative;width:min(980px,100%);min-height:600px;}
+
+  /* idle */
+  .idle-stage{position:absolute;inset:0;display:flex;flex-direction:column;align-items:center;justify-content:center;transition:opacity .3s;}
+  .idle-stage.hidden{opacity:0;pointer-events:none;}
+  .idle-heading{text-align:center;max-width:440px;margin-bottom:26px;}
+  .idle-heading h1{font-size:24px;font-weight:800;letter-spacing:-.02em;margin:0;}
+  .idle-heading p{margin:8px 0 0;font-size:14px;color:var(--ink-soft);}
+  .wrap{position:relative;width:min(440px,92vw);}
+  .depth{position:absolute;inset:-44px;z-index:0;overflow:hidden;pointer-events:none;}
+  .blob{position:absolute;filter:blur(32px);}
+  .blob.b1{left:4%;top:2%;width:160px;height:140px;background:rgba(7,34,72,.06);border-radius:46% 54% 61% 39%/52% 44% 56% 48%;}
+  .blob.b2{right:2%;top:20%;width:190px;height:140px;background:rgba(255,204,0,.10);border-radius:55% 45% 38% 62%/45% 58% 42% 55%;filter:blur(42px);}
+  @keyframes fhPulseEcho{0%{transform:scale(.6);opacity:.9;}70%{transform:scale(2.1);opacity:0;}100%{transform:scale(2.1);opacity:0;}}
+  .echo{position:absolute;width:15px;height:15px;}
+  .echo .ring{position:absolute;inset:0;border-radius:999px;background:rgba(255,204,0,.4);animation:fhPulseEcho 2.4s ease-out infinite;}
+  .echo .dot{position:absolute;left:5px;top:5px;width:5px;height:5px;border-radius:999px;background:var(--loop);box-shadow:0 0 8px rgba(255,204,0,.65);}
+  .echo.e1{left:12%;top:14%;}
+  .echo.e2{right:16%;top:46%;animation-delay:.8s;}
+  .echo.e2 .ring{animation-delay:.8s;}
+  .idle-card{position:relative;z-index:1;background:rgba(251,249,244,.95);border-radius:16px;padding:24px 22px 20px;
+    -webkit-mask-image:linear-gradient(to bottom,transparent 0,#000 16px,#000 calc(100% - 16px),transparent 100%);
+    mask-image:linear-gradient(to bottom,transparent 0,#000 16px,#000 calc(100% - 16px),transparent 100%);}
+  .tabs{display:flex;gap:22px;border-bottom:1px solid rgba(228,224,211,.7);}
+  .tab{background:none;border:none;font:inherit;font-size:13.5px;font-weight:600;color:var(--ink-soft);padding:0 0 10px;cursor:pointer;}
+  .tab.active{color:var(--ink);border-bottom:2px solid var(--loop);}
+  .field-row{margin-top:16px;position:relative;}
+  .search-icon{position:absolute;left:13px;top:50%;transform:translateY(-50%);color:var(--ink-soft);}
+  input[type="text"]{width:100%;height:46px;border-radius:9px;border:1px solid var(--line);background:var(--paper);padding:0 12px 0 38px;font-size:13.5px;color:var(--ink);outline:none;}
+  input[type="text"]:focus{border-color:var(--loop);box-shadow:0 0 0 3px rgba(255,204,0,.2);}
+  .btn-row{margin-top:14px;display:flex;gap:8px;}
+  .go-btn{flex:1;height:46px;border:none;border-radius:9px;background:var(--signal);color:var(--paper);font:inherit;font-size:13.5px;font-weight:600;cursor:pointer;display:inline-flex;align-items:center;justify-content:center;gap:7px;}
+  .go-btn:hover{background:var(--signal-deep);}
+  .footnote{margin-top:14px;font-size:10.5px;color:rgba(107,112,128,.8);}
+
+  /* result scene */
+  .result-stage{position:absolute;inset:0;}
+  .result-stage.hidden{display:none;}
+  .scene{position:relative;width:100%;min-height:600px;border-radius:20px;overflow:hidden;background:var(--paper);
+    opacity:0;transform:scale(.95);transition:opacity .55s cubic-bezier(.16,1,.3,1),transform .55s cubic-bezier(.16,1,.3,1);}
+  .scene.in{opacity:1;transform:scale(1);}
+  .scene-grid{display:grid;grid-template-columns:1fr;height:100%;}
+  @media(min-width:1024px){.scene-grid{grid-template-columns:380px minmax(0,1fr);}}
+
+  .result-col{position:relative;padding:34px 30px;display:flex;flex-direction:column;justify-content:center;border-bottom:1px solid rgba(228,224,211,.6);}
+  @media(min-width:1024px){.result-col{border-bottom:none;min-height:600px;}}
+  .rule{display:none;}
+  @media(min-width:1024px){.rule{display:block;position:absolute;right:0;top:16%;bottom:16%;width:2px;border-radius:2px;background:var(--loop);}}
+
+  .result-col > *{opacity:0;transform:translateY(9px);transition:opacity .4s ease,transform .4s ease;}
+  .scene.in .result-col > *{opacity:1;transform:translateY(0);}
+  .scene.in .result-col > *:nth-child(2){transition-delay:.14s;}
+  .scene.in .result-col > *:nth-child(3){transition-delay:.2s;}
+  .scene.in .result-col > *:nth-child(4){transition-delay:.26s;}
+  .scene.in .result-col > *:nth-child(5){transition-delay:.32s;}
+  .scene.in .result-col > *:nth-child(6){transition-delay:.38s;}
+  .scene.in .result-col > *:nth-child(7){transition-delay:.44s;}
+
+  .status-row{display:flex;align-items:center;gap:7px;font-size:11px;font-weight:600;text-transform:uppercase;letter-spacing:.12em;color:var(--ink-soft);}
+  .status-row .dot{width:7px;height:7px;border-radius:999px;background:var(--loop);}
+  h3.headline{font-size:22px;font-weight:800;letter-spacing:-.015em;margin:10px 0 0;}
+  .addr-line{display:flex;align-items:center;gap:6px;font-size:13px;color:var(--ink-soft);margin-top:8px;}
+  .body-copy{font-size:13.5px;line-height:1.55;color:var(--ink-soft);margin-top:14px;}
+  .cta{margin-top:20px;width:100%;height:46px;border:none;border-radius:9px;background:var(--signal);color:var(--paper);font:inherit;font-size:13.5px;font-weight:600;cursor:pointer;display:inline-flex;align-items:center;justify-content:center;gap:7px;}
+  .cta:hover{background:var(--signal-deep);}
+  .links{display:flex;flex-wrap:wrap;gap:14px;margin-top:14px;font-size:12px;font-weight:600;color:var(--ink-soft);}
+  .links a{color:inherit;text-decoration:none;cursor:pointer;}
+  .links a:hover{color:var(--ink);}
+  .updated{margin-top:14px;font-size:10.5px;color:rgba(107,112,128,.75);}
+
+  .map-col{position:relative;height:360px;}
+  @media(min-width:1024px){.map-col{height:auto;min-height:600px;}}
+  #map{position:absolute;inset:0;background:#ECEFF4;}
+  .fh-tiles .leaflet-tile-pane{filter:grayscale(38%) brightness(1.08) contrast(.95) saturate(.7);}
+  .legend{position:absolute;left:16px;bottom:16px;z-index:600;display:flex;gap:12px;flex-wrap:wrap;background:rgba(251,249,244,.88);backdrop-filter:blur(6px);border-radius:9px;padding:8px 11px;font-size:11px;color:var(--ink-soft);box-shadow:0 1px 3px rgba(7,34,72,.08);}
+  .legend span{display:inline-flex;align-items:center;gap:5px;}
+  .legend i{width:7px;height:7px;border-radius:999px;display:inline-block;}
+
+  .note{width:min(980px,100%);margin-top:26px;color:var(--ink-soft);font-size:12.5px;line-height:1.65;}
+  .note b{color:var(--ink);}
+</style>
+</head>
+<body>
+<div class="page">
+
+  <button class="replay" id="replay">↺ Replay full flow</button>
+
+  <div class="stage">
+    <div class="idle-stage" id="idleStage">
+      <div class="idle-heading">
+        <h1>Where should we look?</h1>
+        <p>Search an address, use your location, or pick your area — we'll tell you what's live.</p>
+      </div>
+      <div class="wrap">
+        <div class="depth">
+          <div class="blob b1"></div>
+          <div class="blob b2"></div>
+          <span class="echo e1"><span class="ring"></span><span class="dot"></span></span>
+          <span class="echo e2"><span class="ring"></span><span class="dot"></span></span>
+        </div>
+        <div class="idle-card">
+          <div class="tabs">
+            <button class="tab active">Search an address</button>
+            <button class="tab">Choose your area</button>
+          </div>
+          <div class="field-row">
+            <svg class="search-icon" width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>
+            <input type="text" value="10 Mbovu Road, Southview" readonly>
+          </div>
+          <div class="btn-row">
+            <button class="go-btn" id="triggerSearch">
+              Check coverage
+              <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg>
+            </button>
+          </div>
+          <p class="footnote">Your location is only used to check FibreHood coverage.</p>
+        </div>
+      </div>
+    </div>
+
+    <div class="result-stage hidden" id="resultStage">
+      <div class="scene" id="scene">
+        <div class="scene-grid">
+          <div class="result-col">
+            <span class="rule"></span>
+            <div class="status-row"><span class="dot"></span>Live</div>
+            <h3 class="headline">FibreHood is available here</h3>
+            <div class="addr-line">
+              <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"/><circle cx="12" cy="10" r="3"/></svg>
+              Southview, Harare
+            </div>
+            <p class="body-copy">Your location is ready for connection.</p>
+            <button class="cta">
+              Get connected
+              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg>
+            </button>
+            <div class="links"><a>View fibre plans</a><a>WhatsApp us</a><a>Check another</a></div>
+            <p class="updated">Coverage data last updated 2026-08-28.</p>
+          </div>
+          <div class="map-col fh-tiles">
+            <div id="map"></div>
+            <div class="legend">
+              <span><i style="background:#FFCC00"></i>Live</span>
+              <span><i style="background:#F59E0B"></i>In progress</span>
+              <span><i style="background:#3B82F6"></i>Planned</span>
+              <span><i style="background:#94A3B8"></i>Not started</span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <p class="note"><b>This matches the shipped files exactly:</b> one unified rounded surface, a single gold rule as the only seam, Esri's keyless Light Gray basemap in place of the broken Carto tiles, and the staggered reveal (scene scales in, then result content cascades in child-by-child) instead of a flat fade. This is the same code path — not a separate mockup.</p>
+
+</div>
+
+<script>
+  const AREAS = [
+    { id:"southview", status:"LIVE", polygon:[[-17.902,31.068],[-17.9,31.094],[-17.885,31.092],[-17.883,31.069],[-17.893,31.062]] },
+    { id:"tafara-flats", status:"LIVE", polygon:[[-17.861,31.15],[-17.859,31.179],[-17.842,31.177],[-17.839,31.151],[-17.852,31.145]] },
+    { id:"norton", status:"IN_PROGRESS", polygon:[[-17.906,30.68],[-17.903,30.72],[-17.867,30.718],[-17.869,30.678],[-17.888,30.672]] },
+    { id:"waterfalls", status:"PLANNED", polygon:[[-17.882,31.016],[-17.879,31.046],[-17.858,31.044],[-17.857,31.018],[-17.871,31.01]] },
+    { id:"glen-view", status:"NOT_STARTED", polygon:[[-17.916,30.972],[-17.914,31.0],[-17.895,30.998],[-17.894,30.974],[-17.906,30.967]] }
+  ];
+  const COLORS = { LIVE:"#FFCC00", IN_PROGRESS:"#F59E0B", PLANNED:"#3B82F6", NOT_STARTED:"#94A3B8" };
+
+  const map = L.map('map', { zoomControl: true, scrollWheelZoom: true, attributionControl: true }).setView([-18.6, 29.6], 6);
+  L.tileLayer('https://server.arcgisonline.com/ArcGIS/rest/services/Canvas/World_Light_Gray_Base/MapServer/tile/{z}/{y}/{x}', {
+    maxZoom: 16, attribution: 'Tiles &copy; Esri'
+  }).addTo(map);
+
+  AREAS.forEach(a => {
+    const active = a.id === 'southview';
+    L.polygon(a.polygon, {
+      color: active ? '#072248' : COLORS[a.status],
+      weight: active ? 3 : 1.5,
+      fillColor: COLORS[a.status],
+      fillOpacity: active ? 0.42 : 0.2
+    }).addTo(map);
+  });
+
+  const pulseIcon = L.divIcon({
+    className: '',
+    html: `<div style="position:relative;width:22px;height:22px;">
+      <span style="position:absolute;inset:0;border-radius:9999px;background:rgba(255,204,0,0.35);animation:fhPulse 1.8s ease-out infinite;"></span>
+      <span style="position:absolute;left:7px;top:7px;width:8px;height:8px;border-radius:9999px;background:#FFCC00;box-shadow:0 0 0 3px #072248,0 0 10px rgba(255,204,0,0.8);"></span>
+    </div>`,
+    iconSize: [22, 22], iconAnchor: [11, 11]
+  });
+  const styleTag = document.createElement('style');
+  styleTag.textContent = `@keyframes fhPulse{0%{transform:scale(.6);opacity:.9;}70%{transform:scale(2.2);opacity:0;}100%{transform:scale(2.2);opacity:0;}}`;
+  document.head.appendChild(styleTag);
+  let marker = null;
+
+  const idleStage = document.getElementById('idleStage');
+  const resultStage = document.getElementById('resultStage');
+  const scene = document.getElementById('scene');
+
+  function reveal() {
+    idleStage.classList.add('hidden');
+    resultStage.classList.remove('hidden');
+    scene.classList.remove('in');
+    requestAnimationFrame(() => requestAnimationFrame(() => {
+      scene.classList.add('in');
+      setTimeout(() => map.invalidateSize(), 120);
+      map.flyTo([-17.893, 31.08], 14, { duration: 1.1 });
+      if (!marker) marker = L.marker([-17.893, 31.08], { icon: pulseIcon }).addTo(map);
+    }));
+  }
+
+  document.getElementById('triggerSearch').addEventListener('click', reveal);
+  document.getElementById('replay').addEventListener('click', () => {
+    idleStage.classList.remove('hidden');
+    resultStage.classList.add('hidden');
+    scene.classList.remove('in');
+    map.setView([-18.6, 29.6], 6);
+    setTimeout(reveal, 500);
+  });
+</script>
+</body>
+</html>

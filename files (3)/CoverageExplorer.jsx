@@ -1,5 +1,5 @@
 import React, { useCallback, useRef, useState } from "react";
-import { AnimatePresence, motion } from "framer-motion";
+import { AnimatePresence, motion, useReducedMotion } from "framer-motion";
 import CoverageMap from "./CoverageMap";
 import LocationPanel from "./LocationPanel";
 import CoverageResultPanel from "./CoverageResultPanel";
@@ -10,11 +10,12 @@ import { getCoverageAreas, resolveCoverage } from "@/lib/coverageService";
 import { DEPLOYMENT_STATUS, RESOLUTION, LEAD_INTENT, statusMeta, STATUS_ORDER } from "@/data/coverageStatus";
 import { cn } from "@/lib/utils";
 
+const EASE = [0.16, 1, 0.3, 1];
 let nonceSeed = 0;
 
 function MapLegend() {
   return (
-    <div className="absolute bottom-3 left-3 z-[1000] flex flex-wrap gap-x-4 gap-y-1.5 rounded-lg border border-line bg-paper/85 px-3 py-2 text-[11px] text-ink-soft backdrop-blur-sm">
+    <div className="absolute bottom-4 left-4 z-[1000] flex flex-wrap gap-x-4 gap-y-1.5 rounded-lg bg-paper/85 px-3 py-2 text-[11px] text-ink-soft shadow-[0_1px_3px_rgba(7,34,72,0.08)] backdrop-blur-sm">
       {STATUS_ORDER.map((s) => {
         const meta = statusMeta(s);
         return (
@@ -30,6 +31,7 @@ function MapLegend() {
 
 export function CoverageExplorer() {
   const areas = getCoverageAreas();
+  const reduce = useReducedMotion();
   const [checking, setChecking] = useState(false);
   const [result, setResult] = useState(null);
   const [marker, setMarker] = useState(null);
@@ -85,12 +87,21 @@ export function CoverageExplorer() {
     setInterest(intent);
   };
 
+  const sceneMotion = reduce
+    ? { initial: { opacity: 0 }, animate: { opacity: 1 }, exit: { opacity: 0 }, transition: { duration: 0.25 } }
+    : {
+        initial: { opacity: 0, scale: 0.96 },
+        animate: { opacity: 1, scale: 1 },
+        exit: { opacity: 0, scale: 0.98 },
+        transition: { duration: 0.55, ease: EASE }
+      };
+
   return (
     <>
       {/* ── Checker zone ──────────────────────────────────────────────
           Idle: a single centred input — no map, because there's nothing to
-          show yet. On resolve: result panel + map side by side, so the map
-          only ever sits beside a result. */}
+          show yet. On resolve: one unified surface holding both the result
+          and the map — no separate boxed cards, no seam between them. */}
       <section ref={resultZone} className="container-lattice scroll-mt-24 py-16 md:py-20">
         <AnimatePresence mode="wait">
           {!hasResult ? (
@@ -101,40 +112,41 @@ export function CoverageExplorer() {
               exit={{ opacity: 0 }}
               className="mx-auto max-w-xl"
             >
-              <div className="mb-6 text-center">
-                <span className="text-[11px] font-semibold uppercase tracking-[0.22em] text-ink-soft">
-                  Check your address
-                </span>
-                <h2 className="mt-3 font-heading text-2xl font-bold tracking-tighter text-ink sm:text-3xl">
+              <div className="mb-7 text-center">
+                <h2 className="font-heading text-2xl font-bold tracking-tighter text-ink sm:text-3xl">
                   Where should we look?
                 </h2>
+                <p className="mt-2 text-sm text-ink-soft">
+                  Search an address, use your location, or pick your area — we'll tell you what's live.
+                </p>
               </div>
               <LocationPanel onResolve={handleResolve} />
             </motion.div>
           ) : (
-            <motion.div
-              key="result"
-              initial={{ opacity: 0, y: 12 }}
-              animate={{ opacity: 1, y: 0 }}
-              exit={{ opacity: 0 }}
-              className="grid gap-5 lg:grid-cols-[minmax(0,400px)_minmax(0,1fr)] lg:gap-8"
-            >
-              <div className="lg:sticky lg:top-24 lg:self-start">
-                <CoverageResultPanel checking={checking} result={result} onPrimary={startConversion} onReset={reset} />
-              </div>
-              <div className="overflow-hidden rounded-xl border border-line bg-fog/30">
-                <CoverageMap
-                  areas={areas}
-                  activeAreaId={activeAreaId}
-                  flyTarget={flyTarget}
-                  marker={marker}
-                  onAreaHover={setHoverId}
-                  onAreaLeave={() => setHoverId(null)}
-                  onAreaClick={selectArea}
-                  className="relative h-[360px] w-full overflow-hidden sm:h-[440px] lg:h-[520px]"
-                >
-                  <MapLegend />
-                </CoverageMap>
+            <motion.div key="result" {...sceneMotion} className="overflow-hidden rounded-2xl bg-paper">
+              <div className="grid lg:grid-cols-[380px_minmax(0,1fr)] lg:items-stretch">
+                <div className="relative flex flex-col justify-center border-b border-line/60 px-6 py-9 sm:px-8 lg:border-b-0 lg:py-12">
+                  {/* the one seam — a single gold rule instead of two bordered cards */}
+                  <span
+                    className="pointer-events-none absolute inset-y-[16%] right-0 hidden w-[2px] rounded-full bg-loop lg:block"
+                    aria-hidden="true"
+                  />
+                  <CoverageResultPanel checking={checking} result={result} onPrimary={startConversion} onReset={reset} />
+                </div>
+                <div className="relative h-[340px] sm:h-[420px] lg:h-auto lg:min-h-[560px]">
+                  <CoverageMap
+                    areas={areas}
+                    activeAreaId={activeAreaId}
+                    flyTarget={flyTarget}
+                    marker={marker}
+                    onAreaHover={setHoverId}
+                    onAreaLeave={() => setHoverId(null)}
+                    onAreaClick={selectArea}
+                    className="absolute inset-0"
+                  >
+                    <MapLegend />
+                  </CoverageMap>
+                </div>
               </div>
             </motion.div>
           )}

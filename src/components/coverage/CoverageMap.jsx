@@ -6,6 +6,17 @@ import { statusMeta } from "@/data/coverageStatus";
 
 const ZIM_CENTER = [-18.6, 29.6];
 
+// NOTE — tile source: the previous Carto Voyager URL (basemaps.cartocdn.com)
+// now requires an API key; Carto deprecated anonymous access to it. This uses
+// Esri's keyless "World Light Gray Base" layer as an interim default so the
+// map isn't broken in the meantime — it's free for reasonable traffic without
+// signup, but check Esri's terms before high-volume production use, or swap
+// back to Carto/Stadia/MapTiler with a real key when you have one. The
+// `.fh-coverage-map` filter below desaturates whichever tile source is used,
+// so this stays a quiet backdrop rather than competing with signal/loop.
+const TILE_URL = "https://server.arcgisonline.com/ArcGIS/rest/services/Canvas/World_Light_Gray_Base/MapServer/tile/{z}/{y}/{x}";
+const TILE_ATTRIBUTION = "Tiles &copy; Esri &mdash; Esri, DeLorme, NAVTEQ";
+
 // Custom HTML markers (avoid Leaflet's broken default icon asset paths).
 const locationIcon = L.divIcon({
   className: "",
@@ -34,7 +45,14 @@ function MapController({ flyTarget, onReady }) {
 
 export function CoverageMap({ areas, activeAreaId, flyTarget, marker, onReady, onAreaHover, onAreaLeave, onAreaClick, className, children }) {
   return (
-    <div className={className || "relative h-full w-full overflow-hidden"}>
+    <div className={`fh-coverage-map ${className || "relative h-full w-full overflow-hidden"}`}>
+      {/* Scoped so it only ever touches this map's own tiles, never a future
+          second map elsewhere in the app. */}
+      <style>{`
+        .fh-coverage-map .leaflet-tile-pane {
+          filter: grayscale(38%) brightness(1.08) contrast(0.95) saturate(0.7);
+        }
+      `}</style>
       <MapContainer
         center={ZIM_CENTER}
         zoom={6}
@@ -43,12 +61,7 @@ export function CoverageMap({ areas, activeAreaId, flyTarget, marker, onReady, o
         className="absolute inset-0"
         style={{ height: "100%", width: "100%", background: "#ECEFF4" }}
       >
-        <TileLayer
-          url="https://{s}.basemaps.cartocdn.com/rastertiles/voyager/{z}/{x}/{y}{r}.png"
-          attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> &copy; <a href="https://carto.com/">CARTO</a>'
-          subdomains="abcd"
-          maxZoom={20}
-        />
+        <TileLayer url={TILE_URL} attribution={TILE_ATTRIBUTION} maxZoom={16} />
         <ZoomControl position="topright" />
         <MapController flyTarget={flyTarget} onReady={onReady} />
 
