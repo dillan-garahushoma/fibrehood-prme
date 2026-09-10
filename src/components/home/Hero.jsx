@@ -5,6 +5,7 @@ import { Image } from "@/components/ui/image";
 import { CoverageChecker } from "@/components/coverage/CoverageChecker";
 import { SectionLabel } from "@/components/common/SectionLabel";
 import { Reveal, entranceContainer, entranceItem } from "@/components/common/Reveal";
+import { HeroLogo } from "@/components/brand/HeroLogo";
 import { IMAGES } from "@/data/images";
 import { PLANS } from "@/data/plans";
 import { motion, useReducedMotion } from "framer-motion";
@@ -36,13 +37,7 @@ export function Hero() {
         animate="show"
       >
         {/* Brand logo — sits at navbar level, shows through the transparent nav */}
-        <div className="absolute inset-x-0 top-0 z-20 flex items-start">
-          <img
-            src="/white.png"
-            alt="FibreHood"
-            className="-mt-9 h-[7.5rem] w-auto object-contain md:-mt-11 md:h-[9rem]"
-          />
-        </div>
+        <HeroLogo />
 
         {/* ── Left: headline, price, CTAs ───────────────────────────── */}
         <div className="relative z-10 my-auto lg:self-center">
