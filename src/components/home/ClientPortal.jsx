@@ -281,7 +281,7 @@ export function ClientPortal() {
 
             <div className="mt-8">
               <Link
-                to="/login"
+                to="/portal"
                 className="group inline-flex items-center gap-2 rounded-full bg-loop px-6 py-3 text-sm font-semibold text-signal transition-colors duration-200 hover:bg-loopsoft"
               >
                 Explore Client Portal

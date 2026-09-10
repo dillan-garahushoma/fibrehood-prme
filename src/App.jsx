@@ -1,7 +1,7 @@
 import { Toaster } from "@/components/ui/toaster"
 import { QueryClientProvider } from '@tanstack/react-query'
 import { queryClientInstance } from '@/lib/query-client'
-import { BrowserRouter as Router, Route, Routes } from 'react-router-dom';
+import { BrowserRouter as Router, Navigate, Route, Routes } from 'react-router-dom';
 import PageNotFound from './lib/PageNotFound';
 import { AuthProvider, useAuth } from '@/lib/AuthContext';
 import UserNotRegisteredError from '@/components/UserNotRegisteredError';
@@ -20,6 +20,13 @@ import Register from '@/pages/Register';
 import ForgotPassword from '@/pages/ForgotPassword';
 import ResetPassword from '@/pages/ResetPassword';
 import HowItWorksMockup from '@/pages/HowItWorksMockup';
+import PortalLayout from '@/portal/PortalLayout';
+import Overview from '@/portal/sections/Overview';
+import Internet from '@/portal/sections/Internet';
+import Plan from '@/portal/sections/Plan';
+import Billing from '@/portal/sections/Billing';
+import Support from '@/portal/sections/Support';
+import Account from '@/portal/sections/Account';
 
 const AuthenticatedApp = () => {
   const { isLoadingAuth, isLoadingPublicSettings, authError, navigateToLogin } = useAuth();
@@ -48,6 +55,15 @@ const AuthenticatedApp = () => {
   return (
     <Routes>
       <Route path="/how-it-works-mockup" element={<HowItWorksMockup />} />
+      <Route path="/portal" element={<PortalLayout />}>
+        <Route index element={<Navigate to="/portal/overview" replace />} />
+        <Route path="overview" element={<Overview />} />
+        <Route path="internet" element={<Internet />} />
+        <Route path="plan" element={<Plan />} />
+        <Route path="billing" element={<Billing />} />
+        <Route path="support" element={<Support />} />
+        <Route path="account" element={<Account />} />
+      </Route>
       <Route path="/login" element={<Login />} />
       <Route path="/register" element={<Register />} />
       <Route path="/forgot-password" element={<ForgotPassword />} />
