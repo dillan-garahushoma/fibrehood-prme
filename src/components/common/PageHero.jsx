@@ -1,6 +1,7 @@
 import React from "react";
 import { motion, useReducedMotion } from "framer-motion";
 import { LoopMark } from "@/components/brand/LoopMark";
+import { HeroLogo } from "@/components/brand/HeroLogo";
 import { SectionLabel } from "@/components/common/SectionLabel";
 import { entranceContainer, entranceItem } from "@/components/common/Reveal";
 import { cn } from "@/lib/utils";
@@ -26,6 +27,8 @@ export function PageHero({ eyebrow, title, subtitle, tone = "dark", children, al
         <LoopMark className="h-56 w-[26rem]" stroke={2} animated />
       </div>
       <div className="container-lattice relative pt-28 pb-14 md:pt-36 md:pb-20">
+        {/* Brand logo — sits at navbar level, shows through the transparent nav (same as the homepage hero) */}
+        {dark && <HeroLogo />}
         <motion.div
           className={innerClass}
           variants={entranceContainer}

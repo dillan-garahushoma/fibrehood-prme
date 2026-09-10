@@ -3,6 +3,7 @@ import { motion, useReducedMotion } from "framer-motion";
 import { Image } from "@/components/ui/image";
 import { SectionLabel } from "@/components/common/SectionLabel";
 import { entranceContainer, entranceItem } from "@/components/common/Reveal";
+import { HeroLogo } from "@/components/brand/HeroLogo";
 
 const HERO_IMAGE =
   "https://media.base44.com/images/public/6a9190c938c1fe8b87ce238c/62a2fe126_generated_image.png";
@@ -31,6 +32,9 @@ export function PlansHero() {
         initial={reduce ? false : "hidden"}
         animate="show"
       >
+        {/* Brand logo — sits at navbar level, shows through the transparent nav (same as the homepage hero) */}
+        <HeroLogo />
+
         {/* ── Left: headline + subtitle ───────────────────────────── */}
         <div className="relative z-10 my-auto lg:self-center">
           <motion.div variants={entranceItem}>

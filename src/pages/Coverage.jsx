@@ -3,6 +3,7 @@ import { Link } from "react-router-dom";
 import { MessageCircle, ArrowRight } from "lucide-react";
 import { Image } from "@/components/ui/image";
 import { Reveal } from "@/components/common/Reveal";
+import { HeroLogo } from "@/components/brand/HeroLogo";
 import { IMAGES } from "@/data/images";
 import { WA_INTENTS } from "@/data/site";
 
@@ -21,6 +22,8 @@ export default function Coverage() {
         </div>
 
         <div className="container-lattice relative flex min-h-[78svh] flex-col justify-center py-28 md:py-36 lg:min-h-[82vh]">
+          {/* Brand logo — sits at navbar level, shows through the transparent nav (same as the homepage hero) */}
+          <HeroLogo />
           <Reveal className="max-w-2xl">
             <span className="eyebrow text-paper/70">
               <span className="h-px w-7 bg-loop" aria-hidden="true" />
