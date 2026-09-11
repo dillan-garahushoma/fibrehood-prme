@@ -55,6 +55,15 @@
     --sidebar-ring: 48 100% 50%;
   }
 
+  .fibre-line {
+    stroke-dasharray: 6 10;
+    animation: dash-flow 6s linear infinite;
+  }
+
+  .pulse-glow {
+    animation: signal-pulse 3s ease-in-out infinite;
+  }
+
   .dark {
     --background: 215 88% 8%;
     --foreground: 210 20% 98%;
@@ -169,6 +178,8 @@
 @layer utilities {
   .no-scrollbar::-webkit-scrollbar { display: none; }
   .no-scrollbar { -ms-overflow-style: none; scrollbar-width: none; }
+  .scrollbar-none::-webkit-scrollbar { display: none; }
+  .scrollbar-none { -ms-overflow-style: none; scrollbar-width: none; }
 
   .mask-fade-r {
     -webkit-mask-image: linear-gradient(to right, black 80%, transparent 100%);
