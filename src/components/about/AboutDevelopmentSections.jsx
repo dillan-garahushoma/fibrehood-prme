@@ -1,6 +1,8 @@
+import { useState } from "react";
 import { Link } from "react-router-dom";
 import { motion } from "framer-motion";
 import Reveal from "@/components/common/Reveal";
+import PeopleNetworkCollage from "@/components/about/PeopleNetworkCollage";
 
 const STORY_STEPS = [
   ["IDEA", "01 — The idea", "Connectivity should give people options, not limitations."],
@@ -160,7 +162,37 @@ function NetworkSection() {
 }
 
 function PeopleSection() {
-  return <section id="people" className="relative bg-bone-50 py-28 lg:py-36"><div className="mx-auto max-w-7xl px-6 lg:px-10"><div className="grid gap-14 lg:grid-cols-2 lg:items-center lg:gap-16"><div><Reveal><p className="mb-6 flex items-center gap-3 text-xs font-semibold uppercase tracking-[0.3em] text-amber-600"><span className="h-px w-8 bg-amber-600" /> People Make The Network</p></Reveal><Reveal delay={0.1}><h2 className="font-display max-w-lg text-3xl leading-[1.15] text-navy-950 sm:text-5xl">Great infrastructure doesn&rsquo;t happen by accident.</h2></Reveal><Reveal delay={0.2}><div className="mt-8 max-w-md space-y-4 text-base leading-relaxed text-navy-700/90"><p>It takes planners, engineers, technicians, project teams and people who care about getting the details right.</p><p>From network design and deployment to commissioning, operation and maintenance, FibreHood brings together the expertise required to turn a plan into infrastructure people can rely on.</p></div></Reveal></div><div className="grid grid-cols-2 gap-4"><Reveal delay={0.15} className="col-span-2"><ImageTile src="/images/engineer-field.jpg" alt="Technician splicing fibre cables in the field at night" className="h-64 sm:h-72" /></Reveal><Reveal delay={0.25}><ImageTile src="/images/installation-closeup.jpg" alt="Close-up of fibre optic cable strands" className="h-44" /></Reveal><Reveal delay={0.35}><ImageTile src="/images/team-plans.jpg" alt="Engineers reviewing network infrastructure plans" className="h-44" /></Reveal></div></div></div></section>;
+  const [showPeopleNetwork, setShowPeopleNetwork] = useState(false);
+
+  return (
+    <section id="people" className="relative bg-bone-50 py-28 lg:py-36">
+      <div className="mx-auto max-w-7xl px-6 lg:px-10">
+        <div className="grid gap-14 lg:grid-cols-2 lg:items-center lg:gap-16">
+          <div>
+            <Reveal><p className="mb-6 flex items-center gap-3 text-xs font-semibold uppercase tracking-[0.3em] text-amber-600"><span className="h-px w-8 bg-amber-600" /> People Make The Network</p></Reveal>
+            <Reveal delay={0.1}><h2 className="font-display max-w-lg text-3xl leading-[1.15] text-navy-950 sm:text-5xl">Great infrastructure doesn&rsquo;t happen by accident.</h2></Reveal>
+            <Reveal delay={0.2}>
+              <div className="mt-8 max-w-md space-y-4 text-base leading-relaxed text-navy-700/90">
+                <p>It takes planners, engineers, technicians, project teams and people who care about getting the details right.</p>
+                <p>From network design and deployment to commissioning, operation and maintenance, FibreHood brings together the expertise required to turn a plan into infrastructure people can rely on.</p>
+                <button
+                  onClick={() => setShowPeopleNetwork((visible) => !visible)}
+                  className="group mt-6 inline-flex items-center gap-3 text-navy-950"
+                  aria-expanded={showPeopleNetwork}
+                  aria-controls="people-network-collage"
+                >
+                  <span className="h-px w-8 bg-black transition-all duration-300 group-hover:w-12" />
+                  <span className="text-[13px] font-medium tracking-[0.08em]">Discover more</span>
+                </button>
+              </div>
+            </Reveal>
+          </div>
+          <div className="grid grid-cols-2 gap-4"><Reveal delay={0.15} className="col-span-2"><ImageTile src="/images/engineer-field.jpg" alt="Technician splicing fibre cables in the field at night" className="h-64 sm:h-72" /></Reveal><Reveal delay={0.25}><ImageTile src="/images/installation-closeup.jpg" alt="Close-up of fibre optic cable strands" className="h-44" /></Reveal><Reveal delay={0.35}><ImageTile src="/images/team-plans.jpg" alt="Engineers reviewing network infrastructure plans" className="h-44" /></Reveal></div>
+        </div>
+        {showPeopleNetwork && <div id="people-network-collage" className="mt-14"><PeopleNetworkCollage /></div>}
+      </div>
+    </section>
+  );
 }
 
 function ImageTile({ src, alt, className }) {
