@@ -129,13 +129,13 @@ export default function Contact() {
         </div>
       </section>
 
-      <section className="bg-signal py-16 text-paper md:py-20">
+      <section className="bg-fog py-16 text-ink md:py-20">
         <Reveal className="container-lattice flex flex-col items-center justify-between gap-6 md:flex-row">
           <div className="flex items-center gap-4">
             <LoopMark className="h-8 w-14" animated />
             <div>
               <h2 className="font-heading text-2xl font-bold">Not sure if you're covered?</h2>
-              <p className="text-paper/70">Check your address first — it only takes a moment.</p>
+              <p className="text-ink/70">Check your address first — it only takes a moment.</p>
             </div>
           </div>
           <a href="/coverage" className="inline-flex items-center gap-2 rounded-full bg-loop px-6 py-3.5 text-sm font-semibold text-signal">Check coverage →</a>
