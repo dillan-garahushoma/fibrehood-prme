@@ -45,7 +45,7 @@ function MapController({ flyTarget, onReady }) {
 
 export function CoverageMap({ areas, activeAreaId, flyTarget, marker, onReady, onAreaHover, onAreaLeave, onAreaClick, className, children }) {
   return (
-    <div className={`fh-coverage-map ${className || "relative h-full w-full overflow-hidden"}`}>
+    <div className={`fh-coverage-map isolate ${className || "relative h-full w-full overflow-hidden"}`}>
       {/* Scoped so it only ever touches this map's own tiles, never a future
           second map elsewhere in the app. */}
       <style>{`

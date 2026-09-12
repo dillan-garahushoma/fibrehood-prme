@@ -103,13 +103,13 @@ function StepCopy({ activeStep }) {
         className="max-w-md"
       >
         <StepProgress activeStep={activeStep} />
-        <p className="mb-2 text-xs font-semibold uppercase tracking-[0.16em] text-ink-soft">
+        <p className="mb-1.5 text-[11px] font-semibold uppercase tracking-[0.16em] text-ink-soft sm:mb-2 sm:text-xs">
           Step {activeStep + 1} of {STEPS.length}
         </p>
-        <h3 className="font-heading text-3xl font-bold tracking-tight text-signal lg:text-4xl">
+        <h3 className="font-heading text-2xl font-bold tracking-tight text-signal sm:text-3xl lg:text-4xl">
           {step.title}
         </h3>
-        <p className="mt-4 text-base leading-relaxed text-ink-soft lg:text-lg">{step.body}</p>
+        <p className="mt-3 text-sm leading-relaxed text-ink-soft sm:text-base lg:mt-4 lg:text-lg">{step.body}</p>
       </motion.div>
     </AnimatePresence>
   );
@@ -220,12 +220,12 @@ export function ConnectionJourney() {
       ) : (
         <div ref={ref} className="relative z-10 h-[400vh]">
           <div className="sticky top-16 h-[calc(100svh-4rem)] lg:top-20 lg:h-[calc(100svh-5rem)]">
-            <div className="container-lattice grid h-full min-h-0 grid-rows-[minmax(330px,0.9fr)_auto] content-center gap-5 py-5 sm:grid-rows-[minmax(390px,0.95fr)_auto] sm:gap-7 lg:grid-cols-[minmax(0,0.86fr)_minmax(0,1.14fr)] lg:grid-rows-1 lg:items-center lg:gap-16 lg:py-8">
-              <div className="order-2 lg:order-1">
-                <StepCopy activeStep={activeStep} />
-              </div>
+            <div className="container-lattice grid h-full min-h-0 grid-rows-[minmax(220px,0.72fr)_auto] content-start gap-3 px-5 py-4 sm:grid-rows-[minmax(300px,0.85fr)_auto] sm:gap-6 sm:px-8 sm:py-6 lg:grid-cols-[minmax(0,0.86fr)_minmax(0,1.14fr)] lg:grid-rows-1 lg:items-center lg:gap-16 lg:px-12 lg:py-8">
               <div className="order-1 h-full min-h-0 lg:order-2 lg:h-[min(62vh,560px)]">
                 <JourneyVisual activeStep={activeStep} />
+              </div>
+              <div className="order-2 min-h-0 lg:order-1">
+                <StepCopy activeStep={activeStep} />
               </div>
             </div>
           </div>
