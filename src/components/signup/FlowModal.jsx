@@ -61,9 +61,9 @@ export function FlowModal({
             style={{ boxShadow: "0 30px 80px -25px rgba(87,66,30,0.35)" }}
           >
             {/* Header */}
-            <div className="flex items-center justify-between px-8 sm:px-12 pt-8 shrink-0">
+            <div className="flex items-center justify-between px-8 sm:px-12 pt-6 shrink-0">
               <div className="flex items-center">
-                <img src="/images/logo-black.png" alt="Fibrehood" className="h-[60px] w-auto object-contain" />
+                <img src="/images/logo-black.png" alt="Fibrehood" className="h-[120px] w-auto object-contain -my-10 scale-110 origin-left" />
               </div>
               <button
                 type="button"
