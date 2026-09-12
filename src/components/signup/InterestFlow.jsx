@@ -2,7 +2,7 @@ import React, { useEffect, useState } from "react";
 import { MapPin } from "lucide-react";
 import { FlowModal } from "./FlowModal";
 import { FlowFooter } from "./FlowButtons";
-import { FlowField, fieldClass, FlowError } from "./FlowField";
+import { FlowField, TextInput, FlowError } from "./FlowField";
 import { FlowDone } from "./FlowDone";
 import { LEAD_INTENT, statusMeta } from "@/data/coverageStatus";
 import { submitLead, coverageContext, makeReference } from "@/lib/leads";
@@ -81,10 +81,9 @@ export function InterestFlow({ open, intent = LEAD_INTENT.REGISTER_INTEREST, loc
   return (
     <FlowModal
       open={open}
-      eyebrow="Coverage interest"
       title={done ? "Received" : copy.title}
       onClose={onClose}
-      footer={done ? null : <FlowFooter onNext={submit} nextLabel="Submit" busy={busy} tone="loop" note="No spam — coverage updates only." />}
+      footer={done ? null : <FlowFooter onNext={submit} nextLabel="Submit interest" busy={busy} note="No spam — coverage updates only." />}
     >
       <FlowError>{error}</FlowError>
 
@@ -97,58 +96,64 @@ export function InterestFlow({ open, intent = LEAD_INTENT.REGISTER_INTEREST, loc
           waHref={WA_INTENTS.nearCoverage(form.area || location?.label || "")}
         />
       ) : (
-        <div className="mx-auto max-w-xl">
+        <div>
+          <h1 className="ff-serif text-3xl sm:text-[2rem] leading-tight text-stone-900">
+            {copy.title}
+          </h1>
+          <p className="text-stone-500 mt-3 text-[15px] leading-relaxed max-w-md">
+            {copy.intro}
+          </p>
+
           {location?.label && (
-            <div className="flex items-start gap-3 rounded-xl border border-line bg-fog/60 p-3.5">
-              <span className="mt-0.5 inline-flex h-8 w-8 shrink-0 items-center justify-center rounded-lg bg-signal text-loop">
-                <MapPin className="h-4 w-4" />
-              </span>
+            <div className="mt-8 pt-7 border-t border-stone-200 flex items-start gap-3">
+              <MapPin size={18} className="text-amber-500 mt-0.5 shrink-0" />
               <div>
-                <div className="text-sm font-semibold text-signal">{location.label}</div>
-                <div className="mt-0.5 text-xs text-ink-soft">Status: {meta.label}</div>
+                <div className="text-stone-900 font-medium">{location.label}</div>
+                <div className="text-stone-400 text-sm mt-0.5">Status: {meta.label}</div>
               </div>
             </div>
           )}
 
-          <p className="mt-4 text-sm leading-relaxed text-ink-soft">{copy.intro}</p>
-
-          <div className="mt-6 grid gap-4 sm:grid-cols-2">
+          <div className="mt-8 pt-7 border-t border-stone-200 grid gap-x-6 gap-y-8 sm:grid-cols-2">
             <FlowField label="Full name" required>
-              <input className={fieldClass} value={form.name} onChange={(e) => set("name", e.target.value)} placeholder="Tendai Moyo" />
+              <TextInput value={form.name} onChange={(e) => set("name", e.target.value)} placeholder="Tendai Moyo" />
             </FlowField>
             <FlowField label="Phone number" required>
-              <input className={fieldClass} value={form.phone} onChange={(e) => set("phone", e.target.value)} placeholder="077 000 0000" />
+              <TextInput value={form.phone} onChange={(e) => set("phone", e.target.value)} placeholder="077 000 0000" />
             </FlowField>
             <FlowField label="Email address">
-              <input type="email" className={fieldClass} value={form.email} onChange={(e) => set("email", e.target.value)} placeholder="you@example.com" />
+              <TextInput type="email" value={form.email} onChange={(e) => set("email", e.target.value)} placeholder="you@example.com" />
             </FlowField>
             <FlowField label="Area or address" required>
-              <input className={fieldClass} value={form.area} onChange={(e) => set("area", e.target.value)} placeholder="Your suburb or street" />
+              <TextInput value={form.area} onChange={(e) => set("area", e.target.value)} placeholder="Your suburb or street" />
             </FlowField>
           </div>
 
-          <div className="mt-4">
-            <FlowField label="Anything else?">
+          <div className="mt-8 pt-7 border-t border-stone-200">
+            <FlowField label="Anything else?" hint="Optional — let us know about any special access or timing requirements.">
               <textarea
                 value={form.message}
                 onChange={(e) => set("message", e.target.value)}
-                className={`${fieldClass} h-auto min-h-[80px] py-2.5`}
+                rows={2}
+                className="w-full bg-transparent border-0 border-b border-stone-300 py-2.5 text-stone-900 placeholder-stone-400 focus:outline-none focus:border-amber-500 transition-colors duration-300 resize-none text-sm"
                 placeholder="Optional"
               />
             </FlowField>
           </div>
 
-          <label className="mt-5 flex cursor-pointer items-start gap-3 rounded-xl border border-line bg-fog/60 p-3.5">
-            <input
-              type="checkbox"
-              checked={consent}
-              onChange={(e) => setConsent(e.target.checked)}
-              className="mt-0.5 h-4 w-4 shrink-0 rounded border-line accent-[#072248]"
-            />
-            <span className="text-xs leading-relaxed text-ink-soft">
-              I'd like FibreHood to contact me about coverage at this location.
-            </span>
-          </label>
+          <div className="mt-8 pt-7 border-t border-stone-200">
+            <label className="flex cursor-pointer items-start gap-3">
+              <input
+                type="checkbox"
+                checked={consent}
+                onChange={(e) => setConsent(e.target.checked)}
+                className="mt-0.5 h-4 w-4 shrink-0 rounded border-stone-300 accent-amber-500 text-amber-500 focus:ring-amber-400"
+              />
+              <span className="text-xs sm:text-sm text-stone-500 leading-relaxed">
+                I'd like FibreHood to contact me about coverage and service availability at this location.
+              </span>
+            </label>
+          </div>
         </div>
       )}
     </FlowModal>

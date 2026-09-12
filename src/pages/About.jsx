@@ -2,7 +2,6 @@ import { PageHero } from "@/components/common/PageHero";
 import AboutDevelopmentSections from "@/components/about/AboutDevelopmentSections";
 
 export default function About() {
-  const [showPeopleNetwork, setShowPeopleNetwork] = useState(false);
 
   return (
     <>

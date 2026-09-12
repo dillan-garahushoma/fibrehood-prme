@@ -1,12 +1,12 @@
 import React, { useMemo, useState } from "react";
 import { useSearchParams } from "react-router-dom";
-import { Search, MessageCircle, ChevronDown, Phone } from "lucide-react";
+import { Search, MessageCircle, Phone } from "lucide-react";
 import { PageHero } from "@/components/common/PageHero";
 import { Reveal } from "@/components/common/Reveal";
 import {
   Accordion, AccordionItem, AccordionTrigger, AccordionContent
 } from "@/components/ui/accordion";
-import { SUPPORT_CATEGORIES, SUPPORT_ARTICLES, searchArticles } from "@/data/support";
+import { SUPPORT_CATEGORIES, searchArticles } from "@/data/support";
 import { SITE, WA_INTENTS } from "@/data/site";
 import { cn } from "@/lib/utils";
 

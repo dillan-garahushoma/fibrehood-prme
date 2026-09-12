@@ -10,17 +10,17 @@ import { StepAccount } from "./StepAccount";
 import { StepVerify } from "./StepVerify";
 import { StepReview } from "./StepReview";
 import { FlowDone } from "./FlowDone";
-import { getPlan } from "@/data/plans";
+import { getPlan, plansBySegment } from "@/data/plans";
 import { LEAD_INTENT } from "@/data/coverageStatus";
 import { submitLead, coverageContext, makeReference } from "@/lib/leads";
 import { WA_INTENTS } from "@/data/site";
 
 const EMPTY_INSTALL = {
-  locationType: "",
-  streetNumber: "",
-  streetName: "",
+  locationType: "home",
+  streetNumber: "10",
+  streetName: "Mbovu Road",
   customName: "",
-  orderType: "",
+  orderType: "new",
   phone: "",
   altPhone: "",
   notes: ""
@@ -92,6 +92,16 @@ export function SignupFlow({ open, location, onClose, onChangeAddress }) {
   const advance = () => {
     setError("");
     setIndex((i) => i + 1);
+  };
+
+  const handleSegmentChange = (newSeg) => {
+    setSegment(newSeg);
+    const segPlans = plansBySegment(newSeg);
+    const curPlan = getPlan(planId);
+    if (!curPlan || curPlan.segment !== newSeg) {
+      const preferred = segPlans.find((p) => p.popular) || segPlans[0];
+      if (preferred) setPlanId(preferred.id);
+    }
   };
 
   const validateInstall = () => {
@@ -186,7 +196,6 @@ export function SignupFlow({ open, location, onClose, onChangeAddress }) {
     if (current === "install") {
       const problem = validateInstall();
       if (problem) return setError(problem);
-      if (!install.phone) return;
       return advance();
     }
     if (current === "account") return createAccount();
@@ -245,7 +254,7 @@ export function SignupFlow({ open, location, onClose, onChangeAddress }) {
         <AnimatePresence mode="wait">
           <motion.div key={current} {...motionProps}>
             {current === "plan" && (
-              <StepPlan segment={segment} onSegmentChange={setSegment} planId={planId} onPlanChange={setPlanId} />
+              <StepPlan segment={segment} onSegmentChange={handleSegmentChange} planId={planId} onPlanChange={setPlanId} />
             )}
             {current === "install" && (
               <StepInstallation

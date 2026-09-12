@@ -5,33 +5,43 @@ import { InputOTP, InputOTPGroup, InputOTPSlot } from "@/components/ui/input-otp
 /** Step 4 — confirm the email address with the code the platform just sent. */
 export function StepVerify({ email, code, onCodeChange, onResend, resent }) {
   return (
-    <div className="mx-auto max-w-md text-center">
-      <span className="inline-flex h-12 w-12 items-center justify-center rounded-full bg-signal text-loop">
+    <div className="mx-auto max-w-md text-center py-4">
+      <span className="inline-flex h-12 w-12 items-center justify-center rounded-full bg-amber-50 border border-amber-200 text-amber-600">
         <Mail className="h-5 w-5" />
       </span>
-      <h3 className="mt-4 font-heading text-xl font-bold text-signal">Confirm your email</h3>
-      <p className="mt-2 text-sm text-ink-soft">
-        We sent a six-digit code to <span className="font-semibold text-signal">{email}</span>.
+      <h1 className="ff-serif text-3xl sm:text-[2rem] leading-tight text-stone-900 mt-5">
+        Confirm your email
+      </h1>
+      <p className="text-stone-500 mt-3 text-[15px] leading-relaxed">
+        We sent a six-digit verification code to <span className="font-medium text-stone-900">{email}</span>.
       </p>
 
-      <div className="mt-6 flex justify-center">
+      <div className="mt-8 flex justify-center">
         <InputOTP maxLength={6} value={code} onChange={onCodeChange} autoFocus autoComplete="one-time-code">
-          <InputOTPGroup>
+          <InputOTPGroup className="gap-2">
             {[0, 1, 2, 3, 4, 5].map((i) => (
-              <InputOTPSlot key={i} index={i} />
+              <InputOTPSlot
+                key={i}
+                index={i}
+                className="w-11 h-12 rounded-xl border border-stone-300 text-stone-900 text-lg font-medium focus:border-amber-500 focus:ring-1 focus:ring-amber-500 transition-colors"
+              />
             ))}
           </InputOTPGroup>
         </InputOTP>
       </div>
 
-      <p className="mt-5 text-sm text-ink-soft">
+      <p className="mt-6 text-sm text-stone-500">
         {resent ? (
-          <span className="text-signal">A new code is on its way.</span>
+          <span className="text-amber-700 font-medium">A new code is on its way.</span>
         ) : (
           <>
             Didn't get it?{" "}
-            <button type="button" onClick={onResend} className="font-semibold text-loop underline-offset-2 hover:underline">
-              Resend the code
+            <button
+              type="button"
+              onClick={onResend}
+              className="font-medium text-amber-600 hover:text-amber-700 transition-colors underline-offset-2 hover:underline cursor-pointer"
+            >
+              Resend code
             </button>
           </>
         )}

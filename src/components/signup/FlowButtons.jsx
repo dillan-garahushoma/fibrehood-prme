@@ -1,37 +1,44 @@
 import React from "react";
-import { ArrowLeft, ArrowRight, Loader2 } from "lucide-react";
+import { ChevronLeft, Loader2 } from "lucide-react";
 import { cn } from "@/lib/utils";
 
 /** Shared Back / Continue footer for every step in a flow. */
-export function FlowFooter({ onBack, onNext, nextLabel = "Continue", backLabel = "Back", nextDisabled, busy, tone = "signal", note }) {
+export function FlowFooter({
+  onBack,
+  onNext,
+  nextLabel = "Continue",
+  backLabel = "Back",
+  nextDisabled,
+  busy,
+  note
+}) {
   return (
-    <div className="flex flex-col-reverse items-stretch gap-3 sm:flex-row sm:items-center sm:justify-between">
+    <div className="flex items-center justify-between w-full">
       {onBack ? (
         <button
           type="button"
           onClick={onBack}
           disabled={busy}
-          className="inline-flex h-11 items-center justify-center gap-2 rounded-xl border border-line bg-paper px-5 text-sm font-semibold text-ink-soft transition-colors hover:bg-fog disabled:opacity-60"
+          className="flex items-center gap-1.5 text-sm text-stone-500 hover:text-stone-800 transition-colors disabled:opacity-40 disabled:pointer-events-none cursor-pointer"
         >
-          <ArrowLeft className="h-4 w-4" /> {backLabel}
+          <ChevronLeft size={16} />
+          {backLabel}
         </button>
       ) : (
-        <span className="hidden text-xs text-ink-soft sm:block">{note}</span>
+        <span className="text-xs text-stone-400">{note || ""}</span>
       )}
       <button
         type="button"
         onClick={onNext}
         disabled={nextDisabled || busy}
         className={cn(
-          "inline-flex h-11 items-center justify-center gap-2 rounded-xl px-6 text-sm font-semibold transition-colors disabled:opacity-50",
-          tone === "loop"
-            ? "bg-loop text-signal hover:bg-loopsoft"
-            : "bg-signal text-paper hover:bg-signal-deep"
+          "px-7 py-3 rounded-full bg-stone-900 text-white text-sm font-medium hover:bg-stone-800 hover:-translate-y-0.5 transition-all duration-300 disabled:opacity-40 disabled:pointer-events-none flex items-center gap-2 cursor-pointer ml-auto",
+          busy && "opacity-80"
         )}
+        style={{ boxShadow: "0 12px 30px -10px rgba(28,25,20,0.45)" }}
       >
-        {busy ? <Loader2 className="h-4 w-4 animate-spin" /> : null}
+        {busy && <Loader2 size={15} className="animate-spin" />}
         {nextLabel}
-        {!busy && <ArrowRight className="h-4 w-4" />}
       </button>
     </div>
   );

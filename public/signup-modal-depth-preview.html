@@ -1,0 +1,275 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Signup modal — depth pass</title>
+<style>
+  :root{
+    --paper:#FBF9F4; --ink:#14171F; --ink-soft:#6B7080;
+    --signal:#072248; --signal-deep:#051733; --loop:#FFCC00; --fog:#F1EFE7; --line:#E4E0D3;
+  }
+  *{box-sizing:border-box;}
+  html,body{margin:0;min-height:100%;background:var(--paper);font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif;color:var(--ink);}
+  .page{display:flex;flex-direction:column;align-items:center;justify-content:center;min-height:100vh;gap:18px;padding:24px;}
+  .open-btn{height:48px;border:none;border-radius:10px;background:var(--signal);color:var(--paper);font:inherit;font-size:14px;font-weight:600;padding:0 22px;cursor:pointer;
+    box-shadow:0 1px 2px rgba(7,34,72,.2), 0 12px 24px -10px rgba(7,34,72,.6);transition:.2s;}
+  .open-btn:hover{transform:translateY(-1px);background:var(--signal-deep);}
+  .hint{font-size:13px;color:var(--ink-soft);max-width:440px;text-align:center;}
+
+  .overlay{position:fixed;inset:0;z-index:2000;display:flex;align-items:center;justify-content:center;padding:24px;
+    background:radial-gradient(circle at 50% 38%, rgba(255,204,0,0), transparent 42%), rgba(7,34,72,0);
+    backdrop-filter:blur(0px);transition:background .4s,backdrop-filter .25s;pointer-events:none;}
+  .overlay.open{
+    background:radial-gradient(circle at 50% 38%, rgba(255,204,0,0.14), transparent 42%), rgba(7,34,72,0.7);
+    backdrop-filter:blur(4px);pointer-events:auto;}
+
+  .modal{position:relative;width:100%;max-width:680px;max-height:92vh;display:flex;flex-direction:column;background:var(--paper);
+    border-radius:18px;overflow:hidden;box-shadow:0 40px 80px -24px rgba(7,34,72,.45),0 14px 30px -14px rgba(7,34,72,.3),0 0 0 1px rgba(7,34,72,.04);
+    opacity:0;transform:translateY(20px) scale(.985);transition:opacity .4s cubic-bezier(.16,1,.3,1),transform .4s cubic-bezier(.16,1,.3,1);}
+  .overlay.open .modal{opacity:1;transform:translateY(0) scale(1);}
+
+  .modal-header{position:relative;background:var(--signal);padding:22px 28px 26px;color:var(--paper);overflow:hidden;}
+  .grid-tex{position:absolute;inset:0;opacity:.12;
+    background-image:linear-gradient(rgba(255,255,255,.35) 1px,transparent 1px),linear-gradient(90deg,rgba(255,255,255,.35) 1px,transparent 1px);
+    background-size:26px 26px;}
+  .glow-blob-a{position:absolute;right:-56px;top:-64px;width:208px;height:208px;border-radius:999px;background:rgba(255,204,0,0.16);filter:blur(48px);}
+  .glow-blob-b{position:absolute;left:-40px;bottom:-100px;width:160px;height:160px;border-radius:999px;background:rgba(251,249,244,0.05);filter:blur(30px);}
+  .header-row{position:relative;display:flex;align-items:flex-start;justify-content:space-between;gap:16px;}
+  .eyebrow{display:inline-flex;align-items:center;gap:8px;font-size:10px;font-weight:700;letter-spacing:.24em;text-transform:uppercase;color:var(--loop);}
+  .pulse-wrap{position:relative;display:inline-flex;width:6px;height:6px;}
+  .pulse-ring{position:absolute;inset:0;border-radius:999px;background:var(--loop);opacity:.6;animation:ping 1.8s cubic-bezier(0,0,.2,1) infinite;}
+  .pulse-dot{position:relative;width:6px;height:6px;border-radius:999px;background:var(--loop);}
+  @keyframes ping{75%,100%{transform:scale(2.4);opacity:0;}}
+  .modal-title{position:relative;margin:12px 0 0;font-size:28px;font-weight:800;letter-spacing:-.05em;line-height:1.05;}
+  @media (prefers-reduced-motion: reduce){ .pulse-ring{ animation:none; } }
+  .close-btn{position:relative;background:none;border:none;color:rgba(251,249,244,.7);cursor:pointer;width:34px;height:34px;border-radius:999px;display:inline-flex;align-items:center;justify-content:center;}
+  .close-btn:hover{background:rgba(251,249,244,.1);color:var(--paper);}
+
+  .progress-wrap{position:relative;margin-top:24px;}
+  .progress-track{position:relative;height:3px;width:100%;background:rgba(251,249,244,.15);border-radius:3px;}
+  .progress-fill{position:absolute;inset-y:0;left:0;background:var(--loop);border-radius:3px;box-shadow:0 0 10px rgba(255,204,0,.6);transition:width .5s cubic-bezier(.16,1,.3,1);}
+  .progress-dot{position:absolute;top:50%;width:10px;height:10px;margin-left:-5px;border-radius:999px;background:var(--loop);
+    box-shadow:0 0 0 3px #072248, 0 0 10px rgba(255,204,0,.75);transform:translateY(-50%);transition:left .5s cubic-bezier(.16,1,.3,1);}
+  .step-labels{display:flex;justify-content:space-between;margin-top:12px;}
+  .step-labels span{font-size:10px;font-weight:600;letter-spacing:.14em;text-transform:uppercase;color:rgba(251,249,244,.4);transition:color .3s;}
+  .step-labels span.active{color:var(--loop);}
+
+  .modal-body{flex:1;min-height:0;overflow-y:auto;padding:26px 28px;box-shadow:inset 0 1px 0 rgba(7,34,72,.06);}
+  .step-panel{opacity:0;transform:translateX(14px);transition:opacity .3s ease,transform .3s ease;}
+  .step-panel.in{opacity:1;transform:translateX(0);}
+
+  .tabs{position:relative;display:flex;height:40px;border:1px solid var(--line);background:var(--fog);border-radius:12px;padding:4px;}
+  .tab{position:relative;flex:1;border:none;background:none;font:inherit;font-size:13.5px;font-weight:600;color:var(--ink-soft);cursor:pointer;border-radius:8px;z-index:1;transition:color .2s;}
+  .tab.active{color:var(--ink);}
+  .tab-bg{position:absolute;top:4px;bottom:4px;width:calc(50% - 4px);background:var(--paper);border-radius:8px;box-shadow:0 1px 2px rgba(0,0,0,.06);
+    transition:transform .38s cubic-bezier(.34,1.4,.44,1);}
+  .tab-bg.right{transform:translateX(calc(100% + 4px));}
+  .blurb{margin:12px 0 0;font-size:13px;color:var(--ink-soft);}
+
+  .list{margin-top:18px;display:flex;flex-direction:column;gap:10px;}
+  .row{width:100%;text-align:left;border-radius:16px;border:1px solid var(--line);background:var(--paper);padding:16px 18px;cursor:pointer;
+    transition:border-color .2s, box-shadow .2s, transform .2s;box-shadow:0 1px 2px rgba(7,34,72,.03);}
+  .row:hover{transform:translateY(-1px);border-color:rgba(7,34,72,.25);}
+  .row.selected{border-color:rgba(255,204,0,.8);background:var(--paper);
+    box-shadow:0 14px 30px -14px rgba(255,204,0,.6), 0 2px 6px rgba(7,34,72,.05);}
+
+  .row-top{display:flex;justify-content:space-between;gap:12px;}
+  .row-left{display:flex;gap:13px;}
+  .radio{width:23px;height:23px;border-radius:999px;border:2px solid var(--line);display:flex;align-items:center;justify-content:center;flex-shrink:0;margin-top:1px;transition:border-color .2s;}
+  .row.selected .radio{border-color:var(--loop);}
+  .radio-dot{width:11px;height:11px;border-radius:999px;background:var(--loop);box-shadow:0 0 8px rgba(255,204,0,.75);transform:scale(0);transition:transform .3s cubic-bezier(.34,1.56,.64,1);}
+  .row.selected .radio-dot{transform:scale(1);}
+
+  .plan-name{font-size:15px;font-weight:700;display:flex;align-items:center;gap:7px;flex-wrap:wrap;}
+  .badge{font-size:9.5px;font-weight:700;padding:2px 7px;border-radius:999px;background:rgba(255,204,0,.2);color:var(--signal);}
+  .usage{margin-top:2px;font-size:12.5px;color:var(--ink-soft);text-transform:lowercase;}
+  .speeds{margin-top:6px;display:flex;gap:12px;font-size:11px;color:var(--ink-soft);}
+
+  .price-wrap{text-align:right;flex-shrink:0;}
+  .price{font-size:22px;font-weight:700;letter-spacing:-.01em;font-variant-numeric:tabular-nums;}
+  .cycle{font-size:10.5px;color:var(--ink-soft);}
+
+  .detail{max-height:0;opacity:0;overflow:hidden;transition:max-height .4s cubic-bezier(.32,.72,0,1),opacity .3s;}
+  .row.selected .detail{max-height:400px;opacity:1;}
+  .detail-inner{margin-top:14px;padding-top:14px;border-top:1px solid rgba(228,224,211,.7);}
+  .feature{display:flex;align-items:center;gap:9px;font-size:13px;color:var(--ink-soft);padding:3px 0;opacity:0;transform:translateY(5px);transition:opacity .3s ease,transform .3s ease;}
+  .row.selected .feature{opacity:1;transform:translateY(0);}
+  .tick{display:inline-flex;align-items:center;justify-content:center;width:19px;height:19px;border-radius:999px;background:rgba(255,204,0,.2);flex-shrink:0;}
+  .tick svg{color:var(--signal);}
+  .tags{margin-top:12px;display:flex;flex-wrap:wrap;gap:6px;}
+  .tag{font-size:10.5px;background:var(--fog);color:var(--ink-soft);padding:4px 9px;border-radius:999px;}
+  .fine{margin-top:10px;font-size:11px;color:rgba(107,112,128,.85);}
+
+  .modal-footer{flex-shrink:0;border-top:1px solid var(--line);background:var(--paper);padding:14px 28px;display:flex;justify-content:space-between;gap:10px;}
+  .btn-back{height:42px;border-radius:10px;border:1px solid var(--line);background:var(--paper);color:var(--ink-soft);font:inherit;font-size:13.5px;font-weight:600;padding:0 18px;cursor:pointer;
+    box-shadow:0 1px 2px rgba(7,34,72,.06);transition:.2s;}
+  .btn-back:hover{transform:translateY(-1px);background:var(--fog);box-shadow:0 4px 12px -6px rgba(7,34,72,.18);}
+  .btn-next{height:42px;border-radius:10px;border:none;background:var(--signal);color:var(--paper);font:inherit;font-size:13.5px;font-weight:600;padding:0 20px;cursor:pointer;
+    box-shadow:0 1px 2px rgba(7,34,72,.2), 0 12px 24px -10px rgba(7,34,72,.6);transition:.2s;}
+  .btn-next:hover{transform:translateY(-1px);background:var(--signal-deep);box-shadow:0 1px 2px rgba(7,34,72,.2), 0 16px 28px -8px rgba(7,34,72,.65);}
+
+  .note{max-width:680px;margin-top:8px;color:var(--ink-soft);font-size:12.5px;line-height:1.65;text-align:center;}
+  .note b{color:var(--ink);}
+</style>
+</head>
+<body>
+<div class="page">
+  <button class="open-btn" id="openBtn">Open signup flow</button>
+  <p class="hint">Compare this to the last preview — same layout and copy, only the depth treatment changed. Nothing here is a new color; it's shadow, glow, and scale doing the work.</p>
+</div>
+
+<div class="overlay" id="overlay">
+  <div class="modal">
+    <div class="modal-header">
+      <div class="grid-tex"></div>
+      <div class="glow-blob-a"></div>
+      <div class="glow-blob-b"></div>
+      <div class="header-row">
+        <div>
+          <span class="eyebrow">
+            <span class="pulse-wrap"><span class="pulse-ring"></span><span class="pulse-dot"></span></span>
+            Secure signup
+          </span>
+          <h2 class="modal-title" id="stepTitle">Choose your package</h2>
+        </div>
+        <button class="close-btn" id="closeBtn" aria-label="Close">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>
+        </button>
+      </div>
+      <div class="progress-wrap">
+        <div class="progress-track">
+          <div class="progress-fill" id="progressFill"></div>
+          <div class="progress-dot" id="progressDot"></div>
+        </div>
+        <div class="step-labels" id="stepLabels"></div>
+      </div>
+    </div>
+
+    <div class="modal-body">
+      <div class="step-panel in" id="stepPanel"></div>
+    </div>
+
+    <div class="modal-footer">
+      <button class="btn-back" id="backBtn">← Back</button>
+      <button class="btn-next" id="nextBtn">Continue →</button>
+    </div>
+  </div>
+</div>
+
+<p class="note"><b>What's different from the last pass:</b> a soft gold glow sits behind the whole dialog and inside the header (same blurred-blob technique as the address search card, applied to a dark surface so it reads as ambient light). The progress rule is 3px with an actual glow instead of a 1px line. Buttons and the selected plan row now lift and cast a colored shadow instead of relying on a border alone. Price went from text-xl to text-2xl since it's the one number that matters most in this step.</p>
+
+<script>
+  const STEPS = ["Package", "Installation", "Account", "Verify", "Review"];
+  const TITLES = ["Choose your package", "Fibre installation", "Create your account", "Verify your email", "Review & confirm"];
+  let index = 0;
+  let segment = "home";
+
+  const PLANS = {
+    home: [
+      { id:"starter", name:"Starter Home Connect", usage:"light usage", price:40, down:"5 Mbps", up:"3 Mbps", popular:false,
+        features:["Unlimited data allowance","Wi-Fi router included","Activation from US$65","Month-to-month — no lock-in"],
+        tags:["Light browsing","Email & social","1–3 devices"], fine:"Month-to-month · Activation from US$65" },
+      { id:"smart", name:"Smart Home Connect", usage:"family usage", price:50, down:"15 Mbps", up:"8 Mbps", popular:true,
+        features:["Unlimited data allowance","Wi-Fi router included","Activation from US$65","Month-to-month — no lock-in","Local support"],
+        tags:["Family streaming","HD video calls","4–6 devices"], fine:"Month-to-month · Activation from US$65" },
+      { id:"pro", name:"Pro Home Connect", usage:"serious home usage", price:65, down:"30 Mbps", up:"15 Mbps", popular:false,
+        features:["Unlimited data allowance","Wi-Fi router included","Activation from US$65","Priority local support"],
+        tags:["Work from home","4K streaming","7–10 devices"], fine:"Month-to-month · Activation from US$65" }
+    ],
+    business: [
+      { id:"sme-basic", name:"SME Basic", usage:"everyday business", price:75, down:"30 Mbps", up:"30 Mbps", popular:false,
+        features:["Symmetric 30/30 Mbps","US$100 activation fee","Business-grade support"],
+        tags:["Small office","Cloud apps","Point-of-sale"], fine:"Month-to-month · US$100 activation fee" },
+      { id:"sme-pro", name:"SME Pro", usage:"growing teams", price:125, down:"50 Mbps", up:"50 Mbps", popular:true,
+        features:["Symmetric 50/50 Mbps","US$100 activation fee","Contention priority"],
+        tags:["Growing team","VoIP & video","Cloud workloads"], fine:"Month-to-month · US$100 activation fee" }
+    ]
+  };
+  let selectedPlan = "smart";
+
+  const overlay = document.getElementById('overlay');
+  const stepTitle = document.getElementById('stepTitle');
+  const stepPanel = document.getElementById('stepPanel');
+  const progressFill = document.getElementById('progressFill');
+  const progressDot = document.getElementById('progressDot');
+  const stepLabels = document.getElementById('stepLabels');
+  const backBtn = document.getElementById('backBtn');
+  const nextBtn = document.getElementById('nextBtn');
+
+  stepLabels.innerHTML = STEPS.map((s, i) => `<span data-i="${i}">${s}</span>`).join('');
+
+  function tick(name){ return `<span class="tick"><svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3.5"><polyline points="20 6 9 17 4 12"/></svg></span>`; }
+
+  function renderPlanStep() {
+    const plans = PLANS[segment];
+    return `
+      <div class="tabs">
+        <div class="tab-bg ${segment === 'business' ? 'right' : ''}"></div>
+        <button class="tab ${segment === 'home' ? 'active' : ''}" data-seg="home">Home Fibre</button>
+        <button class="tab ${segment === 'business' ? 'active' : ''}" data-seg="business">SME Fibre</button>
+      </div>
+      <p class="blurb">${segment === 'home' ? 'Everyday connectivity for households. Activation from US$65.' : 'Symmetric connectivity for growing businesses. US$100 activation fee.'}</p>
+      <div class="list">
+        ${plans.map(p => `
+          <button class="row ${p.id === selectedPlan ? 'selected' : ''}" data-plan="${p.id}">
+            <div class="row-top">
+              <div class="row-left">
+                <span class="radio"><span class="radio-dot"></span></span>
+                <div>
+                  <div class="plan-name">${p.name}${p.popular ? '<span class="badge">Popular</span>' : ''}</div>
+                  <div class="usage">${p.usage}</div>
+                  <div class="speeds"><span>↓ ${p.down}</span><span>↑ ${p.up}</span></div>
+                </div>
+              </div>
+              <div class="price-wrap"><div class="price">$${p.price}</div><div class="cycle">/month</div></div>
+            </div>
+            <div class="detail"><div class="detail-inner">
+              ${p.features.map(f => `<div class="feature">${tick()}${f}</div>`).join('')}
+              <div class="tags">${p.tags.map(t => `<span class="tag">${t}</span>`).join('')}</div>
+              <div class="fine">${p.fine}</div>
+            </div></div>
+          </button>
+        `).join('')}
+      </div>
+    `;
+  }
+
+  function renderPlaceholder(i) {
+    return `<div style="padding:40px 10px;text-align:center;color:var(--ink-soft);font-size:13.5px;line-height:1.6;border:1px dashed var(--line);border-radius:14px;">
+      <b style="color:var(--ink);display:block;font-size:15px;margin-bottom:6px;">${TITLES[i]} (unchanged)</b>
+      Same fields as today — only the shell around it changed.
+    </div>`;
+  }
+
+  function render() {
+    stepTitle.textContent = TITLES[index];
+    const pct = (index / (STEPS.length - 1)) * 100;
+    progressFill.style.width = pct + '%';
+    progressDot.style.left = pct + '%';
+    [...stepLabels.children].forEach((el, i) => el.classList.toggle('active', i <= index));
+
+    stepPanel.classList.remove('in');
+    setTimeout(() => {
+      stepPanel.innerHTML = index === 0 ? renderPlanStep() : renderPlaceholder(index);
+      bindStepEvents();
+      requestAnimationFrame(() => stepPanel.classList.add('in'));
+    }, 150);
+
+    backBtn.style.visibility = index === 0 ? 'hidden' : 'visible';
+    nextBtn.textContent = index === STEPS.length - 1 ? 'Submit request →' : 'Continue →';
+  }
+
+  function bindStepEvents() {
+    stepPanel.querySelectorAll('[data-seg]').forEach(btn => btn.addEventListener('click', () => { segment = btn.dataset.seg; render(); }));
+    stepPanel.querySelectorAll('[data-plan]').forEach(btn => btn.addEventListener('click', () => { selectedPlan = btn.dataset.plan; render(); }));
+  }
+
+  document.getElementById('openBtn').addEventListener('click', () => { index = 0; overlay.classList.add('open'); render(); });
+  document.getElementById('closeBtn').addEventListener('click', () => overlay.classList.remove('open'));
+  overlay.addEventListener('click', (e) => { if (e.target === overlay) overlay.classList.remove('open'); });
+  backBtn.addEventListener('click', () => { if (index > 0) { index--; render(); } });
+  nextBtn.addEventListener('click', () => { if (index < STEPS.length - 1) { index++; render(); } else { overlay.classList.remove('open'); } });
+</script>
+</body>
+</html>

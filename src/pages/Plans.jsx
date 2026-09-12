@@ -1,10 +1,16 @@
 import React, { useState } from "react";
 import { Link } from "react-router-dom";
-import { Check, GitCompare, ArrowRight, Info } from "lucide-react";
+import { 
+  Check, GitCompare, ArrowRight, Info,
+  Infinity as InfinityIcon, Wifi, Zap, Ban, Headphones, ArrowLeftRight, TrendingUp 
+} from "lucide-react";
 import { PlansHero } from "@/components/plans/PlansHero";
 import { ConnectionSelector } from "@/components/plans/ConnectionSelector";
 import { PlansConversion } from "@/components/plans/PlansConversion";
 import { PlanCard } from "@/components/plans/PlanCard";
+import { EveryPlanIncludes } from "@/components/plans/EveryPlanIncludes";
+import { WhatYouGet } from "@/components/plans/WhatYouGet";
+import { RouterSection } from "@/components/plans/RouterSection";
 import { PLANS, formatSpeed } from "@/data/plans";
 import { Reveal } from "@/components/common/Reveal";
 import {
@@ -17,14 +23,28 @@ const GROUPS = [
     id: "home-fibre",
     segment: "home",
     heading: "Home Fibre",
-    blurb: "Everyday connectivity for households — a progression from light browsing to a fully connected home."
+    blurb: "Everyday connectivity for households — a progression from light browsing to a fully connected home.",
+    includes: [
+      { icon: InfinityIcon, label: "Unlimited data" },
+      { icon: Wifi, label: "Wi-Fi router included" },
+      { icon: Zap, label: "Activation from US$65" },
+      { icon: Ban, label: "No lock-in" },
+      { icon: Headphones, label: "Local support" },
+    ],
   },
   {
     id: "sme-fibre",
     segment: "business",
     heading: "SME Fibre",
-    blurb: "Symmetric connectivity for growing businesses — built for teams, cloud tools and uptime."
-  }
+    blurb: "Symmetric connectivity for growing businesses — built for teams, cloud tools and uptime.",
+    includes: [
+      { icon: ArrowLeftRight, label: "Symmetric speeds" },
+      { icon: Headphones, label: "Business-grade support" },
+      { icon: Zap, label: "US$100 activation fee" },
+      { icon: Ban, label: "No lock-in" },
+      { icon: TrendingUp, label: "Contention priority" },
+    ],
+  },
 ];
 
 export default function Plans() {
@@ -57,27 +77,54 @@ export default function Plans() {
             const plans = PLANS
               .filter((p) => p.segment === group.segment)
               .sort((a, b) => a.displayOrder - b.displayOrder);
+
+            const isSme = group.segment === "business";
+
+            // Home: regular 4-col grid; SME: centred flex row so 3 cards
+            // sit evenly without a ghost fourth-card gap.
+            const gridContent = isSme ? (
+              <div className="mt-8 flex flex-wrap justify-center gap-6">
+                {plans.map((p, i) => (
+                  <Reveal key={p.id} className="h-full w-full sm:w-[calc(50%-12px)] lg:w-[calc(33.333%-16px)] lg:max-w-xs" delay={i * 0.05}>
+                    <PlanCard plan={p} selected={selected.includes(p.id)} onToggle={toggle} />
+                  </Reveal>
+                ))}
+              </div>
+            ) : (
+              <div className="mt-8 grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-4">
+                {plans.map((p, i) => (
+                  <Reveal key={p.id} className="h-full" delay={(i % 4) * 0.05}>
+                    <PlanCard plan={p} selected={selected.includes(p.id)} onToggle={toggle} />
+                  </Reveal>
+                ))}
+              </div>
+            );
+
             return (
-              <div key={group.id} id={group.id} className="mt-10 scroll-mt-24">
+              <div
+                key={group.id}
+                id={group.id}
+                className={cn("scroll-mt-24", isSme ? "mt-20" : "mt-10")}
+              >
                 <Reveal>
                   <h2 className="font-heading text-2xl font-bold tracking-tight text-signal sm:text-3xl">
                     {group.heading}
                   </h2>
                   <p className="mt-2 max-w-2xl text-sm leading-relaxed text-ink-soft">{group.blurb}</p>
+                  <EveryPlanIncludes items={group.includes} />
                 </Reveal>
-
-                <div className="mt-8 grid gap-6 sm:grid-cols-2 xl:grid-cols-4">
-                  {plans.map((p, i) => (
-                    <Reveal key={p.id} delay={(i % 4) * 0.05}>
-                      <PlanCard plan={p} selected={selected.includes(p.id)} onToggle={toggle} />
-                    </Reveal>
-                  ))}
-                </div>
+                {gridContent}
               </div>
             );
           })}
         </div>
       </section>
+
+      {/* ── What You Get ────────────────────────── */}
+      <WhatYouGet />
+
+      {/* ── Router section ──────────────────────── */}
+      <RouterSection />
 
       {/* Compare bar — kept with the plans */}
       {comparePlans.length > 0 && (
@@ -119,26 +166,36 @@ export default function Plans() {
         </DialogContent>
       </Dialog>
 
-      {/* ── Transparency / what's included ────────────────────────── */}
+      {/* ── Contract & billing ────────────────────────── */}
       <section className="bg-fog py-16 md:py-20">
         <div className="container-lattice">
           <Reveal>
-            <h2 className="font-heading text-2xl font-bold tracking-tight text-signal sm:text-3xl">
-              What's included
+            <span className="eyebrow"><span className="h-px w-6 bg-ink-soft/30" />Terms & transparency</span>
+            <h2 className="mt-4 font-heading text-2xl font-bold tracking-tight text-signal sm:text-3xl">
+              Contract & billing
             </h2>
             <p className="mt-2 max-w-2xl text-sm leading-relaxed text-ink-soft">
-              Everything you need to know before you check availability.
+              Simple, transparent terms with no lock-in and zero surprises.
             </p>
           </Reveal>
           <Reveal className="mt-8 grid gap-4 sm:grid-cols-3">
             {[
-              { t: "Included", b: "Router, activation, and support terms are listed per plan. Home activation from US$65; SME activation US$100." },
-              { t: "Contracts", b: "All plans run month-to-month with no lock-in. SME plans are symmetric with priority capacity." },
-              { t: "Confirm at checkout", b: "Final pricing and installation are confirmed at your coverage check before you commit." }
+              { 
+                t: "Month-to-month contracts", 
+                b: "All plans run month-to-month with no lock-in contracts. Change or cancel your plan whenever your needs evolve." 
+              },
+              { 
+                t: "Clear activation terms", 
+                b: "One-time activation fee covers full on-site installation and line testing (from US$65 for Home, US$100 for SME)." 
+              },
+              { 
+                t: "Verified at coverage check", 
+                b: "Final pricing, service availability, and installation scheduling are verified at your exact address before you commit." 
+              }
             ].map((x) => (
-              <div key={x.t} className="rounded-2xl border border-line bg-paper p-5">
+              <div key={x.t} className="rounded-2xl border border-line bg-paper p-6">
                 <h3 className="font-semibold text-signal">{x.t}</h3>
-                <p className="mt-1.5 text-sm leading-relaxed text-ink-soft">{x.b}</p>
+                <p className="mt-2 text-sm leading-relaxed text-ink-soft">{x.b}</p>
               </div>
             ))}
           </Reveal>

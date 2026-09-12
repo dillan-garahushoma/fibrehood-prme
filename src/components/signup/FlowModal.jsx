@@ -1,16 +1,21 @@
 import React, { useEffect } from "react";
 import { motion, AnimatePresence, useReducedMotion } from "framer-motion";
 import { X } from "lucide-react";
-import { cn } from "@/lib/utils";
 
 const EASE = [0.16, 1, 0.3, 1];
 
 /**
- * Focused signup surface: Signal-Navy header with a SECURE SIGNUP eyebrow and a
- * slim hairline stepper, Paper body, sticky footer actions. Full-bleed on
- * mobile, a centred panel on desktop.
+ * Focused signup surface following the warm stone & amber editorial design.
+ * Features ambient radial lighting, Fraunces serif typography, and a minimalist hairline stepper.
  */
-export function FlowModal({ open, title, eyebrow = "Secure signup", steps = [], current = 0, onClose, footer, children }) {
+export function FlowModal({
+  open,
+  steps = [],
+  current = 0,
+  onClose,
+  footer,
+  children
+}) {
   const reduce = useReducedMotion();
 
   useEffect(() => {
@@ -28,79 +33,106 @@ export function FlowModal({ open, title, eyebrow = "Secure signup", steps = [], 
   return (
     <AnimatePresence>
       {open && (
-        <motion.div
-          className="fixed inset-0 z-[2000] flex items-stretch justify-center sm:items-center sm:p-6"
-          initial={{ opacity: 0 }}
-          animate={{ opacity: 1 }}
-          exit={{ opacity: 0 }}
-          transition={{ duration: 0.25 }}
-        >
-          <div className="absolute inset-0 bg-signal/70 backdrop-blur-sm" onClick={onClose} aria-hidden="true" />
+        <div className="fixed inset-0 z-[2000] flex items-center justify-center p-4 sm:p-6 overflow-y-auto">
+          {/* Ambient warm backdrop */}
+          <motion.div
+            className="fixed inset-0 bg-stone-900/40 backdrop-blur-md"
+            style={{
+              backgroundImage:
+                "radial-gradient(ellipse 900px 500px at 15% 0%, rgba(217,160,60,0.22), transparent 60%)"
+            }}
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            exit={{ opacity: 0 }}
+            transition={{ duration: 0.25 }}
+            onClick={onClose}
+            aria-hidden="true"
+          />
 
+          {/* Modal card */}
           <motion.div
             role="dialog"
             aria-modal="true"
-            aria-label={title}
-            initial={reduce ? { opacity: 0 } : { opacity: 0, y: 24, scale: 0.985 }}
+            initial={reduce ? { opacity: 0 } : { opacity: 0, y: 20, scale: 0.98 }}
             animate={reduce ? { opacity: 1 } : { opacity: 1, y: 0, scale: 1 }}
             exit={reduce ? { opacity: 0 } : { opacity: 0, y: 12, scale: 0.99 }}
-            transition={{ duration: 0.4, ease: EASE }}
-            className="relative flex max-h-full w-full flex-col overflow-hidden bg-paper shadow-lift sm:max-w-3xl sm:rounded-2xl"
+            transition={{ duration: 0.35, ease: EASE }}
+            className="ff-sans relative w-full max-w-2xl bg-white border border-stone-200 rounded-2xl overflow-hidden max-h-[92vh] flex flex-col my-auto z-10"
+            style={{ boxShadow: "0 30px 80px -25px rgba(87,66,30,0.35)" }}
           >
             {/* Header */}
-            <div className="relative shrink-0 bg-signal px-6 pb-6 pt-5 sm:px-8">
-              <div className="bg-grid-dark absolute inset-0 opacity-[0.14]" aria-hidden="true" />
-              <div className="relative flex items-start justify-between gap-4">
-                <div>
-                  <span className="inline-flex items-center gap-2 text-[10px] font-semibold uppercase tracking-[0.24em] text-loop">
-                    <span className="h-px w-5 bg-loop/70" />
-                    {eyebrow}
-                  </span>
-                  <h2 className="mt-2.5 font-heading text-2xl font-bold tracking-tighter text-paper sm:text-3xl">{title}</h2>
-                </div>
-                <button
-                  type="button"
-                  onClick={onClose}
-                  aria-label="Close"
-                  className="-mr-1 -mt-1 inline-flex h-9 w-9 shrink-0 items-center justify-center rounded-full text-paper/70 transition-colors hover:bg-paper/10 hover:text-paper"
-                >
-                  <X className="h-4 w-4" />
-                </button>
+            <div className="flex items-center justify-between px-8 sm:px-12 pt-8 shrink-0">
+              <div className="flex items-center">
+                <img src="/images/logo-black.png" alt="Fibrehood" className="h-[60px] w-auto object-contain" />
               </div>
-
-              {steps.length > 1 && (
-                <div className="relative mt-6 flex items-center gap-2">
-                  {steps.map((s, i) => (
-                    <div key={s} className="flex-1">
-                      <div
-                        className={cn(
-                          "h-px w-full transition-colors duration-500",
-                          i < current ? "bg-loop" : i === current ? "bg-loop" : "bg-paper/20"
-                        )}
-                      />
-                      <span
-                        className={cn(
-                          "mt-2 block truncate text-[10px] font-medium uppercase tracking-[0.14em] transition-colors",
-                          i === current ? "text-loop" : "text-paper/40"
-                        )}
-                      >
-                        {s}
-                      </span>
-                    </div>
-                  ))}
-                </div>
-              )}
+              <button
+                type="button"
+                onClick={onClose}
+                aria-label="Close"
+                className="text-stone-400 hover:text-stone-700 transition-colors p-1 cursor-pointer"
+              >
+                <X size={18} />
+              </button>
             </div>
 
+            {/* Stepper */}
+            {steps.length > 1 && (
+              <div className="px-8 sm:px-12 mt-8 shrink-0">
+                <div className="flex items-center">
+                  {steps.map((step, i) => (
+                    <React.Fragment key={step}>
+                      <div className="flex flex-col items-center">
+                        <span
+                          className={
+                            "block w-1.5 h-1.5 rounded-full transition-colors duration-300 " +
+                            (i <= current ? "bg-amber-500" : "bg-stone-300")
+                          }
+                        />
+                      </div>
+                      {i < steps.length - 1 && (
+                        <div className="flex-1 h-px mx-1.5 bg-stone-200 relative overflow-hidden">
+                          <div
+                            className="absolute inset-y-0 left-0 bg-amber-500 transition-all duration-500"
+                            style={{ width: i < current ? "100%" : "0%" }}
+                          />
+                        </div>
+                      )}
+                    </React.Fragment>
+                  ))}
+                </div>
+                <div className="flex justify-between mt-2.5">
+                  {steps.map((step, i) => (
+                    <span
+                      key={step}
+                      className={
+                        "text-xs transition-colors duration-300 " +
+                        (i === current
+                          ? "text-amber-600 font-medium"
+                          : i < current
+                          ? "text-stone-500"
+                          : "text-stone-300")
+                      }
+                    >
+                      {step}
+                    </span>
+                  ))}
+                </div>
+              </div>
+            )}
+
             {/* Body */}
-            <div className="min-h-0 flex-1 overflow-y-auto px-6 py-7 sm:px-8">{children}</div>
+            <div className="px-8 sm:px-12 py-8 sm:py-10 flex-1 overflow-y-auto">
+              {children}
+            </div>
 
             {/* Footer */}
             {footer && (
-              <div className="shrink-0 border-t border-line bg-fog/60 px-6 py-4 sm:px-8">{footer}</div>
+              <div className="px-8 sm:px-12 py-6 sm:py-7 border-t border-stone-200 shrink-0 bg-white">
+                {footer}
+              </div>
             )}
           </motion.div>
-        </motion.div>
+        </div>
       )}
     </AnimatePresence>
   );

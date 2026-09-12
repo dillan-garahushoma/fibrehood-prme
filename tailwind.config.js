@@ -105,7 +105,8 @@ module.exports = {
       boxShadow: {
         'signal': '0 1px 2px rgba(7, 34, 72, 0.04), 0 8px 24px -8px rgba(7, 34, 72, 0.12)',
         'lift': '0 18px 48px -20px rgba(7, 34, 72, 0.28)',
-        'loop': '0 0 0 1px rgba(255, 204, 0, 0.4), 0 12px 40px -12px rgba(255, 204, 0, 0.35)'
+        'loop': '0 0 0 1px rgba(255, 204, 0, 0.4), 0 12px 40px -12px rgba(255, 204, 0, 0.35)',
+        'elevated': 'var(--shadow-elevated)'
       },
       keyframes: {
         'accordion-down': { from: { height: '0' }, to: { height: 'var(--radix-accordion-content-height)' } },

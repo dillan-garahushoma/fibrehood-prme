@@ -2,16 +2,25 @@ import React from "react";
 import { getPlan, formatSpeed } from "@/data/plans";
 
 const ORDER_LABELS = {
+  new: "New installation",
   new_installation: "New installation",
-  migration: "Migrate existing fibre line"
+  move: "Moving address",
+  upgrade: "Upgrading my line",
+  migration: "Migrate existing line"
+};
+
+const LOCATION_LABELS = {
+  home: "Home",
+  business: "Business",
+  estate: "Estate / Complex"
 };
 
 function Row({ label, value }) {
   if (!value) return null;
   return (
-    <div className="flex items-baseline justify-between gap-6 border-b border-line py-2.5 last:border-b-0">
-      <span className="text-[11px] font-semibold uppercase tracking-[0.14em] text-ink-soft">{label}</span>
-      <span className="text-right text-sm font-medium text-signal">{value}</span>
+    <div className="flex items-baseline justify-between gap-6 border-b border-stone-200 py-3 last:border-b-0">
+      <span className="text-sm text-stone-500">{label}</span>
+      <span className="text-right text-sm font-medium text-stone-900">{value}</span>
     </div>
   );
 }
@@ -20,48 +29,67 @@ function Row({ label, value }) {
 export function StepReview({ data, location, consent, onConsentChange }) {
   const plan = getPlan(data.planId);
   const street = [data.install.streetNumber, data.install.streetName].filter(Boolean).join(" ");
+  const propertyType = LOCATION_LABELS[data.install.locationType] || data.install.locationType;
+  const orderLabel = ORDER_LABELS[data.install.orderType] || data.install.orderType;
 
   return (
-    <div className="grid gap-8 lg:grid-cols-2">
-      <div>
-        <h3 className="font-heading text-sm font-bold uppercase tracking-[0.14em] text-signal">Your package</h3>
-        <div className="mt-4 rounded-2xl border border-loop/60 bg-signal p-5 text-paper">
-          <div className="font-heading text-lg font-bold">{plan?.name}</div>
-          <div className="mt-1 text-xs uppercase tracking-[0.14em] text-loop">{plan?.usageLabel}</div>
-          <div className="mt-4 display-mono text-3xl font-semibold">
-            ${plan?.price}
-            <span className="ml-1 text-xs font-normal text-paper/60">/{plan?.cycle}</span>
+    <div>
+      <h1 className="ff-serif text-3xl sm:text-[2rem] leading-tight text-stone-900">
+        Review & confirm
+      </h1>
+      <p className="text-stone-500 mt-3 text-[15px] leading-relaxed max-w-md">
+        Take a moment to check your installation details before we lock in your request.
+      </p>
+
+      {/* Package Summary Card */}
+      <div className="mt-8 pt-7 border-t border-stone-200">
+        <span className="block text-sm text-stone-500 mb-3">Selected package</span>
+        <div className="rounded-2xl border border-stone-200 bg-stone-50/70 p-5">
+          <div className="flex items-center justify-between">
+            <div className="text-base font-semibold text-stone-900">{plan?.name}</div>
+            <span className="rounded-full bg-amber-100 text-amber-800 text-[11px] font-medium px-2.5 py-0.5">
+              {plan?.usageLabel}
+            </span>
           </div>
-          <div className="mt-3 text-sm text-paper/75">
-            {plan ? `${formatSpeed(plan.download)} down · ${formatSpeed(plan.upload)} up` : null}
+          <div className="mt-3 flex items-baseline gap-1">
+            <span className="text-3xl font-semibold text-stone-900">${plan?.price}</span>
+            <span className="text-xs text-stone-400">/{plan?.cycle}</span>
           </div>
-          <div className="mt-1 text-xs text-paper/60">
+          <div className="mt-2 text-xs sm:text-sm text-stone-500">
+            {plan ? `${formatSpeed(plan.download)} download · ${formatSpeed(plan.upload)} upload` : null}
+          </div>
+          <div className="mt-2 text-xs text-stone-400">
             {plan?.contract} · {plan?.installation}
           </div>
         </div>
       </div>
 
-      <div className="lg:border-l lg:border-line lg:pl-8">
-        <h3 className="font-heading text-sm font-bold uppercase tracking-[0.14em] text-signal">Installation</h3>
-        <div className="mt-3">
+      {/* Installation Summary */}
+      <div className="mt-8 pt-7 border-t border-stone-200">
+        <span className="block text-sm text-stone-500 mb-2">Installation details</span>
+        <div className="divide-y divide-stone-200">
           <Row label="Location" value={location?.label} />
           <Row label="Address" value={street} />
-          <Row label="Property" value={data.install.locationType} />
-          <Row label="Order" value={ORDER_LABELS[data.install.orderType]} />
+          <Row label="Property" value={propertyType} />
+          <Row label="Order type" value={orderLabel} />
           <Row label="Contact" value={data.install.phone} />
-          <Row label="Account" value={data.account.email} />
+          {data.install.altPhone && <Row label="Alternate number" value={data.install.altPhone} />}
+          {data.account.email && <Row label="Account" value={data.account.email} />}
         </div>
+      </div>
 
-        <label className="mt-5 flex cursor-pointer items-start gap-3 rounded-xl border border-line bg-fog/60 p-3.5">
+      {/* Terms consent */}
+      <div className="mt-8 pt-7 border-t border-stone-200">
+        <label className="flex cursor-pointer items-start gap-3">
           <input
             type="checkbox"
             checked={consent}
             onChange={(e) => onConsentChange(e.target.checked)}
-            className="mt-0.5 h-4 w-4 shrink-0 rounded border-line accent-[#072248]"
+            className="mt-0.5 h-4 w-4 shrink-0 rounded border-stone-300 accent-amber-500 text-amber-500 focus:ring-amber-400"
           />
-          <span className="text-xs leading-relaxed text-ink-soft">
-            I'd like FibreHood to contact me about this installation and I accept the{" "}
-            <a href="/terms" className="font-semibold text-loop underline-offset-2 hover:underline">
+          <span className="text-xs sm:text-sm text-stone-500 leading-relaxed">
+            I agree to be contacted about this installation and accept Fibrehood's{" "}
+            <a href="/terms" target="_blank" className="font-medium text-stone-900 hover:text-amber-600 underline transition-colors">
               terms of service
             </a>
             .

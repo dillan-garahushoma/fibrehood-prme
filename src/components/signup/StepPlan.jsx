@@ -1,33 +1,57 @@
 import React from "react";
 import { Check, Download, Upload } from "lucide-react";
+import { motion, AnimatePresence, useReducedMotion } from "framer-motion";
+import NumberFlow from "@number-flow/react";
 import { PLANS, PLAN_CATEGORIES, formatSpeed } from "@/data/plans";
 import { cn } from "@/lib/utils";
 
-/** Step 1 — choose a fibre package, grouped Home / SME by capability progression. */
+const SPRING = { type: "spring", stiffness: 300, damping: 30, mass: 0.8 };
+const PRICE_FORMAT = { style: "currency", currency: "USD", minimumFractionDigits: 0, maximumFractionDigits: 0 };
+
+/** Step 1 — choose a fibre package. */
 export function StepPlan({ segment, onSegmentChange, planId, onPlanChange }) {
+  const reduce = useReducedMotion();
   const plans = PLANS.filter((p) => p.segment === segment).sort((a, b) => a.displayOrder - b.displayOrder);
   const category = PLAN_CATEGORIES.find((c) => c.id === segment);
+  const spring = reduce ? { duration: 0 } : SPRING;
 
   return (
     <div>
-      <div className="inline-flex rounded-xl border border-line bg-fog p-1">
-        {PLAN_CATEGORIES.map((c) => (
-          <button
-            key={c.id}
-            type="button"
-            onClick={() => onSegmentChange(c.id)}
-            className={cn(
-              "h-9 rounded-lg px-4 text-sm font-semibold transition-colors",
-              segment === c.id ? "bg-signal text-paper" : "text-ink-soft hover:text-signal"
-            )}
-          >
-            {c.label}
-          </button>
-        ))}
-      </div>
-      <p className="mt-3 text-sm text-ink-soft">{category?.blurb}</p>
+      <h1 className="ff-serif text-3xl sm:text-[2rem] leading-tight text-stone-900">
+        Choose your package
+      </h1>
+      <p className="text-stone-500 mt-3 text-[15px] leading-relaxed max-w-md">
+        Select the fibre speed that best fits your daily needs. You can easily adjust your plan at any time.
+      </p>
 
-      <div className="mt-6 grid gap-3 sm:grid-cols-2">
+      {/* Category toggle pills */}
+      <div className="mt-8 pt-7 border-t border-stone-200">
+        <span className="block text-sm text-stone-500 mb-3">Plan category</span>
+        <div className="flex flex-wrap gap-2.5">
+          {PLAN_CATEGORIES.map((c) => {
+            const active = segment === c.id;
+            return (
+              <button
+                key={c.id}
+                type="button"
+                onClick={() => onSegmentChange(c.id)}
+                className={cn(
+                  "px-4 py-2.5 rounded-full border text-sm transition-all duration-300 cursor-pointer",
+                  active
+                    ? "border-amber-400 text-amber-700 bg-amber-50 font-medium"
+                    : "border-stone-200 text-stone-500 hover:border-stone-400 hover:text-stone-700"
+                )}
+              >
+                {c.label}
+              </button>
+            );
+          })}
+        </div>
+        {category?.blurb && <p className="mt-2.5 text-xs text-stone-400">{category.blurb}</p>}
+      </div>
+
+      {/* Plan list */}
+      <div className="mt-8 pt-7 border-t border-stone-200 flex flex-col gap-3">
         {plans.map((p) => {
           const selected = planId === p.id;
           return (
@@ -37,43 +61,95 @@ export function StepPlan({ segment, onSegmentChange, planId, onPlanChange }) {
               onClick={() => onPlanChange(p.id)}
               aria-pressed={selected}
               className={cn(
-                "relative rounded-2xl border p-5 text-left transition-all",
-                selected ? "border-loop bg-signal text-paper shadow-lift" : "border-line bg-paper hover:border-signal/40"
+                "w-full rounded-2xl border p-4 sm:p-5 text-left transition-all duration-300 cursor-pointer",
+                selected
+                  ? "border-amber-400 bg-amber-50/20"
+                  : "border-stone-200 bg-white hover:border-stone-300 hover:bg-stone-50/40"
               )}
+              style={
+                selected
+                  ? { boxShadow: "0 12px 28px -12px rgba(217,160,60,0.3)" }
+                  : undefined
+              }
             >
               <div className="flex items-start justify-between gap-3">
-                <div>
-                  <div className={cn("font-heading text-base font-bold", selected ? "text-paper" : "text-signal")}>{p.name}</div>
-                  <div className={cn("mt-0.5 text-[11px] font-semibold uppercase tracking-[0.14em]", selected ? "text-loop" : "text-ink-soft")}>
-                    {p.usageLabel}
+                <div className="flex gap-3.5">
+                  <span
+                    className={cn(
+                      "mt-0.5 grid h-5 w-5 shrink-0 place-items-center rounded-full border transition-colors",
+                      selected ? "border-amber-500" : "border-stone-300"
+                    )}
+                  >
+                    {selected && (
+                      <span className="h-2.5 w-2.5 rounded-full bg-amber-500" />
+                    )}
+                  </span>
+                  <div>
+                    <div className="flex flex-wrap items-center gap-2">
+                      <span className="text-base font-semibold text-stone-900">{p.name}</span>
+                      {p.popular && (
+                        <span className="rounded-full bg-amber-100 text-amber-800 px-2.5 py-0.5 text-[10px] font-medium">
+                          Popular
+                        </span>
+                      )}
+                    </div>
+                    <div className="mt-0.5 text-xs text-stone-400">{p.usageLabel}</div>
+                    <div className="mt-1.5 flex items-center gap-3 text-xs text-stone-500">
+                      <span className="inline-flex items-center gap-1">
+                        <Download className="h-3 w-3 text-stone-400" /> {formatSpeed(p.download)}
+                      </span>
+                      <span className="inline-flex items-center gap-1">
+                        <Upload className="h-3 w-3 text-stone-400" /> {formatSpeed(p.upload)}
+                      </span>
+                    </div>
                   </div>
                 </div>
-                <span
-                  className={cn(
-                    "mt-0.5 grid h-5 w-5 shrink-0 place-items-center rounded-full border transition-colors",
-                    selected ? "border-loop bg-loop text-signal" : "border-line"
-                  )}
-                >
-                  {selected && <Check className="h-3 w-3" />}
-                </span>
+                <div className="shrink-0 text-right">
+                  <div className="text-xl sm:text-2xl font-semibold tracking-tight text-stone-900">
+                    <NumberFlow value={p.price} format={PRICE_FORMAT} />
+                  </div>
+                  <div className="text-xs text-stone-400">/{p.cycle}</div>
+                </div>
               </div>
 
-              <div className={cn("mt-4 display-mono text-2xl font-semibold", selected ? "text-paper" : "text-signal")}>
-                ${p.price}
-                <span className={cn("ml-1 text-xs font-normal", selected ? "text-paper/60" : "text-ink-soft")}>/{p.cycle}</span>
-              </div>
+              <AnimatePresence initial={false}>
+                {selected && (
+                  <motion.div
+                    initial={{ height: 0, opacity: 0 }}
+                    animate={{ height: "auto", opacity: 1 }}
+                    exit={{ height: 0, opacity: 0 }}
+                    transition={reduce ? { duration: 0 } : { duration: 0.35, ease: [0.32, 0.72, 0, 1] }}
+                    className="overflow-hidden"
+                  >
+                    <div className="mt-4 border-t border-stone-200/80 pt-4">
+                      <div className="flex flex-col gap-2">
+                        {p.features.map((f) => (
+                          <div key={f} className="flex items-center gap-2.5 text-xs sm:text-sm text-stone-600">
+                            <span className="grid h-4 w-4 shrink-0 place-items-center rounded-full bg-amber-100 text-amber-700">
+                              <Check className="h-2.5 w-2.5" />
+                            </span>
+                            {f}
+                          </div>
+                        ))}
+                      </div>
 
-              <div className={cn("mt-3 flex items-center gap-4 text-xs", selected ? "text-paper/75" : "text-ink-soft")}>
-                <span className="inline-flex items-center gap-1.5">
-                  <Download className="h-3.5 w-3.5" /> {formatSpeed(p.download)}
-                </span>
-                <span className="inline-flex items-center gap-1.5">
-                  <Upload className="h-3.5 w-3.5" /> {formatSpeed(p.upload)}
-                </span>
-              </div>
-              <div className={cn("mt-2 text-xs", selected ? "text-paper/60" : "text-ink-soft/85")}>
-                {p.contract} · {p.installation}
-              </div>
+                      {p.bestFor?.length > 0 && (
+                        <div className="mt-3.5 flex flex-wrap gap-1.5">
+                          {p.bestFor.map((tag) => (
+                            <span key={tag} className="rounded-full bg-stone-100 px-2.5 py-1 text-[11px] text-stone-500">
+                              {tag}
+                            </span>
+                          ))}
+                        </div>
+                      )}
+
+                      <div className="mt-3 text-xs text-stone-400">
+                        {p.contract} · {p.installation}
+                      </div>
+                    </div>
+                  </motion.div>
+                )}
+              </AnimatePresence>
             </button>
           );
         })}

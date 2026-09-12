@@ -19,11 +19,9 @@ export const PLANS = [
     activation: "from US$65",
     usageLabel: "Light usage",
     features: [
-      "Unlimited data allowance",
-      "Wi-Fi router included",
-      "Activation from US$65",
-      "Month-to-month — no lock-in",
-      "Local support"
+      "Great for 1–3 devices",
+      "Smooth browsing & email",
+      "SD video streaming",
     ],
     bestFor: ["Light browsing", "Email & social", "1–3 devices"],
     popular: false,
@@ -46,11 +44,9 @@ export const PLANS = [
     activation: "from US$65",
     usageLabel: "Family usage",
     features: [
-      "Unlimited data allowance",
-      "Wi-Fi router included",
-      "Activation from US$65",
-      "Month-to-month — no lock-in",
-      "Local support"
+      "Handles 4–6 devices at once",
+      "HD streaming on multiple screens",
+      "Comfortable for video calls",
     ],
     bestFor: ["Family streaming", "HD video calls", "4–6 devices"],
     popular: true,
@@ -73,11 +69,9 @@ export const PLANS = [
     activation: "from US$65",
     usageLabel: "Serious home usage",
     features: [
-      "Unlimited data allowance",
-      "Wi-Fi router included",
-      "Activation from US$65",
-      "Month-to-month — no lock-in",
-      "Local support"
+      "Supports 7–10 devices",
+      "4K streaming without buffering",
+      "Solid upload for working from home",
     ],
     bestFor: ["Work from home", "4K streaming", "7–10 devices"],
     popular: false,
@@ -100,11 +94,9 @@ export const PLANS = [
     activation: "from US$65",
     usageLabel: "Heavy / connected home",
     features: [
-      "Unlimited data allowance",
-      "Wi-Fi router included",
-      "Activation from US$65",
-      "Month-to-month — no lock-in",
-      "Priority local support"
+      "10+ devices with headroom to spare",
+      "Heavy streaming & smart home",
+      "Strong upload for content creators",
     ],
     bestFor: ["Smart home", "Heavy streaming", "10+ devices"],
     popular: false,
@@ -128,11 +120,9 @@ export const PLANS = [
     activation: "US$100",
     usageLabel: "Everyday business",
     features: [
-      "Symmetric 30/30 Mbps",
-      "US$100 activation fee",
-      "Business-grade support",
+      "Ideal for small offices & POS",
+      "Reliable cloud app performance",
       "Scalable to higher tiers",
-      "Month-to-month"
     ],
     bestFor: ["Small office", "Cloud apps", "Point-of-sale"],
     popular: false,
@@ -155,11 +145,9 @@ export const PLANS = [
     activation: "US$100",
     usageLabel: "Growing teams",
     features: [
-      "Symmetric 50/50 Mbps",
-      "US$100 activation fee",
-      "Business-grade support",
-      "Contention priority",
-      "Month-to-month"
+      "VoIP & video conferencing ready",
+      "Multiple concurrent cloud workloads",
+      "Contention priority over Basic",
     ],
     bestFor: ["Growing team", "VoIP & video", "Cloud workloads"],
     popular: true,
@@ -182,11 +170,9 @@ export const PLANS = [
     activation: "US$100",
     usageLabel: "Demanding operations",
     features: [
-      "Symmetric 100/100 Mbps",
-      "US$100 activation fee",
-      "Priority business support",
+      "High-demand teams & hosted infra",
       "Dedicated capacity options",
-      "Month-to-month"
+      "Priority business support SLA",
     ],
     bestFor: ["Demanding teams", "Hosted infrastructure", "High uptime"],
     popular: false,

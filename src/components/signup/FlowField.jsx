@@ -1,29 +1,43 @@
 import React from "react";
 import { cn } from "@/lib/utils";
 
-export function FlowField({ label, required, hint, className, children }) {
+export function Field({ label, required, hint, className, children }) {
   return (
     <label className={cn("block", className)}>
-      <span className="mb-1.5 block text-[11px] font-semibold uppercase tracking-[0.14em] text-ink-soft">
+      <span className="block text-sm text-stone-500 mb-2">
         {label}
-        {required ? <span className="text-loop"> *</span> : null}
+        {required && <span className="text-amber-600 font-medium ml-1">*</span>}
       </span>
       {children}
-      {hint && <span className="mt-1.5 block text-xs text-ink-soft/80">{hint}</span>}
+      {hint && <span className="block text-xs text-stone-400 mt-1.5">{hint}</span>}
     </label>
   );
 }
 
+export function TextInput({ className, ...props }) {
+  return (
+    <input
+      {...props}
+      className={cn(
+        "w-full bg-transparent border-0 border-b border-stone-300 py-2.5 text-stone-900 placeholder-stone-400 focus:outline-none focus:border-amber-500 transition-colors duration-300 text-sm",
+        className
+      )}
+    />
+  );
+}
+
+export const FlowField = Field;
+
 export const fieldClass =
-  "h-11 w-full rounded-xl border border-line bg-paper px-3.5 text-sm text-ink outline-none transition-shadow placeholder:text-ink-soft/50 focus:border-loop focus:ring-2 focus:ring-loop/30";
+  "w-full bg-transparent border-0 border-b border-stone-300 py-2.5 text-stone-900 placeholder-stone-400 focus:outline-none focus:border-amber-500 transition-colors duration-300 text-sm";
 
 export function FlowError({ children }) {
   if (!children) return null;
   return (
-    <div className="mb-5 rounded-xl border border-destructive/30 bg-destructive/5 px-4 py-3 text-sm text-destructive">
+    <div className="mb-6 rounded-xl border border-amber-200 bg-amber-50/80 px-4 py-3 text-sm text-amber-900">
       {children}
     </div>
   );
 }
 
-export default FlowField;
+export default Field;

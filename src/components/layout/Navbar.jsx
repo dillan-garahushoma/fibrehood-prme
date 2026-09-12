@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { Link, useLocation } from "react-router-dom";
 import { AnimatePresence, motion } from "framer-motion";
-import { Menu, X, User, Home, Gauge, MapPin, Info, Headset, Mail } from "lucide-react";
+import { Menu, X, User, Home, Gauge, MapPin, Info, Headset, Mail, Handshake } from "lucide-react";
 import { Logo } from "@/components/brand/Logo";
 import { NAV_LINKS } from "@/data/site";
 import { useNavOverDark } from "@/hooks/useNavOverDark";
@@ -39,12 +39,12 @@ function ClientPortalLink({ className, onClick }) {
   );
 }
 
-export // Icons for the mobile menu (desktop keeps text-only links).
-const MOBILE_ICONS = {
+export const MOBILE_ICONS = {
   "/": Home,
   "/plans": Gauge,
   "/coverage": MapPin,
   "/about": Info,
+  "/partners": Handshake,
   "/faq": Headset,
   "/contact": Mail
 };

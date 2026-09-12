@@ -1,88 +1,170 @@
 import React from "react";
-import { MapPin } from "lucide-react";
-import { FlowField, fieldClass } from "./FlowField";
+import { MapPin, Home, Building2, Landmark, Phone } from "lucide-react";
+import { Field, TextInput } from "./FlowField";
 
-const LOCATION_TYPES = [
-  "Freestanding home",
-  "Townhouse / cluster",
-  "Apartment / complex",
-  "Business premises"
+export const LOCATION_TYPES = [
+  { id: "home", label: "Home", icon: Home },
+  { id: "business", label: "Business", icon: Building2 },
+  { id: "estate", label: "Estate / Complex", icon: Landmark },
+];
+
+export const ORDER_TYPES = [
+  { id: "new", label: "New installation" },
+  { id: "move", label: "Moving address" },
+  { id: "upgrade", label: "Upgrading my line" },
 ];
 
 /** Step 2 — where the line goes and how it should be installed. */
 export function StepInstallation({ install, onChange, location, onChangeAddress }) {
   const set = (k, v) => onChange({ ...install, [k]: v });
+  const locationType = install.locationType || "home";
+  const orderType = install.orderType || "new";
 
   return (
-    <div className="grid gap-8 lg:grid-cols-2">
-      {/* Line location */}
-      <div>
-        <h3 className="font-heading text-sm font-bold uppercase tracking-[0.14em] text-signal">Line location</h3>
+    <div>
+      <h1 className="ff-serif text-3xl sm:text-[2rem] leading-tight text-stone-900">
+        Where should we install your fibre?
+      </h1>
+      <p className="text-stone-500 mt-3 text-[15px] leading-relaxed max-w-md">
+        A few details about the address and the best way to reach you, so
+        we can lock in an installation window.
+      </p>
 
-        <div className="mt-4 flex items-start gap-3 rounded-xl border border-line bg-fog/60 p-3.5">
-          <span className="mt-0.5 inline-flex h-8 w-8 shrink-0 items-center justify-center rounded-lg bg-signal text-loop">
-            <MapPin className="h-4 w-4" />
-          </span>
-          <div className="min-w-0">
-            <div className="truncate text-sm font-semibold text-signal">{location?.label}</div>
-            <button type="button" onClick={onChangeAddress} className="mt-0.5 text-xs font-semibold text-loop underline-offset-2 hover:underline">
-              Change address
-            </button>
+      {/* Address summary */}
+      <div className="mt-9 pt-7 border-t border-stone-200 flex items-start justify-between gap-4">
+        <div className="flex items-start gap-3">
+          <MapPin size={18} className="text-amber-500 mt-0.5 shrink-0" />
+          <div>
+            <div className="text-stone-900 font-medium">{location?.label || "Southview, Harare"}</div>
+            <div className="text-stone-400 text-sm mt-0.5">Installation address</div>
           </div>
         </div>
+        <button
+          type="button"
+          onClick={onChangeAddress}
+          className="text-sm text-stone-500 hover:text-amber-600 transition-colors whitespace-nowrap cursor-pointer"
+        >
+          Change
+        </button>
+      </div>
 
-        <div className="mt-4 space-y-4">
-          <FlowField label="Location type" required>
-            <select className={fieldClass} value={install.locationType} onChange={(e) => set("locationType", e.target.value)}>
-              <option value="">Please select…</option>
-              {LOCATION_TYPES.map((t) => (
-                <option key={t} value={t}>
-                  {t}
-                </option>
-              ))}
-            </select>
-          </FlowField>
-          <div className="grid gap-4 sm:grid-cols-[100px_1fr]">
-            <FlowField label="Street no." required>
-              <input className={fieldClass} value={install.streetNumber} onChange={(e) => set("streetNumber", e.target.value)} placeholder="10" />
-            </FlowField>
-            <FlowField label="Street name" required>
-              <input className={fieldClass} value={install.streetName} onChange={(e) => set("streetName", e.target.value)} placeholder="Mbovu Road" />
-            </FlowField>
-          </div>
-          <FlowField label="Name for this address" hint="Optional — helps you recognise it later.">
-            <input className={fieldClass} value={install.customName} onChange={(e) => set("customName", e.target.value)} placeholder="Home" />
-          </FlowField>
+      {/* Location type */}
+      <div className="mt-8 pt-7 border-t border-stone-200">
+        <span className="block text-sm text-stone-500 mb-3">Location type</span>
+        <div className="flex flex-wrap gap-2.5">
+          {LOCATION_TYPES.map(({ id, label, icon: Icon }) => {
+            const active = locationType === id;
+            return (
+              <button
+                key={id}
+                type="button"
+                onClick={() => set("locationType", id)}
+                className={
+                  "flex items-center gap-2 px-4 py-2.5 rounded-full border text-sm transition-all duration-300 cursor-pointer " +
+                  (active
+                    ? "border-amber-400 text-amber-700 bg-amber-50"
+                    : "border-stone-200 text-stone-500 hover:border-stone-400 hover:text-stone-700")
+                }
+              >
+                <Icon size={15} />
+                {label}
+              </button>
+            );
+          })}
         </div>
       </div>
 
-      {/* Installation details */}
-      <div className="lg:border-l lg:border-line lg:pl-8">
-        <h3 className="font-heading text-sm font-bold uppercase tracking-[0.14em] text-signal">Installation details</h3>
-
-        <div className="mt-4 space-y-4">
-          <FlowField label="Order type" required>
-            <select className={fieldClass} value={install.orderType} onChange={(e) => set("orderType", e.target.value)}>
-              <option value="">Please select…</option>
-              <option value="new_installation">New installation</option>
-              <option value="migration">Migrate / transfer my existing fibre line</option>
-            </select>
-          </FlowField>
-          <FlowField label="Contact number for installation" required>
-            <input className={fieldClass} value={install.phone} onChange={(e) => set("phone", e.target.value)} placeholder="077 000 0000" />
-          </FlowField>
-          <FlowField label="Alternate contact number">
-            <input className={fieldClass} value={install.altPhone} onChange={(e) => set("altPhone", e.target.value)} placeholder="Optional" />
-          </FlowField>
-          <FlowField label="Access notes" hint="Gate codes, best times, anything our technician should know.">
-            <textarea
-              value={install.notes}
-              onChange={(e) => set("notes", e.target.value)}
-              className={`${fieldClass} h-auto min-h-[88px] py-2.5`}
-              placeholder="Optional"
+      {/* Street fields */}
+      <div className="mt-8 pt-7 border-t border-stone-200 grid grid-cols-3 gap-x-6 gap-y-8">
+        <div className="col-span-1">
+          <Field label="Street no.">
+            <TextInput
+              placeholder="10"
+              value={install.streetNumber || ""}
+              onChange={(e) => set("streetNumber", e.target.value)}
             />
-          </FlowField>
+          </Field>
         </div>
+        <div className="col-span-2">
+          <Field label="Street name">
+            <TextInput
+              placeholder="Mbovu Road"
+              value={install.streetName || ""}
+              onChange={(e) => set("streetName", e.target.value)}
+            />
+          </Field>
+        </div>
+        <div className="col-span-3">
+          <Field label="Name for this address" hint="Optional — helps you recognise it later.">
+            <TextInput
+              placeholder="Home"
+              value={install.customName || ""}
+              onChange={(e) => set("customName", e.target.value)}
+            />
+          </Field>
+        </div>
+      </div>
+
+      {/* Order type */}
+      <div className="mt-8 pt-7 border-t border-stone-200">
+        <span className="block text-sm text-stone-500 mb-3">Order type</span>
+        <div className="flex flex-wrap gap-2.5">
+          {ORDER_TYPES.map(({ id, label }) => {
+            const active = orderType === id;
+            return (
+              <button
+                key={id}
+                type="button"
+                onClick={() => set("orderType", id)}
+                className={
+                  "px-4 py-2.5 rounded-full border text-sm transition-all duration-300 cursor-pointer " +
+                  (active
+                    ? "border-amber-400 text-amber-700 bg-amber-50"
+                    : "border-stone-200 text-stone-500 hover:border-stone-400 hover:text-stone-700")
+                }
+              >
+                {label}
+              </button>
+            );
+          })}
+        </div>
+      </div>
+
+      {/* Contact numbers */}
+      <div className="mt-8 pt-7 border-t border-stone-200 grid grid-cols-1 sm:grid-cols-2 gap-x-6 gap-y-8">
+        <Field label="Contact number for installation">
+          <div className="flex items-center gap-2.5">
+            <Phone size={15} className="text-stone-400 shrink-0" />
+            <TextInput
+              placeholder="077 000 0000"
+              value={install.phone || ""}
+              onChange={(e) => set("phone", e.target.value)}
+            />
+          </div>
+        </Field>
+        <Field label="Alternate number" hint="Optional">
+          <TextInput
+            placeholder="077 000 0000"
+            value={install.altPhone || ""}
+            onChange={(e) => set("altPhone", e.target.value)}
+          />
+        </Field>
+      </div>
+
+      {/* Access notes */}
+      <div className="mt-8 pt-7 border-t border-stone-200">
+        <Field
+          label="Access notes"
+          hint="Gate codes, best times, anything our technician should know."
+        >
+          <textarea
+            rows={2}
+            value={install.notes || ""}
+            onChange={(e) => set("notes", e.target.value)}
+            className="w-full bg-transparent border-0 border-b border-stone-300 py-2.5 text-stone-900 placeholder-stone-400 focus:outline-none focus:border-amber-500 transition-colors duration-300 resize-none text-sm"
+            placeholder="Optional"
+          />
+        </Field>
       </div>
     </div>
   );
