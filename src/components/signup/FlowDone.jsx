@@ -9,15 +9,15 @@ export function FlowDone({ title, body, reference, next = [], onClose, waLabel =
       <span className="inline-flex h-14 w-14 items-center justify-center rounded-full bg-amber-50 border border-amber-200 text-amber-600">
         <Check className="h-7 w-7" />
       </span>
-      <h1 className="ff-serif text-3xl sm:text-[2rem] leading-tight text-stone-900 mt-5">
+      <h1 className="text-3xl sm:text-[2rem] leading-tight text-[#031630] mt-5 font-semibold">
         {title}
       </h1>
-      <p className="mt-3 text-[15px] leading-relaxed text-stone-500">{body}</p>
+      <p className="mt-3 text-[15px] leading-relaxed text-stone-700">{body}</p>
 
       {reference && (
-        <div className="mt-6 inline-flex flex-col items-center rounded-2xl border border-stone-200 bg-stone-50/70 px-7 py-4">
-          <span className="text-xs font-medium tracking-wide text-stone-400 uppercase">Your reference</span>
-          <span className="mt-1 text-xl font-semibold text-stone-900 tracking-wider font-mono">{reference}</span>
+        <div className="mt-6 inline-flex flex-col items-center rounded-2xl border border-stone-300 bg-stone-50/80 px-7 py-4">
+          <span className="text-xs font-semibold tracking-wide text-stone-500 uppercase">Your reference</span>
+          <span className="mt-1 text-xl font-semibold text-[#031630] tracking-wider font-mono">{reference}</span>
         </div>
       )}
 
@@ -28,7 +28,7 @@ export function FlowDone({ title, body, reference, next = [], onClose, waLabel =
               <span className="mt-0.5 flex h-5 w-5 shrink-0 items-center justify-center rounded-full bg-amber-100 text-[11px] font-semibold text-amber-800">
                 0{i + 1}
               </span>
-              <span className="text-sm text-stone-600 leading-relaxed">{item}</span>
+              <span className="text-sm text-stone-700 font-medium leading-relaxed">{item}</span>
             </li>
           ))}
         </ul>

@@ -19,8 +19,8 @@ function Row({ label, value }) {
   if (!value) return null;
   return (
     <div className="flex items-baseline justify-between gap-6 border-b border-stone-200 py-3 last:border-b-0">
-      <span className="text-sm text-stone-500">{label}</span>
-      <span className="text-right text-sm font-medium text-stone-900">{value}</span>
+      <span className="text-sm text-stone-600 font-medium">{label}</span>
+      <span className="text-right text-sm font-semibold text-[#031630]">{value}</span>
     </div>
   );
 }
@@ -34,31 +34,31 @@ export function StepReview({ data, location, consent, onConsentChange }) {
 
   return (
     <div>
-      <h1 className="ff-serif text-3xl sm:text-[2rem] leading-tight text-stone-900">
+      <h1 className="text-3xl sm:text-[2rem] leading-tight text-[#031630] font-semibold">
         Review & confirm
       </h1>
-      <p className="text-stone-500 mt-3 text-[15px] leading-relaxed max-w-md">
+      <p className="text-stone-700 mt-3 text-[15px] leading-relaxed max-w-md">
         Take a moment to check your installation details before we lock in your request.
       </p>
 
       {/* Package Summary Card */}
       <div className="mt-8 pt-7 border-t border-stone-200">
-        <span className="block text-sm text-stone-500 mb-3">Selected package</span>
-        <div className="rounded-2xl border border-stone-200 bg-stone-50/70 p-5">
+        <span className="block text-sm text-stone-800 font-medium mb-3">Selected package</span>
+        <div className="rounded-2xl border border-stone-300 bg-stone-50/80 p-5">
           <div className="flex items-center justify-between">
-            <div className="text-base font-semibold text-stone-900">{plan?.name}</div>
-            <span className="rounded-full bg-amber-100 text-amber-800 text-[11px] font-medium px-2.5 py-0.5">
+            <div className="text-base font-semibold text-[#031630]">{plan?.name}</div>
+            <span className="rounded-full bg-amber-100 text-amber-900 text-[11px] font-semibold px-2.5 py-0.5">
               {plan?.usageLabel}
             </span>
           </div>
           <div className="mt-3 flex items-baseline gap-1">
-            <span className="text-3xl font-semibold text-stone-900">${plan?.price}</span>
-            <span className="text-xs text-stone-400">/{plan?.cycle}</span>
+            <span className="text-3xl font-semibold text-[#031630]">${plan?.price}</span>
+            <span className="text-xs text-stone-500 font-medium">/{plan?.cycle}</span>
           </div>
-          <div className="mt-2 text-xs sm:text-sm text-stone-500">
+          <div className="mt-2 text-xs sm:text-sm text-stone-700 font-medium">
             {plan ? `${formatSpeed(plan.download)} download · ${formatSpeed(plan.upload)} upload` : null}
           </div>
-          <div className="mt-2 text-xs text-stone-400">
+          <div className="mt-2 text-xs text-stone-500">
             {plan?.contract} · {plan?.installation}
           </div>
         </div>
@@ -66,7 +66,7 @@ export function StepReview({ data, location, consent, onConsentChange }) {
 
       {/* Installation Summary */}
       <div className="mt-8 pt-7 border-t border-stone-200">
-        <span className="block text-sm text-stone-500 mb-2">Installation details</span>
+        <span className="block text-sm text-stone-800 font-medium mb-2">Installation details</span>
         <div className="divide-y divide-stone-200">
           <Row label="Location" value={location?.label} />
           <Row label="Address" value={street} />
@@ -85,11 +85,11 @@ export function StepReview({ data, location, consent, onConsentChange }) {
             type="checkbox"
             checked={consent}
             onChange={(e) => onConsentChange(e.target.checked)}
-            className="mt-0.5 h-4 w-4 shrink-0 rounded border-stone-300 accent-amber-500 text-amber-500 focus:ring-amber-400"
+            className="mt-0.5 h-4 w-4 shrink-0 rounded border-stone-400 accent-amber-500 text-amber-500 focus:ring-amber-400"
           />
-          <span className="text-xs sm:text-sm text-stone-500 leading-relaxed">
+          <span className="text-xs sm:text-sm text-stone-700 font-medium leading-relaxed">
             I agree to be contacted about this installation and accept Fibrehood's{" "}
-            <a href="/terms" target="_blank" className="font-medium text-stone-900 hover:text-amber-600 underline transition-colors">
+            <a href="/terms" target="_blank" className="font-semibold text-[#031630] hover:text-amber-700 underline transition-colors">
               terms of service
             </a>
             .

@@ -1,4 +1,4 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useRef } from "react";
 import { motion, AnimatePresence, useReducedMotion } from "framer-motion";
 import { X } from "lucide-react";
 
@@ -17,6 +17,30 @@ export function FlowModal({
   children
 }) {
   const reduce = useReducedMotion();
+  const bodyRef = useRef(null);
+  const containerRef = useRef(null);
+
+  useEffect(() => {
+    const resetScroll = () => {
+      if (bodyRef.current) {
+        bodyRef.current.scrollTop = 0;
+      }
+      if (containerRef.current) {
+        containerRef.current.scrollTop = 0;
+      }
+    };
+    resetScroll();
+    const frame1 = requestAnimationFrame(resetScroll);
+    const t1 = setTimeout(resetScroll, 50);
+    const t2 = setTimeout(resetScroll, 180);
+    const t3 = setTimeout(resetScroll, 380);
+    return () => {
+      cancelAnimationFrame(frame1);
+      clearTimeout(t1);
+      clearTimeout(t2);
+      clearTimeout(t3);
+    };
+  }, [current, open]);
 
   useEffect(() => {
     if (!open) return;
@@ -33,7 +57,7 @@ export function FlowModal({
   return (
     <AnimatePresence>
       {open && (
-        <div className="fixed inset-0 z-[2000] flex items-center justify-center p-4 sm:p-6 overflow-y-auto">
+        <div ref={containerRef} className="fixed inset-0 z-[2000] flex items-center justify-center p-4 sm:p-6 overflow-y-auto">
           {/* Ambient warm backdrop */}
           <motion.div
             className="fixed inset-0 bg-stone-900/40 backdrop-blur-md"
@@ -69,7 +93,7 @@ export function FlowModal({
                 type="button"
                 onClick={onClose}
                 aria-label="Close"
-                className="text-stone-400 hover:text-stone-700 transition-colors p-1 cursor-pointer"
+                className="text-stone-500 hover:text-stone-900 transition-colors p-1 cursor-pointer"
               >
                 <X size={18} />
               </button>
@@ -85,12 +109,12 @@ export function FlowModal({
                         <span
                           className={
                             "block w-1.5 h-1.5 rounded-full transition-colors duration-300 " +
-                            (i <= current ? "bg-amber-500" : "bg-stone-300")
+                            (i <= current ? "bg-amber-500" : "bg-stone-400")
                           }
                         />
                       </div>
                       {i < steps.length - 1 && (
-                        <div className="flex-1 h-px mx-1.5 bg-stone-200 relative overflow-hidden">
+                        <div className="flex-1 h-px mx-1.5 bg-stone-300 relative overflow-hidden">
                           <div
                             className="absolute inset-y-0 left-0 bg-amber-500 transition-all duration-500"
                             style={{ width: i < current ? "100%" : "0%" }}
@@ -107,10 +131,10 @@ export function FlowModal({
                       className={
                         "text-xs transition-colors duration-300 " +
                         (i === current
-                          ? "text-amber-600 font-medium"
+                          ? "text-amber-700 font-semibold"
                           : i < current
-                          ? "text-stone-500"
-                          : "text-stone-300")
+                          ? "text-stone-700 font-medium"
+                          : "text-stone-400 font-medium")
                       }
                     >
                       {step}
@@ -121,7 +145,7 @@ export function FlowModal({
             )}
 
             {/* Body */}
-            <div className="px-8 sm:px-12 py-8 sm:py-10 flex-1 overflow-y-auto">
+            <div ref={bodyRef} className="px-8 sm:px-12 py-8 sm:py-10 flex-1 overflow-y-auto">
               {children}
             </div>
 

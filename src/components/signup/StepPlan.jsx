@@ -17,16 +17,16 @@ export function StepPlan({ segment, onSegmentChange, planId, onPlanChange }) {
 
   return (
     <div>
-      <h1 className="ff-serif text-3xl sm:text-[2rem] leading-tight text-stone-900">
+      <h1 className="text-3xl sm:text-[2rem] leading-tight text-[#031630] font-semibold">
         Choose your package
       </h1>
-      <p className="text-stone-500 mt-3 text-[15px] leading-relaxed max-w-md">
+      <p className="text-stone-700 mt-3 text-[15px] leading-relaxed max-w-md">
         Select the fibre speed that best fits your daily needs. You can easily adjust your plan at any time.
       </p>
 
       {/* Category toggle pills */}
       <div className="mt-8 pt-7 border-t border-stone-200">
-        <span className="block text-sm text-stone-500 mb-3">Plan category</span>
+        <span className="block text-sm text-stone-800 font-medium mb-3">Plan category</span>
         <div className="flex flex-wrap gap-2.5">
           {PLAN_CATEGORIES.map((c) => {
             const active = segment === c.id;
@@ -36,10 +36,10 @@ export function StepPlan({ segment, onSegmentChange, planId, onPlanChange }) {
                 type="button"
                 onClick={() => onSegmentChange(c.id)}
                 className={cn(
-                  "px-4 py-2.5 rounded-full border text-sm transition-all duration-300 cursor-pointer",
+                  "px-4 py-2.5 rounded-full border text-sm transition-all duration-300 cursor-pointer font-medium",
                   active
-                    ? "border-amber-400 text-amber-700 bg-amber-50 font-medium"
-                    : "border-stone-200 text-stone-500 hover:border-stone-400 hover:text-stone-700"
+                    ? "border-amber-500 text-amber-800 bg-amber-50/90 shadow-sm"
+                    : "border-stone-300 text-stone-700 hover:border-stone-500 hover:text-stone-900 bg-white"
                 )}
               >
                 {c.label}
@@ -47,7 +47,7 @@ export function StepPlan({ segment, onSegmentChange, planId, onPlanChange }) {
             );
           })}
         </div>
-        {category?.blurb && <p className="mt-2.5 text-xs text-stone-400">{category.blurb}</p>}
+        {category?.blurb && <p className="mt-2.5 text-xs text-stone-600 font-medium">{category.blurb}</p>}
       </div>
 
       {/* Plan list */}
@@ -63,8 +63,8 @@ export function StepPlan({ segment, onSegmentChange, planId, onPlanChange }) {
               className={cn(
                 "w-full rounded-2xl border p-4 sm:p-5 text-left transition-all duration-300 cursor-pointer",
                 selected
-                  ? "border-amber-400 bg-amber-50/20"
-                  : "border-stone-200 bg-white hover:border-stone-300 hover:bg-stone-50/40"
+                  ? "border-amber-500 bg-amber-50/30"
+                  : "border-stone-300 bg-white hover:border-stone-400 hover:bg-stone-50/60"
               )}
               style={
                 selected
@@ -77,7 +77,7 @@ export function StepPlan({ segment, onSegmentChange, planId, onPlanChange }) {
                   <span
                     className={cn(
                       "mt-0.5 grid h-5 w-5 shrink-0 place-items-center rounded-full border transition-colors",
-                      selected ? "border-amber-500" : "border-stone-300"
+                      selected ? "border-amber-500" : "border-stone-400"
                     )}
                   >
                     {selected && (
@@ -86,29 +86,29 @@ export function StepPlan({ segment, onSegmentChange, planId, onPlanChange }) {
                   </span>
                   <div>
                     <div className="flex flex-wrap items-center gap-2">
-                      <span className="text-base font-semibold text-stone-900">{p.name}</span>
+                      <span className="text-base font-semibold text-[#031630]">{p.name}</span>
                       {p.popular && (
-                        <span className="rounded-full bg-amber-100 text-amber-800 px-2.5 py-0.5 text-[10px] font-medium">
+                        <span className="rounded-full bg-amber-100 text-amber-900 px-2.5 py-0.5 text-[10px] font-semibold">
                           Popular
                         </span>
                       )}
                     </div>
-                    <div className="mt-0.5 text-xs text-stone-400">{p.usageLabel}</div>
-                    <div className="mt-1.5 flex items-center gap-3 text-xs text-stone-500">
+                    <div className="mt-0.5 text-xs text-stone-500 font-medium">{p.usageLabel}</div>
+                    <div className="mt-1.5 flex items-center gap-3 text-xs text-stone-700 font-medium">
                       <span className="inline-flex items-center gap-1">
-                        <Download className="h-3 w-3 text-stone-400" /> {formatSpeed(p.download)}
+                        <Download className="h-3 w-3 text-stone-500" /> {formatSpeed(p.download)}
                       </span>
                       <span className="inline-flex items-center gap-1">
-                        <Upload className="h-3 w-3 text-stone-400" /> {formatSpeed(p.upload)}
+                        <Upload className="h-3 w-3 text-stone-500" /> {formatSpeed(p.upload)}
                       </span>
                     </div>
                   </div>
                 </div>
                 <div className="shrink-0 text-right">
-                  <div className="text-xl sm:text-2xl font-semibold tracking-tight text-stone-900">
+                  <div className="text-xl sm:text-2xl font-semibold tracking-tight text-[#031630]">
                     <NumberFlow value={p.price} format={PRICE_FORMAT} />
                   </div>
-                  <div className="text-xs text-stone-400">/{p.cycle}</div>
+                  <div className="text-xs text-stone-500 font-medium">/{p.cycle}</div>
                 </div>
               </div>
 
@@ -124,8 +124,8 @@ export function StepPlan({ segment, onSegmentChange, planId, onPlanChange }) {
                     <div className="mt-4 border-t border-stone-200/80 pt-4">
                       <div className="flex flex-col gap-2">
                         {p.features.map((f) => (
-                          <div key={f} className="flex items-center gap-2.5 text-xs sm:text-sm text-stone-600">
-                            <span className="grid h-4 w-4 shrink-0 place-items-center rounded-full bg-amber-100 text-amber-700">
+                          <div key={f} className="flex items-center gap-2.5 text-xs sm:text-sm text-stone-700">
+                            <span className="grid h-4 w-4 shrink-0 place-items-center rounded-full bg-amber-100 text-amber-800">
                               <Check className="h-2.5 w-2.5" />
                             </span>
                             {f}
@@ -136,14 +136,14 @@ export function StepPlan({ segment, onSegmentChange, planId, onPlanChange }) {
                       {p.bestFor?.length > 0 && (
                         <div className="mt-3.5 flex flex-wrap gap-1.5">
                           {p.bestFor.map((tag) => (
-                            <span key={tag} className="rounded-full bg-stone-100 px-2.5 py-1 text-[11px] text-stone-500">
+                            <span key={tag} className="rounded-full bg-stone-100 px-2.5 py-1 text-[11px] text-stone-700 font-medium">
                               {tag}
                             </span>
                           ))}
                         </div>
                       )}
 
-                      <div className="mt-3 text-xs text-stone-400">
+                      <div className="mt-3 text-xs text-stone-500">
                         {p.contract} · {p.installation}
                       </div>
                     </div>

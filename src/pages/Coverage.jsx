@@ -14,7 +14,12 @@ export default function Coverage() {
       {/* Hero — navy, full-bleed image, mirroring the homepage hero */}
       <section className="relative overflow-hidden bg-signal-deep text-paper">
         <div className="absolute inset-y-0 right-0 w-full lg:w-[58%]" aria-hidden="true">
-          <Image src={IMAGES.coverageAerial} alt="" fittingType="fill" className="h-full w-full" />
+          <Image
+            src={IMAGES.coverageAerial}
+            alt="FibreHood fibre network coverage"
+            fittingType="fill"
+            className="h-full w-full"
+          />
           <div className="absolute inset-0 bg-signal-deep/65 lg:bg-transparent" />
           <div className="absolute inset-0 bg-gradient-to-r from-signal-deep via-signal-deep/30 to-transparent" />
           <div className="absolute inset-0 bg-gradient-to-t from-signal-deep/70 via-transparent to-signal-deep/30" />

@@ -22,10 +22,10 @@ export function StepInstallation({ install, onChange, location, onChangeAddress 
 
   return (
     <div>
-      <h1 className="ff-serif text-3xl sm:text-[2rem] leading-tight text-stone-900">
+      <h1 className="text-3xl sm:text-[2rem] leading-tight text-[#031630] font-semibold">
         Where should we install your fibre?
       </h1>
-      <p className="text-stone-500 mt-3 text-[15px] leading-relaxed max-w-md">
+      <p className="text-stone-700 mt-3 text-[15px] leading-relaxed max-w-md">
         A few details about the address and the best way to reach you, so
         we can lock in an installation window.
       </p>
@@ -33,16 +33,16 @@ export function StepInstallation({ install, onChange, location, onChangeAddress 
       {/* Address summary */}
       <div className="mt-9 pt-7 border-t border-stone-200 flex items-start justify-between gap-4">
         <div className="flex items-start gap-3">
-          <MapPin size={18} className="text-amber-500 mt-0.5 shrink-0" />
+          <MapPin size={18} className="text-amber-600 mt-0.5 shrink-0" />
           <div>
-            <div className="text-stone-900 font-medium">{location?.label || "Southview, Harare"}</div>
-            <div className="text-stone-400 text-sm mt-0.5">Installation address</div>
+            <div className="text-[#031630] font-semibold">{location?.label || "Southview, Harare"}</div>
+            <div className="text-stone-500 text-sm mt-0.5 font-medium">Installation address</div>
           </div>
         </div>
         <button
           type="button"
           onClick={onChangeAddress}
-          className="text-sm text-stone-500 hover:text-amber-600 transition-colors whitespace-nowrap cursor-pointer"
+          className="text-sm text-stone-600 hover:text-amber-700 transition-colors whitespace-nowrap cursor-pointer font-medium"
         >
           Change
         </button>
@@ -50,7 +50,7 @@ export function StepInstallation({ install, onChange, location, onChangeAddress 
 
       {/* Location type */}
       <div className="mt-8 pt-7 border-t border-stone-200">
-        <span className="block text-sm text-stone-500 mb-3">Location type</span>
+        <span className="block text-sm text-stone-800 font-medium mb-3">Location type</span>
         <div className="flex flex-wrap gap-2.5">
           {LOCATION_TYPES.map(({ id, label, icon: Icon }) => {
             const active = locationType === id;
@@ -60,10 +60,10 @@ export function StepInstallation({ install, onChange, location, onChangeAddress 
                 type="button"
                 onClick={() => set("locationType", id)}
                 className={
-                  "flex items-center gap-2 px-4 py-2.5 rounded-full border text-sm transition-all duration-300 cursor-pointer " +
+                  "flex items-center gap-2 px-4 py-2.5 rounded-full border text-sm transition-all duration-300 cursor-pointer font-medium " +
                   (active
-                    ? "border-amber-400 text-amber-700 bg-amber-50"
-                    : "border-stone-200 text-stone-500 hover:border-stone-400 hover:text-stone-700")
+                    ? "border-amber-500 text-amber-800 bg-amber-50/90 shadow-sm"
+                    : "border-stone-300 text-stone-700 hover:border-stone-500 hover:text-stone-900 bg-white")
                 }
               >
                 <Icon size={15} />
@@ -107,7 +107,7 @@ export function StepInstallation({ install, onChange, location, onChangeAddress 
 
       {/* Order type */}
       <div className="mt-8 pt-7 border-t border-stone-200">
-        <span className="block text-sm text-stone-500 mb-3">Order type</span>
+        <span className="block text-sm text-stone-800 font-medium mb-3">Order type</span>
         <div className="flex flex-wrap gap-2.5">
           {ORDER_TYPES.map(({ id, label }) => {
             const active = orderType === id;
@@ -117,10 +117,10 @@ export function StepInstallation({ install, onChange, location, onChangeAddress 
                 type="button"
                 onClick={() => set("orderType", id)}
                 className={
-                  "px-4 py-2.5 rounded-full border text-sm transition-all duration-300 cursor-pointer " +
+                  "px-4 py-2.5 rounded-full border text-sm transition-all duration-300 cursor-pointer font-medium " +
                   (active
-                    ? "border-amber-400 text-amber-700 bg-amber-50"
-                    : "border-stone-200 text-stone-500 hover:border-stone-400 hover:text-stone-700")
+                    ? "border-amber-500 text-amber-800 bg-amber-50/90 shadow-sm"
+                    : "border-stone-300 text-stone-700 hover:border-stone-500 hover:text-stone-900 bg-white")
                 }
               >
                 {label}
@@ -134,7 +134,7 @@ export function StepInstallation({ install, onChange, location, onChangeAddress 
       <div className="mt-8 pt-7 border-t border-stone-200 grid grid-cols-1 sm:grid-cols-2 gap-x-6 gap-y-8">
         <Field label="Contact number for installation">
           <div className="flex items-center gap-2.5">
-            <Phone size={15} className="text-stone-400 shrink-0" />
+            <Phone size={15} className="text-stone-500 shrink-0" />
             <TextInput
               placeholder="077 000 0000"
               value={install.phone || ""}
@@ -161,7 +161,7 @@ export function StepInstallation({ install, onChange, location, onChangeAddress 
             rows={2}
             value={install.notes || ""}
             onChange={(e) => set("notes", e.target.value)}
-            className="w-full bg-transparent border-0 border-b border-stone-300 py-2.5 text-stone-900 placeholder-stone-400 focus:outline-none focus:border-amber-500 transition-colors duration-300 resize-none text-sm"
+            className="w-full bg-transparent border-0 border-b border-stone-400 py-2.5 text-stone-900 placeholder-stone-400 focus:outline-none focus:border-amber-500 transition-colors duration-300 resize-none text-sm"
             placeholder="Optional"
           />
         </Field>
