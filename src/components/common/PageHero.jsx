@@ -5,7 +5,7 @@ import { SectionLabel } from "@/components/common/SectionLabel";
 import { entranceContainer, entranceItem } from "@/components/common/Reveal";
 import { cn } from "@/lib/utils";
 
-export function PageHero({ eyebrow, title, subtitle, tone = "dark", children, align = "left" }) {
+export function PageHero({ eyebrow, title, subtitle, tone = "dark", children, align = "left", minHeight = "80svh" }) {
   const dark = tone === "dark";
   const reduce = useReducedMotion();
 
@@ -25,7 +25,10 @@ export function PageHero({ eyebrow, title, subtitle, tone = "dark", children, al
       <div className="pointer-events-none absolute -right-16 -top-10 opacity-[0.07]">
         <LoopMark className="h-56 w-[26rem]" stroke={2} animated />
       </div>
-      <div className="container-lattice relative pt-28 pb-14 md:pt-36 md:pb-20">
+      <div
+        className="container-lattice relative flex flex-col justify-center pt-28 pb-14 md:pt-36 md:pb-20"
+        style={{ minHeight }}
+      >
         <motion.div
           className={innerClass}
           variants={entranceContainer}

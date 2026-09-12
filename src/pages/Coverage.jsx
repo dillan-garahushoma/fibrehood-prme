@@ -20,7 +20,7 @@ export default function Coverage() {
           <div className="absolute inset-0 bg-gradient-to-t from-signal-deep/70 via-transparent to-signal-deep/30" />
         </div>
 
-        <div className="container-lattice relative flex min-h-[78svh] flex-col justify-center py-28 md:py-36 lg:min-h-[82vh]">
+        <div className="container-lattice relative flex min-h-[80svh] flex-col justify-center py-28 md:py-36">
           <Reveal className="max-w-2xl">
             <span className="eyebrow text-paper/70">
               <span className="h-px w-7 bg-loop" aria-hidden="true" />

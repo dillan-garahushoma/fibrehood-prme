@@ -5,7 +5,7 @@ import { Reveal } from "@/components/common/Reveal";
 export function LegalLayout({ title, updated, intro, children }) {
   return (
     <>
-      <PageHero eyebrow="Legal" title={title} subtitle={intro} />
+      <PageHero eyebrow="Legal" title={title} subtitle={intro} minHeight="auto" />
       <section className="py-16 md:py-20">
         <Reveal className="container-lattice max-w-3xl">
           {updated && <p className="text-sm text-ink-soft">Last updated: {updated}</p>}
