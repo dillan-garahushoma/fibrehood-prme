@@ -5,6 +5,7 @@ import { CoverageMapDemo } from "@/components/home/step/CoverageMapDemo";
 import { Step2Plans } from "@/components/home/step/Step2Plans";
 import { Step3Calendar } from "@/components/home/step/Step3Calendar";
 import { Step4Connected } from "@/components/home/step/Step4Connected";
+import { useIsMobile } from "@/hooks/use-mobile";
 import { cn } from "@/lib/utils";
 
 const JOURNEY_BG_IMAGE = "/images/img-hero-6.jpg";
@@ -153,21 +154,21 @@ function JourneyVisual({ activeStep }) {
 
 function StaticJourney() {
   return (
-    <div className="container-lattice relative z-10 space-y-16 pb-20">
+    <div className="container-lattice relative z-10 space-y-12 pb-20 md:space-y-16">
       {STEPS.map((step, index) => (
         <Reveal
           key={step.title}
-          className="grid gap-8 lg:grid-cols-[minmax(0,0.86fr)_minmax(0,1.14fr)] lg:items-center lg:gap-16"
+          className="grid gap-6 md:gap-8 lg:grid-cols-[minmax(0,0.86fr)_minmax(0,1.14fr)] lg:items-center lg:gap-16"
         >
           <div className="max-w-md">
             <StepProgress activeStep={index} />
-            <p className="mb-2 text-xs font-semibold uppercase tracking-[0.16em] text-ink-soft">
+            <p className="mb-1.5 text-[11px] font-semibold uppercase tracking-[0.16em] text-ink-soft sm:mb-2 sm:text-xs">
               Step {index + 1} of {STEPS.length}
             </p>
-            <h3 className="font-heading text-3xl font-bold tracking-tight text-signal lg:text-4xl">{step.title}</h3>
-            <p className="mt-4 text-base leading-relaxed text-ink-soft lg:text-lg">{step.body}</p>
+            <h3 className="font-heading text-2xl font-bold tracking-tight text-signal sm:text-3xl lg:text-4xl">{step.title}</h3>
+            <p className="mt-3 text-sm leading-relaxed text-ink-soft sm:text-base lg:mt-4 lg:text-lg">{step.body}</p>
           </div>
-          <div className="h-[420px] w-full sm:h-[500px] lg:h-[540px]">
+          <div className="h-[400px] w-full sm:h-[480px] lg:h-[540px]">
             <JourneyVisual activeStep={index} />
           </div>
         </Reveal>
@@ -178,7 +179,13 @@ function StaticJourney() {
 
 export function ConnectionJourney() {
   const reduce = useReducedMotion();
+  const isMobile = useIsMobile();
   const { ref, activeStep } = useScrollStage();
+
+  // The pinned scroll experience needs desktop vertical room. On mobile it
+  // crams the detailed step visuals and the copy into one viewport-height,
+  // causing overlap — fall back to the naturally-stacked layout there.
+  const useStacked = reduce || isMobile;
 
   return (
     <section className="relative isolate overflow-clip bg-paper">
@@ -215,7 +222,7 @@ export function ConnectionJourney() {
         </Reveal>
       </div>
 
-      {reduce ? (
+      {useStacked ? (
         <StaticJourney />
       ) : (
         <div ref={ref} className="relative z-10 h-[400vh]">
