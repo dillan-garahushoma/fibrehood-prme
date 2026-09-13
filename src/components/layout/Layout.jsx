@@ -2,7 +2,6 @@ import React from "react";
 import { Outlet } from "react-router-dom";
 import { Navbar } from "./Navbar";
 import { Footer } from "./Footer";
-import { WhatsAppFloat } from "./WhatsAppFloat";
 import { SignalLine } from "@/components/common/SignalLine";
 
 export function Layout() {
@@ -14,7 +13,6 @@ export function Layout() {
         <Outlet />
       </main>
       <Footer />
-      <WhatsAppFloat />
     </div>
   );
 }

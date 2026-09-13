@@ -1,93 +1,69 @@
-import { useRef, useState } from "react";
+import { motion, useReducedMotion } from "framer-motion";
+import { Image } from "@/components/ui/image";
+import { IMAGES } from "@/data/images";
 import corporateImage from "@/components/collage/1490330fe_generated_image.png";
 import healthcareImage from "@/components/collage/e400d5732_generated_image.png";
 import coworkingImage from "@/components/collage/ad8018c58_generated_image.png";
 import retailImage from "@/components/collage/e9ee6dd60_generated_image.png";
-import networkVideo from "@/components/collage/konzept-fotografie-film-hd-auto-.mp4";
 
+const EASE = [0.16, 1, 0.3, 1];
+
+function Tile({ src, alt, delay, reduce }) {
+  return (
+    <motion.div
+      className="relative h-full w-full overflow-hidden"
+      initial={reduce ? false : { opacity: 0, scale: 1.05 }}
+      animate={{ opacity: 1, scale: 1 }}
+      transition={{ duration: 1, delay, ease: EASE }}
+    >
+      <Image src={src} alt={alt} fittingType="fill" className="h-full w-full" />
+    </motion.div>
+  );
+}
+
+/**
+ * "People Make the Network" collage — a flush, no-gap 3-column grid (left two
+ * stacked squares, center tall rectangle, right two stacked squares) matching
+ * the reference composition. Edges dissolve into the page via a mask-image
+ * gradient (linear-blend technique). Tiles animate in with a staggered rise
+ * when the collage mounts (triggered by "Discover more").
+ */
 export default function PeopleNetworkCollage() {
-  const [playing, setPlaying] = useState(true);
-  const videoRef = useRef(null);
-
-  const togglePlayback = () => {
-    const video = videoRef.current;
-    if (!video) return;
-
-    if (playing) {
-      video.pause();
-    } else {
-      video.play();
-    }
-    setPlaying((current) => !current);
-  };
+  const reduce = useReducedMotion();
+  const maskStyle = reduce
+    ? undefined
+    : {
+        WebkitMaskImage:
+          "linear-gradient(to bottom, transparent 0, #000 80px, #000 calc(100% - 80px), transparent 100%)",
+        maskImage:
+          "linear-gradient(to bottom, transparent 0, #000 80px, #000 calc(100% - 80px), transparent 100%)",
+      };
 
   return (
-    <div className="bg-black text-white">
-      <section className="mx-auto max-w-[1900px] px-4 py-4 md:px-6 md:py-6">
-        <div className="grid grid-cols-1 gap-3 md:grid-cols-[1fr_2fr_1fr] md:gap-4 md:h-[820px]">
-          <div className="order-2 grid grid-rows-2 gap-3 md:order-1 md:gap-4">
-            <div className="flex items-center justify-center overflow-hidden bg-neutral-100">
-              <img
-                src={corporateImage}
-                alt="People working together in a connected office"
-                className="h-full w-full object-cover"
-              />
-            </div>
-            <div className="flex items-center justify-center overflow-hidden bg-neutral-900">
-              <img
-                src={healthcareImage}
-                alt="Healthcare team supported by a connected network"
-                className="h-full w-full object-cover"
-              />
-            </div>
+    <div className="relative w-full" style={maskStyle}>
+      <div className="flex flex-col md:flex-row md:h-[640px]">
+        <div className="flex flex-col md:w-[27%]">
+          <div className="h-72 md:h-1/2">
+            <Tile src={corporateImage} alt="People collaborating in a connected office" delay={0} reduce={reduce} />
           </div>
-
-          <div className="relative order-1 min-h-[320px] overflow-hidden bg-neutral-200 md:order-2 md:min-h-0">
-            <video
-              ref={videoRef}
-              src={networkVideo}
-              className="h-full w-full object-cover"
-              autoPlay={playing}
-              muted
-              loop
-              playsInline
-            />
-            <button
-              onClick={togglePlayback}
-              className="absolute bottom-4 right-4 flex h-8 w-8 items-center justify-center text-white/90 transition-colors hover:text-white"
-              aria-label={playing ? "Pause" : "Play"}
-            >
-              {playing ? (
-                <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">
-                  <rect x="5" y="4" width="5" height="16" />
-                  <rect x="14" y="4" width="5" height="16" />
-                </svg>
-              ) : (
-                <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">
-                  <polygon points="6,4 20,12 6,20" />
-                </svg>
-              )}
-            </button>
-          </div>
-
-          <div className="order-3 grid grid-rows-2 gap-3 md:gap-4">
-            <div className="flex items-center justify-center overflow-hidden bg-neutral-100">
-              <img
-                src={coworkingImage}
-                alt="Creative team collaborating in a studio"
-                className="h-full w-full object-cover"
-              />
-            </div>
-            <div className="flex items-center justify-center overflow-hidden bg-neutral-100">
-              <img
-                src={retailImage}
-                alt="Retail team using a connected point-of-sale workspace"
-                className="h-full w-full object-cover"
-              />
-            </div>
+          <div className="h-72 md:h-1/2">
+            <Tile src={healthcareImage} alt="Healthcare team supported by a connected network" delay={0.1} reduce={reduce} />
           </div>
         </div>
-      </section>
+
+        <div className="h-80 md:h-full md:flex-1">
+          <Tile src={IMAGES.lifeEvening} alt="A connected home at evening" delay={0.05} reduce={reduce} />
+        </div>
+
+        <div className="flex flex-col md:w-[27%]">
+          <div className="h-72 md:h-1/2">
+            <Tile src={coworkingImage} alt="Creative team collaborating in a studio" delay={0.15} reduce={reduce} />
+          </div>
+          <div className="h-72 md:h-1/2">
+            <Tile src={retailImage} alt="Retail team using a connected workspace" delay={0.2} reduce={reduce} />
+          </div>
+        </div>
+      </div>
     </div>
   );
 }
