@@ -1,13 +1,11 @@
-import React, { useEffect, useMemo, useState } from "react";
+import React, { useEffect, useState } from "react";
 import { motion, AnimatePresence, useReducedMotion } from "framer-motion";
-import { base44 } from "@/api/base44Client";
 import { FlowModal } from "./FlowModal";
 import { FlowFooter } from "./FlowButtons";
 import { FlowError } from "./FlowField";
 import { StepPlan } from "./StepPlan";
 import { StepInstallation } from "./StepInstallation";
-import { StepAccount } from "./StepAccount";
-import { StepVerify } from "./StepVerify";
+import { StepContact } from "./StepContact";
 import { StepReview } from "./StepReview";
 import { FlowDone } from "./FlowDone";
 import { getPlan, plansBySegment } from "@/data/plans";
@@ -26,55 +24,44 @@ const EMPTY_INSTALL = {
   notes: ""
 };
 
-const EMPTY_ACCOUNT = { firstName: "", lastName: "", email: "", password: "", confirm: "" };
+const EMPTY_ACCOUNT = { firstName: "", lastName: "", email: "" };
 
-const LABELS = { plan: "Package", install: "Installation", account: "Account", verify: "Verify", review: "Review" };
+const LABELS = { plan: "Package", install: "Installation", contact: "Contact", review: "Review" };
 const TITLES = {
   plan: "Choose your package",
   install: "Fibre installation",
-  account: "Create your account",
-  verify: "Verify your email",
+  contact: "Your contact details",
   review: "Review & confirm"
 };
 
+const STEPS = ["plan", "install", "contact", "review"];
+
 /**
  * Guided connection journey for a LIVE location: package → installation →
- * account → verification → review, ending in a saved installation request.
+ * contact → review, ending in a saved installation request via /api/lead.
  */
 export function SignupFlow({ open, location, onClose, onChangeAddress }) {
   const reduce = useReducedMotion();
-  const [authed, setAuthed] = useState(false);
   const [index, setIndex] = useState(0);
   const [segment, setSegment] = useState("home");
   const [planId, setPlanId] = useState("smart-home-connect");
   const [install, setInstall] = useState(EMPTY_INSTALL);
   const [account, setAccount] = useState(EMPTY_ACCOUNT);
-  const [code, setCode] = useState("");
-  const [resent, setResent] = useState(false);
   const [consent, setConsent] = useState(false);
   const [busy, setBusy] = useState(false);
   const [error, setError] = useState("");
   const [done, setDone] = useState(null);
 
-  const steps = useMemo(
-    () => (authed ? ["plan", "install", "review"] : ["plan", "install", "account", "verify", "review"]),
-    [authed]
-  );
-  const current = steps[Math.min(index, steps.length - 1)];
+  const current = STEPS[Math.min(index, STEPS.length - 1)];
 
   useEffect(() => {
     if (!open) return;
     setIndex(0);
     setInstall(EMPTY_INSTALL);
     setAccount(EMPTY_ACCOUNT);
-    setCode("");
     setConsent(false);
     setError("");
     setDone(null);
-    base44.auth
-      .isAuthenticated()
-      .then((ok) => setAuthed(!!ok))
-      .catch(() => setAuthed(false));
   }, [open]);
 
   const dirty = !done && (index > 0 || install.streetName || account.email);
@@ -112,46 +99,10 @@ export function SignupFlow({ open, location, onClose, onChangeAddress }) {
     return "";
   };
 
-  const createAccount = async () => {
-    if (!account.firstName.trim() || !account.lastName.trim()) return setError("Please enter your first and last name.");
-    if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(account.email.trim())) return setError("Please enter a valid email address.");
-    if (account.password.length < 8) return setError("Your password needs at least 8 characters.");
-    if (account.password !== account.confirm) return setError("Those passwords don't match.");
-    setBusy(true);
-    setError("");
-    try {
-      await base44.auth.register({ email: account.email.trim(), password: account.password });
-      setResent(false);
-      advance();
-    } catch (err) {
-      setError(err?.message || "We couldn't create that account. Try a different email or log in instead.");
-    } finally {
-      setBusy(false);
-    }
-  };
-
-  const verifyEmail = async () => {
-    setBusy(true);
-    setError("");
-    try {
-      const result = await base44.auth.verifyOtp({ email: account.email.trim(), otpCode: code });
-      if (result?.access_token) base44.auth.setToken(result.access_token);
-      advance();
-    } catch (err) {
-      setError(err?.message || "That code didn't work. Check it and try again.");
-    } finally {
-      setBusy(false);
-    }
-  };
-
-  const resend = async () => {
-    setError("");
-    try {
-      await base44.auth.resendOtp(account.email.trim());
-      setResent(true);
-    } catch (err) {
-      setError(err?.message || "We couldn't resend the code.");
-    }
+  const validateContact = () => {
+    if (!account.firstName.trim() || !account.lastName.trim()) return "Please enter your first and last name.";
+    if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(account.email.trim())) return "Please enter a valid email address.";
+    return "";
   };
 
   const submit = async () => {
@@ -182,7 +133,7 @@ export function SignupFlow({ open, location, onClose, onChangeAddress }) {
       });
       setDone({ reference, planName: plan?.name });
     } catch (err) {
-      setError(err?.response?.data?.error || err?.message || "We couldn't submit your request. Please try again.");
+      setError(err?.message || "We couldn't submit your request. Please try again.");
     } finally {
       setBusy(false);
     }
@@ -198,19 +149,21 @@ export function SignupFlow({ open, location, onClose, onChangeAddress }) {
       if (problem) return setError(problem);
       return advance();
     }
-    if (current === "account") return createAccount();
-    if (current === "verify") return verifyEmail();
+    if (current === "contact") {
+      const problem = validateContact();
+      if (problem) return setError(problem);
+      return advance();
+    }
     return submit();
   };
 
-  const nextLabel = current === "review" ? "Submit installation request" : current === "verify" ? "Verify email" : "Continue";
+  const nextLabel = current === "review" ? "Submit installation request" : "Continue";
 
   const footer = done ? null : (
     <FlowFooter
       onBack={index > 0 ? goBack : undefined}
       onNext={onNext}
       nextLabel={nextLabel}
-      nextDisabled={current === "verify" && code.length < 6}
       busy={busy}
       tone={current === "review" ? "loop" : "signal"}
       note="Your details are only used to arrange your connection."
@@ -230,7 +183,7 @@ export function SignupFlow({ open, location, onClose, onChangeAddress }) {
     <FlowModal
       open={open}
       title={done ? "You're all set" : TITLES[current]}
-      steps={done ? [] : steps.map((s) => LABELS[s])}
+      steps={done ? [] : STEPS.map((s) => LABELS[s])}
       current={index}
       onClose={requestClose}
       footer={footer}
@@ -267,10 +220,7 @@ export function SignupFlow({ open, location, onClose, onChangeAddress }) {
                 }}
               />
             )}
-            {current === "account" && <StepAccount account={account} onChange={setAccount} />}
-            {current === "verify" && (
-              <StepVerify email={account.email} code={code} onCodeChange={setCode} onResend={resend} resent={resent} />
-            )}
+            {current === "contact" && <StepContact account={account} onChange={setAccount} />}
             {current === "review" && (
               <StepReview
                 data={{ planId, install, account }}

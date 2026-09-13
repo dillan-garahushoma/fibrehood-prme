@@ -1,9 +1,13 @@
 {
   "$schema": "node_modules/wrangler/config-schema.json",
-  "name": "fibrehood-prme",
+  "name": "fibrehood",
   "compatibility_date": "2025-03-01",
-  "assets": {
-    "directory": "./dist",
-    "not_found_handling": "single-page-application"
-  }
+  "pages_build_output_dir": "./dist",
+  "functions": "./functions",
+  "kv_namespaces": [
+    {
+      "binding": "LEADS",
+      "id": "REPLACE_WITH_YOUR_KV_NAMESPACE_ID"
+    }
+  ]
 }

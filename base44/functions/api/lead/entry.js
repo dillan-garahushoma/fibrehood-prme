@@ -1,11 +1,9 @@
-import { createClientFromRequest } from 'npm:@base44/sdk@0.8.44';
-
-// Public lead submission endpoint. Visitors are not authenticated, so we
-// validate strictly and persist via the service role. Inputs are bounded to
-// prevent abuse; nothing sensitive is accepted beyond what the flow needs.
+// Cloudflare Pages Function — public lead capture endpoint.
+// Validates the payload and persists each lead to the LEADS KV namespace
+// (bound in wrangler.jsonc). Served at /api/lead.
 //
-// Every lead retains the location + coverage context that produced it, so the
-// business can later map where demand is coming from.
+// Ported from the former Base44 submitLead function — same validation rules,
+// same bounded inputs, no sensitive data accepted.
 
 const ALLOWED_SEGMENTS = new Set(['home', 'business', 'unsure']);
 const ALLOWED_SOURCES = new Set(['coverage', 'plans', 'contact', 'direct', 'whatsapp']);
@@ -30,15 +28,29 @@ function pick(set, value) {
   return typeof value === 'string' && set.has(value) ? value : undefined;
 }
 
-export default async function(req) {
-  try {
-    const base44 = createClientFromRequest(req);
+function makeRef() {
+  const chars = 'ABCDEFGHJKLMNPQRSTUVWXYZ23456789';
+  let out = '';
+  for (let i = 0; i < 6; i += 1) out += chars[Math.floor(Math.random() * chars.length)];
+  return `FH-${out}`;
+}
 
+function json(data, status = 200) {
+  return new Response(JSON.stringify(data), {
+    status,
+    headers: { 'Content-Type': 'application/json' }
+  });
+}
+
+export async function onRequestPost(context) {
+  const { request, env } = context;
+
+  try {
     let body = {};
     try {
-      body = await req.json();
+      body = await request.json();
     } catch {
-      return Response.json({ error: 'Invalid request body.' }, { status: 400 });
+      return json({ error: 'Invalid request body.' }, 400);
     }
 
     const name = clean(body.name, 120);
@@ -47,14 +59,17 @@ export default async function(req) {
     const consent = body.consent === true;
 
     if (!name || !phone) {
-      return Response.json({ error: 'A name and phone number are required.' }, { status: 400 });
+      return json({ error: 'A name and phone number are required.' }, 400);
     }
     if (!consent) {
-      return Response.json({ error: 'Please consent to being contacted.' }, { status: 400 });
+      return json({ error: 'Please consent to being contacted.' }, 400);
     }
     if (email && !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) {
-      return Response.json({ error: 'Please enter a valid email address.' }, { status: 400 });
+      return json({ error: 'Please enter a valid email address.' }, 400);
     }
+
+    const reference = clean(body.reference, 24) || makeRef();
+    const submittedAt = new Date().toISOString();
 
     const record = {
       name,
@@ -64,7 +79,7 @@ export default async function(req) {
       address: clean(body.address, 240) || undefined,
       segment: ALLOWED_SEGMENTS.has(body.segment) ? body.segment : 'unsure',
       intent: pick(ALLOWED_INTENTS, body.intent) || 'register_interest',
-      reference: clean(body.reference, 24) || undefined,
+      reference,
       selected_plan: clean(body.selected_plan, 60) || undefined,
       coverage_status: pick(ALLOWED_STATUS, body.coverage_status),
       resolution: pick(ALLOWED_RESOLUTION, body.resolution),
@@ -83,13 +98,29 @@ export default async function(req) {
       source: ALLOWED_SOURCES.has(body.source) ? body.source : 'coverage',
       message: clean(body.message, 2000) || undefined,
       consent: true,
-      utm: clean(body.utm, 200) || undefined
+      utm: clean(body.utm, 200) || undefined,
+      submitted_at: submittedAt
     };
 
-    const lead = await base44.asServiceRole.entities.Lead.create(record);
+    // Drop undefined keys for a clean stored record.
+    Object.keys(record).forEach((k) => record[k] === undefined && delete record[k]);
 
-    return Response.json({ ok: true, id: lead.id, reference: record.reference || null });
+    // Persist to KV when a binding is present (production / wrangler dev).
+    // Without a binding (plain static preview) we still return success.
+    if (env && env.LEADS && typeof env.LEADS.put === 'function') {
+      await env.LEADS.put(`lead:${reference}`, JSON.stringify(record), {
+        metadata: {
+          reference,
+          phone,
+          segment: record.segment,
+          intent: record.intent,
+          submitted_at: submittedAt
+        }
+      });
+    }
+
+    return json({ ok: true, reference });
   } catch (error) {
-    return Response.json({ error: error.message || 'Unable to submit lead.' }, { status: 500 });
+    return json({ error: error.message || 'Unable to submit lead.' }, 500);
   }
 }

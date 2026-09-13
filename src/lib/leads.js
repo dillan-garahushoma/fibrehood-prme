@@ -1,4 +1,6 @@
-import { base44 } from "@/api/base44Client";
+// Lead capture — submits to the local /api/lead endpoint, served by a
+// Cloudflare Pages Function (functions/api/lead.js) that persists to KV.
+// No Base44 dependency.
 
 /** Customer-facing reference for a submitted request. */
 export function makeReference() {
@@ -28,8 +30,16 @@ export function coverageContext(result) {
   };
 }
 
-/** Persist a lead through the public submitLead endpoint. */
+/** Persist a lead through the local /api/lead endpoint. */
 export async function submitLead(payload) {
-  const response = await base44.functions.invoke("submitLead", payload);
-  return response.data;
+  const res = await fetch("/api/lead", {
+    method: "POST",
+    headers: { "Content-Type": "application/json" },
+    body: JSON.stringify(payload)
+  });
+  const data = await res.json().catch(() => ({}));
+  if (!res.ok) {
+    throw new Error(data.error || "We couldn't submit your request. Please try again.");
+  }
+  return data;
 }
