@@ -26,9 +26,9 @@ export function Footer() {
   return (
     <footer className="relative overflow-hidden bg-signal-deep text-paper">
       <div className="container-lattice relative">
-        <div className="grid gap-12 py-16 md:grid-cols-12 md:py-20">
+        <div className="grid gap-10 py-16 md:grid-cols-12 md:gap-8 md:items-start md:py-20">
           <div className="md:col-span-4">
-            <img src="/white.png" alt="FibreHood" className="h-[7.5rem] w-auto object-contain md:h-[9rem]" />
+            <img src="/white.png" alt="FibreHood" className="block h-[7.5rem] w-auto object-contain md:h-[9rem] -mt-6 md:-mt-8" />
             <p className="mt-5 max-w-xs text-sm leading-relaxed text-paper/70">
               FibreHood builds direct fibre connections for homes and businesses —
               coverage-first, locally supported, and straightforward from check to connection.

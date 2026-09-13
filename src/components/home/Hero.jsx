@@ -3,7 +3,6 @@ import { Link } from "react-router-dom";
 import { ArrowRight } from "lucide-react";
 import { Image } from "@/components/ui/image";
 import { CoverageChecker } from "@/components/coverage/CoverageChecker";
-import { SectionLabel } from "@/components/common/SectionLabel";
 import { Reveal, entranceContainer, entranceItem } from "@/components/common/Reveal";
 import { IMAGES } from "@/data/images";
 import { PLANS } from "@/data/plans";
@@ -74,17 +73,14 @@ export function Hero() {
         </div>
 
         {/* ── Coverage checker — sits inside the hero, close under the content ── */}
-        <div className="relative z-20 mt-14 sm:mt-16 lg:col-span-2 lg:mt-0">
-          <div className="mx-auto max-w-3xl">
-            <div className="mb-5 flex flex-col items-center text-center">
-              <SectionLabel tone="light" className="justify-center drop-shadow-sm">
+        <div className="relative z-20 mt-12 sm:mt-14 lg:col-span-2 lg:mt-0">
+          <div className="mx-auto max-w-2xl">
+            <div className="mb-4 text-center">
+              <span className="text-xs font-semibold uppercase tracking-[0.22em] text-paper/70 drop-shadow-sm">
                 Check if FibreHood is live at your address
-              </SectionLabel>
+              </span>
             </div>
-            <Reveal className="relative overflow-hidden rounded-2xl border border-paper/15 bg-signal-deep/60 p-2 shadow-lift backdrop-blur-xl">
-              {/* loop accent hairlines */}
-              <div className="absolute inset-x-0 top-0 h-px bg-gradient-to-r from-transparent via-loop/60 to-transparent" aria-hidden="true" />
-              <div className="absolute inset-x-0 bottom-0 h-px bg-gradient-to-r from-transparent via-loop/60 to-transparent" aria-hidden="true" />
+            <Reveal className="relative rounded-2xl border border-paper/10 bg-signal-deep/50 p-2 backdrop-blur-md">
               <CoverageChecker variant="hero" source="hero-bottom" />
             </Reveal>
           </div>

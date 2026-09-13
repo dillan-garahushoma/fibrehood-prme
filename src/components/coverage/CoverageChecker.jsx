@@ -1,7 +1,7 @@
 import React, { useState } from "react";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { AnimatePresence, motion } from "framer-motion";
-import { Search, Loader2, Check, Clock, AlertCircle, ArrowRight, MessageCircle, MapPin } from "lucide-react";
+import { Search, Loader2, Check, Clock, AlertCircle, ArrowRight, MessageCircle, MapPin, LocateFixed } from "lucide-react";
 import { LoopMark } from "@/components/brand/LoopMark";
 import { lookupCoverage, COVERAGE_STATES } from "@/data/network";
 import { getPlan, formatSpeed } from "@/data/plans";
@@ -21,15 +21,28 @@ export function CoverageChecker({ variant = "page", onResult, source = "coverage
   const [state, setState] = useState("idle");
   const [result, setResult] = useState(null);
   const [error, setError] = useState("");
+  const [focused, setFocused] = useState(false);
+  const navigate = useNavigate();
+  const isHero = variant === "hero";
+  const isPage = variant === "page";
 
   const submit = (e) => {
     e?.preventDefault();
     setError("");
     const value = address.trim();
     if (value.length < 4) {
+      if (isHero) {
+        setError("Please enter a street address or postal code.");
+        return;
+      }
       setState("invalid");
       setResult({ state: "invalid", address: value, note: "Please enter a street address or postal code." });
       onResult?.({ state: "invalid" });
+      return;
+    }
+    if (isHero) {
+      // Hand off to the coverage page so the full discovery flow runs there.
+      navigate(`/coverage?q=${encodeURIComponent(value)}`);
       return;
     }
     setState("searching");
@@ -42,6 +55,12 @@ export function CoverageChecker({ variant = "page", onResult, source = "coverage
     }, 1500);
   };
 
+  const useMyLocation = () => {
+    if (isHero) {
+      navigate("/coverage?useLocation=1");
+    }
+  };
+
   const reset = () => {
     setState("idle");
     setResult(null);
@@ -49,7 +68,6 @@ export function CoverageChecker({ variant = "page", onResult, source = "coverage
   };
 
   const tone = result ? TONES[result.state] : null;
-  const isPage = variant === "page";
 
   return (
     <div className={cn("w-full", isPage ? "mx-auto max-w-3xl" : "")}>
@@ -58,28 +76,37 @@ export function CoverageChecker({ variant = "page", onResult, source = "coverage
         <div
           className={cn(
             "flex flex-col gap-2 rounded-2xl p-2 transition-all sm:flex-row sm:items-center",
-            variant === "hero" ? "bg-transparent" : "border bg-paper shadow-signal",
-            state === "searching" && variant !== "hero" ? "border-loop" : (variant !== "hero" ? "border-line" : "")
+            isHero ? "bg-transparent" : "border bg-paper shadow-signal",
+            state === "searching" && !isHero ? "border-loop" : (isHero ? "" : "border-line")
           )}
         >
           <div className="flex flex-1 items-center gap-3 px-3">
-            <Search className={cn("h-5 w-5 shrink-0", variant === "hero" ? "text-paper/70" : "text-ink-soft")} />
+            <Search className={cn("h-5 w-5 shrink-0", isHero ? "text-paper/70" : "text-ink-soft")} />
             <input
               type="text"
               value={address}
-              onChange={(e) => setAddress(e.target.value)}
+              onChange={(e) => {
+                setAddress(e.target.value);
+                if (error) setError("");
+              }}
+              onFocus={() => setFocused(true)}
               placeholder="Enter your street address or postal code"
               aria-label="Your address"
               className={cn(
-                "h-12 w-full bg-transparent text-base outline-none",
-                variant === "hero" ? "text-paper placeholder:text-paper/60" : "text-ink placeholder:text-ink-soft/60"
+                "h-11 w-full bg-transparent text-base outline-none",
+                isHero ? "text-paper placeholder:text-paper/60" : "text-ink placeholder:text-ink-soft/60"
               )}
             />
           </div>
           <button
             type="submit"
             disabled={state === "searching"}
-            className="inline-flex h-12 items-center justify-center gap-2 rounded-xl bg-signal px-6 text-sm font-semibold text-paper transition-all hover:bg-signal-deep disabled:opacity-70"
+            className={cn(
+              "inline-flex items-center justify-center gap-2 px-6 text-sm font-semibold transition-all disabled:opacity-70",
+              isHero
+                ? "h-11 rounded-full bg-loop text-signal hover:bg-loopsoft"
+                : "h-12 rounded-xl bg-signal text-paper hover:bg-signal-deep"
+            )}
           >
             {state === "searching" ? (
               <>
@@ -87,29 +114,58 @@ export function CoverageChecker({ variant = "page", onResult, source = "coverage
               </>
             ) : (
               <>
-                <MapPin className="h-4 w-4 text-loop" /> Check coverage
+                Check coverage <ArrowRight className="h-4 w-4" />
               </>
             )}
           </button>
         </div>
+
+        {/* Use my location — reveals on focus, separated by a hairline (hero only) */}
+        {isHero && (
+          <AnimatePresence initial={false}>
+            {focused && (
+              <motion.div
+                initial={{ opacity: 0, height: 0 }}
+                animate={{ opacity: 1, height: "auto" }}
+                exit={{ opacity: 0, height: 0 }}
+                transition={{ duration: 0.3, ease: [0.16, 1, 0.3, 1] }}
+                className="overflow-hidden"
+              >
+                <div className="mt-2 border-t border-paper/12 pt-2">
+                  <button
+                    type="button"
+                    onClick={useMyLocation}
+                    className="inline-flex items-center gap-2 px-3 py-1.5 text-xs font-medium text-paper/70 transition-colors hover:text-loop"
+                  >
+                    <LocateFixed className="h-3.5 w-3.5 text-loop" /> Use my location
+                  </button>
+                </div>
+              </motion.div>
+            )}
+          </AnimatePresence>
+        )}
       </form>
 
-      {/* ── Result panel ─────────────────────────────────────────── */}
-      <AnimatePresence mode="wait">
-        {state !== "idle" && state !== "searching" && result && (
-          <motion.div
-            key={result.state}
-            initial={{ opacity: 0, y: 12 }}
-            animate={{ opacity: 1, y: 0 }}
-            exit={{ opacity: 0, y: -8 }}
-            transition={{ duration: 0.35, ease: [0.16, 1, 0.3, 1] }}
-            className="mt-4 overflow-hidden rounded-2xl border border-line bg-paper shadow-lift"
-          >
-            <ResultHeader result={result} tone={tone} />
-            <ResultBody result={result} tone={tone} source={source} onReset={reset} />
-          </motion.div>
-        )}
-      </AnimatePresence>
+      {error && isHero && <p className="mt-2 px-3 text-xs text-loop/90">{error}</p>}
+
+      {/* ── Result panel (page variant only) ─────────────────────── */}
+      {!isHero && (
+        <AnimatePresence mode="wait">
+          {state !== "idle" && state !== "searching" && result && (
+            <motion.div
+              key={result.state}
+              initial={{ opacity: 0, y: 12 }}
+              animate={{ opacity: 1, y: 0 }}
+              exit={{ opacity: 0, y: -8 }}
+              transition={{ duration: 0.35, ease: [0.16, 1, 0.3, 1] }}
+              className="mt-4 overflow-hidden rounded-2xl border border-line bg-paper shadow-lift"
+            >
+              <ResultHeader result={result} tone={tone} />
+              <ResultBody result={result} tone={tone} source={source} onReset={reset} />
+            </motion.div>
+          )}
+        </AnimatePresence>
+      )}
     </div>
   );
 }

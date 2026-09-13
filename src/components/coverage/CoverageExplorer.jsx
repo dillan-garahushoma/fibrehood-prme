@@ -1,4 +1,4 @@
-import React, { useCallback, useRef, useState } from "react";
+import React, { useCallback, useEffect, useRef, useState } from "react";
 import { AnimatePresence, motion, useReducedMotion } from "framer-motion";
 import CoverageMap from "./CoverageMap";
 import LocationPanel from "./LocationPanel";
@@ -6,7 +6,7 @@ import CoverageResultPanel from "./CoverageResultPanel";
 import NetworkExplorer from "./NetworkExplorer";
 import SignupFlow from "@/components/signup/SignupFlow";
 import InterestFlow from "@/components/signup/InterestFlow";
-import { getCoverageAreas, resolveCoverage } from "@/lib/coverageService";
+import { getCoverageAreas, resolveCoverage, searchAddresses, getCurrentPosition, reverseGeocode } from "@/lib/coverageService";
 import { DEPLOYMENT_STATUS, RESOLUTION, LEAD_INTENT, statusMeta, STATUS_ORDER } from "@/data/coverageStatus";
 import { cn } from "@/lib/utils";
 
@@ -63,6 +63,27 @@ export function CoverageExplorer() {
       });
     }, 600);
   }, []);
+
+  // Resume the coverage flow when arriving from the homepage hero checker.
+  useEffect(() => {
+    const params = new URLSearchParams(window.location.search);
+    const q = params.get("q");
+    const useLoc = params.get("useLocation");
+    if (q) {
+      const match = searchAddresses(q)[0];
+      if (match) {
+        handleResolve({ lat: match.lat, lng: match.lng, label: match.label, method: "address" });
+      }
+    } else if (useLoc) {
+      getCurrentPosition()
+        .then((pos) => {
+          const label = reverseGeocode(pos.lat, pos.lng);
+          handleResolve({ lat: pos.lat, lng: pos.lng, label, method: "device" });
+        })
+        .catch(() => {});
+    }
+    window.history.replaceState({}, "", "/coverage");
+  }, [handleResolve]);
 
   const reset = () => {
     setResult(null);
