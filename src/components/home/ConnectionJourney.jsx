@@ -157,9 +157,12 @@ function StaticJourney() {
       {STEPS.map((step, index) => (
         <Reveal
           key={step.title}
-          className="grid gap-8 lg:grid-cols-[minmax(0,0.86fr)_minmax(0,1.14fr)] lg:items-center lg:gap-16"
+          className="relative grid min-h-[440px] gap-8 lg:min-h-0 lg:grid-cols-[minmax(0,0.86fr)_minmax(0,1.14fr)] lg:items-center lg:gap-16"
         >
-          <div className="max-w-md">
+          <div className="pointer-events-none absolute inset-0 -z-0 opacity-20 blur-[1px] lg:hidden" aria-hidden="true">
+            <JourneyVisual activeStep={index} />
+          </div>
+          <div className="relative z-10 max-w-md">
             <StepProgress activeStep={index} />
             <p className="mb-2 text-xs font-semibold uppercase tracking-[0.16em] text-ink-soft">
               Step {index + 1} of {STEPS.length}
@@ -167,7 +170,7 @@ function StaticJourney() {
             <h3 className="font-heading text-3xl font-bold tracking-tight text-signal lg:text-4xl">{step.title}</h3>
             <p className="mt-4 text-base leading-relaxed text-ink-soft lg:text-lg">{step.body}</p>
           </div>
-          <div className="h-[420px] w-full sm:h-[500px] lg:h-[540px]">
+          <div className="hidden h-[420px] w-full sm:h-[500px] lg:block lg:h-[540px]">
             <JourneyVisual activeStep={index} />
           </div>
         </Reveal>
@@ -220,12 +223,16 @@ export function ConnectionJourney() {
       ) : (
         <div ref={ref} className="relative z-10 h-[400vh]">
           <div className="sticky top-16 h-[calc(100svh-4rem)] lg:top-20 lg:h-[calc(100svh-5rem)]">
-            <div className="container-lattice grid h-full min-h-0 grid-rows-[minmax(220px,0.72fr)_auto] content-start gap-3 px-5 py-4 sm:grid-rows-[minmax(300px,0.85fr)_auto] sm:gap-6 sm:px-8 sm:py-6 lg:grid-cols-[minmax(0,0.86fr)_minmax(0,1.14fr)] lg:grid-rows-1 lg:items-center lg:gap-16 lg:px-12 lg:py-8">
-              <div className="order-1 h-full min-h-0 lg:order-2 lg:h-[min(62vh,560px)]">
+            <div className="container-lattice relative grid h-full min-h-0 content-center gap-3 px-5 py-10 sm:gap-6 sm:px-8 sm:py-12 lg:grid-cols-[minmax(0,0.86fr)_minmax(0,1.14fr)] lg:grid-rows-1 lg:items-center lg:gap-16 lg:px-12 lg:py-8">
+              {/* Mobile: the step visual blends behind the copy as a faded backdrop */}
+              <div className="pointer-events-none absolute inset-0 -z-0 opacity-20 blur-[1px] lg:hidden" aria-hidden="true">
                 <JourneyVisual activeStep={activeStep} />
               </div>
-              <div className="order-2 min-h-0 lg:order-1">
+              <div className="relative z-10 min-h-0 lg:order-1">
                 <StepCopy activeStep={activeStep} />
+              </div>
+              <div className="hidden h-[min(62vh,560px)] lg:order-2 lg:block">
+                <JourneyVisual activeStep={activeStep} />
               </div>
             </div>
           </div>

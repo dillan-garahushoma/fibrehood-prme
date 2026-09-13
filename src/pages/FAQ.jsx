@@ -1,7 +1,8 @@
 import React, { useMemo, useState } from "react";
 import { useSearchParams } from "react-router-dom";
 import { Search, MessageCircle, Phone } from "lucide-react";
-import { PageHero } from "@/components/common/PageHero";
+import { SplitHero } from "@/components/common/SplitHero";
+import { IMAGES } from "@/data/images";
 import { Reveal } from "@/components/common/Reveal";
 import {
   Accordion, AccordionItem, AccordionTrigger, AccordionContent
@@ -25,13 +26,15 @@ export default function FAQ() {
 
   return (
     <>
-      <PageHero
+      <SplitHero
+        image={IMAGES.supportHero}
+        alt="FibreHood support and self-service"
         eyebrow="Support & self-service"
         title="Find an answer, fast."
         subtitle="Search common issues, browse by category, and escalate to a human when you need to."
       >
         <div className="relative max-w-xl">
-          <Search className="absolute left-4 top-1/2 h-5 w-5 -translate-y-1/2 text-ink-soft" />
+          <Search className="absolute left-4 top-1/2 h-5 w-5 -translate-y-1/2 text-paper/60" />
           <input
             value={query}
             onChange={(e) => setQuery(e.target.value)}
@@ -40,7 +43,7 @@ export default function FAQ() {
             className="h-12 w-full rounded-full border border-paper/25 bg-paper/10 py-3.5 pl-12 pr-4 text-sm text-paper placeholder:text-paper/50 outline-none focus:border-loop"
           />
         </div>
-      </PageHero>
+      </SplitHero>
 
       <section className="py-16 md:py-20">
         <div className="container-lattice">

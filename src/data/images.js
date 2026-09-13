@@ -2,7 +2,7 @@
 // Reused across the experience to keep a single visual DNA.
 export const IMAGES = {
   heroHouse: "https://media.base44.com/images/public/6a9190c938c1fe8b87ce238c/f818ce327_generated_image.png",
-  coverageAerial: "/images/coverage-hero.png",
+  coverageAerial: "https://media.base44.com/images/public/6a9190c938c1fe8b87ce238c/e14189b20_generated_image.png",
   fibreGlass: "https://media.base44.com/images/public/6a9190c938c1fe8b87ce238c/959852c0c_generated_image.png",
   routerNode: "/images/router-removebg-preview.png",
   lightTrails: "https://media.base44.com/images/public/6a9190c938c1fe8b87ce238c/52a0011ab_generated_image.png",
@@ -19,6 +19,9 @@ export const IMAGES = {
   domainHospitality: "https://media.base44.com/images/public/6a9190c938c1fe8b87ce238c/1072f6899_generated_image.png",
   domainHealthcare: "https://media.base44.com/images/public/6a9190c938c1fe8b87ce238c/e400d5732_generated_image.png",
   domainCoworking: "https://media.base44.com/images/public/6a9190c938c1fe8b87ce238c/ad8018c58_generated_image.png",
+  contactHero: "https://media.base44.com/images/public/6a9190c938c1fe8b87ce238c/d4fbd663d_generated_image.png",
+  aboutHero: "https://media.base44.com/images/public/6a9190c938c1fe8b87ce238c/51cc1faf3_generated_image.png",
+  supportHero: "https://media.base44.com/images/public/6a9190c938c1fe8b87ce238c/8677ed51e_generated_image.png",
   // Connection Journey step icons (line-art, navy + amber)
   stepIcon01: "https://media.base44.com/images/public/6a9190c938c1fe8b87ce238c/8032be7a8_generated_image.png",
   stepIcon02: "https://media.base44.com/images/public/6a9190c938c1fe8b87ce238c/aa669d252_generated_image.png",
