@@ -104,7 +104,7 @@ export function CoverageChecker({ variant = "page", onResult, source = "coverage
             className={cn(
               "inline-flex items-center justify-center gap-2 px-6 text-sm font-semibold transition-all disabled:opacity-70",
               isHero
-                ? "h-11 rounded-full bg-loop text-signal hover:bg-loopsoft"
+                ? "h-11 rounded-full border border-loop/50 text-loop hover:border-loop hover:shadow-loop"
                 : "h-12 rounded-xl bg-signal text-paper hover:bg-signal-deep"
             )}
           >
