@@ -1,9 +1,11 @@
 // Cloudflare Pages Function — public lead capture endpoint.
-// Validates the payload and persists each lead to the LEADS KV namespace
-// (bound in wrangler.jsonc). Served at /api/lead.
+// Served at /api/lead. Validates the payload and persists each lead to the
+// LEADS KV namespace (bound in wrangler.jsonc).
 //
-// Ported from the former Base44 submitLead function — same validation rules,
-// same bounded inputs, no sensitive data accepted.
+// Note: Cloudflare Pages Functions are bundled independently and cannot
+// import from sibling directories, so the validation logic is inlined here.
+// The Vite dev middleware (vite.config.js) imports the same logic from
+// functions/lib/lead.js — keep the two in sync if you change validation.
 
 const ALLOWED_SEGMENTS = new Set(['home', 'business', 'unsure']);
 const ALLOWED_SOURCES = new Set(['coverage', 'plans', 'contact', 'direct', 'whatsapp']);

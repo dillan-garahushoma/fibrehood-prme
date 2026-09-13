@@ -2,6 +2,7 @@ import { useEffect, useRef, useState } from "react";
 import { ArrowRight, Building2, Headset, Mail, Megaphone, Receipt, Shield } from "lucide-react";
 import { SplitHero } from "@/components/common/SplitHero";
 import { IMAGES } from "@/data/images";
+import { submitLead } from "@/lib/leads";
 
 const serviceOptions = [
   "Check fibre coverage",
@@ -52,13 +53,21 @@ export default function Contact() {
     setFormData((current) => ({ ...current, [event.target.name]: event.target.value }));
   }
 
-  function handleSubmit(event) {
+  async function handleSubmit(event) {
     event.preventDefault();
     setSubmitStatus("submitting");
     try {
-      const leads = JSON.parse(localStorage.getItem("fibrehood_leads") || "[]");
-      leads.push({ ...formData, source: "fibrehood-contact", submitted_at: new Date().toISOString() });
-      localStorage.setItem("fibrehood_leads", JSON.stringify(leads));
+      const serviceLine = formData.service ? `[${formData.service}] ` : "";
+      await submitLead({
+        name: formData.name,
+        phone: formData.phone,
+        email: formData.email,
+        address: formData.area,
+        message: serviceLine + formData.message,
+        source: "contact",
+        intent: "contact",
+        consent: true
+      });
       setSubmitStatus("success");
     } catch {
       setSubmitStatus("error");
