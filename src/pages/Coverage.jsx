@@ -1,7 +1,8 @@
 import React, { Suspense, lazy } from "react";
 import { Link } from "react-router-dom";
 import { MessageCircle, ArrowRight } from "lucide-react";
-import { SplitHero } from "@/components/common/SplitHero";
+import { Image } from "@/components/ui/image";
+import { Reveal } from "@/components/common/Reveal";
 import { IMAGES } from "@/data/images";
 import { WA_INTENTS } from "@/data/site";
 
@@ -10,34 +11,52 @@ const CoverageExplorer = lazy(() => import("@/components/coverage/CoverageExplor
 export default function Coverage() {
   return (
     <>
-      <SplitHero
-        image={IMAGES.coverageAerial}
-        alt="FibreHood fibre network coverage"
-        eyebrow="Check your coverage"
-        title={
-          <>
-            Tell us where you are.
-            <br />
-            We'll tell you what you can do<span className="text-loop">.</span>
-          </>
-        }
-        subtitle="Search your address, use your current location, or choose your area. We'll confirm FibreHood's status at your location and take you straight to the right next step."
-      >
-        <div className="flex flex-col gap-3 sm:flex-row sm:items-center">
-          <a
-            href="#checker"
-            className="inline-flex items-center justify-center gap-2 rounded-full bg-loop px-6 py-3 text-sm font-semibold text-signal transition-colors hover:bg-loopsoft"
-          >
-            Check your address <ArrowRight className="h-4 w-4" />
-          </a>
-          <Link
-            to="/plans"
-            className="inline-flex items-center justify-center gap-2 rounded-full border border-paper/40 px-6 py-3 text-sm font-semibold text-paper transition-colors hover:border-paper hover:bg-paper/10"
-          >
-            View plans
-          </Link>
+      {/* Hero — navy, full-bleed image, mirroring the homepage hero */}
+      <section className="relative overflow-hidden bg-signal-deep text-paper">
+        <div className="absolute inset-y-0 right-0 w-full lg:w-[58%]" aria-hidden="true">
+          <Image
+            src={IMAGES.coverageAerial}
+            alt="FibreHood fibre network coverage"
+            fittingType="fill"
+            className="h-full w-full"
+          />
+          <div className="absolute inset-0 bg-signal-deep/65 lg:bg-transparent" />
+          <div className="absolute inset-0 bg-gradient-to-r from-signal-deep via-signal-deep/30 to-transparent" />
+          <div className="absolute inset-0 bg-gradient-to-t from-signal-deep/70 via-transparent to-signal-deep/30" />
         </div>
-      </SplitHero>
+
+        <div className="container-lattice relative flex min-h-[80svh] flex-col justify-center py-28 md:py-36">
+          <Reveal className="max-w-2xl">
+            <span className="eyebrow text-paper/70">
+              <span className="h-px w-7 bg-loop" aria-hidden="true" />
+              Check your coverage
+            </span>
+            <h1 className="mt-6 font-heading text-4xl font-extrabold leading-[1.05] tracking-tighter text-paper sm:text-5xl lg:text-[3.6rem]">
+              Tell us where you are.
+              <br />
+              We'll tell you what you can do<span className="text-loop">.</span>
+            </h1>
+            <p className="mt-5 max-w-xl text-base leading-relaxed text-paper/75">
+              Search your address, use your current location, or choose your area. We'll confirm FibreHood's status at
+              your location and take you straight to the right next step.
+            </p>
+            <div className="mt-8 flex flex-col gap-3 sm:flex-row sm:items-center">
+              <a
+                href="#checker"
+                className="inline-flex items-center justify-center gap-2 rounded-full bg-loop px-6 py-3 text-sm font-semibold text-signal transition-colors hover:bg-loopsoft"
+              >
+                Check your address <ArrowRight className="h-4 w-4" />
+              </a>
+              <Link
+                to="/plans"
+                className="inline-flex items-center justify-center gap-2 rounded-full border border-paper/40 px-6 py-3 text-sm font-semibold text-paper transition-colors hover:border-paper hover:bg-paper/10"
+              >
+                View plans
+              </Link>
+            </div>
+          </Reveal>
+        </div>
+      </section>
 
       {/* Checker + result + network ledger */}
       <div id="checker">
