@@ -1,6 +1,6 @@
 import { SplitHero } from "@/components/common/SplitHero";
 import { IMAGES } from "@/data/images";
-import AboutDevelopmentSections from "@/components/about/AboutDevelopmentSections";
+import AboutBody from "@/components/about/AboutBody";
 
 export default function About() {
   return (
@@ -12,7 +12,7 @@ export default function About() {
         title="We exist to bridge the access gap."
         subtitle="FibreHood is a direct fibre connectivity platform — built so people can find out what fibre really reaches them, choose with clarity, and get connected without the runaround."
       />
-      <AboutDevelopmentSections />
+      <AboutBody />
     </>
   );
 }
