@@ -38,7 +38,7 @@ export function StepPlan({ segment, onSegmentChange, planId, onPlanChange }) {
                 className={cn(
                   "px-4 py-2.5 rounded-full border text-sm transition-all duration-300 cursor-pointer font-medium",
                   active
-                    ? "border-[#FFCC00] text-[#8A6A0C] bg-[#FFFAE0] shadow-sm"
+                    ? "border-[#FFCC00] text-[#FFCC00] bg-[#FFFAE0] shadow-sm"
                     : "border-stone-300 text-stone-700 hover:border-stone-500 hover:text-stone-900 bg-white"
                 )}
               >
@@ -88,7 +88,7 @@ export function StepPlan({ segment, onSegmentChange, planId, onPlanChange }) {
                     <div className="flex flex-wrap items-center gap-2">
                       <span className="text-base font-semibold text-[#031630]">{p.name}</span>
                       {p.popular && (
-                        <span className="rounded-full bg-[#FFFAE0] text-[#8A6A0C] px-2.5 py-0.5 text-[10px] font-semibold">
+                        <span className="rounded-full bg-[#FFFAE0] text-[#FFCC00] px-2.5 py-0.5 text-[10px] font-semibold">
                           Popular
                         </span>
                       )}
@@ -125,7 +125,7 @@ export function StepPlan({ segment, onSegmentChange, planId, onPlanChange }) {
                       <div className="flex flex-col gap-2">
                         {p.features.map((f) => (
                           <div key={f} className="flex items-center gap-2.5 text-xs sm:text-sm text-stone-700">
-                            <span className="grid h-4 w-4 shrink-0 place-items-center rounded-full bg-[#FFCC00]/15 text-[#8A6A0C]">
+                            <span className="grid h-4 w-4 shrink-0 place-items-center rounded-full bg-[#FFCC00]/15 text-[#FFCC00]">
                               <Check className="h-2.5 w-2.5" />
                             </span>
                             {f}

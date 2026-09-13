@@ -6,7 +6,7 @@ import { InputOTP, InputOTPGroup, InputOTPSlot } from "@/components/ui/input-otp
 export function StepVerify({ email, code, onCodeChange, onResend, resent }) {
   return (
     <div className="mx-auto max-w-md text-center py-4">
-      <span className="inline-flex h-12 w-12 items-center justify-center rounded-full bg-[#FFFAE0] border border-[#FFCC00]/40 text-[#8A6A0C]">
+      <span className="inline-flex h-12 w-12 items-center justify-center rounded-full bg-[#FFFAE0] border border-[#FFCC00]/40 text-[#FFCC00]">
         <Mail className="h-5 w-5" />
       </span>
       <h1 className="ff-serif text-3xl sm:text-[2.2rem] leading-[1.1] text-[#031630] mt-5 font-semibold tracking-tight">
@@ -32,14 +32,14 @@ export function StepVerify({ email, code, onCodeChange, onResend, resent }) {
 
       <p className="mt-6 text-sm text-stone-600 font-medium">
         {resent ? (
-          <span className="text-[#8A6A0C] font-semibold">A new code is on its way.</span>
+          <span className="text-[#FFCC00] font-semibold">A new code is on its way.</span>
         ) : (
           <>
             Didn't get it?{" "}
             <button
               type="button"
               onClick={onResend}
-              className="font-semibold text-[#8A6A0C] hover:text-[#5f4a08] transition-colors underline-offset-2 hover:underline cursor-pointer"
+              className="font-semibold text-[#FFCC00] hover:text-[#E6B800] transition-colors underline-offset-2 hover:underline cursor-pointer"
             >
               Resend code
             </button>

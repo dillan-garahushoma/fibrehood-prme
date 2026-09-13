@@ -33,7 +33,7 @@ export function StepInstallation({ install, onChange, location, onChangeAddress 
       {/* Address summary */}
       <div className="mt-9 pt-7 border-t border-stone-200 flex items-start justify-between gap-4">
         <div className="flex items-start gap-3">
-          <MapPin size={18} className="text-[#8A6A0C] mt-0.5 shrink-0" />
+          <MapPin size={18} className="text-[#FFCC00] mt-0.5 shrink-0" />
           <div>
             <div className="text-[#031630] font-semibold">{location?.label || "Southview, Harare"}</div>
             <div className="text-stone-500 text-sm mt-0.5 font-medium">Installation address</div>
@@ -42,7 +42,7 @@ export function StepInstallation({ install, onChange, location, onChangeAddress 
         <button
           type="button"
           onClick={onChangeAddress}
-          className="text-sm text-stone-600 hover:text-[#8A6A0C] transition-colors whitespace-nowrap cursor-pointer font-medium"
+          className="text-sm text-stone-600 hover:text-[#FFCC00] transition-colors whitespace-nowrap cursor-pointer font-medium"
         >
           Change
         </button>
@@ -62,7 +62,7 @@ export function StepInstallation({ install, onChange, location, onChangeAddress 
                 className={
                   "flex items-center gap-2 px-4 py-2.5 rounded-full border text-sm transition-all duration-300 cursor-pointer font-medium " +
                   (active
-                    ? "border-[#FFCC00] text-[#8A6A0C] bg-[#FFFAE0] shadow-sm"
+                    ? "border-[#FFCC00] text-[#FFCC00] bg-[#FFFAE0] shadow-sm"
                     : "border-stone-300 text-stone-700 hover:border-stone-500 hover:text-stone-900 bg-white")
                 }
               >
@@ -119,7 +119,7 @@ export function StepInstallation({ install, onChange, location, onChangeAddress 
                 className={
                   "px-4 py-2.5 rounded-full border text-sm transition-all duration-300 cursor-pointer font-medium " +
                   (active
-                    ? "border-[#FFCC00] text-[#8A6A0C] bg-[#FFFAE0] shadow-sm"
+                    ? "border-[#FFCC00] text-[#FFCC00] bg-[#FFFAE0] shadow-sm"
                     : "border-stone-300 text-stone-700 hover:border-stone-500 hover:text-stone-900 bg-white")
                 }
               >

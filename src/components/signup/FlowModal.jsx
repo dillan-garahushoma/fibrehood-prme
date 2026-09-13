@@ -87,7 +87,7 @@ export function FlowModal({
             {/* Header */}
             <div className="flex items-center justify-between px-8 sm:px-12 pt-6 shrink-0">
               <div className="flex items-center">
-                <img src="/images/logo-black.png" alt="Fibrehood" className="h-[120px] w-auto object-contain -my-10 scale-110 origin-left opacity-70" />
+                <img src="/images/logo-black.png" alt="Fibrehood" className="h-[120px] w-auto object-contain -my-10 scale-110 origin-left opacity-90" />
               </div>
               <button
                 type="button"
@@ -131,7 +131,7 @@ export function FlowModal({
                       className={
                         "text-xs transition-colors duration-300 " +
                         (i === current
-                          ? "text-[#8A6A0C] font-semibold"
+                          ? "text-[#FFCC00] font-semibold"
                           : i < current
                           ? "text-stone-700 font-medium"
                           : "text-stone-400 font-medium")

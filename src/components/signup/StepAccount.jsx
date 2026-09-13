@@ -19,7 +19,7 @@ export function StepAccount({ account, onChange }) {
       {/* Account notice */}
       <div className="mt-9 pt-7 border-t border-stone-200 flex items-start justify-between gap-4">
         <div className="flex items-start gap-3">
-          <ShieldCheck size={18} className="text-[#8A6A0C] mt-0.5 shrink-0" />
+          <ShieldCheck size={18} className="text-[#FFCC00] mt-0.5 shrink-0" />
           <div>
             <div className="text-[#031630] text-sm font-semibold">Already have an account?</div>
             <div className="text-stone-500 text-xs mt-0.5 font-medium">Log in to link this installation to your profile.</div>
@@ -27,7 +27,7 @@ export function StepAccount({ account, onChange }) {
         </div>
         <Link
           to="/login"
-          className="text-sm text-stone-600 hover:text-[#8A6A0C] font-medium transition-colors whitespace-nowrap"
+          className="text-sm text-stone-600 hover:text-[#FFCC00] font-medium transition-colors whitespace-nowrap"
         >
           Log in
         </Link>

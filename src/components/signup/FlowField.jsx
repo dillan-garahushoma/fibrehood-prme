@@ -6,7 +6,7 @@ export function Field({ label, required, hint, className, children }) {
     <label className={cn("block", className)}>
       <span className="block text-sm text-stone-500 mb-2">
         {label}
-        {required && <span className="text-[#8A6A0C] font-medium ml-1">*</span>}
+        {required && <span className="text-[#FFCC00] font-medium ml-1">*</span>}
       </span>
       {children}
       {hint && <span className="block text-xs text-stone-400 mt-1.5">{hint}</span>}
@@ -34,7 +34,7 @@ export const fieldClass =
 export function FlowError({ children }) {
   if (!children) return null;
   return (
-    <div className="mb-6 rounded-xl border border-[#FFCC00]/40 bg-[#FFFAE0] px-4 py-3 text-sm text-[#8A6A0C]">
+    <div className="mb-6 rounded-xl border border-[#FFCC00]/40 bg-[#FFFAE0] px-4 py-3 text-sm text-[#FFCC00]">
       {children}
     </div>
   );

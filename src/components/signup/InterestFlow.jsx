@@ -106,7 +106,7 @@ export function InterestFlow({ open, intent = LEAD_INTENT.REGISTER_INTEREST, loc
 
           {location?.label && (
             <div className="mt-8 pt-7 border-t border-stone-200 flex items-start gap-3">
-              <MapPin size={18} className="text-[#8A6A0C] mt-0.5 shrink-0" />
+              <MapPin size={18} className="text-[#FFCC00] mt-0.5 shrink-0" />
               <div>
                 <div className="text-[#031630] font-semibold">{location.label}</div>
                 <div className="text-stone-500 font-medium text-sm mt-0.5">Status: {meta.label}</div>

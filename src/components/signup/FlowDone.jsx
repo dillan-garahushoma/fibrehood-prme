@@ -6,7 +6,7 @@ import { WA_INTENTS } from "@/data/site";
 export function FlowDone({ title, body, reference, next = [], onClose, waLabel = "Talk to us on WhatsApp", waHref }) {
   return (
     <div className="mx-auto max-w-lg text-center py-4">
-      <span className="inline-flex h-14 w-14 items-center justify-center rounded-full bg-[#FFFAE0] border border-[#FFCC00]/40 text-[#8A6A0C]">
+      <span className="inline-flex h-14 w-14 items-center justify-center rounded-full bg-[#FFFAE0] border border-[#FFCC00]/40 text-[#FFCC00]">
         <Check className="h-7 w-7" />
       </span>
       <h1 className="ff-serif text-3xl sm:text-[2.2rem] leading-[1.1] text-[#031630] mt-5 font-semibold tracking-tight">
@@ -25,7 +25,7 @@ export function FlowDone({ title, body, reference, next = [], onClose, waLabel =
         <ul className="mt-8 space-y-3 text-left">
           {next.map((item, i) => (
             <li key={item} className="flex items-start gap-3 border-b border-stone-200 pb-3 last:border-b-0">
-              <span className="mt-0.5 flex h-5 w-5 shrink-0 items-center justify-center rounded-full bg-[#FFCC00]/15 text-[11px] font-semibold text-[#8A6A0C]">
+              <span className="mt-0.5 flex h-5 w-5 shrink-0 items-center justify-center rounded-full bg-[#FFCC00]/15 text-[11px] font-semibold text-[#FFCC00]">
                 0{i + 1}
               </span>
               <span className="text-sm text-stone-700 font-medium leading-relaxed">{item}</span>

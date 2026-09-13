@@ -47,7 +47,7 @@ export function StepReview({ data, location, consent, onConsentChange }) {
         <div className="rounded-2xl border border-stone-300 bg-stone-50/80 p-5">
           <div className="flex items-center justify-between">
             <div className="text-base font-semibold text-[#031630]">{plan?.name}</div>
-            <span className="rounded-full bg-[#FFFAE0] text-[#8A6A0C] text-[11px] font-semibold px-2.5 py-0.5">
+            <span className="rounded-full bg-[#FFFAE0] text-[#FFCC00] text-[11px] font-semibold px-2.5 py-0.5">
               {plan?.usageLabel}
             </span>
           </div>
@@ -89,7 +89,7 @@ export function StepReview({ data, location, consent, onConsentChange }) {
           />
           <span className="text-xs sm:text-sm text-stone-700 font-medium leading-relaxed">
             I agree to be contacted about this installation and accept Fibrehood's{" "}
-            <a href="/terms" target="_blank" className="font-semibold text-[#031630] hover:text-[#8A6A0C] underline transition-colors">
+            <a href="/terms" target="_blank" className="font-semibold text-[#031630] hover:text-[#FFCC00] underline transition-colors">
               terms of service
             </a>
             .
