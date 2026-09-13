@@ -2,33 +2,38 @@
 
 ## Project Context
 
-This is a Base44 app repository. Treat it as user-owned application code, keep changes focused on the user's request, and preserve existing project conventions.
+FibreHood is a standalone Vite + React frontend (no Base44 SDK runtime
+dependency). It checks fibre coverage, compares plans, and captures leads.
 
-Start with `README.md` for local setup, environment variables, and publish workflow.
+The app is fully self-contained: auth is stubbed (`src/lib/AuthContext.jsx`
++ `src/api/base44Client.js`), the `/api/lead` endpoint runs as an in-memory
+Vite dev middleware (`vite.config.js`), and coverage data comes from local
+fixtures (`src/data/`, `src/lib/coverageService.js`). No database, no
+external API keys, no backend service beyond Vite itself.
 
-## Base44 References
-
-- CLI overview: https://docs.base44.com/developers/references/cli/get-started/overview.md
-- Agent skills: https://docs.base44.com/developers/backend/overview/skills.md
-
-If your agent supports Agent Skills, install or update Base44 skills before Base44-specific work:
+## Running in Base44
 
 ```bash
-npx skills add base44/skills
+docker compose -f docker-compose.base44.yml up -d
 ```
+
+- Single `web` service: `node:22` base image, repo bind-mounted at `/app`,
+  `npm install` + `npx vite --host 0.0.0.0 --port 3000` on startup.
+- Live reload via Vite HMR — edits appear in the preview without a rebuild.
+- Port 3000 is the public entry point.
+- No secrets required.
 
 ## Key Files
 
 - `src/`: frontend application source.
-- `src/api/base44Client.js`: frontend Base44 SDK client.
-- `vite.config.js`: Vite config and Base44 Vite plugin setup.
-- `.env.local`: local-only environment values; never commit secrets.
+- `src/api/base44Client.js`: standalone stub — no Base44 SDK dependency.
+- `vite.config.js`: Vite config with a custom `/api/lead` dev middleware.
+- `base44/functions/lib/lead/entry.js`: shared lead validation logic.
+- `src/data/`: coverage areas, plans, pricing, and other fixtures.
+- `src/lib/coverageService.js`: coverage resolution engine (local fixtures).
 
 ## Working Notes
 
-- Use `base44 dev` as the default local development command when you need the local Base44 backend. It can run the backend and frontend together.
-- When docs or code mention the frontend being started automatically, that usually means the Base44 project config includes `site.serveCommand`, for example `"serveCommand": "npm run dev"` in `base44/config.jsonc`.
-- Use `npm run dev` only for frontend-only work against the hosted Base44 backend.
-- Prefer the existing Base44 CLI workflow over adding new npm scripts for Base44-specific tasks.
-- Reuse the existing SDK client and Vite plugin patterns before adding new Base44 integration paths.
-- Run the relevant checks from `package.json` before finishing code changes.
+- Run `npm run lint` and `npm run typecheck` before finishing code changes.
+- The `.npmrc` enforces a 7-day supply-chain cooldown (`min-release-age=7`).
+- `wrangler.jsonc` is for Cloudflare Pages deployment only — not used locally.
