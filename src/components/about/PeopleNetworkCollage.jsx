@@ -1,10 +1,6 @@
 import { motion, useReducedMotion } from "framer-motion";
 import { Image } from "@/components/ui/image";
 import { IMAGES } from "@/data/images";
-import corporateImage from "@/components/collage/1490330fe_generated_image.png";
-import healthcareImage from "@/components/collage/e400d5732_generated_image.png";
-import coworkingImage from "@/components/collage/ad8018c58_generated_image.png";
-import retailImage from "@/components/collage/e9ee6dd60_generated_image.png";
 
 const EASE = [0.16, 1, 0.3, 1];
 
@@ -44,10 +40,10 @@ export default function PeopleNetworkCollage() {
       <div className="flex flex-col md:flex-row md:h-[640px]">
         <div className="flex flex-col md:w-[27%]">
           <div className="h-72 md:h-1/2">
-            <Tile src={corporateImage} alt="People collaborating in a connected office" delay={0} reduce={reduce} />
+            <Tile src={IMAGES.domainCorporate} alt="People collaborating in a connected office" delay={0} reduce={reduce} />
           </div>
           <div className="h-72 md:h-1/2">
-            <Tile src={healthcareImage} alt="Healthcare team supported by a connected network" delay={0.1} reduce={reduce} />
+            <Tile src={IMAGES.domainHealthcare} alt="Healthcare team supported by a connected network" delay={0.1} reduce={reduce} />
           </div>
         </div>
 
@@ -57,10 +53,10 @@ export default function PeopleNetworkCollage() {
 
         <div className="flex flex-col md:w-[27%]">
           <div className="h-72 md:h-1/2">
-            <Tile src={coworkingImage} alt="Creative team collaborating in a studio" delay={0.15} reduce={reduce} />
+            <Tile src={IMAGES.domainCoworking} alt="Creative team collaborating in a studio" delay={0.15} reduce={reduce} />
           </div>
           <div className="h-72 md:h-1/2">
-            <Tile src={retailImage} alt="Retail team using a connected workspace" delay={0.2} reduce={reduce} />
+            <Tile src={IMAGES.domainRetail} alt="Retail team using a connected workspace" delay={0.2} reduce={reduce} />
           </div>
         </div>
       </div>
