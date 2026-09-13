@@ -34,7 +34,7 @@ export function StepReview({ data, location, consent, onConsentChange }) {
 
   return (
     <div>
-      <h1 className="text-3xl sm:text-[2rem] leading-tight text-[#031630] font-semibold">
+      <h1 className="ff-serif text-3xl sm:text-[2.2rem] leading-[1.1] text-[#031630] font-semibold tracking-tight">
         Review & confirm
       </h1>
       <p className="text-stone-700 mt-3 text-[15px] leading-relaxed max-w-md">
@@ -47,7 +47,7 @@ export function StepReview({ data, location, consent, onConsentChange }) {
         <div className="rounded-2xl border border-stone-300 bg-stone-50/80 p-5">
           <div className="flex items-center justify-between">
             <div className="text-base font-semibold text-[#031630]">{plan?.name}</div>
-            <span className="rounded-full bg-amber-100 text-amber-900 text-[11px] font-semibold px-2.5 py-0.5">
+            <span className="rounded-full bg-[#FFFAE0] text-[#8A6A0C] text-[11px] font-semibold px-2.5 py-0.5">
               {plan?.usageLabel}
             </span>
           </div>
@@ -85,11 +85,11 @@ export function StepReview({ data, location, consent, onConsentChange }) {
             type="checkbox"
             checked={consent}
             onChange={(e) => onConsentChange(e.target.checked)}
-            className="mt-0.5 h-4 w-4 shrink-0 rounded border-stone-400 accent-amber-500 text-amber-500 focus:ring-amber-400"
+            className="mt-0.5 h-4 w-4 shrink-0 rounded border-stone-400 accent-[#FFCC00] text-[#FFCC00] focus:ring-[#FFCC00]"
           />
           <span className="text-xs sm:text-sm text-stone-700 font-medium leading-relaxed">
             I agree to be contacted about this installation and accept Fibrehood's{" "}
-            <a href="/terms" target="_blank" className="font-semibold text-[#031630] hover:text-amber-700 underline transition-colors">
+            <a href="/terms" target="_blank" className="font-semibold text-[#031630] hover:text-[#8A6A0C] underline transition-colors">
               terms of service
             </a>
             .

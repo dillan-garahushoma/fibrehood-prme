@@ -97,7 +97,7 @@ export function InterestFlow({ open, intent = LEAD_INTENT.REGISTER_INTEREST, loc
         />
       ) : (
         <div>
-          <h1 className="text-3xl sm:text-[2rem] leading-tight text-[#031630] font-semibold">
+          <h1 className="ff-serif text-3xl sm:text-[2.2rem] leading-[1.1] text-[#031630] font-semibold tracking-tight">
             {copy.title}
           </h1>
           <p className="text-stone-700 mt-3 text-[15px] leading-relaxed max-w-md">
@@ -106,7 +106,7 @@ export function InterestFlow({ open, intent = LEAD_INTENT.REGISTER_INTEREST, loc
 
           {location?.label && (
             <div className="mt-8 pt-7 border-t border-stone-200 flex items-start gap-3">
-              <MapPin size={18} className="text-amber-600 mt-0.5 shrink-0" />
+              <MapPin size={18} className="text-[#8A6A0C] mt-0.5 shrink-0" />
               <div>
                 <div className="text-[#031630] font-semibold">{location.label}</div>
                 <div className="text-stone-500 font-medium text-sm mt-0.5">Status: {meta.label}</div>
@@ -135,7 +135,7 @@ export function InterestFlow({ open, intent = LEAD_INTENT.REGISTER_INTEREST, loc
                 value={form.message}
                 onChange={(e) => set("message", e.target.value)}
                 rows={2}
-                className="w-full bg-transparent border-0 border-b border-stone-400 py-2.5 text-stone-900 placeholder-stone-400 focus:outline-none focus:border-amber-500 transition-colors duration-300 resize-none text-sm"
+                className="w-full bg-transparent border-0 border-b border-stone-400 py-2.5 text-stone-900 placeholder-stone-400 focus:outline-none focus:border-[#FFCC00] transition-colors duration-300 resize-none text-sm"
                 placeholder="Optional"
               />
             </FlowField>
@@ -147,7 +147,7 @@ export function InterestFlow({ open, intent = LEAD_INTENT.REGISTER_INTEREST, loc
                 type="checkbox"
                 checked={consent}
                 onChange={(e) => setConsent(e.target.checked)}
-                className="mt-0.5 h-4 w-4 shrink-0 rounded border-stone-400 accent-amber-500 text-amber-500 focus:ring-amber-400"
+                className="mt-0.5 h-4 w-4 shrink-0 rounded border-stone-400 accent-[#FFCC00] text-[#FFCC00] focus:ring-[#FFCC00]"
               />
               <span className="text-xs sm:text-sm text-stone-700 font-medium leading-relaxed">
                 I'd like FibreHood to contact me about coverage and service availability at this location.

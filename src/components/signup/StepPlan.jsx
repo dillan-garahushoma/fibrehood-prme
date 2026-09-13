@@ -17,7 +17,7 @@ export function StepPlan({ segment, onSegmentChange, planId, onPlanChange }) {
 
   return (
     <div>
-      <h1 className="text-3xl sm:text-[2rem] leading-tight text-[#031630] font-semibold">
+      <h1 className="ff-serif text-3xl sm:text-[2.2rem] leading-[1.1] text-[#031630] font-semibold tracking-tight">
         Choose your package
       </h1>
       <p className="text-stone-700 mt-3 text-[15px] leading-relaxed max-w-md">
@@ -38,7 +38,7 @@ export function StepPlan({ segment, onSegmentChange, planId, onPlanChange }) {
                 className={cn(
                   "px-4 py-2.5 rounded-full border text-sm transition-all duration-300 cursor-pointer font-medium",
                   active
-                    ? "border-amber-500 text-amber-800 bg-amber-50/90 shadow-sm"
+                    ? "border-[#FFCC00] text-[#8A6A0C] bg-[#FFFAE0] shadow-sm"
                     : "border-stone-300 text-stone-700 hover:border-stone-500 hover:text-stone-900 bg-white"
                 )}
               >
@@ -63,12 +63,12 @@ export function StepPlan({ segment, onSegmentChange, planId, onPlanChange }) {
               className={cn(
                 "w-full rounded-2xl border p-4 sm:p-5 text-left transition-all duration-300 cursor-pointer",
                 selected
-                  ? "border-amber-500 bg-amber-50/30"
+                  ? "border-[#FFCC00] bg-[#FFFAE0]/60"
                   : "border-stone-300 bg-white hover:border-stone-400 hover:bg-stone-50/60"
               )}
               style={
                 selected
-                  ? { boxShadow: "0 12px 28px -12px rgba(217,160,60,0.3)" }
+                  ? { boxShadow: "0 12px 28px -12px rgba(255,204,0,0.28)" }
                   : undefined
               }
             >
@@ -77,18 +77,18 @@ export function StepPlan({ segment, onSegmentChange, planId, onPlanChange }) {
                   <span
                     className={cn(
                       "mt-0.5 grid h-5 w-5 shrink-0 place-items-center rounded-full border transition-colors",
-                      selected ? "border-amber-500" : "border-stone-400"
+                      selected ? "border-[#FFCC00]" : "border-stone-400"
                     )}
                   >
                     {selected && (
-                      <span className="h-2.5 w-2.5 rounded-full bg-amber-500" />
+                      <span className="h-2.5 w-2.5 rounded-full bg-[#FFCC00]" />
                     )}
                   </span>
                   <div>
                     <div className="flex flex-wrap items-center gap-2">
                       <span className="text-base font-semibold text-[#031630]">{p.name}</span>
                       {p.popular && (
-                        <span className="rounded-full bg-amber-100 text-amber-900 px-2.5 py-0.5 text-[10px] font-semibold">
+                        <span className="rounded-full bg-[#FFFAE0] text-[#8A6A0C] px-2.5 py-0.5 text-[10px] font-semibold">
                           Popular
                         </span>
                       )}
@@ -125,7 +125,7 @@ export function StepPlan({ segment, onSegmentChange, planId, onPlanChange }) {
                       <div className="flex flex-col gap-2">
                         {p.features.map((f) => (
                           <div key={f} className="flex items-center gap-2.5 text-xs sm:text-sm text-stone-700">
-                            <span className="grid h-4 w-4 shrink-0 place-items-center rounded-full bg-amber-100 text-amber-800">
+                            <span className="grid h-4 w-4 shrink-0 place-items-center rounded-full bg-[#FFCC00]/15 text-[#8A6A0C]">
                               <Check className="h-2.5 w-2.5" />
                             </span>
                             {f}

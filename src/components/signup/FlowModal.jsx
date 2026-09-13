@@ -63,7 +63,7 @@ export function FlowModal({
             className="fixed inset-0 bg-stone-900/40 backdrop-blur-md"
             style={{
               backgroundImage:
-                "radial-gradient(ellipse 900px 500px at 15% 0%, rgba(217,160,60,0.22), transparent 60%)"
+                "radial-gradient(ellipse 900px 500px at 15% 0%, rgba(255,204,0,0.18), transparent 60%)"
             }}
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
@@ -87,7 +87,7 @@ export function FlowModal({
             {/* Header */}
             <div className="flex items-center justify-between px-8 sm:px-12 pt-6 shrink-0">
               <div className="flex items-center">
-                <img src="/images/logo-black.png" alt="Fibrehood" className="h-[120px] w-auto object-contain -my-10 scale-110 origin-left" />
+                <img src="/images/logo-black.png" alt="Fibrehood" className="h-[120px] w-auto object-contain -my-10 scale-110 origin-left opacity-70" />
               </div>
               <button
                 type="button"
@@ -109,14 +109,14 @@ export function FlowModal({
                         <span
                           className={
                             "block w-1.5 h-1.5 rounded-full transition-colors duration-300 " +
-                            (i <= current ? "bg-amber-500" : "bg-stone-400")
+                            (i <= current ? "bg-[#FFCC00]" : "bg-stone-400")
                           }
                         />
                       </div>
                       {i < steps.length - 1 && (
                         <div className="flex-1 h-px mx-1.5 bg-stone-300 relative overflow-hidden">
                           <div
-                            className="absolute inset-y-0 left-0 bg-amber-500 transition-all duration-500"
+                            className="absolute inset-y-0 left-0 bg-[#FFCC00] transition-all duration-500"
                             style={{ width: i < current ? "100%" : "0%" }}
                           />
                         </div>
@@ -131,7 +131,7 @@ export function FlowModal({
                       className={
                         "text-xs transition-colors duration-300 " +
                         (i === current
-                          ? "text-amber-700 font-semibold"
+                          ? "text-[#8A6A0C] font-semibold"
                           : i < current
                           ? "text-stone-700 font-medium"
                           : "text-stone-400 font-medium")
