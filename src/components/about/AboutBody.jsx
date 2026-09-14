@@ -1,10 +1,9 @@
 import AboutStory from "./AboutStory";
 import WhatWeStandFor from "./WhatWeStandFor";
 import MoreThanInternet from "./MoreThanInternet";
-import BuiltBehindScenes from "./BuiltBehindScenes";
-import AboutPeople from "./AboutPeople";
 import CustomerCommitment from "./CustomerCommitment";
 import AboutCTA from "./AboutCTA";
+import { BeliefSection, PeopleSection, TodaySection } from "./AboutLikedSections";
 
 export default function AboutBody() {
   return (
@@ -12,9 +11,10 @@ export default function AboutBody() {
       <AboutStory />
       <WhatWeStandFor />
       <MoreThanInternet />
-      <BuiltBehindScenes />
-      <AboutPeople />
+      <PeopleSection />
       <CustomerCommitment />
+      <BeliefSection />
+      <TodaySection />
       <AboutCTA />
     </>
   );
