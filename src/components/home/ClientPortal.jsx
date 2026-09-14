@@ -7,7 +7,7 @@ import {
   SupportIcon,
   WifiIcon,
 } from "./client-portal/icons";
-import GoldVerticalDivider from "@/components/home/GoldVerticalDivider";
+import AnimatedGoldLine from "@/components/home/AnimatedGoldLine";
 
 const highlights = [
   { icon: WifiIcon, label: "Live connection status" },
@@ -28,7 +28,7 @@ export default function ClientPortal() {
       </div>
 
       <div className="relative">
-        <div className="mx-auto max-w-6xl px-6 pb-12 pt-16 sm:pb-16 sm:pt-24">
+        <div className="mx-auto max-w-6xl px-6 pb-8 pt-16 sm:pb-10 sm:pt-24">
 
           {/* Section header */}
           <div className="mx-auto max-w-2xl text-center">
@@ -65,9 +65,9 @@ export default function ClientPortal() {
             ))}
           </div>
 
-          {/* Animated glowing gold vertical line separating client section and testimonials */}
-          <div className="mt-20 sm:mt-24">
-            <GoldVerticalDivider />
+          {/* Animated gold hairline separating the portal and testimonials */}
+          <div className="mt-12 sm:mt-16">
+            <AnimatedGoldLine />
           </div>
 
         </div>

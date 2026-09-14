@@ -9,7 +9,7 @@ export default function WhatWeStandFor() {
         <div className="max-w-2xl">
           <Reveal><SectionLabel>What We Stand For</SectionLabel></Reveal>
           <Reveal delay={0.08}>
-            <h2 id="principles-heading" className="ff-serif mt-6 text-3xl font-medium leading-tight text-ink sm:text-4xl">
+            <h2 id="principles-heading" className="font-heading mt-6 text-3xl font-bold leading-[1.15] tracking-tighter text-signal sm:text-4xl lg:text-[2.75rem]">
               Five things we won&rsquo;t compromise on.
             </h2>
           </Reveal>

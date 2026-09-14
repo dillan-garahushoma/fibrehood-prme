@@ -7,7 +7,7 @@ export default function AboutCTA() {
     <section aria-labelledby="about-cta-heading" className="bg-paper py-24 lg:py-32">
       <div className="container-lattice text-center">
         <Reveal>
-          <h2 id="about-cta-heading" className="ff-serif mx-auto max-w-3xl text-3xl font-medium leading-tight text-ink sm:text-4xl lg:text-5xl">
+          <h2 id="about-cta-heading" className="ff-serif mx-auto max-w-3xl text-3xl font-medium leading-tight text-[#072146] sm:text-4xl lg:text-5xl">
             Your neighbourhood. Your connection. Your FibreHood.
           </h2>
         </Reveal>

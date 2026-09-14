@@ -65,7 +65,7 @@ export function Testimonials() {
   ];
 
   return (
-    <section className="relative overflow-hidden py-20 md:py-28">
+    <section className="relative overflow-hidden pb-20 pt-6 md:pb-28 md:pt-10">
       <div className="container-lattice">
         <Reveal className="mx-auto flex max-w-xl flex-col items-center text-center">
           <SectionLabel>Testimonials</SectionLabel>

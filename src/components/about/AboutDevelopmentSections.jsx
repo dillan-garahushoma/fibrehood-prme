@@ -4,10 +4,7 @@ import { motion } from "framer-motion";
 import { ArrowRight } from "lucide-react";
 import Reveal from "@/components/common/Reveal";
 import PeopleNetworkCollage from "@/components/about/PeopleNetworkCollage";
-import StoryTimeline from "@/components/about/StoryTimeline";
 import UnderSurface from "@/components/about/UnderSurface";
-import { Image } from "@/components/ui/image";
-import { IMAGES } from "@/data/images";
 
 const SIGNALS = [
   ["5G", "top-[8%] left-[12%]"],
@@ -25,21 +22,6 @@ const DOTS = [
   ["70%", "68%"],
   ["35%", "80%"],
   ["50%", "45%"],
-];
-
-const LEDGER = [
-  {
-    title: "Open by design",
-    copy: "One network, many providers. Customers keep the freedom to choose the service that fits them.",
-  },
-  {
-    title: "Built to last",
-    copy: "Infrastructure that doesn't need rebuilding every time a service changes or a new one arrives.",
-  },
-  {
-    title: "Close to home",
-    copy: "Fibre brought street-by-street to the neighbourhoods and businesses that depend on it.",
-  },
 ];
 
 function OpeningStatement() {
@@ -73,9 +55,38 @@ function OpeningStatement() {
       </div>
 
       <Reveal delay={0.15} className="mt-16 lg:mt-20">
-        <div className="relative h-[320px] w-full overflow-hidden sm:h-[440px] lg:h-[520px]">
-          <Image src={IMAGES.fibreGlass} alt="Fibre optic infrastructure close-up" fittingType="fill" className="h-full w-full" />
-          <div className="absolute inset-0 bg-gradient-to-t from-paper via-transparent to-transparent" />
+        <div className="mx-auto max-w-2xl">
+          <svg viewBox="0 0 720 240" className="h-auto w-full" role="img" aria-labelledby="layer-diagram-title">
+            <title id="layer-diagram-title">Everyday digital activity above ground, connected down to the fibre layer beneath it</title>
+            <g fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" className="text-ink/70">
+              <rect x="106" y="34" width="38" height="30" rx="5" />
+              <circle cx="136" cy="41" r="2.4" fill="currentColor" stroke="none" />
+              <rect x="341" y="30" width="52" height="34" rx="4" />
+              <path d="M359 40L359 54L378 47Z" fill="currentColor" stroke="none" />
+              <path d="M596 32V54M586 45L596 57L606 45M580 64H612" />
+            </g>
+            <g fill="currentColor" className="text-ink-soft" style={{ fontSize: 9, letterSpacing: "0.15em" }}>
+              <text x="125" y="80" textAnchor="middle">VIDEO CALL</text>
+              <text x="367" y="80" textAnchor="middle">STREAMING</text>
+              <text x="596" y="80" textAnchor="middle">DOWNLOAD</text>
+            </g>
+            <g stroke="currentColor" strokeWidth="1" strokeDasharray="2.5 4" className="text-ink/25">
+              <line x1="125" y1="64" x2="125" y2="118" />
+              <line x1="367" y1="64" x2="367" y2="118" />
+              <line x1="596" y1="64" x2="596" y2="118" />
+            </g>
+            <line x1="30" y1="118" x2="690" y2="118" stroke="currentColor" strokeWidth="1.5" className="text-ink/40" />
+            <text x="30" y="106" fill="currentColor" className="text-ink-soft" style={{ fontSize: 10, letterSpacing: "0.15em" }}>STREET LEVEL</text>
+            <g stroke="currentColor" strokeWidth="1.3" className="text-loop/70">
+              <line x1="125" y1="118" x2="125" y2="168" />
+              <line x1="367" y1="118" x2="367" y2="168" />
+              <line x1="596" y1="118" x2="596" y2="168" />
+            </g>
+            <line x1="30" y1="168" x2="690" y2="168" stroke="currentColor" strokeWidth="2" className="text-loop" />
+            <circle cx="367" cy="168" r="5.5" className="fill-loop" />
+            <circle cx="367" cy="168" r="10.5" fill="none" stroke="currentColor" strokeWidth="1" className="text-loop/35" />
+            <text x="30" y="194" fill="currentColor" className="text-ink-soft" style={{ fontSize: 10, letterSpacing: "0.15em" }}>THE FIBREHOOD LAYER</text>
+          </svg>
         </div>
       </Reveal>
     </section>
@@ -257,29 +268,6 @@ function ImageTile({ src, alt, className }) {
   );
 }
 
-function NumbersSection() {
-  return (
-    <section className="bg-fog py-24 lg:py-32">
-      <div className="mx-auto max-w-7xl px-6 lg:px-10">
-        <Reveal>
-          <p className="mb-10 flex items-center gap-3 text-xs font-semibold uppercase tracking-[0.3em] text-ink-soft">
-            <span className="h-px w-8 bg-loop" /> Why It Holds
-          </p>
-        </Reveal>
-        <div className="grid gap-px overflow-hidden rounded-2xl border border-line bg-line sm:grid-cols-3">
-          {LEDGER.map((item, i) => (
-            <Reveal key={item.title} delay={i * 0.12} amount={0.4} className="bg-paper p-8 lg:p-10">
-              <span className="font-mono text-xs text-ink-soft/60">{String(i + 1).padStart(2, "0")}</span>
-              <h3 className="mt-3 font-display text-lg font-bold text-ink">{item.title}</h3>
-              <p className="mt-3 text-sm leading-relaxed text-ink-soft">{item.copy}</p>
-            </Reveal>
-          ))}
-        </div>
-      </div>
-    </section>
-  );
-}
-
 function BeliefSection() {
   return (
     <section className="relative overflow-hidden bg-bone-50 py-28 lg:py-40">
@@ -457,11 +445,9 @@ export function AboutDevelopmentSections() {
   return (
     <>
       <OpeningStatement />
-      <StoryTimeline />
       <DifferenceSection />
       <UnderSurface />
       <PeopleSection />
-      <NumbersSection />
       <BeliefSection />
       <TodaySection />
       <FutureSection />

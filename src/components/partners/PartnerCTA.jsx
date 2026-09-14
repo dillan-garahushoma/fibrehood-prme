@@ -10,8 +10,15 @@ const WA_PARTNER = whatsappLink(
 
 export function PartnerCTA() {
   return (
-    <section className="bg-signal py-16 text-paper md:py-20">
-      <Reveal className="container-lattice flex flex-col items-start gap-8 md:flex-row md:items-center md:justify-between">
+    <section className="relative isolate overflow-hidden bg-signal py-16 text-paper md:py-20">
+      <img
+        src="/images/img-hero-6.jpg"
+        alt=""
+        aria-hidden="true"
+        className="pointer-events-none absolute inset-0 h-full w-full scale-[1.04] object-cover blur-[3px]"
+      />
+      <div className="pointer-events-none absolute inset-0 bg-signal/80" aria-hidden="true" />
+      <Reveal className="container-lattice relative z-10 flex flex-col items-start gap-8 md:flex-row md:items-center md:justify-between">
         <div className="flex items-start gap-5">
           {/* Icon accent */}
           <span className="mt-1 hidden shrink-0 rounded-2xl bg-paper/10 p-3 sm:block">

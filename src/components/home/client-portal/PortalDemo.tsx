@@ -474,7 +474,9 @@ export default function PortalDemo() {
             exit={{ opacity: 0, y: -10 }}
             transition={{ duration: 0.35, ease: "easeOut" }}
           >
-            <h3 className="text-2xl font-semibold tracking-tight text-ink sm:text-[28px]">{active.headline}</h3>
+            <h3 className="text-2xl font-semibold tracking-tight sm:text-[28px]" style={{ color: "#34D399" }}>
+              {active.headline}
+            </h3>
             <p className="mx-auto mt-2 max-w-lg text-[14.5px] leading-relaxed text-ink-soft">{active.sub}</p>
           </motion.div>
         </AnimatePresence>

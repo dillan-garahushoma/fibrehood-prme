@@ -16,12 +16,10 @@ export function PartnersHero() {
       eyebrow="Partnership programme"
       title={
         <>
-          Better connections.
-          <br />
-          <span className="text-loop">Stronger communities.</span>
+          Bring fibre to your community<span className="text-loop">.</span>
         </>
       }
-      subtitle="FibreHood partners with community associations, property developers, and estate bodies to deliver future-ready fibre infrastructure — unlocking opportunity and growing lasting value for every resident."
+      subtitle="Partner with FibreHood to connect your community, estate, or development."
     >
       <div className="flex flex-col gap-3 sm:flex-row sm:items-center">
         <a

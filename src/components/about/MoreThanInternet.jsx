@@ -10,7 +10,7 @@ export default function MoreThanInternet() {
         <div className="max-w-2xl">
           <Reveal><SectionLabel>More Than Internet</SectionLabel></Reveal>
           <Reveal delay={0.08}>
-            <h2 id="impact-heading" className="ff-serif mt-6 text-3xl font-medium leading-tight text-ink sm:text-4xl">
+            <h2 id="impact-heading" className="font-heading mt-6 text-3xl font-bold leading-[1.15] tracking-tighter text-signal sm:text-4xl lg:text-[2.75rem]">
               Connectivity is what it makes possible.
             </h2>
           </Reveal>

@@ -17,12 +17,10 @@ export default function Coverage() {
         eyebrow="Check your coverage"
         title={
           <>
-            Tell us where you are.
-            <br />
-            We'll tell you what you can do<span className="text-loop">.</span>
+            Find out if fibre is ready for you<span className="text-loop">.</span>
           </>
         }
-        subtitle="Search your address, use your current location, or choose your area. We'll confirm FibreHood's status at your location and take you straight to the right next step."
+        subtitle="Search your address to see if FibreHood is available and find your next step."
       >
         <div className="flex flex-col gap-3 sm:flex-row sm:items-center">
           <a

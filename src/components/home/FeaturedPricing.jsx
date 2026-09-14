@@ -42,8 +42,11 @@ export default function FeaturedPricing() {
               <span style={{ width: "28px", height: "1px", background: "linear-gradient(90deg, transparent, hsl(var(--loop)))" }} />
               Residential Fibre Plans
             </div>
-            <h2 className="font-heading text-3xl sm:text-4xl lg:text-[2.6rem] font-extrabold tracking-tighter text-ink text-balance">
-              Pick the speed your home lives at
+            <h2
+              className="font-heading text-3xl sm:text-4xl lg:text-[2.6rem] font-extrabold tracking-tighter text-balance"
+              style={{ color: "#072146" }}
+            >
+              PICK THE SPEED YOUR HOME LIVES AT
             </h2>
             <p className="mt-3 text-sm sm:text-base text-ink-soft max-w-xl mx-auto text-balance">
               From light browsing to a fully connected household. Free installation, Wi-Fi router included, month-to-month — no lock-in.

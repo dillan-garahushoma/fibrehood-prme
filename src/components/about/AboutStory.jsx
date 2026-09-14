@@ -11,7 +11,7 @@ export default function AboutStory() {
           <div>
             <Reveal><SectionLabel>The FibreHood Story</SectionLabel></Reveal>
             <Reveal delay={0.08}>
-              <h2 id="about-story-heading" className="ff-serif mt-6 text-3xl font-medium leading-[1.15] text-ink sm:text-4xl lg:text-[2.75rem]">
+              <h2 id="about-story-heading" className="font-heading mt-6 text-3xl font-bold leading-[1.15] tracking-tighter text-signal sm:text-4xl lg:text-[2.75rem]">
                 Connection shouldn&rsquo;t depend on where you happen to live.
               </h2>
             </Reveal>
