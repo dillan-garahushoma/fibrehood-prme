@@ -1,13 +1,16 @@
-import React, { Suspense, lazy } from "react";
+import React, { Suspense, lazy, useState } from "react";
 import { Link } from "react-router-dom";
 import { MessageCircle, ArrowRight } from "lucide-react";
 import { SplitHero } from "@/components/common/SplitHero";
+import { CoverageChecker } from "@/components/coverage/CoverageChecker";
 import { IMAGES } from "@/data/images";
 import { WA_INTENTS } from "@/data/site";
 
 const CoverageExplorer = lazy(() => import("@/components/coverage/CoverageExplorer"));
 
 export default function Coverage() {
+  const [checkerExpanded, setCheckerExpanded] = useState(false);
+
   return (
     <>
       {/* Hero — split layout matching the Plans / site hero family */}
@@ -15,28 +18,21 @@ export default function Coverage() {
         image={IMAGES.coverageAerial}
         alt="FibreHood fibre network coverage"
         eyebrow="Check your coverage"
-        title={
-          <>
-            Find out if fibre is ready for you<span className="text-loop">.</span>
-          </>
+        title="Find out if your neighbourhood has a Fibrehood"
+        subtitle="We are building FTTH (Fibre-To-The-Home networks throughout all locations for the country. Find out if your area is connected and register your interest."
+        bottomContentExpanded={checkerExpanded}
+        bottomContent={
+          <div className="mx-auto w-full max-w-3xl">
+            <div className="relative rounded-2xl border border-paper/10 bg-signal-deep/50 p-1 backdrop-blur-md">
+              <CoverageChecker
+                variant="hero"
+                source="coverage-hero"
+                onExpandedChange={setCheckerExpanded}
+              />
+            </div>
+          </div>
         }
-        subtitle="Search your address to see if FibreHood is available and find your next step."
-      >
-        <div className="flex flex-col gap-3 sm:flex-row sm:items-center">
-          <a
-            href="#checker"
-            className="inline-flex items-center justify-center gap-2 rounded-full bg-loop px-6 py-3 text-sm font-semibold text-signal transition-colors hover:bg-loopsoft"
-          >
-            Check your address <ArrowRight className="h-4 w-4" />
-          </a>
-          <Link
-            to="/plans"
-            className="inline-flex items-center justify-center gap-2 rounded-full border border-paper/40 px-6 py-3 text-sm font-semibold text-paper transition-colors hover:border-paper hover:bg-paper/10"
-          >
-            View plans
-          </Link>
-        </div>
-      </SplitHero>
+      />
 
       {/* Checker + result + network ledger */}
       <div id="checker">
@@ -68,7 +64,7 @@ export default function Coverage() {
               href={WA_INTENTS.support()}
               target="_blank"
               rel="noreferrer"
-              className="inline-flex h-11 items-center justify-center gap-2 rounded-lg bg-ink px-5 text-sm font-semibold text-paper transition-colors hover:bg-signal"
+              className="inline-flex h-11 items-center justify-center gap-2 rounded-lg bg-[#25D366] px-5 text-sm font-semibold text-signal transition-colors hover:bg-[#20bd5a]"
             >
               <MessageCircle className="h-4 w-4" /> WhatsApp us
             </a>

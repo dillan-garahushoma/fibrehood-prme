@@ -1,13 +1,13 @@
 import React, { useCallback, useEffect, useRef, useState } from "react";
+import { useLocation } from "react-router-dom";
 import { AnimatePresence, motion, useReducedMotion } from "framer-motion";
 import CoverageMap from "./CoverageMap";
-import LocationPanel from "./LocationPanel";
 import CoverageResultPanel from "./CoverageResultPanel";
-import NetworkExplorer from "./NetworkExplorer";
+import WhereFibrehoodIsBuilding from "./WhereFibrehoodIsBuilding";
 import SignupFlow from "@/components/signup/SignupFlow";
 import InterestFlow from "@/components/signup/InterestFlow";
 import { getCoverageAreas, resolveCoverage, searchAddresses, getCurrentPosition, reverseGeocode } from "@/lib/coverageService";
-import { DEPLOYMENT_STATUS, RESOLUTION, LEAD_INTENT, statusMeta, STATUS_ORDER } from "@/data/coverageStatus";
+import { DEPLOYMENT_STATUS, RESOLUTION, CONFIDENCE, LEAD_INTENT, statusMeta, STATUS_ORDER } from "@/data/coverageStatus";
 import { cn } from "@/lib/utils";
 
 const EASE = [0.16, 1, 0.3, 1];
@@ -64,15 +64,25 @@ export function CoverageExplorer() {
     }, 600);
   }, []);
 
-  // Resume the coverage flow when arriving from the homepage hero checker.
+  const location = useLocation();
+
+  // Resume the coverage flow when arriving from the hero checker.
   useEffect(() => {
-    const params = new URLSearchParams(window.location.search);
+    const params = new URLSearchParams(location.search);
     const q = params.get("q");
     const useLoc = params.get("useLocation");
     if (q) {
       const match = searchAddresses(q)[0];
       if (match) {
-        handleResolve({ lat: match.lat, lng: match.lng, label: match.label, method: "address" });
+        handleResolve({
+          lat: match.lat,
+          lng: match.lng,
+          label: match.label,
+          townId: match.townId,
+          suburbId: match.suburbId,
+          mduId: match.mduId,
+          method: "address"
+        });
       }
     } else if (useLoc) {
       getCurrentPosition()
@@ -82,8 +92,10 @@ export function CoverageExplorer() {
         })
         .catch(() => {});
     }
-    window.history.replaceState({}, "", "/coverage");
-  }, [handleResolve]);
+    if (q || useLoc) {
+      window.history.replaceState({}, "", "/coverage");
+    }
+  }, [location.search, handleResolve]);
 
   const reset = () => {
     setResult(null);
@@ -117,33 +129,77 @@ export function CoverageExplorer() {
         transition: { duration: 0.55, ease: EASE }
       };
 
+  const handleOpenArea = (area, town) => {
+    const isLive = String(area.status).toUpperCase() === DEPLOYMENT_STATUS.LIVE;
+    const locationData = {
+      address: `${area.name}, ${town?.name || "Harare"}`,
+      status: isLive ? DEPLOYMENT_STATUS.LIVE : area.status,
+      areaId: area.id,
+      townId: town?.id || "harare",
+      resolution: RESOLUTION.AREA,
+      confidence: CONFIDENCE.HIGH,
+    };
+    setResult(locationData);
+    if (isLive) {
+      setSignupOpen(true);
+    } else {
+      setInterest(statusMeta(area.status)?.intent || LEAD_INTENT.REGISTER_INTEREST);
+    }
+  };
+
+  const handleViewOnMap = useCallback((area, town) => {
+    const norm = (s) => (s || "").toLowerCase().replace(/[^a-z0-9]/g, "");
+    const areaKey = norm(area.name);
+    const matchedArea = areas.find(
+      (a) =>
+        norm(a.name) === areaKey ||
+        norm(a.id) === norm(area.id) ||
+        areaKey.includes(norm(a.id)) ||
+        norm(a.name).includes(areaKey)
+    );
+
+    const fallbackCoords = {
+      "southview-park": [-17.893, 31.08],
+      "harare-avenues": [-17.81, 31.04],
+      "tafara-mabvuka": [-17.851, 31.163],
+      "glen-lorne": [-17.738, 31.12],
+      "norton-galloway": [-17.886, 30.697],
+    };
+
+    const lat = matchedArea ? matchedArea.center[0] : (fallbackCoords[area.id] ? fallbackCoords[area.id][0] : -17.8292);
+    const lng = matchedArea ? matchedArea.center[1] : (fallbackCoords[area.id] ? fallbackCoords[area.id][1] : 31.0539);
+
+    const locationData = {
+      address: `${area.name}, ${town?.name || "Harare"}`,
+      status: DEPLOYMENT_STATUS.LIVE,
+      areaId: matchedArea?.id || area.id,
+      townId: town?.id || "harare",
+      resolution: RESOLUTION.EXACT,
+      confidence: CONFIDENCE.HIGH,
+      lat,
+      lng
+    };
+
+    setMarker({ lat, lng });
+    setAreaFocus(matchedArea || null);
+    setResult(locationData);
+    setChecking(false);
+    flyTo(lat, lng, 14);
+
+    // Smooth scroll into the map result zone
+    window.requestAnimationFrame(() => {
+      resultZone.current?.scrollIntoView({ behavior: "smooth", block: "start" });
+    });
+  }, [areas]);
+
   return (
     <>
-      {/* ── Checker zone ──────────────────────────────────────────────
-          Idle: a single centred input — no map, because there's nothing to
-          show yet. On resolve: one unified surface holding both the result
-          and the map — no separate boxed cards, no seam between them. */}
-      <section ref={resultZone} className="container-lattice scroll-mt-24 py-16 md:py-20">
-        <AnimatePresence mode="wait">
-          {!hasResult ? (
-            <motion.div
-              key="input"
-              initial={{ opacity: 0 }}
-              animate={{ opacity: 1 }}
-              exit={{ opacity: 0 }}
-              className="mx-auto max-w-xl"
-            >
-              <div className="mb-7 text-center">
-                <h2 className="font-heading text-2xl font-bold tracking-tighter text-ink sm:text-3xl">
-                  Where should we look?
-                </h2>
-                <p className="mt-2 text-sm text-ink-soft">
-                  Search an address, use your location, or pick your area — we'll tell you what's live.
-                </p>
-              </div>
-              <LocationPanel onResolve={handleResolve} />
-            </motion.div>
-          ) : (
+      {/* ── Result zone ──────────────────────────────────────────────
+          On resolve: one unified surface holding both the result and the map
+          — no separate boxed cards, no seam between them. */}
+      {hasResult && (
+        <section ref={resultZone} className="container-lattice scroll-mt-24 py-16 md:py-20">
+          <AnimatePresence mode="wait">
             <motion.div key="result" {...sceneMotion} className="overflow-hidden rounded-2xl bg-paper">
               <div className="grid lg:grid-cols-[380px_minmax(0,1fr)] lg:items-stretch">
                 <div className="relative flex flex-col justify-center border-b border-line/60 px-6 py-9 sm:px-8 lg:border-b-0 lg:py-12">
@@ -170,11 +226,12 @@ export function CoverageExplorer() {
                 </div>
               </div>
             </motion.div>
-          )}
-        </AnimatePresence>
-      </section>
+          </AnimatePresence>
+        </section>
+      )}
 
-      <NetworkExplorer areas={areas} activeAreaId={activeAreaId} onSelect={selectArea} />
+      {/* Where Fibrehood is building — dual-pane network rollout explorer */}
+      <WhereFibrehoodIsBuilding onOpenArea={handleOpenArea} onViewOnMap={handleViewOnMap} />
 
       <SignupFlow open={signupOpen} location={result} onClose={() => setSignupOpen(false)} onChangeAddress={reset} />
       <InterestFlow

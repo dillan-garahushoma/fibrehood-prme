@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { AnimatePresence, motion } from "framer-motion";
 import { Search, Loader2, Check, Clock, AlertCircle, ArrowRight, MessageCircle, MapPin, LocateFixed } from "lucide-react";
@@ -16,7 +16,7 @@ const TONES = {
   error: { ring: "ring-destructive", text: "text-destructive", chip: "bg-destructive/10 text-destructive", Icon: AlertCircle }
 };
 
-export function CoverageChecker({ variant = "page", onResult, source = "coverage" }) {
+export function CoverageChecker({ variant = "page", onResult, source = "coverage", onExpandedChange }) {
   const [address, setAddress] = useState("");
   const [state, setState] = useState("idle");
   const [result, setResult] = useState(null);
@@ -25,6 +25,10 @@ export function CoverageChecker({ variant = "page", onResult, source = "coverage
   const navigate = useNavigate();
   const isHero = variant === "hero";
   const isPage = variant === "page";
+
+  useEffect(() => {
+    if (isHero) onExpandedChange?.(focused);
+  }, [focused, isHero, onExpandedChange]);
 
   const submit = (e) => {
     e?.preventDefault();
@@ -72,10 +76,16 @@ export function CoverageChecker({ variant = "page", onResult, source = "coverage
   return (
     <div className={cn("w-full", isPage ? "mx-auto max-w-3xl" : "")}>
       {/* ── Input bar ────────────────────────────────────────────── */}
-      <form onSubmit={submit} className="relative">
+      <form
+        onSubmit={submit}
+        onBlur={(event) => {
+          if (!event.currentTarget.contains(event.relatedTarget)) setFocused(false);
+        }}
+        className="relative"
+      >
         <div
           className={cn(
-            "flex flex-col gap-2 rounded-2xl p-2 transition-all sm:flex-row sm:items-center",
+            "flex flex-col gap-1 rounded-xl p-1 transition-all sm:flex-row sm:items-center sm:rounded-full",
             isHero ? "bg-transparent" : "border bg-paper shadow-signal",
             state === "searching" && !isHero ? "border-loop" : (isHero ? "" : "border-line")
           )}
@@ -93,7 +103,7 @@ export function CoverageChecker({ variant = "page", onResult, source = "coverage
               placeholder="Enter your street address or postal code"
               aria-label="Your address"
               className={cn(
-                "h-11 w-full bg-transparent text-base outline-none",
+                "h-10 w-full bg-transparent text-base outline-none",
                 isHero ? "text-paper placeholder:text-paper/60" : "text-ink placeholder:text-ink-soft/60"
               )}
             />
@@ -104,7 +114,7 @@ export function CoverageChecker({ variant = "page", onResult, source = "coverage
             className={cn(
               "inline-flex items-center justify-center gap-2 px-6 text-sm font-semibold transition-all disabled:opacity-70",
               isHero
-                ? "h-11 rounded-full border border-loop/50 text-loop hover:border-loop hover:shadow-loop"
+                ? "h-10 rounded-full border border-loop/50 text-loop hover:border-loop hover:shadow-loop"
                 : "h-12 rounded-xl bg-signal text-paper hover:bg-signal-deep"
             )}
           >
@@ -131,11 +141,11 @@ export function CoverageChecker({ variant = "page", onResult, source = "coverage
                 transition={{ duration: 0.3, ease: [0.16, 1, 0.3, 1] }}
                 className="overflow-hidden"
               >
-                <div className="mt-2 border-t border-paper/12 pt-2">
+                <div className="mt-1 border-t border-paper/12 px-1 pt-1">
                   <button
                     type="button"
                     onClick={useMyLocation}
-                    className="inline-flex items-center gap-2 px-3 py-1.5 text-xs font-medium text-paper/70 transition-colors hover:text-loop"
+                    className="inline-flex min-h-8 items-center gap-2 rounded-lg px-3 py-1.5 text-xs font-medium text-paper/70 transition-colors hover:bg-paper/10 hover:text-loop"
                   >
                     <LocateFixed className="h-3.5 w-3.5 text-loop" /> Use my location
                   </button>

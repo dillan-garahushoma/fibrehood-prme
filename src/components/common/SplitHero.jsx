@@ -9,7 +9,7 @@ import { entranceContainer, entranceItem } from "@/components/common/Reveal";
  * the navy hero on mobile, min-h-[80svh]. Mirrors PlansHero exactly so every
  * page hero sits at the same height and placement.
  */
-export function SplitHero({ eyebrow, title, subtitle, image, alt, children }) {
+export function SplitHero({ eyebrow, title, subtitle, image, alt, children, bottomContent, bottomContentExpanded = false }) {
   const reduce = useReducedMotion();
 
   return (
@@ -22,12 +22,18 @@ export function SplitHero({ eyebrow, title, subtitle, image, alt, children }) {
       </div>
 
       <motion.div
-        className="container-lattice relative flex min-h-[80svh] flex-col justify-center pt-28 pb-16 md:pt-36 md:pb-20 lg:grid lg:grid-cols-[45%_55%] lg:pt-24"
+        className={`container-lattice relative flex min-h-[80svh] flex-col justify-center pt-28 md:pt-36 lg:grid lg:grid-cols-[45%_55%] lg:pt-24 ${
+          bottomContent ? "pb-28 md:pb-32 lg:pb-24" : "pb-16 md:pb-20"
+        }`}
         variants={entranceContainer}
         initial={reduce ? false : "hidden"}
         animate="show"
       >
-        <div className="relative z-10 my-auto lg:self-center">
+        <div
+          className={`relative z-10 my-auto transition-transform duration-300 ease-out lg:self-center ${
+            bottomContentExpanded ? "-translate-y-8 sm:-translate-y-10" : ""
+          }`}
+        >
           <motion.div variants={entranceItem}>
             <SectionLabel tone="light">{eyebrow}</SectionLabel>
           </motion.div>
@@ -54,6 +60,15 @@ export function SplitHero({ eyebrow, title, subtitle, image, alt, children }) {
             </motion.div>
           )}
         </div>
+
+        {bottomContent && (
+          <motion.div
+            variants={entranceItem}
+            className="absolute inset-x-0 bottom-6 z-10 px-4 sm:bottom-8 md:px-6"
+          >
+            {bottomContent}
+          </motion.div>
+        )}
       </motion.div>
     </section>
   );
