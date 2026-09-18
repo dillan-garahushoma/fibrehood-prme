@@ -1,0 +1,21 @@
+{
+  "name": "Fibrehood",
+  "short_name": "Fibrehood",
+  "start_url": "/",
+  "display": "standalone",
+  "background_color": "#072248",
+  "theme_color": "#072248",
+  "description": "Fibrehood — Bridging the access gap with high-speed fibre internet across Zimbabwe.",
+  "icons": [
+    {
+      "src": "/white.png",
+      "sizes": "192x192",
+      "type": "image/png"
+    },
+    {
+      "src": "/white.png",
+      "sizes": "512x512",
+      "type": "image/png"
+    }
+  ]
+}

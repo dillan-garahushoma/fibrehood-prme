@@ -1,0 +1,31 @@
+# Fibrehood
+
+> High-speed fibre-to-the-home (FTTH) and business fibre optic internet service provider in Zimbabwe. Dedicated to bridging the digital divide by connecting neighbourhoods street by street.
+
+## Overview
+Fibrehood builds and operates high-capacity, low-latency fibre optic broadband networks across Zimbabwe. We serve residential households, small-to-medium businesses (SME), developers, property managers, and resident associations.
+
+- **Website**: https://fibrehood.co.zw
+- **Region**: Zimbabwe (Harare, Bulawayo, Mutare, Gweru, Chitungwiza, Victoria Falls, Norton, and expanding nationally)
+- **Support & WhatsApp**: +263 784 416 605
+- **Email**: support@fibrehood.co.zw
+
+## Products & Plans
+- **Home Unlimited Fibre**: High-speed uncapped, unthrottled fibre connection designed for streaming, gaming, work-from-home, and family use. Symmetrical download/upload speeds.
+- **SME & Business Fibre**: Priority business bandwidth with enhanced service-level agreements (SLA) and dedicated support for commercial premises.
+- **Estate & Community Rollout**: Turnkey community infrastructure partnerships with Residents Associations, body corporates, and developers to bring fibre to gated communities, housing estates, and apartment blocks.
+
+## Key Pages & Resources
+- [Check Coverage](https://fibrehood.co.zw/coverage): Interactive coverage checker and national rollout explorer for Zimbabwean towns and cities.
+- [Fibre Plans](https://fibrehood.co.zw/plans): Pricing and specifications for residential and commercial fibre tiers.
+- [Fibre Installation & Partnerships](https://fibrehood.co.zw/fibre-installation): 4-step deployment process (Understand, Design, Build, Connect & Support) for property managers and developers.
+- [About Fibrehood](https://fibrehood.co.zw/about): Our mission, infrastructure engineering, and community focus.
+- [Frequently Asked Questions](https://fibrehood.co.zw/faq): Answers regarding installation timelines, Wi-Fi router setup, latency, and billing.
+- [Contact](https://fibrehood.co.zw/contact): Direct contact form and WhatsApp escalation.
+
+## Coverage Footprint
+Live and expanding fibre footprint includes:
+- **Harare**: Borrowdale, Avondale, Tafara, Southview, Mount Pleasant, Eastlea, Belvedere, Highlands, Greendale.
+- **Bulawayo**: Suburbs, Hillside, Kumalo, Woodlands, Burnside, City Centre.
+- **Mutare**: City Centre, Murambi, Morningside.
+- **Other Cities**: Gweru, Chitungwiza, Victoria Falls, Norton, Masvingo, Kwekwe.

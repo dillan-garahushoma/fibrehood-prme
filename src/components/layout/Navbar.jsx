@@ -7,21 +7,6 @@ import { NAV_LINKS } from "@/data/site";
 import { useNavOverDark } from "@/hooks/useNavOverDark";
 import { cn } from "@/lib/utils";
 
-function SignUpButton({ className, onClick }) {
-  return (
-    <Link
-      to="/register"
-      onClick={onClick}
-      className={cn(
-        "inline-flex items-center gap-2 rounded-full bg-loop px-5 py-2.5 text-sm font-semibold text-signal transition-all",
-        "hover:shadow-loop focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-loop focus-visible:ring-offset-2",
-        className
-      )}
-    >
-      Sign Up
-    </Link>
-  );
-}
 
 function ClientPortalLink({ className, onClick }) {
   return (
@@ -110,7 +95,6 @@ export function Navbar() {
 
           <div className="hidden items-center gap-6 lg:flex">
             <ClientPortalLink className={solid ? "text-ink-soft" : "text-paper/80"} />
-            <SignUpButton />
           </div>
 
           <button
@@ -155,12 +139,11 @@ export function Navbar() {
                   </Link>
                 );
               })}
-              <div className="mt-2 flex flex-col gap-3">
+              <div className="mt-3 border-t border-line/50 pt-3">
                 <ClientPortalLink
-                  className="px-3 text-base text-ink-soft"
+                  className="px-3 py-2 text-base text-ink-soft hover:text-signal"
                   onClick={() => setOpen(false)}
                 />
-                <SignUpButton className="w-full justify-center" onClick={() => setOpen(false)} />
               </div>
             </div>
           </motion.div>

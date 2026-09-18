@@ -55,8 +55,8 @@ export function PartnerPillars() {
           <Reveal delay={0.1} className="relative">
               <figure className="relative h-[260px] overflow-hidden rounded-[1.5rem] ring-1 ring-white/50 shadow-[0_22px_60px_rgba(7,34,72,0.18)] sm:h-[300px] lg:h-[320px]">
               <img
-                src={IMAGES.fibreInstallation}
-                alt="Fibrehood field team installing fibre infrastructure in a property development"
+                src={IMAGES.installations}
+                alt="Fibrehood fibre installation in progress"
                 className="h-full w-full object-cover"
               />
               <div

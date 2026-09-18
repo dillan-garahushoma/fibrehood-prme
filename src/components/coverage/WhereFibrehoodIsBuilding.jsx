@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useRef } from "react";
 import { ArrowRight, ArrowLeft, Info, MapPin } from "lucide-react";
 import { NATIONAL_ROLLOUT_REGIONS } from "@/data/coverageAreas";
 import { DEPLOYMENT_STATUS } from "@/data/coverageStatus";
@@ -175,18 +175,26 @@ function ProjectCard({ area, town, onClick, onViewOnMap }) {
           onClick();
         }
       }}
-      className="group flex w-full cursor-pointer items-center gap-4 sm:gap-5 rounded-xl border border-slate-200/70 bg-white p-3.5 sm:p-4 text-left transition-all duration-150 hover:border-slate-300 hover:bg-slate-50/50"
+      className="group flex w-full cursor-pointer items-start sm:items-center gap-3.5 sm:gap-5 rounded-xl border border-slate-200/70 bg-white p-3.5 sm:p-4 text-left transition-all duration-150 hover:border-slate-300 hover:bg-slate-50/50 shadow-xs"
     >
       {/* Consistent Dimension Thumbnail */}
-      <div className="relative h-20 w-28 sm:h-22 sm:w-36 shrink-0 overflow-hidden rounded-lg bg-slate-100">
+      <div className="relative h-20 w-24 sm:h-22 sm:w-36 shrink-0 overflow-hidden rounded-lg bg-slate-100">
         <ProjectImage src={area.imageSrc} alt={area.name} />
       </div>
 
       {/* Main Info */}
       <div className="min-w-0 flex-1">
-        <h4 className="text-base font-bold leading-snug sm:text-lg" style={{ color: NAVY }}>
-          {area.name}
-        </h4>
+        <div className="flex flex-wrap items-center gap-2">
+          <h4 className="text-base font-bold leading-snug sm:text-lg" style={{ color: NAVY }}>
+            {area.name}
+          </h4>
+          <span
+            className="sm:hidden rounded-full px-2 py-0.5 text-[10px] font-bold whitespace-nowrap shadow-xs"
+            style={{ backgroundColor: s.badgeBg, color: s.badgeText }}
+          >
+            {s.label}
+          </span>
+        </div>
         <p className="mt-0.5 text-xs font-medium text-slate-400">
           {town.name}
         </p>
@@ -210,8 +218,8 @@ function ProjectCard({ area, town, onClick, onViewOnMap }) {
         )}
       </div>
 
-      {/* Status Pill Badge + Arrow */}
-      <div className="flex shrink-0 items-center gap-3 sm:gap-4 pl-2">
+      {/* Status Pill Badge + Arrow (Desktop) */}
+      <div className="hidden sm:flex shrink-0 items-center gap-3 sm:gap-4 pl-2">
         <span
           className="rounded-full px-2.5 py-0.5 text-xs font-bold whitespace-nowrap shadow-xs"
           style={{ backgroundColor: s.badgeBg, color: s.badgeText }}
@@ -400,23 +408,33 @@ export function WhereFibrehoodIsBuilding({
   const [selectedTownId, setSelectedTownId] = useState("harare");
   const [selectedAreaId, setSelectedAreaId] = useState(null);
   const [showAllProjectsView, setShowAllProjectsView] = useState(false);
+  const projectsRef = useRef(null);
 
   const selectedTown = regions.find((r) => r.id === selectedTownId) || regions[0] || null;
   const selectedArea = selectedTown?.areas?.find((a) => a.id === selectedAreaId) || null;
+
+  function scrollToProjects() {
+    window.requestAnimationFrame(() => {
+      projectsRef.current?.scrollIntoView({ behavior: "smooth", block: "start" });
+    });
+  }
 
   function selectTown(id) {
     setSelectedTownId(id || null);
     setSelectedAreaId(null);
     setShowAllProjectsView(false);
+    scrollToProjects();
   }
 
   function selectArea(id) {
     setSelectedAreaId(id);
     setShowAllProjectsView(false);
+    scrollToProjects();
   }
 
   function backToTownOverview() {
     setSelectedAreaId(null);
+    scrollToProjects();
   }
 
   // Collect all projects across all regions for the "View all projects" mode
@@ -480,6 +498,7 @@ export function WhereFibrehoodIsBuilding({
                 onClick={() => {
                   setShowAllProjectsView(true);
                   setSelectedAreaId(null);
+                  scrollToProjects();
                 }}
                 className="inline-flex items-center gap-1.5 text-xs font-bold transition-colors hover:underline"
                 style={{ color: BLUE }}
@@ -502,7 +521,7 @@ export function WhereFibrehoodIsBuilding({
           />
 
           {/* RIGHT COLUMN: Projects (Dynamic City Heading & Refined Content Rows) */}
-          <div className="flex flex-col min-w-0">
+          <div ref={projectsRef} id="rollout-projects" className="flex flex-col min-w-0 scroll-mt-24 sm:scroll-mt-28">
             {/* Header */}
             <div className="mb-5 flex items-center justify-between border-b border-slate-100 pb-3.5">
               <h3 className="text-lg font-bold tracking-tight" style={{ color: NAVY }}>

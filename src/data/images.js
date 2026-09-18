@@ -10,6 +10,7 @@ export const IMAGES = {
   networkOrb: "/images/network-orb.png",
   // Company / network imagery
   fibreInstallation: "/images/fibre-installation.png",
+  installations: "/images/installations.jpeg",
   // In-home lifestyle
   lifeEvening: "/images/life-evening.png",
   inHomeJoy: "/images/in-home-joy.png",
