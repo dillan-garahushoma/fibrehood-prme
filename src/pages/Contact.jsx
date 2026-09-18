@@ -33,7 +33,7 @@ export default function Contact() {
         title={
           <>
             Let’s get you <br className="hidden sm:inline" />
-            <span className="text-loop">connected.</span>
+            <span className="text-loop">connected</span>
           </>
         }
         subtitle="Tell us who you are and what you need. We’ll route it to the right team — or reach us instantly on WhatsApp."

@@ -15,7 +15,7 @@ export default function About() {
         image={IMAGES.aboutHero}
         alt="Fibrehood fibre infrastructure connecting a community at dusk"
         eyebrow="About Fibrehood"
-        title="We exist to unlock opportunities and talent."
+        title="We exist to unlock opportunities and talent"
         subtitle="Connectivity for marginalised communities."
       />
       <AboutBody images={ABOUT_PAGE_IMAGES} />

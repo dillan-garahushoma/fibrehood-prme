@@ -433,7 +433,7 @@ export function WhereFibrehoodIsBuilding({
           <span className="text-xs font-bold uppercase tracking-widest text-[#2563EB]">
             National Coverage
           </span>
-          <h2 className="mt-2 text-3xl font-extrabold tracking-tight sm:text-4xl lg:text-5xl" style={{ color: NAVY }}>
+          <h2 className="mt-2 font-heading text-3xl font-extrabold leading-[1.08] tracking-tighter sm:text-4xl lg:text-[2.6rem]" style={{ color: NAVY }}>
             Explore network rollout
           </h2>
           <p className="mt-3.5 max-w-xl text-base sm:text-lg leading-relaxed text-slate-500">
