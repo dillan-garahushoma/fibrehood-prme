@@ -32,10 +32,10 @@ export function FlowFooter({
         onClick={onNext}
         disabled={nextDisabled || busy}
         className={cn(
-          "px-7 py-3 rounded-full bg-stone-900 text-white text-sm font-medium hover:bg-stone-800 hover:-translate-y-0.5 transition-all duration-300 disabled:opacity-40 disabled:pointer-events-none flex items-center gap-2 cursor-pointer ml-auto",
+          "px-7 py-3 rounded-full bg-loop text-signal text-sm font-semibold hover:bg-loopsoft hover:-translate-y-0.5 transition-all duration-300 disabled:opacity-40 disabled:pointer-events-none flex items-center gap-2 cursor-pointer ml-auto",
           busy && "opacity-80"
         )}
-        style={{ boxShadow: "0 12px 30px -10px rgba(28,25,20,0.45)" }}
+        style={{ boxShadow: "0 14px 32px -12px rgba(255,204,0,0.55)" }}
       >
         {busy && <Loader2 size={15} className="animate-spin" />}
         {nextLabel}

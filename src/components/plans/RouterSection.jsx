@@ -1,5 +1,5 @@
 import React from "react";
-import { ArrowRight, Check } from "lucide-react";
+import { Check } from "lucide-react";
 import { Reveal } from "@/components/common/Reveal";
 import { SectionLabel } from "@/components/common/SectionLabel";
 import { IMAGES } from "@/data/images";
@@ -10,7 +10,7 @@ const ROUTER_FEATURES = [
   "Simple setup with support from the FibreHood team",
 ];
 
-export function RouterSection({ onSelectPackage }) {
+export function RouterSection() {
   return (
     <section className="overflow-hidden bg-paper pt-8 pb-16 md:pt-10 md:pb-24">
       <div className="container-lattice">
@@ -84,14 +84,6 @@ export function RouterSection({ onSelectPackage }) {
                 </li>
               ))}
             </ul>
-
-            <button
-              type="button"
-              onClick={() => onSelectPackage?.()}
-              className="mt-8 inline-flex items-center gap-2 rounded-full bg-signal px-5 py-3 text-sm font-semibold text-paper shadow-signal transition-transform hover:-translate-y-0.5"
-            >
-              Select Package <ArrowRight className="h-4 w-4 text-loop" />
-            </button>
           </Reveal>
 
         </div>

@@ -12,7 +12,7 @@
     --paper: 210 20% 98%;           /* #F7F9FB Paper */
     --fog: 218 24% 94%;             /* #ECEFF4 Fog */
     --ink: 209 58% 10%;             /* #0B1B2A Ink Navy */
-    --ink-soft: 210 30% 32%;
+    --ink-soft: 212 34% 26%;
     --line: 215 25% 88%;            /* hairline borders */
 
     /* shadcn semantic mapping */
@@ -27,7 +27,7 @@
     --secondary: 218 24% 94%;
     --secondary-foreground: 209 58% 10%;
     --muted: 218 24% 94%;
-    --muted-foreground: 210 18% 40%;
+    --muted-foreground: 214 22% 33%;
     --accent: 48 100% 50%;
     --accent-foreground: 209 58% 10%;
     --destructive: 0 72% 51%;
@@ -177,8 +177,8 @@
   .fh-contact-page {
     --fh-nav-width: 420px;
     --fh-navy: #0d1b3a;
-    --fh-navy-soft: rgba(255, 255, 255, 0.72);
-    --fh-navy-muted: rgba(255, 255, 255, 0.5);
+    --fh-navy-soft: rgba(255, 255, 255, 0.86);
+    --fh-navy-muted: rgba(255, 255, 255, 0.72);
     --fh-navy-line: rgba(255, 255, 255, 0.15);
     --fh-gold: #f4b400;
     --fh-ink: #0d1b3a;
@@ -410,10 +410,100 @@
     line-height: 1.6;
   }
 
+  /* ── Contact details: card with the details on the left plane ── */
+  .fh-contact__details {
+    padding: 80px 0;
+    background: hsl(var(--fog));
+  }
+
+  .fh-contact__details-card {
+    display: grid;
+    grid-template-columns: minmax(0, 1.05fr) minmax(0, 0.95fr);
+    overflow: hidden;
+    border: 1px solid hsl(var(--line));
+    border-radius: 1.75rem;
+    background: #fff;
+    box-shadow: 0 34px 80px -34px rgba(7, 34, 72, 0.32);
+  }
+
+  .fh-contact__details-list {
+    display: flex;
+    align-items: center;
+    padding: 56px 52px;
+  }
+
+  .fh-contact__details-intro {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    padding: 56px 52px;
+    color: #fff;
+    background: var(--fh-navy);
+  }
+
+  /* ── Contact form: text on the left, hairline, form on the right ── */
+  .fh-contact__form-section {
+    padding: 88px 0;
+    background: #fff;
+  }
+
+  .fh-contact__form-grid {
+    display: grid;
+    grid-template-columns: minmax(0, 0.82fr) minmax(0, 1.18fr);
+    align-items: start;
+  }
+
+  .fh-contact__form-copy {
+    padding-right: 56px;
+  }
+
+  .fh-contact__form-panel {
+    padding-left: 56px;
+    border-left: 1px solid hsl(var(--line));
+  }
+
+  .fh-contact__benefits--ink .fh-contact__benefit {
+    border-color: hsl(var(--line));
+  }
+
+  .fh-contact__benefits--ink .fh-contact__benefit-title {
+    color: var(--fh-ink);
+  }
+
+  .fh-contact__benefits--ink .fh-contact__benefit-body {
+    color: #4b5563;
+  }
+
   @media (max-width: 860px) {
     .fh-contact__section,
     .fh-contact__seam {
       grid-template-columns: 1fr;
+    }
+
+    .fh-contact__details-card,
+    .fh-contact__form-grid {
+      grid-template-columns: 1fr;
+    }
+
+    .fh-contact__details-list,
+    .fh-contact__details-intro {
+      padding: 40px 32px;
+    }
+
+    .fh-contact__form-section {
+      padding: 56px 0;
+    }
+
+    .fh-contact__form-copy {
+      padding-right: 0;
+    }
+
+    .fh-contact__form-panel {
+      padding-left: 0;
+      border-left: 0;
+      border-top: 1px solid hsl(var(--line));
+      margin-top: 36px;
+      padding-top: 36px;
     }
 
     .fh-contact__seam > div:first-child {

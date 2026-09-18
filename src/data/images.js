@@ -19,6 +19,8 @@ export const IMAGES = {
   domainHospitality: "/images/domain-hospitality.png",
   domainHealthcare: "/images/domain-healthcare.png",
   domainCoworking: "/images/domain-coworking.png",
+  // Enterprise connectivity backdrop (local asset)
+  enterpriseCampus: "/images/enterprise-connectivity.png",
   collageFieldTeam: "/images/collage-field-team.png",
   collageNetworkTeam: "/images/collage-network-team.png",
   collageCommunityTeam: "/images/collage-community-team.png",

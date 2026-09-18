@@ -40,33 +40,45 @@ function FeatureCard({ card }) {
 
   return (
     <div
-      className="group flex min-h-[300px] flex-col items-center justify-center rounded-[22px] border border-[rgba(7,33,70,0.06)] bg-white px-7 py-10 text-center shadow-[0_1px_2px_rgba(7,33,70,0.04),0_10px_20px_-10px_rgba(7,33,70,0.12)] transition-shadow duration-300 hover:shadow-[0_2px_4px_rgba(7,33,70,0.05),0_16px_28px_-12px_rgba(7,33,70,0.16)]"
+      className="group relative flex min-h-[300px] flex-col items-center justify-center overflow-hidden rounded-[22px] border border-white/70 bg-gradient-to-br from-white via-white/85 to-[#E9EFF9]/80 px-7 py-10 text-center shadow-[0_28px_55px_-26px_rgba(7,33,70,0.38),0_12px_26px_-16px_rgba(7,33,70,0.22)] ring-1 ring-[rgba(7,33,70,0.05)] backdrop-blur-xl transition-shadow duration-300 hover:shadow-[0_34px_66px_-26px_rgba(7,33,70,0.46),0_14px_30px_-16px_rgba(7,33,70,0.28)]"
     >
-      <Icon
-        className="mb-[22px] h-[42px] w-[42px] transition-transform duration-300 group-hover:scale-110"
-        style={{ color: GOLD }}
-        strokeWidth={1.75}
+      {/* Soft light bloom + top highlight for the glass surface */}
+      <span
+        className="pointer-events-none absolute -top-20 left-1/2 h-44 w-44 -translate-x-1/2 rounded-full bg-white/80 blur-2xl"
+        aria-hidden="true"
+      />
+      <span
+        className="pointer-events-none absolute inset-x-8 top-0 h-px bg-gradient-to-r from-transparent via-white to-transparent"
         aria-hidden="true"
       />
 
-      <p className="mb-2 text-[11px] font-semibold uppercase tracking-[0.08em] text-slate-500">
-        {card.eyebrow}
-      </p>
+      <div className="relative flex flex-col items-center">
+        <Icon
+          className="mb-[22px] h-[42px] w-[42px] transition-transform duration-300 group-hover:scale-110"
+          style={{ color: GOLD }}
+          strokeWidth={1.75}
+          aria-hidden="true"
+        />
 
-      {card.titleSuffix ? (
-        <p className="mb-2.5 flex items-baseline justify-center gap-0.5">
-          <span className="text-xl font-medium sm:text-[23px]" style={{ color: NAVY }}>
+        <p className="mb-2 text-[11px] font-semibold uppercase tracking-[0.08em] text-slate-600">
+          {card.eyebrow}
+        </p>
+
+        {card.titleSuffix ? (
+          <p className="mb-2.5 flex items-baseline justify-center gap-0.5">
+            <span className="text-xl font-medium sm:text-[23px]" style={{ color: NAVY }}>
+              {card.title}
+            </span>
+            <span className="text-sm text-slate-600">{card.titleSuffix}</span>
+          </p>
+        ) : (
+          <p className="mb-2.5 text-xl font-medium leading-tight sm:text-[23px]" style={{ color: NAVY }}>
             {card.title}
-          </span>
-          <span className="text-sm text-slate-500">{card.titleSuffix}</span>
-        </p>
-      ) : (
-        <p className="mb-2.5 text-xl font-medium leading-tight sm:text-[23px]" style={{ color: NAVY }}>
-          {card.title}
-        </p>
-      )}
+          </p>
+        )}
 
-      <p className="max-w-[230px] text-sm leading-relaxed text-slate-600">{card.description}</p>
+        <p className="max-w-[230px] text-sm leading-relaxed text-slate-700">{card.description}</p>
+      </div>
     </div>
   );
 }
@@ -74,7 +86,7 @@ function FeatureCard({ card }) {
 export default function MoreThanInternet({ cards = CARDS }) {
   return (
     <section className="px-6 py-16">
-      <div className="mx-auto max-w-7xl rounded-[20px] bg-[#F4F6FA] p-8 sm:p-10">
+      <div className="mx-auto max-w-7xl rounded-[20px] bg-gradient-to-br from-[#F7F9FC] via-[#F4F6FA] to-[#E7EDF7] p-8 sm:p-10">
         <div className="grid grid-cols-1 gap-5 sm:grid-cols-2 lg:grid-cols-4">
           {cards.map((card) => (
             <FeatureCard key={card.id} card={card} />

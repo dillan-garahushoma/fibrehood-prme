@@ -1,54 +1,46 @@
 import React from "react";
+import { Users, Coins, Zap, Gauge, BarChart3, Headphones } from "lucide-react";
 import { Reveal } from "@/components/common/Reveal";
 import { SectionLabel } from "@/components/common/SectionLabel";
 import { IMAGES } from "@/data/images";
 
 const PILLARS = [
   {
-    label: "Reliable Deployment",
-    title: "Planned and delivered with minimal disruption.",
-    summary: "Our team coordinates routes, installation windows, and site communication with as little interruption as possible.",
+    icon: Users,
+    title: "Reliable Deployment",
+    copy: "Planned and delivered with minimal disruption.",
   },
   {
-    label: "Zero Cost Infrastructure",
-    title: "We fund and build the fibre network.",
-    summary: "FibreHood covers the infrastructure investment so your community or development can benefit without the upfront burden.",
+    icon: Coins,
+    title: "Zero Cost Infrastructure",
+    copy: "We fund and build the fibre network.",
   },
   {
-    label: "Open Access",
-    title: "Fair, non-discriminatory network access for every resident.",
-    summary: "Every home or unit can access the same high-quality, transparent fibre service without hidden barriers.",
+    icon: Zap,
+    title: "Open Access",
+    copy: "Fair, non-discriminatory network access for every resident.",
   },
   {
-    label: "Gigabit Speeds",
-    title: "Future-ready connectivity from day one.",
-    summary: "Gigabit-capable fibre is installed to meet the needs of the next decade, not just the next few years.",
+    icon: Gauge,
+    title: "Gigabit Speeds",
+    copy: "Future-ready connectivity from day one.",
   },
   {
-    label: "Increased Property Value",
-    title: "A more connected community is a more valuable one.",
-    summary: "Modern fibre infrastructure improves asset appeal, resident satisfaction, and long-term property value.",
+    icon: BarChart3,
+    title: "Increased Property Value",
+    copy: "A more connected community is a more valuable one.",
   },
   {
-    label: "Ongoing Local Support",
-    title: "A dedicated team long after the cables are in the ground.",
-    summary: "You get local support, dependable service, and a partner who stays engaged after installation is complete.",
+    icon: Headphones,
+    title: "Ongoing Local Support",
+    copy: "A dedicated team long after the cables are in the ground.",
   },
 ];
 
 export function PartnerPillars() {
   return (
-    <section className="relative isolate overflow-hidden py-24 md:py-32">
-      <div className="pointer-events-none absolute inset-0" aria-hidden="true">
-        <img
-          src="/images/partners-estate.jpg"
-          alt=""
-          className="h-full w-full scale-[1.06] object-cover blur-[7px]"
-        />
-        <div className="absolute inset-0 bg-paper/65" />
-      </div>
-
-      <div className="container-lattice relative z-10">
+    <section className="bg-fog py-24 md:py-32">
+      <div className="container-lattice">
         <div className="grid gap-12 lg:grid-cols-[minmax(0,0.96fr)_minmax(0,0.74fr)] lg:items-center lg:gap-16 xl:gap-24">
           <Reveal className="max-w-[660px]">
             <SectionLabel>WHY FIBREHOOD</SectionLabel>
@@ -67,35 +59,34 @@ export function PartnerPillars() {
                 alt="FibreHood field team installing fibre infrastructure in a property development"
                 className="h-full w-full object-cover"
               />
-              <div className="absolute inset-0 bg-gradient-to-t from-signal-deep/40 via-transparent to-transparent" aria-hidden="true" />
-              <figcaption className="absolute bottom-4 left-4 z-[2] text-[0.66rem] font-medium uppercase tracking-[0.2em] text-paper/90">
-                Infrastructure built to last
+              <div
+                className="absolute inset-0 bg-gradient-to-t from-signal-deep/50 via-transparent to-transparent"
+                aria-hidden="true"
+              />
+              <figcaption className="absolute bottom-5 left-5 z-[2]">
+                <span className="block text-[0.66rem] font-semibold uppercase tracking-[0.2em] text-paper">
+                  Infrastructure built to last
+                </span>
+                <span className="mt-2 block h-0.5 w-10 bg-loop" aria-hidden="true" />
               </figcaption>
             </figure>
           </Reveal>
         </div>
 
         <Reveal delay={0.12} className="mt-16 lg:mt-24">
-          <div className="grid grid-cols-1 border-t border-line sm:grid-cols-2 xl:grid-cols-3">
-            {PILLARS.map((item, i) => (
-              <article
-                key={item.label}
-                className={[
-                  "p-8 md:p-10",
-                  "border-b border-line",
-                  i % 3 !== 2 && "sm:border-r",
-                  i >= 3 && "xl:border-b-0",
-                ].filter(Boolean).join(" ")}
-              >
-                <span className="mb-3 block text-[11px] font-semibold uppercase tracking-[0.22em] text-loop">
-                  {item.label}
-                </span>
-                <h3 className="font-heading text-xl font-semibold leading-tight tracking-tight text-signal">
-                  {item.title}
-                </h3>
-                <p className="mt-3 text-sm leading-[1.78] text-ink-soft">{item.summary}</p>
-              </article>
-            ))}
+          <div className="grid grid-cols-1 gap-y-10 border-t border-line pt-12 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-6 xl:gap-y-0 xl:divide-x xl:divide-line">
+            {PILLARS.map((item) => {
+              const Icon = item.icon;
+              return (
+                <article key={item.title} className="xl:px-6 xl:first:pl-0 xl:last:pr-0">
+                  <Icon className="h-6 w-6 text-loop" strokeWidth={1.9} aria-hidden="true" />
+                  <h3 className="mt-5 font-heading text-base font-semibold leading-snug tracking-tight text-signal">
+                    {item.title}
+                  </h3>
+                  <p className="mt-2.5 text-sm leading-[1.7] text-ink-soft">{item.copy}</p>
+                </article>
+              );
+            })}
           </div>
         </Reveal>
       </div>

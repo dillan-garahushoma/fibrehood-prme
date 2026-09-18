@@ -1,6 +1,7 @@
 import { useState } from "react";
 import { ArrowRight, ShieldCheck, AlertCircle, CheckCircle2, Clock3, Users, Lock } from "lucide-react";
 import { Reveal } from "@/components/common/Reveal";
+import { SectionLabel } from "@/components/common/SectionLabel";
 import { submitLead } from "@/lib/leads";
 import { ENQUIRY_TYPES } from "@/data/contactContent";
 
@@ -57,45 +58,51 @@ export default function ContactForm() {
 
   if (status === "success") {
     return (
-      <section id="send-message" aria-labelledby="form-heading" className="fh-contact__section">
-        <div className="fh-contact__intro">
-          <p className="fh-contact__eyebrow">
-            <span className="fh-contact__eyebrow-line" aria-hidden="true" /> SEND US A MESSAGE
-          </p>
-          <h2 className="fh-contact__heading">We’re here to <span className="fh-contact__accent">help.</span></h2>
-          <p className="fh-contact__lede">Tell us what you need and we’ll route it to the right FibreHood team.</p>
-          <TrustPoints />
-        </div>
-        <div className="fh-contact__form-wrap">
-          <CheckCircle2 className="mx-auto h-12 w-12 text-signal" aria-hidden="true" strokeWidth={1.5} />
-          <h2 id="form-heading" className="fh-contact__form-heading">Thanks for reaching out.</h2>
-          <p className="fh-contact__form-lede">Your enquiry has been received by FibreHood. We’ll be in touch soon.</p>
+      <section id="send-message" aria-labelledby="form-heading" className="fh-contact__form-section">
+        <div className="container-lattice">
+          <div className="fh-contact__form-grid">
+            <div className="fh-contact__form-copy">
+              <SectionLabel>SEND US A MESSAGE</SectionLabel>
+              <h2 id="form-heading" className="mt-6 font-heading text-3xl font-bold leading-tight tracking-tighter text-signal sm:text-4xl">
+                We’re here to{" "}
+                <span className="underline decoration-loop decoration-4 underline-offset-[6px]">help.</span>
+              </h2>
+              <p className="mt-5 max-w-md text-base leading-relaxed text-ink-soft">
+                Tell us what you need and we’ll route it to the right FibreHood team.
+              </p>
+              <TrustPoints tone="ink" />
+            </div>
+
+            <div className="fh-contact__form-panel">
+              <CheckCircle2 className="h-12 w-12 text-signal" aria-hidden="true" strokeWidth={1.5} />
+              <h3 className="fh-contact__form-title mt-4">Thanks for reaching out.</h3>
+              <p className="fh-contact__form-lede mt-2">Your enquiry has been received by FibreHood. We’ll be in touch soon.</p>
+            </div>
+          </div>
         </div>
       </section>
     );
   }
 
   return (
-    <section id="send-message" aria-labelledby="form-heading" className="fh-contact__section">
-          <div className="fh-contact__intro">
-            <p className="fh-contact__eyebrow">
-              <span className="fh-contact__eyebrow-line" aria-hidden="true" /> SEND US A MESSAGE
-            </p>
-            <h2 className="fh-contact__heading">
-              We’re here to <span className="fh-contact__accent">help.</span>
+    <section id="send-message" aria-labelledby="form-heading" className="fh-contact__form-section">
+      <div className="container-lattice">
+        <div className="fh-contact__form-grid">
+          <div className="fh-contact__form-copy">
+            <SectionLabel>SEND US A MESSAGE</SectionLabel>
+            <h2 id="form-heading" className="mt-6 font-heading text-3xl font-bold leading-tight tracking-tighter text-signal sm:text-4xl">
+              We’re here to{" "}
+              <span className="underline decoration-loop decoration-4 underline-offset-[6px]">help.</span>
             </h2>
-            <p className="fh-contact__lede">
+            <p className="mt-5 max-w-md text-base leading-relaxed text-ink-soft">
               Tell us what you need and we’ll route it to the right FibreHood team.
             </p>
-            <TrustPoints />
+            <TrustPoints tone="ink" />
           </div>
 
-          <div className="fh-contact__form-wrap">
+          <div className="fh-contact__form-panel">
             <Reveal>
               <h3 className="fh-contact__form-title">Send us an enquiry.</h3>
-            </Reveal>
-            <Reveal delay={0.08}>
-              <p className="fh-contact__form-lede">Tell us what you need and we’ll route it to the right FibreHood team.</p>
             </Reveal>
 
             {Object.keys(errors).length > 0 && (
@@ -159,13 +166,15 @@ export default function ContactForm() {
               </div>
             </form>
           </div>
+        </div>
+      </div>
     </section>
   );
 }
 
-function TrustPoints() {
+function TrustPoints({ tone = "light" }) {
   return (
-    <ul className="fh-contact__benefits">
+    <ul className={`fh-contact__benefits${tone === "ink" ? " fh-contact__benefits--ink" : ""}`}>
       {trustPoints.map(({ icon: Icon, title, copy }) => (
         <li key={title} className="fh-contact__benefit">
           <Icon className="fh-contact__benefit-icon" size={18} aria-hidden="true" />

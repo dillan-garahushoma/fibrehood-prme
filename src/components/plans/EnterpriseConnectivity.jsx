@@ -12,7 +12,7 @@ const FEATURES = [
 
 export default function EnterpriseConnectivity({
   imageSrc = "/images/enterprise-connectivity.jpg",
-  imageAlt = "City skyline representing enterprise connectivity",
+  imageAlt = "Modern enterprise corporate campus at dusk",
   onTalkToSolutionsTeam,
   ctaHref = "#solutions-team",
 }) {

@@ -50,7 +50,7 @@ export function SplitHero({ eyebrow, title, subtitle, image, alt, children, bott
           {subtitle && (
             <motion.p
               variants={entranceItem}
-              className="mt-6 max-w-md text-base leading-relaxed text-paper/75 sm:text-lg"
+              className="mt-6 max-w-md text-base leading-relaxed text-paper/85 sm:text-lg"
             >
               {subtitle}
             </motion.p>

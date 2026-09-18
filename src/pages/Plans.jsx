@@ -135,7 +135,7 @@ export default function Plans() {
         </div>
       </section>
 
-      <EnterpriseConnectivity imageSrc={IMAGES.domainCorporate} ctaHref={WA_INTENTS.enterprise()} />
+      <EnterpriseConnectivity imageSrc={IMAGES.enterpriseCampus} ctaHref={WA_INTENTS.enterprise()} />
       <WhyChooseFibrehood />
 
       {/* ── What You Get ────────────────────────── */}

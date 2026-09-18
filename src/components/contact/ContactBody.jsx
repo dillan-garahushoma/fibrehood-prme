@@ -6,10 +6,6 @@ export default function ContactBody() {
   return (
     <div className="fh-contact-page">
       <ContactDetails />
-      <div className="fh-contact__seam" aria-hidden="true">
-        <div />
-        <div />
-      </div>
       <ContactForm />
       <ContactCTA />
     </div>
