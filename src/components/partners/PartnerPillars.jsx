@@ -39,12 +39,12 @@ const PILLARS = [
 
 export function PartnerPillars() {
   return (
-    <section className="bg-fog py-24 md:py-32">
+    <section className="bg-fog pb-24 pt-10 md:pb-32 md:pt-16">
       <div className="container-lattice">
-        <div className="grid gap-12 lg:grid-cols-[minmax(0,0.96fr)_minmax(0,0.74fr)] lg:items-center lg:gap-16 xl:gap-24">
+          <div className="grid items-start gap-12 lg:grid-cols-[minmax(0,0.96fr)_minmax(0,0.74fr)] lg:gap-16 xl:gap-24">
           <Reveal className="max-w-[660px]">
-            <SectionLabel>WHY FIBREHOOD</SectionLabel>
-            <h2 className="mt-8 font-heading text-4xl font-bold leading-[1.04] tracking-tighter text-signal sm:text-5xl lg:text-[4.25rem]">
+            <SectionLabel className="gap-3 font-bold">WHY FIBREHOOD</SectionLabel>
+            <h2 className="mt-6 font-heading text-4xl font-bold leading-[1.04] tracking-tighter text-signal sm:text-5xl">
               What every partner gets.
             </h2>
             <p className="mt-6 max-w-[560px] text-base leading-[1.86] text-ink-soft lg:text-lg">
@@ -53,7 +53,7 @@ export function PartnerPillars() {
           </Reveal>
 
           <Reveal delay={0.1} className="relative">
-            <figure className="relative min-h-[300px] overflow-hidden rounded-[1.5rem] ring-1 ring-white/50 shadow-[0_22px_60px_rgba(7,34,72,0.18)] lg:min-h-[400px]">
+              <figure className="relative h-[260px] overflow-hidden rounded-[1.5rem] ring-1 ring-white/50 shadow-[0_22px_60px_rgba(7,34,72,0.18)] sm:h-[300px] lg:h-[320px]">
               <img
                 src={IMAGES.fibreInstallation}
                 alt="FibreHood field team installing fibre infrastructure in a property development"

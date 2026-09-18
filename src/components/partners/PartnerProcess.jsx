@@ -37,18 +37,20 @@ const STEPS = [
 
 export function PartnerProcess() {
   return (
-    <section className="bg-fog py-24 md:py-32">
+    <section className="bg-fog pb-12 pt-24 md:pb-16 md:pt-32">
       <div className="container-lattice">
 
         {/* ── Section head ────────────────────────────────────────────── */}
-        <Reveal className="max-w-2xl">
-          <SectionLabel>How we work</SectionLabel>
-          <h2 className="mt-8 font-heading text-4xl font-bold leading-[1.04] tracking-tighter text-signal sm:text-5xl lg:text-[4.25rem]">
+        <Reveal className="w-full text-center">
+          <div className="text-left">
+            <SectionLabel className="gap-3">How we work</SectionLabel>
+          </div>
+          <h2 className="mt-6 font-heading text-4xl font-bold leading-[1.04] tracking-tighter text-signal sm:text-5xl">
             A seamless partnership.
             <br />
             <em className="font-medium italic text-loop">Start to finish.</em>
           </h2>
-          <p className="mt-6 max-w-[560px] text-base leading-[1.86] text-ink-soft lg:text-lg">
+          <p className="mx-auto mt-6 max-w-[680px] text-center text-base leading-[1.86] text-ink-soft lg:text-lg">
             Four clear phases — from the first conversation to a fully connected
             community — with FibreHood alongside you every step of the way.
           </p>
@@ -85,7 +87,7 @@ export function PartnerProcess() {
         <Reveal delay={0.14} className="mt-12 lg:mt-14">
           <Link
             to="/contact"
-            className="group relative inline-flex items-center gap-2 text-base font-semibold text-signal transition-[color,gap] duration-300 hover:gap-3 hover:text-ink after:absolute after:-bottom-1 after:left-0 after:h-px after:w-full after:origin-left after:scale-x-0 after:bg-loop after:transition-transform after:duration-300 group-hover:after:scale-x-100 motion-reduce:transition-none motion-reduce:after:transition-none"
+            className="group relative inline-flex items-center gap-2 text-base font-semibold text-loop transition-[color,gap] duration-300 hover:gap-3 hover:text-ink after:absolute after:-bottom-1 after:left-0 after:h-px after:w-full after:origin-left after:scale-x-0 after:bg-loop after:transition-transform after:duration-300 group-hover:after:scale-x-100 motion-reduce:transition-none motion-reduce:after:transition-none"
           >
             Start a conversation
             <ArrowRight className="h-4 w-4 transition-transform duration-300 group-hover:translate-x-1 motion-reduce:transition-none" aria-hidden="true" />
