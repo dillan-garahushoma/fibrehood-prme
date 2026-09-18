@@ -144,7 +144,7 @@ function Sidebar({ onNavigate }) {
             className="flex items-center gap-2 rounded-xl px-3.5 py-2 text-xs font-medium text-paper/50 transition-colors hover:bg-white/5 hover:text-paper"
           >
             <ExternalLink className="h-3.5 w-3.5" />
-            Back to FibreHood website
+            Back to Fibrehood website
           </Link>
         </div>
       </div>
@@ -320,7 +320,7 @@ function MobileDrawer({ open, onClose }) {
                 className="flex items-center gap-3 rounded-xl px-4 py-3 text-sm font-semibold text-paper/70 hover:bg-white/5"
               >
                 <ExternalLink className="h-5 w-5" />
-                Back to FibreHood website
+                Back to Fibrehood website
               </Link>
             </div>
           </motion.div>
@@ -347,7 +347,7 @@ function Topbar({ onMenu, onBell, onAccount, accountOpen }) {
         </button>
 
         <div className="hidden lg:block">
-          <p className="text-xs font-medium text-muted-foreground">FibreHood Client Portal</p>
+          <p className="text-xs font-medium text-muted-foreground">Fibrehood Client Portal</p>
           <p className="font-heading text-[15px] font-bold tracking-tight text-foreground">
             {active ? active.label : "Portal"}
           </p>
@@ -545,7 +545,7 @@ function BootLoader() {
           <LoopMark className="h-7 w-12 animate-draw-on" stroke={3.4} animated />
         </span>
         <div className="text-center">
-          <p className="font-heading text-lg font-extrabold tracking-tight">FibreHood</p>
+          <p className="font-heading text-lg font-extrabold tracking-tight">Fibrehood</p>
           <p className="mt-1 text-sm text-paper/60">Checking your connection…</p>
         </div>
         <div className="flex gap-1.5">
@@ -570,9 +570,9 @@ function Shell() {
   const [accountOpen, setAccountOpen] = useState(false);
 
   useEffect(() => {
-    document.title = "FibreHood Client Portal";
+    document.title = "Fibrehood Client Portal";
     return () => {
-      document.title = "FibreHood — Bridging the Access Gap";
+      document.title = "Fibrehood — Bridging the Access Gap";
     };
   }, []);
 

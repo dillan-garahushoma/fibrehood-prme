@@ -8,7 +8,7 @@ export default function AboutCTA() {
       <div className="container-lattice text-center">
         <Reveal>
           <h2 id="about-cta-heading" className="ff-serif mx-auto max-w-3xl text-3xl font-medium leading-tight text-[#072146] sm:text-4xl lg:text-5xl">
-            Your neighbourhood. Your connection. Your FibreHood.
+            Your neighbourhood. Your connection. Your Fibrehood.
           </h2>
         </Reveal>
         <Reveal delay={0.1}>

@@ -16,7 +16,7 @@ export default function Coverage() {
       {/* Hero — split layout matching the Plans / site hero family */}
       <SplitHero
         image={IMAGES.coverageAerial}
-        alt="FibreHood fibre network coverage"
+        alt="Fibrehood fibre network coverage"
         eyebrow="Check your coverage"
         title="Find out if your neighbourhood has a Fibrehood"
         subtitle="We are building FTTH (Fibre-To-The-Home networks throughout all locations for the country. Find out if your area is connected and register your interest."
@@ -53,7 +53,7 @@ export default function Coverage() {
           <div className="max-w-md">
             <span className="text-[11px] font-semibold uppercase tracking-[0.22em] text-ink-soft">Need a hand?</span>
             <p className="mt-3 font-heading text-xl font-bold tracking-tight text-ink sm:text-2xl">
-              Can't find your area? Talk to FibreHood.
+              Can't find your area? Talk to Fibrehood.
             </p>
             <p className="mt-2 text-sm leading-relaxed text-ink-soft">
               If your building or street isn't listed, our team can check it manually and tell you exactly where you stand.
@@ -72,7 +72,7 @@ export default function Coverage() {
               to="/contact"
               className="inline-flex h-11 items-center justify-center gap-2 rounded-lg border border-line bg-paper px-5 text-sm font-semibold text-ink transition-colors hover:bg-fog"
             >
-              Contact FibreHood <ArrowRight className="h-4 w-4" />
+              Contact Fibrehood <ArrowRight className="h-4 w-4" />
             </Link>
           </div>
         </div>

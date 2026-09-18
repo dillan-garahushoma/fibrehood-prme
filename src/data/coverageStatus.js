@@ -1,7 +1,7 @@
-// Canonical FibreHood deployment status vocabulary — the single source of truth
+// Canonical Fibrehood deployment status vocabulary — the single source of truth
 // for how each status is labelled, coloured and converted throughout the app.
 //
-// Deployment status  — what FibreHood's state is at a location.
+// Deployment status  — what Fibrehood's state is at a location.
 // Resolution         — how precisely we located the customer (separate concept).
 
 export const DEPLOYMENT_STATUS = {
@@ -37,7 +37,7 @@ export const LEAD_INTENT = {
 export const STATUS_META = {
   LIVE: {
     label: "Live",
-    headline: "FibreHood is available here",
+    headline: "Fibrehood is available here",
     body: "Your location is ready for connection.",
     cta: "Get connected",
     intent: LEAD_INTENT.INSTALL_REQUEST,
@@ -58,7 +58,7 @@ export const STATUS_META = {
   PLANNED: {
     label: "Planned",
     headline: "Fibre is planned for your area",
-    body: "FibreHood is planning deployment here.",
+    body: "Fibrehood is planning deployment here.",
     cta: "Register interest",
     intent: LEAD_INTENT.REGISTER_INTEREST,
     mapColor: "#3B82F6",

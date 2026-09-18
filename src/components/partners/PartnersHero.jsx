@@ -4,7 +4,7 @@ import { SplitHero } from "@/components/common/SplitHero";
 import { whatsappLink } from "@/data/site";
 
 const WA_PARTNER = whatsappLink(
-  "Hi FibreHood, I'd like to explore a partnership — bringing fibre to my estate / development / community."
+  "Hi Fibrehood, I'd like to explore a partnership — bringing fibre to my estate / development / community."
 );
 
 const CTAS = [
@@ -17,10 +17,10 @@ export function PartnersHero() {
   return (
     <SplitHero
       image="/images/partners-hero.png"
-      alt="FibreHood partnership programme for communities and developers"
+      alt="Fibrehood partnership programme for communities and developers"
       eyebrow="PARTNERSHIP PROGRAMME"
       title="Bring fibre to your community"
-      subtitle="Partner with FibreHood to get your suburb, estate, residential or commercial building or property development project fibre connected."
+      subtitle="Partner with Fibrehood to get your suburb, estate, residential or commercial building or property development project fibre connected."
     >
       <div className="flex flex-row items-center gap-2.5 sm:gap-3 overflow-x-auto no-scrollbar py-1 flex-nowrap w-max max-w-full lg:max-w-none">
         {CTAS.map(({ label, Icon, href }) => (

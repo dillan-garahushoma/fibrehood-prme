@@ -5,7 +5,7 @@ import { Reveal } from "@/components/common/Reveal";
 import { whatsappLink } from "@/data/site";
 
 const WA_PARTNER = whatsappLink(
-  "Hi FibreHood, I'd like to explore a partnership — bringing fibre to my estate / development / community."
+  "Hi Fibrehood, I'd like to explore a partnership — bringing fibre to my estate / development / community."
 );
 
 export function PartnerCTA() {
@@ -32,7 +32,7 @@ export function PartnerCTA() {
               Let's build better, connected communities.
             </h2>
             <p className="mt-3 text-base text-paper/70">
-              Partner with FibreHood and unlock the power of fibre for your
+              Partner with Fibrehood and unlock the power of fibre for your
               estate, development, or building — at no cost to you.
             </p>
           </div>

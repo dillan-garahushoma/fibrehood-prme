@@ -1,10 +1,10 @@
-// FibreHood coverage & geocoding fixtures (development footprint model).
+// Fibrehood coverage & geocoding fixtures (development footprint model).
 // Polygons are arrays of [lat, lng] positions (Leaflet convention), conceptually
 // GeoJSON-compatible — swap this module for a real GIS/serviceability feed
 // without touching the UI or the coverage service contract.
 //
 // Deployment zones/phases carry a status and an update timestamp but no polygon:
-// FibreHood does not maintain authoritative phase boundaries, so the map stays
+// Fibrehood does not maintain authoritative phase boundaries, so the map stays
 // at area level rather than inventing building-level precision.
 
 import { DEPLOYMENT_STATUS } from "@/data/coverageStatus";
@@ -108,7 +108,7 @@ export const COVERAGE_AREAS = [
 ];
 
 // Guided location hierarchy: Town → Suburb → MDU.
-// MDU records exist only where FibreHood tracks building-level readiness; every
+// MDU records exist only where Fibrehood tracks building-level readiness; every
 // other suburb resolves at area level and MDU selection stays optional.
 export const TOWNS = [
   {
@@ -263,8 +263,8 @@ export const ADDRESS_LOCALITIES = [
   { id: "victoria-falls", name: "Victoria Falls", region: "Matabeleland North", lat: -18.26, lng: 25.84 }
 ];
 
-// National rollout dataset powering the 'Where FibreHood is building' rollout explorer.
-// Represents FibreHood's deployment footprint across Zimbabwe's major urban centers.
+// National rollout dataset powering the 'Where Fibrehood is building' rollout explorer.
+// Represents Fibrehood's deployment footprint across Zimbabwe's major urban centers.
 export const NATIONAL_ROLLOUT_REGIONS = [
   {
     id: "harare",

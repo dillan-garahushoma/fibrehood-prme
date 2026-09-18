@@ -9,7 +9,7 @@ export default function AboutStory() {
       <div className="container-lattice">
         <div className="grid gap-12 lg:grid-cols-2 lg:items-center lg:gap-16">
           <div>
-            <Reveal><SectionLabel>The FibreHood Story</SectionLabel></Reveal>
+            <Reveal><SectionLabel>The Fibrehood Story</SectionLabel></Reveal>
             <Reveal delay={0.08}>
               <h2 id="about-story-heading" className="font-heading mt-6 text-3xl font-bold leading-[1.15] tracking-tighter text-signal sm:text-4xl lg:text-[2.75rem]">
                 Connection shouldn&rsquo;t depend on where you happen to live.
@@ -18,7 +18,7 @@ export default function AboutStory() {
             <Reveal delay={0.16}>
               <div className="mt-8 max-w-md space-y-5 text-base leading-relaxed text-ink-soft">
                 <p>Across Zimbabwe, dependable fibre still reaches unevenly. Some neighbourhoods have it; many still wait.</p>
-                <p>FibreHood exists to close that gap &mdash; bringing reliable, accessible fibre to homes, businesses, and the streets between them, without the complexity that usually comes with it.</p>
+                <p>Fibrehood exists to close that gap &mdash; bringing reliable, accessible fibre to homes, businesses, and the streets between them, without the complexity that usually comes with it.</p>
                 <p>Check what reaches your address, choose a plan that fits, and get connected &mdash; with real people behind every step.</p>
               </div>
             </Reveal>

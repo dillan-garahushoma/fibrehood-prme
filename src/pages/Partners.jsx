@@ -6,12 +6,12 @@ import { PartnerProcess } from "@/components/partners/PartnerProcess";
 
 export default function Partners() {
   useEffect(() => {
-    document.title = "Fibre Installation | FibreHood";
+    document.title = "Fibre Installation | Fibrehood";
     const meta = document.querySelector('meta[name="description"]');
     if (meta) {
       meta.setAttribute(
         "content",
-        "FibreHood partners with residents associations, developers, and body corporates to deliver fibre installation for communities and developments."
+        "Fibrehood partners with residents associations, developers, and body corporates to deliver fibre installation for communities and developments."
       );
     }
   }, []);

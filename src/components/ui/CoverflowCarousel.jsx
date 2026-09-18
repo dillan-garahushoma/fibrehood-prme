@@ -3,7 +3,7 @@ import { ChevronLeft, ChevronRight } from "lucide-react";
 import { FIBRE_PRICING } from "@/data/fibrePricing";
 import PricingCard from "@/components/pricing/PricingCard";
 
-// FibreHood brand tokens
+// Fibrehood brand tokens
 const NAVY = "#072248";
 const PAPER = "#F7F9FB";
 const ACCENT = "#FFCC00";

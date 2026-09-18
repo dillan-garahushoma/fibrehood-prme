@@ -38,7 +38,7 @@ function MapSurface({ selectedArea, onSelectArea }) {
       viewBox="0 0 720 480"
       className="absolute inset-0 h-full w-full"
       role="img"
-      aria-label="Illustrated FibreHood coverage map showing active coverage zones around Harare"
+      aria-label="Illustrated Fibrehood coverage map showing active coverage zones around Harare"
     >
       <defs>
         {/*

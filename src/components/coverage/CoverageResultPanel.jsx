@@ -30,7 +30,7 @@ export function CoverageResultPanel({ checking, result, onPrimary, onReset }) {
         <Loader2 className="h-5 w-5 animate-spin text-ink-soft" />
         <div>
           <div className="font-heading text-base font-bold text-ink">Checking coverage…</div>
-          <div className="text-xs text-ink-soft">Resolving your location against FibreHood deployment data.</div>
+          <div className="text-xs text-ink-soft">Resolving your location against Fibrehood deployment data.</div>
         </div>
       </div>
     );
@@ -43,7 +43,7 @@ export function CoverageResultPanel({ checking, result, onPrimary, onReset }) {
   const nearby = result.resolution === RESOLUTION.NEARBY;
   const notFound = result.resolution === RESOLUTION.NOT_FOUND;
 
-  const headline = nearby && isLive ? "FibreHood is available nearby" : meta.headline;
+  const headline = nearby && isLive ? "Fibrehood is available nearby" : meta.headline;
   const body = nearby
     ? "We established coverage close to your location, but not at this exact address yet. Confirm with us and we'll verify the line."
     : meta.body;

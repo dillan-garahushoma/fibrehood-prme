@@ -127,7 +127,7 @@ export function SignupFlow({ open, location, initialPlanId, onClose }) {
     try {
       await submitLead({
         ...coverageContext(flowLocation),
-        name: `${account.firstName} ${account.lastName}`.trim() || "FibreHood customer",
+        name: `${account.firstName} ${account.lastName}`.trim() || "Fibrehood customer",
         phone: install.phone.trim(),
         alt_phone: install.altPhone.trim(),
         email: account.email.trim(),
@@ -178,7 +178,7 @@ export function SignupFlow({ open, location, initialPlanId, onClose }) {
   const handleAddressResolve = (input) => {
     const checked = resolveCoverage(input);
     if (checked.status !== DEPLOYMENT_STATUS.LIVE || checked.resolution === RESOLUTION.NEARBY) {
-      setAddressError("This address is not currently live for FibreHood. Please check another address.");
+      setAddressError("This address is not currently live for Fibrehood. Please check another address.");
       return;
     }
     setFlowLocation(checked);
@@ -225,7 +225,7 @@ export function SignupFlow({ open, location, initialPlanId, onClose }) {
           next={[
             "Our team reviews your line location and confirms serviceability.",
             "We contact you to agree an installation date and time.",
-            "A FibreHood technician installs and activates your line."
+            "A Fibrehood technician installs and activates your line."
           ]}
           onClose={onClose}
           waHref={WA_INTENTS.coverage(flowLocation?.label || "")}
@@ -243,7 +243,7 @@ export function SignupFlow({ open, location, initialPlanId, onClose }) {
                     Check your installation address
                   </h1>
                   <p className="text-stone-700 mt-3 text-[15px] leading-relaxed max-w-md">
-                    Search for the address where you want FibreHood installed.
+                    Search for the address where you want Fibrehood installed.
                   </p>
                   <div className="mt-8">
                     <LocationPanel onResolve={handleAddressResolve} />

@@ -15,13 +15,13 @@ const COPY = {
     title: "Notify me when it's ready",
     intro: "We're deploying fibre here now. Leave your details and we'll tell you the moment your line can be ordered.",
     doneTitle: "You're on the list",
-    doneBody: "We'll let you know as soon as FibreHood goes live at your location."
+    doneBody: "We'll let you know as soon as Fibrehood goes live at your location."
   },
   [LEAD_INTENT.REGISTER_INTEREST]: {
     title: "Register your interest",
-    intro: "Interest in an area helps us decide where to build next. Tell us where you'd like FibreHood.",
+    intro: "Interest in an area helps us decide where to build next. Tell us where you'd like Fibrehood.",
     doneTitle: "Thanks — your interest is registered",
-    doneBody: "We'll keep you updated as FibreHood expansion reaches your area."
+    doneBody: "We'll keep you updated as Fibrehood expansion reaches your area."
   }
 };
 
@@ -51,7 +51,7 @@ export function InterestFlow({ open, intent = LEAD_INTENT.REGISTER_INTEREST, loc
   const submit = async () => {
     if (form.name.trim().length < 2) return setError("Please enter your name.");
     if (form.phone.trim().length < 6) return setError("Please enter a phone number we can reach you on.");
-    if (!form.area.trim()) return setError("Please tell us the area you'd like FibreHood in.");
+    if (!form.area.trim()) return setError("Please tell us the area you'd like Fibrehood in.");
     if (!consent) return setError("Please confirm you're happy for us to contact you.");
 
     setBusy(true);
@@ -150,7 +150,7 @@ export function InterestFlow({ open, intent = LEAD_INTENT.REGISTER_INTEREST, loc
                 className="mt-0.5 h-4 w-4 shrink-0 rounded border-stone-400 accent-[#FFCC00] text-[#FFCC00] focus:ring-[#FFCC00]"
               />
               <span className="text-xs sm:text-sm text-stone-700 font-medium leading-relaxed">
-                I'd like FibreHood to contact me about coverage and service availability at this location.
+                I'd like Fibrehood to contact me about coverage and service availability at this location.
               </span>
             </label>
           </div>

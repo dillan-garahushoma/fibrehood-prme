@@ -17,14 +17,14 @@ export default function AuthPlaceholder({ icon: Icon, title, subtitle }) {
       }
     >
       <p className="text-sm text-muted-foreground text-center">
-        Account access is on the way. For now, check your coverage, compare plans, or reach FibreHood directly.
+        Account access is on the way. For now, check your coverage, compare plans, or reach Fibrehood directly.
       </p>
       <div className="mt-6 flex flex-col gap-3">
         <Link to="/coverage" className="text-center text-sm font-medium text-primary hover:underline">
           Check coverage
         </Link>
         <Link to="/contact" className="text-center text-sm font-medium text-primary hover:underline">
-          Contact FibreHood
+          Contact Fibrehood
         </Link>
       </div>
     </AuthLayout>

@@ -7,7 +7,7 @@ export default function AboutPeople() {
     <section aria-labelledby="people-heading" className="bg-paper py-24 lg:py-32">
       <div className="container-lattice">
         <div className="max-w-2xl">
-          <Reveal><SectionLabel>The People Behind FibreHood</SectionLabel></Reveal>
+          <Reveal><SectionLabel>The People Behind Fibrehood</SectionLabel></Reveal>
           <Reveal delay={0.08}>
             <h2 id="people-heading" className="ff-serif mt-6 text-3xl font-medium leading-tight text-ink sm:text-4xl">
               Real people. Real support. Real accountability.

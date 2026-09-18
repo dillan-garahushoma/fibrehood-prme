@@ -7,7 +7,7 @@ import { IMAGES } from "@/data/images";
 const ROUTER_FEATURES = [
   "Wi-Fi router included with every home fibre plan",
   "Reliable coverage for everyday streaming, work and play",
-  "Simple setup with support from the FibreHood team",
+  "Simple setup with support from the Fibrehood team",
 ];
 
 export function RouterSection() {
@@ -51,7 +51,7 @@ export function RouterSection() {
               */}
               <img
                 src={IMAGES.routerNode}
-                alt="FibreHood Wi-Fi router"
+                alt="Fibrehood Wi-Fi router"
                 className="relative z-10 w-[78%] object-contain drop-shadow-xl"
               />
 
@@ -68,7 +68,7 @@ export function RouterSection() {
           <Reveal delay={0.1}>
             <SectionLabel>Included with your plan</SectionLabel>
             <h2 className="mt-4 max-w-xl font-heading text-3xl font-bold tracking-tighter text-signal sm:text-4xl">
-              Your FibreHood router, ready to connect your home.
+              Your Fibrehood router, ready to connect your home.
             </h2>
             <p className="mt-5 max-w-2xl text-base leading-relaxed text-ink-soft">
               Everyhome fibre plan includes a free to use Router provided upon sign-up for activation. It remains the property of Fibrehood available for your use as long as you require our service.

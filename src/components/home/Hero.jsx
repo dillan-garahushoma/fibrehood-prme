@@ -37,7 +37,7 @@ export function Hero() {
         <div className="absolute inset-x-0 top-0 z-20 flex items-start px-5 sm:px-8 lg:px-12">
           <img
             src="/white.png"
-            alt="FibreHood"
+            alt="Fibrehood"
             className="-mt-9 -ml-2 h-[7.5rem] w-auto object-contain md:-mt-11 md:-ml-2.5 md:h-[9rem]"
           />
         </div>

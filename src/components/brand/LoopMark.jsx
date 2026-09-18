@@ -2,7 +2,7 @@ import React from "react";
 import { cn } from "@/lib/utils";
 
 /**
- * The FibreHood loop / infinity motif. Drawn as a continuous lemniscate so it
+ * The Fibrehood loop / infinity motif. Drawn as a continuous lemniscate so it
  * reads as both "oo" and an infinite loop of connectivity.
  */
 export function LoopMark({ className, stroke = 3.4, animated = false }) {

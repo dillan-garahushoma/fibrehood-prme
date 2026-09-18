@@ -36,23 +36,23 @@ export default function PeopleNetworkCollage() {
       <div className="flex flex-col gap-1 md:flex-row md:h-[640px]">
         <div className="flex flex-col gap-1 md:w-[27%]">
           <div className="h-72 md:h-1/2">
-            <Tile src={IMAGES.collageFieldTeam} alt="FibreHood technicians working in a neighbourhood" delay={0} reduce={reduce} />
+            <Tile src={IMAGES.collageFieldTeam} alt="Fibrehood technicians working in a neighbourhood" delay={0} reduce={reduce} />
           </div>
           <div className="h-72 md:h-1/2">
-            <Tile src={IMAGES.collageNetworkTeam} alt="FibreHood network team gathered outdoors" delay={0.1} reduce={reduce} />
+            <Tile src={IMAGES.collageNetworkTeam} alt="Fibrehood network team gathered outdoors" delay={0.1} reduce={reduce} />
           </div>
         </div>
 
         <div className="h-80 md:h-full md:flex-1">
-          <Tile src={IMAGES.collageCommunityTeam} alt="FibreHood team serving a local community" delay={0.05} reduce={reduce} />
+          <Tile src={IMAGES.collageCommunityTeam} alt="Fibrehood team serving a local community" delay={0.05} reduce={reduce} />
         </div>
 
         <div className="flex flex-col gap-1 md:w-[27%]">
           <div className="h-72 md:h-1/2">
-            <Tile src={IMAGES.collageFibreInstallation} alt="FibreHood technicians installing a network cable" delay={0.15} reduce={reduce} />
+            <Tile src={IMAGES.collageFibreInstallation} alt="Fibrehood technicians installing a network cable" delay={0.15} reduce={reduce} />
           </div>
           <div className="h-72 md:h-1/2">
-            <Tile src={IMAGES.collagePoleInstallation} alt="FibreHood technicians installing fibre on a neighbourhood pole" delay={0.2} reduce={reduce} />
+            <Tile src={IMAGES.collagePoleInstallation} alt="Fibrehood technicians installing fibre on a neighbourhood pole" delay={0.2} reduce={reduce} />
           </div>
         </div>
       </div>

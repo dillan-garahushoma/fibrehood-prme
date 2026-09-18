@@ -48,7 +48,7 @@ export function PartnerPillars() {
               What every partner gets.
             </h2>
             <p className="mt-6 max-w-[560px] text-base leading-[1.86] text-ink-soft lg:text-lg">
-              Every FibreHood partnership — whether you represent a residents association, a developer, or a body corporate — comes with the same core guarantees, regardless of scale.
+              Every Fibrehood partnership — whether you represent a residents association, a developer, or a body corporate — comes with the same core guarantees, regardless of scale.
             </p>
           </Reveal>
 
@@ -56,7 +56,7 @@ export function PartnerPillars() {
               <figure className="relative h-[260px] overflow-hidden rounded-[1.5rem] ring-1 ring-white/50 shadow-[0_22px_60px_rgba(7,34,72,0.18)] sm:h-[300px] lg:h-[320px]">
               <img
                 src={IMAGES.fibreInstallation}
-                alt="FibreHood field team installing fibre infrastructure in a property development"
+                alt="Fibrehood field team installing fibre infrastructure in a property development"
                 className="h-full w-full object-cover"
               />
               <div

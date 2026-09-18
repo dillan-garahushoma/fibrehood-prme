@@ -29,15 +29,15 @@ export function Footer() {
         <div className="grid gap-10 py-16 md:grid-cols-12 md:gap-8 md:items-start md:py-20">
           <div className="flex flex-col md:col-span-4">
             <div className="relative h-8 w-36 overflow-hidden" aria-hidden="true">
-              <img src="/white.png" alt="FibreHood" className="absolute -top-12 left-0 block h-[7.5rem] w-auto object-contain md:-top-[3.7rem] md:h-[9rem]" />
+              <img src="/white.png" alt="Fibrehood" className="absolute -top-12 left-0 block h-[7.5rem] w-auto object-contain md:-top-[3.7rem] md:h-[9rem]" />
             </div>
             <p className="mt-5 max-w-xs text-sm leading-relaxed text-paper/70">
-              FibreHood builds direct fibre connections for homes and businesses —
+              Fibrehood builds direct fibre connections for homes and businesses —
               coverage-first, locally supported, and straightforward from check to connection.
             </p>
             <div className="mt-6 flex flex-wrap gap-3">
               <a
-                href={whatsappLink("I'd like to get connected to FibreHood.")}
+                href={whatsappLink("I'd like to get connected to Fibrehood.")}
                 target="_blank"
                 rel="noreferrer"
                 className="inline-flex items-center gap-2 rounded-full bg-loop px-4 py-2 text-sm font-semibold text-signal transition-transform hover:scale-[1.02]"

@@ -1,18 +1,18 @@
-// DEVELOPMENT FIXTURES — FibreHood network & infrastructure narrative.
-// FibreHood operates a direct ISP service model. Nothing here asserts
+// DEVELOPMENT FIXTURES — Fibrehood network & infrastructure narrative.
+// Fibrehood operates a direct ISP service model. Nothing here asserts
 // verified third-party partnerships, coverage percentages, or network size.
 
 export const NETWORK = {
   model: "Direct ISP",
   statement:
-    "FibreHood runs a direct fibre service — we own the customer relationship from coverage check to connection, support, and billing. Where your address is live on our fibre footprint, we connect you directly.",
-  // The path a signal takes through the FibreHood network.
+    "Fibrehood runs a direct fibre service — we own the customer relationship from coverage check to connection, support, and billing. Where your address is live on our fibre footprint, we connect you directly.",
+  // The path a signal takes through the Fibrehood network.
   path: [
     { id: "home", label: "Your home or business", detail: "Optical Network Terminal at the premises", icon: "home" },
     { id: "drop", label: "Fibre drop", detail: "Glass link from the street to your premises", icon: "cable" },
     { id: "splitter", label: "Neighbourhood splitter", detail: "Passive optical splitter serving your street", icon: "split" },
-    { id: "exchange", label: "FibreHood exchange", detail: "Local aggregation and traffic management", icon: "server" },
-    { id: "core", label: "FibreHood core", detail: "Redundant core routing to the wider internet", icon: "network" },
+    { id: "exchange", label: "Fibrehood exchange", detail: "Local aggregation and traffic management", icon: "server" },
+    { id: "core", label: "Fibrehood core", detail: "Redundant core routing to the wider internet", icon: "network" },
     { id: "internet", label: "The internet", detail: "Peering and upstream connectivity", icon: "globe" }
   ],
   capabilities: [
@@ -52,9 +52,9 @@ export function lookupCoverage(rawAddress) {
     state = bucket < 3 ? "covered" : bucket === 3 ? "near" : "not_covered";
   }
   const providers = state === "covered"
-    ? [{ name: "FibreHood Fibre Network", status: "Live", tier: "FTTH", note: "Active on the FibreHood footprint" }]
+    ? [{ name: "Fibrehood Fibre Network", status: "Live", tier: "FTTH", note: "Active on the Fibrehood footprint" }]
     : state === "near"
-      ? [{ name: "FibreHood Fibre Network", status: "Build in progress", tier: "FTTH", note: "Infrastructure planned for this area" }]
+      ? [{ name: "Fibrehood Fibre Network", status: "Build in progress", tier: "FTTH", note: "Infrastructure planned for this area" }]
       : [];
   return {
     state,
@@ -68,9 +68,9 @@ export function lookupCoverage(rawAddress) {
 
 function noteFor(state) {
   switch (state) {
-    case "covered": return "Your address is on the live FibreHood fibre footprint. Review compatible plans and request your connection.";
+    case "covered": return "Your address is on the live Fibrehood fibre footprint. Review compatible plans and request your connection.";
     case "near": return "Fibre infrastructure is planned near your address. Register your interest and we'll confirm as build progresses.";
-    case "not_covered": return "Your address isn't on the FibreHood footprint yet. Register your interest and we'll keep you informed about future rollouts.";
+    case "not_covered": return "Your address isn't on the Fibrehood footprint yet. Register your interest and we'll keep you informed about future rollouts.";
     default: return "";
   }
 }

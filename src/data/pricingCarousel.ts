@@ -2,7 +2,7 @@ import { IMAGES } from "./images";
 
 export type PricingAccent = "gold" | "green" | "blue";
 
-/** A semantic service-plan shape shared by the FibreHood pricing-card system. */
+/** A semantic service-plan shape shared by the Fibrehood pricing-card system. */
 export interface PricingCarouselPlan {
   id: string;
   segment: "home" | "sme";

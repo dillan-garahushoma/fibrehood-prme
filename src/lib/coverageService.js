@@ -4,7 +4,7 @@
 //
 // Two separate concepts, deliberately not merged into one enum:
 //   • resolution  — how precisely we located the customer (EXACT/AREA/NEARBY/NOT_FOUND)
-//   • status      — FibreHood's deployment state there (LIVE/IN_PROGRESS/PLANNED/NOT_STARTED)
+//   • status      — Fibrehood's deployment state there (LIVE/IN_PROGRESS/PLANNED/NOT_STARTED)
 //
 // Every input method (address, device location, guided selection) funnels into
 // resolveCoverage() — there is only one coverage engine.
@@ -139,7 +139,7 @@ export function getCoverageUpdatedAt() {
 /* ── The coverage engine ─────────────────────────────────────────────── */
 
 /**
- * Resolve a location and determine FibreHood's deployment status there.
+ * Resolve a location and determine Fibrehood's deployment status there.
  *
  * input: { lat, lng, label, townId?, suburbId?, mduId?, method, accuracy? }
  * returns a normalized CoverageResult.

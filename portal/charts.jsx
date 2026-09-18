@@ -1,4 +1,4 @@
-// Shared chart styling + tooltips for the FibreHood Client Portal.
+// Shared chart styling + tooltips for the Fibrehood Client Portal.
 import React from "react";
 import { cn } from "@/lib/utils";
 

@@ -68,7 +68,7 @@ export default function ContactForm() {
                 <span className="underline decoration-loop decoration-4 underline-offset-[6px]">help.</span>
               </h2>
               <p className="mt-5 max-w-md text-base leading-relaxed text-ink-soft">
-                Tell us what you need and we’ll route it to the right FibreHood team.
+                Tell us what you need and we’ll route it to the right Fibrehood team.
               </p>
               <TrustPoints tone="ink" />
             </div>
@@ -76,7 +76,7 @@ export default function ContactForm() {
             <div className="fh-contact__form-panel">
               <CheckCircle2 className="h-12 w-12 text-signal" aria-hidden="true" strokeWidth={1.5} />
               <h3 className="fh-contact__form-title mt-4">Thanks for reaching out.</h3>
-              <p className="fh-contact__form-lede mt-2">Your enquiry has been received by FibreHood. We’ll be in touch soon.</p>
+              <p className="fh-contact__form-lede mt-2">Your enquiry has been received by Fibrehood. We’ll be in touch soon.</p>
             </div>
           </div>
         </div>
@@ -95,7 +95,7 @@ export default function ContactForm() {
               <span className="underline decoration-loop decoration-4 underline-offset-[6px]">help.</span>
             </h2>
             <p className="mt-5 max-w-md text-base leading-relaxed text-ink-soft">
-              Tell us what you need and we’ll route it to the right FibreHood team.
+              Tell us what you need and we’ll route it to the right Fibrehood team.
             </p>
             <TrustPoints tone="ink" />
           </div>
@@ -149,7 +149,7 @@ export default function ContactForm() {
                 <label className="flex items-start gap-3">
                   <input type="checkbox" name="consent" checked={data.consent} onChange={update}
                     aria-invalid={!!errors.consent} className="mt-1 h-4 w-4 rounded border-line text-signal focus:ring-signal" />
-                  <span className="text-sm text-ink-soft">I consent to FibreHood contacting me about this enquiry.</span>
+                  <span className="text-sm text-ink-soft">I consent to Fibrehood contacting me about this enquiry.</span>
                 </label>
                 {errors.consent && <p className="mt-1 pl-7 text-sm text-destructive">{errors.consent}</p>}
               </div>

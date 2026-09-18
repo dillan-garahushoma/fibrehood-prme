@@ -21,7 +21,7 @@ const STEPS = [
     number: "01",
     kicker: "ADDRESS",
     title: "Check coverage",
-    body: "Enter your address to see if FibreHood is available in your area.",
+    body: "Enter your address to see if Fibrehood is available in your area.",
     meta: "~2 min",
   },
   {
@@ -113,7 +113,7 @@ function CoverageProof({ editorial = false }) {
         <span className="rounded-full bg-signal px-2 py-1 text-[9px] font-bold uppercase tracking-wide text-paper">Covered</span>
       </div>
       <svg viewBox="0 0 320 180" className="block h-[150px] w-full" role="img" aria-label="Styled coverage map showing Southview, Tafara Flats and Norton">
-        <title>FibreHood coverage footprint</title>
+        <title>Fibrehood coverage footprint</title>
         <rect width="320" height="180" fill="#eef2f6" />
         <g stroke="#c7d0dc" strokeWidth="1">
           <path d="M-10 42 L340 90 M-20 98 L350 35 M30 -10 L100 200 M188 -10 L150 200 M286 -10 L240 200" />
@@ -125,11 +125,11 @@ function CoverageProof({ editorial = false }) {
         <circle cx="145" cy="92" r="16" fill="none" stroke="#ffcc00" strokeOpacity=".5" />
         <text x="22" y="28" fill="#0f1e3c" fontSize="10" fontWeight="700">Southview</text>
         <text x="209" y="60" fill="#0f1e3c" fontSize="10" fontWeight="700">Tafara Flats</text>
-        <text x="34" y="145" fill="#5c6b7f" fontSize="9">FibreHood live area</text>
+        <text x="34" y="145" fill="#5c6b7f" fontSize="9">Fibrehood live area</text>
         <text x="249" y="158" fill="#5c6b7f" fontSize="9">Norton</text>
       </svg>
       <div className="flex items-center justify-between border-t border-signal/10 bg-white/70 px-3 py-2 text-[10px] text-ink-soft">
-        <span>FibreHood Fibre Available</span>
+        <span>Fibrehood Fibre Available</span>
         <span className="font-semibold text-signal">Up to 200 Mbps</span>
       </div>
     </div>
@@ -341,7 +341,7 @@ export default function HowItWorksMockup() {
         <div className="max-w-[720px]">
           <p className="eyebrow"><span className="h-px w-6 bg-ink-soft/30" />Static layout comparison</p>
           <h1 className="mt-4 font-heading text-4xl font-bold tracking-[-0.04em] text-signal sm:text-5xl">How it works, before motion.</h1>
-          <p className="mt-4 text-base leading-relaxed text-ink-soft">Two static treatments for “Getting connected is simple.” Both replace the generic stepper, stock photography and browser chrome with real FibreHood proof. Desktop and tablet artboards are shown at their intended widths.</p>
+          <p className="mt-4 text-base leading-relaxed text-ink-soft">Two static treatments for “Getting connected is simple.” Both replace the generic stepper, stock photography and browser chrome with real Fibrehood proof. Desktop and tablet artboards are shown at their intended widths.</p>
           <div className="mt-5 flex flex-wrap gap-2 text-[11px] font-semibold text-ink-soft"><span className="rounded-full bg-fog px-3 py-1.5">No interaction</span><span className="rounded-full bg-fog px-3 py-1.5">No animation</span><span className="rounded-full bg-fog px-3 py-1.5">Real copy + plan data</span></div>
         </div>
 

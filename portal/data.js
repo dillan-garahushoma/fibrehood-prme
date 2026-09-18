@@ -1,8 +1,8 @@
 // ─────────────────────────────────────────────────────────────────────────────
-// FibreHood Client Portal — realistic fictional sample data.
+// Fibrehood Client Portal — realistic fictional sample data.
 //
 // Everything here is deliberately shaped like an API payload so it can later
-// be replaced 1:1 with real FibreHood customer / account / network endpoints
+// be replaced 1:1 with real Fibrehood customer / account / network endpoints
 // without a redesign. Generation is deterministic (seeded) so the dashboard
 // is stable across renders and reloads.
 // ─────────────────────────────────────────────────────────────────────────────
@@ -42,7 +42,7 @@ export const PLAN_META = {
   nextRenewal: "1 Oct 2026",
   contract: "Month-to-month · no lock-in",
   status: "Active",
-  router: "FibreHood WiFi 6 Router",
+  router: "Fibrehood WiFi 6 Router",
   routerIncluded: true,
   installDate: "18 Mar 2024",
   activationFee: "US$65.00 (paid)",

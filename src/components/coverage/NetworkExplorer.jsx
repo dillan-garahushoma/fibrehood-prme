@@ -6,7 +6,7 @@ import { getDeploymentStats, getCoverageUpdatedAt } from "@/lib/coverageService"
 import { cn } from "@/lib/utils";
 
 /**
- * Task B — exploring FibreHood's deployment as a hairline ledger, not a card
+ * Task B — exploring Fibrehood's deployment as a hairline ledger, not a card
  * grid. Areas × zones in quiet rows; stats as one inline mono line.
  */
 export function NetworkExplorer({ areas, activeAreaId, onSelect }) {
@@ -18,7 +18,7 @@ export function NetworkExplorer({ areas, activeAreaId, onSelect }) {
       <div className="max-w-2xl">
         <SectionLabel>Explore the network</SectionLabel>
         <h2 className="mt-4 font-heading text-3xl font-bold leading-tight tracking-tighter text-ink sm:text-4xl">
-          Where FibreHood is building
+          Where Fibrehood is building
         </h2>
         <p className="mt-4 text-base leading-relaxed text-ink-soft">
           Every deployment area and its current phase. Select an area to locate it on the map above.

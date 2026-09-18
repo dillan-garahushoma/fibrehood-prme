@@ -8,7 +8,7 @@ export default function ContactCTA() {
       <div className="container-lattice text-center">
         <Reveal>
           <h2 id="contact-cta-heading" className="ff-serif mx-auto max-w-3xl text-3xl font-medium leading-tight text-paper sm:text-4xl lg:text-5xl">
-            Ready to see what FibreHood can do for your neighbourhood?
+            Ready to see what Fibrehood can do for your neighbourhood?
           </h2>
         </Reveal>
         <Reveal delay={0.1}>

@@ -13,8 +13,8 @@ export default function About() {
     <>
       <SplitHero
         image={IMAGES.aboutHero}
-        alt="FibreHood fibre infrastructure connecting a community at dusk"
-        eyebrow="About FibreHood"
+        alt="Fibrehood fibre infrastructure connecting a community at dusk"
+        eyebrow="About Fibrehood"
         title="We exist to unlock opportunities and talent."
         subtitle="Connectivity for marginalised communities."
       />

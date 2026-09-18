@@ -112,7 +112,7 @@ export const SUPPORT_ARTICLES = [
     steps: [
       "Check signal strength on your device: if speed drops only as you move away, the fibre line is working fine.",
       "Relocate the router to a central, elevated position away from concrete walls, metal cabinets, and appliances.",
-      "Ask our team about deploying a FibreHood mesh extender to blanket your back rooms and outdoor areas."
+      "Ask our team about deploying a Fibrehood mesh extender to blanket your back rooms and outdoor areas."
     ]
   },
   {
@@ -221,7 +221,7 @@ export const SUPPORT_ARTICLES = [
     steps: [
       "Fibre delivers high speeds to your premises; Wi-Fi coverage inside is dictated by home layout and thick brick walls.",
       "Elevate the router and keep it clear of metal cupboards, mirrors, and tight corners.",
-      "Where a single router cannot cover your entire space, ask about our FibreHood mesh nodes."
+      "Where a single router cannot cover your entire space, ask about our Fibrehood mesh nodes."
     ]
   },
   {
@@ -275,8 +275,8 @@ export const SUPPORT_ARTICLES = [
     answer:
       "Yes — connect your router to our ONT box in bridge mode. Note that our support team can only troubleshoot up to the ONT for third-party routers.",
     steps: [
-      "Connect the WAN port of your router to LAN Port 1 on the FibreHood ONT using a Cat6 cable.",
-      "Contact FibreHood support on WhatsApp to enable bridge mode on your ONT if required.",
+      "Connect the WAN port of your router to LAN Port 1 on the Fibrehood ONT using a Cat6 cable.",
+      "Contact Fibrehood support on WhatsApp to enable bridge mode on your ONT if required.",
       "Set your router WAN mode to DHCP or PPPoE as advised by our support team."
     ]
   },
@@ -295,7 +295,7 @@ export const SUPPORT_ARTICLES = [
     steps: [
       "2.4GHz: Greater range, penetrates brick walls better, ideal for IoT, smart plugs, and distant rooms.",
       "5GHz: Much faster speeds and lower latency, ideal for gaming, 4K streaming, and fast downloads near the router.",
-      "Many modern FibreHood routers combine both into a single smart network that switches automatically."
+      "Many modern Fibrehood routers combine both into a single smart network that switches automatically."
     ]
   },
   {
@@ -369,7 +369,7 @@ export const SUPPORT_ARTICLES = [
       "Billing is monthly in advance for active services.",
       "Payment options include EcoCash, ZIPIT, bank transfer (USD and local currency), and debit/credit card.",
       "Payment confirmation and account receipts are sent upon transaction clearance.",
-      "Contact FibreHood accounts on WhatsApp for immediate invoice queries."
+      "Contact Fibrehood accounts on WhatsApp for immediate invoice queries."
     ]
   },
   {
@@ -386,7 +386,7 @@ export const SUPPORT_ARTICLES = [
       "Yes — update your card or payment method any time by contacting our accounts support team.",
     steps: [
       "Message our accounts desk on WhatsApp or email support@fibrehood.co.zw.",
-      "Provide your FibreHood account ID and requested new payment method.",
+      "Provide your Fibrehood account ID and requested new payment method.",
       "We will update your billing record for subsequent billing cycles."
     ]
   },

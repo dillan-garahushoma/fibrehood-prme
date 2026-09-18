@@ -1,4 +1,4 @@
-// FibreHood fibre plans — verified commercial packages.
+// Fibrehood fibre plans — verified commercial packages.
 // Home Fibre and SME Fibre plans used across the plans page.
 
 export const PLANS = [
@@ -7,7 +7,7 @@ export const PLANS = [
     id: "starter-home-connect",
     name: "Starter Home Connect",
     segment: "home",
-    provider: "FibreHood",
+    provider: "Fibrehood",
     price: 40,
     currency: "USD",
     cycle: "month",
@@ -32,7 +32,7 @@ export const PLANS = [
     id: "smart-home-connect",
     name: "Smart Home Connect",
     segment: "home",
-    provider: "FibreHood",
+    provider: "Fibrehood",
     price: 50,
     currency: "USD",
     cycle: "month",
@@ -57,7 +57,7 @@ export const PLANS = [
     id: "pro-home-connect",
     name: "Pro Home Connect",
     segment: "home",
-    provider: "FibreHood",
+    provider: "Fibrehood",
     price: 65,
     currency: "USD",
     cycle: "month",
@@ -82,7 +82,7 @@ export const PLANS = [
     id: "ultra-home-connect",
     name: "Ultra-Home Connect",
     segment: "home",
-    provider: "FibreHood",
+    provider: "Fibrehood",
     price: 85,
     currency: "USD",
     cycle: "month",
@@ -108,7 +108,7 @@ export const PLANS = [
     id: "sme-basic",
     name: "SME Basic",
     segment: "business",
-    provider: "FibreHood",
+    provider: "Fibrehood",
     price: 75,
     currency: "USD",
     cycle: "month",
@@ -133,7 +133,7 @@ export const PLANS = [
     id: "sme-pro",
     name: "SME Pro",
     segment: "business",
-    provider: "FibreHood",
+    provider: "Fibrehood",
     price: 125,
     currency: "USD",
     cycle: "month",
@@ -158,7 +158,7 @@ export const PLANS = [
     id: "sme-max",
     name: "SME Max",
     segment: "business",
-    provider: "FibreHood",
+    provider: "Fibrehood",
     price: 190,
     currency: "USD",
     cycle: "month",

@@ -265,7 +265,7 @@ export default function Plan() {
         <div className="mb-4 flex flex-wrap items-end justify-between gap-3">
           <div>
             <h2 className="font-heading text-xl font-bold tracking-tight text-foreground">
-              Available FibreHood packages
+              Available Fibrehood packages
             </h2>
             <p className="mt-0.5 text-sm text-muted-foreground">
               Every home plan includes unlimited data and a Wi-Fi router. Upgrade anytime.
@@ -296,7 +296,7 @@ export default function Plan() {
             </p>
           </div>
         </div>
-        <Button variant="navy" className="shrink-0" onClick={() => navigate("/portal/support")}>Talk to FibreHood</Button>
+        <Button variant="navy" className="shrink-0" onClick={() => navigate("/portal/support")}>Talk to Fibrehood</Button>
       </Card>
 
       <SwitchModal plan={selected} onClose={() => setSelected(null)} />

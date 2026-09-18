@@ -4,13 +4,13 @@ import { ArrowRight } from "lucide-react";
 import { Reveal } from "@/components/common/Reveal";
 import { SectionLabel } from "@/components/common/SectionLabel";
 import { IMAGES } from "@/data/images";
-import whyFibreHoodBackground from "../../../img-hero-7.jpg";
+import whyFibrehoodBackground from "../../../img-hero-7.jpg";
 
 /**
- * Section 05 — "Why FibreHood?"
+ * Section 05 — "Why Fibrehood?"
  * Ported from a Dominus "Why" section: editorial two-column head (copy + framed
  * photo with overlaid caption) over a hairline-divided column ledger of proof
- * points. Typography and colour adapted to FibreHood tokens.
+ * points. Typography and colour adapted to Fibrehood tokens.
  */
 
 const PROOF = [
@@ -45,7 +45,7 @@ export function ValueProp() {
     <section className="relative isolate overflow-hidden py-24 md:py-36">
       <div className="pointer-events-none absolute -inset-2" aria-hidden="true">
         <img
-          src={whyFibreHoodBackground}
+          src={whyFibrehoodBackground}
           alt=""
           className="h-full w-full scale-[1.04] object-cover blur-[7px]"
         />
@@ -56,14 +56,14 @@ export function ValueProp() {
         {/* ── Head: copy + framed photo ─────────────────────────────── */}
         <div className="grid gap-12 lg:grid-cols-[minmax(0,0.96fr)_minmax(0,0.74fr)] lg:items-center lg:gap-16 xl:gap-24">
           <Reveal className="max-w-[650px]">
-            <SectionLabel>Why FibreHood</SectionLabel>
+            <SectionLabel>Why Fibrehood</SectionLabel>
             <h2 className="mt-8 font-heading text-4xl font-bold leading-[1.04] tracking-tighter text-signal sm:text-5xl lg:text-[4.25rem]">
               Built for today.
               <br />
               <em className="font-medium italic text-loop">Ready for tomorrow.</em>
             </h2>
             <p className="mt-6 max-w-[560px] text-base leading-[1.86] text-ink-soft lg:text-lg">
-              Reliable connectivity starts with the network behind it. FibreHood
+              Reliable connectivity starts with the network behind it. Fibrehood
               builds fibre infrastructure around the communities we serve —
               delivering dependable connectivity today while expanding to reach
               more homes tomorrow.
@@ -124,7 +124,7 @@ export function ValueProp() {
             to="/about"
             className="group relative inline-flex items-center gap-2 text-base font-semibold text-signal transition-[color,gap] duration-300 hover:gap-3 hover:text-ink after:absolute after:-bottom-1 after:left-0 after:h-px after:w-full after:origin-left after:scale-x-0 after:bg-loop after:transition-transform after:duration-300 group-hover:after:scale-x-100 motion-reduce:transition-none motion-reduce:after:transition-none"
           >
-            Discover FibreHood
+            Discover Fibrehood
             <ArrowRight className="h-4 w-4 transition-transform duration-300 group-hover:translate-x-1 motion-reduce:transition-none" />
           </Link>
         </Reveal>

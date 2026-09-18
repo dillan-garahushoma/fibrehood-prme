@@ -246,14 +246,14 @@ const BOT_REPLIES = [
   { match: /bill|payment|invoice|charge/i, reply: "Happy to help with billing. Your next payment of US$65.00 is due 1 Oct 2026, and auto-pay is enabled. Want me to email your latest invoice?" },
   { match: /install|installation/i, reply: "For installations, I can check available slots and book you in. Would you like a weekday or weekend appointment?" },
   { match: /wifi|router/i, reply: "Wi-Fi trouble is usually a quick fix. I can restart your router remotely — just say the word, and I'll do it now." },
-  { match: /hello|hi|hey/i, reply: "Hey Welly! How can I help with your FibreHood connection today?" },
+  { match: /hello|hi|hey/i, reply: "Hey Welly! How can I help with your Fibrehood connection today?" },
 ];
 
 const CHAT_SUGGESTIONS = ["My internet is slow", "I have a billing question", "Wi-Fi keeps dropping"];
 
 function ChatWidget() {
   const [messages, setMessages] = useState([
-    { from: "bot", text: "Hi Welly 👋 I'm FibreHood Assistant. Ask me about your connection, billing or installation — I'm here 24/7." },
+    { from: "bot", text: "Hi Welly 👋 I'm Fibrehood Assistant. Ask me about your connection, billing or installation — I'm here 24/7." },
   ]);
   const [input, setInput] = useState("");
   const [typing, setTyping] = useState(false);
@@ -292,7 +292,7 @@ function ChatWidget() {
           <Headset className="h-5 w-5" />
         </span>
         <div>
-          <p className="font-heading text-[15px] font-bold tracking-tight text-foreground">FibreHood Assistant</p>
+          <p className="font-heading text-[15px] font-bold tracking-tight text-foreground">Fibrehood Assistant</p>
           <p className="flex items-center gap-1.5 text-xs text-muted-foreground">
             <span className="h-1.5 w-1.5 rounded-full bg-emerald-500" /> Online · replies instantly
           </p>

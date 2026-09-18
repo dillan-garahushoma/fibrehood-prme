@@ -73,7 +73,7 @@ export function Testimonials() {
             What connections feel like in practice.
           </h2>
           <p className="mt-4 text-base leading-relaxed text-ink-soft">
-            Honest notes from homes and businesses on the FibreHood network.
+            Honest notes from homes and businesses on the Fibrehood network.
           </p>
           <p className="mt-3 inline-flex items-center gap-1.5 text-xs text-ink-soft">
             <Info className="h-3.5 w-3.5" /> Sample testimonials — development content.

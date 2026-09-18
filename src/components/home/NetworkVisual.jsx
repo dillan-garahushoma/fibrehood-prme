@@ -15,7 +15,7 @@ export function NetworkVisual() {
         <div className="max-w-2xl">
           <SectionLabel tone="light">The network, made legible</SectionLabel>
           <h2 className="mt-4 font-heading text-3xl font-bold tracking-tighter sm:text-4xl">
-            Home → Fibre → Local Network → FibreHood → Internet
+            Home → Fibre → Local Network → Fibrehood → Internet
           </h2>
           <p className="mt-4 text-base leading-relaxed text-paper/70">
             {NETWORK.statement}

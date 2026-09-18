@@ -29,7 +29,7 @@ export default function Contact() {
     <>
       <SplitHero
         image={IMAGES.contactHero}
-        alt="FibreHood customer support specialist"
+        alt="Fibrehood customer support specialist"
         title={
           <>
             Let’s get you <br className="hidden sm:inline" />
@@ -42,7 +42,7 @@ export default function Contact() {
           {/* Action pills row */}
           <div className="flex flex-wrap items-stretch gap-3 sm:gap-3.5 lg:flex-nowrap lg:gap-2 xl:gap-3.5">
             <a
-              href={whatsappLink("Hi FibreHood, I'd like to get connected.")}
+              href={whatsappLink("Hi Fibrehood, I'd like to get connected.")}
               target="_blank"
               rel="noreferrer"
               className={`${actionButtonClass} bg-loop font-bold text-signal hover:bg-loop/90 hover:shadow-loop focus-visible:outline-loop`}

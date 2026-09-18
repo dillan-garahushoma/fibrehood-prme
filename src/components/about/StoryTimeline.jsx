@@ -26,7 +26,7 @@ export function StoryTimeline() {
           <Reveal delay={0.2}>
             <div className="mt-8 max-w-2xl space-y-5 text-base leading-relaxed text-paper/75">
               <p>
-                FibreHood takes a different approach to connectivity. Instead of tying the network to a single service
+                Fibrehood takes a different approach to connectivity. Instead of tying the network to a single service
                 provider, we build the infrastructure as an open platform &mdash; allowing providers to compete over a shared
                 network while the infrastructure stays in place.
               </p>
@@ -43,7 +43,7 @@ export function StoryTimeline() {
         <div className="relative h-[340px] w-full overflow-hidden sm:h-[460px] lg:h-[560px]">
           <Image
             src={IMAGES.fibreInstallation}
-            alt="FibreHood technicians deploying fibre infrastructure"
+            alt="Fibrehood technicians deploying fibre infrastructure"
             fittingType="fill"
             className="h-full w-full"
           />

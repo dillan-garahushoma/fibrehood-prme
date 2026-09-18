@@ -7,10 +7,10 @@ export default function Privacy() {
     <LegalLayout
       title="Privacy Policy"
       updated="August 2026"
-      intro="How FibreHood collects, uses, and protects the information you share with us."
+      intro="How Fibrehood collects, uses, and protects the information you share with us."
     >
       <LegalSection title="Overview">
-        <p>{SITE.legal.entity} ("FibreHood", "we") respects your privacy. This policy explains what we collect through this website and how we use it. We aim to collect only what's necessary to check coverage, respond to enquiries, and provide service.</p>
+        <p>{SITE.legal.entity} ("Fibrehood", "we") respects your privacy. This policy explains what we collect through this website and how we use it. We aim to collect only what's necessary to check coverage, respond to enquiries, and provide service.</p>
       </LegalSection>
 
       <LegalSection title="Information we collect">

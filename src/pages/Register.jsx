@@ -7,7 +7,7 @@ export default function Register() {
     <AuthPlaceholder
       icon={UserPlus}
       title="Sign-ups open soon"
-      subtitle="Customer accounts launch with the FibreHood client portal."
+      subtitle="Customer accounts launch with the Fibrehood client portal."
     />
   );
 }

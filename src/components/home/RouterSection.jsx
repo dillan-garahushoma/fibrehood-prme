@@ -62,7 +62,7 @@ export function RouterSection() {
             <p className="mt-5 text-base leading-relaxed text-ink-soft">
               One fibre line in, and the whole home comes alive. The series streaming in 4K in the lounge,
               the video call that never drops, the group chat buzzing, the downloads finishing before you've
-              made tea. FibreHood brings glass to your door so the people inside it can just live online — together.
+              made tea. Fibrehood brings glass to your door so the people inside it can just live online — together.
             </p>
 
             <ul className="mt-8 space-y-3 text-sm text-ink-soft">

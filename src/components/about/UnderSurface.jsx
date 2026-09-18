@@ -80,7 +80,7 @@ const FLOW = [
   { Icon: IconStreet, label: "Street network", copy: "High-capacity fibre runs through the streets of your neighbourhood." },
   { Icon: IconAccessBuild, label: "Access build", copy: "We bring the fibre from the street right to your building." },
   { Icon: IconDistribution, label: "Distribution point", copy: "A central point distributes the signal cleanly within the building." },
-  { Icon: IconBuilding, label: "Building", copy: "Your building is connected to the wider FibreHood network." },
+  { Icon: IconBuilding, label: "Building", copy: "Your building is connected to the wider Fibrehood network." },
   { Icon: IconUnit, label: "Individual unit", copy: "Fibre reaches your door — your unit is ready to go live." },
   { Icon: IconCustomer, label: "Customer", copy: "You're connected. Pick a plan and get online in minutes." },
 ];

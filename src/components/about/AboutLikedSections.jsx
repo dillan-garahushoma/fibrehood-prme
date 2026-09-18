@@ -43,7 +43,7 @@ export function PeopleSection() {
               <div className="mt-8 max-w-md space-y-4 text-base leading-relaxed text-ink-soft">
                 <p>It takes planners, engineers, technicians, project teams and people who care about getting the details right.</p>
                 <p>
-                  From network design and deployment to commissioning, operation and maintenance, FibreHood brings together
+                  From network design and deployment to commissioning, operation and maintenance, Fibrehood brings together
                   the expertise required to turn a plan into infrastructure people can rely on.
                 </p>
               </div>
@@ -194,7 +194,7 @@ export function TodaySection() {
               <div className="mt-8 max-w-md space-y-4 text-base leading-relaxed text-paper/75">
                 <p>As communities become increasingly connected, the infrastructure beneath them matters more than ever.</p>
                 <p>
-                  FibreHood continues to build networks designed around accessibility, flexibility and long-term value
+                  Fibrehood continues to build networks designed around accessibility, flexibility and long-term value
                   &mdash; creating stronger digital foundations for the places people live and work.
                 </p>
               </div>

@@ -7,7 +7,7 @@ export default function Terms() {
     <LegalLayout
       title="Terms & Conditions"
       updated="August 2026"
-      intro="The terms that apply when you use the FibreHood website and request our services."
+      intro="The terms that apply when you use the Fibrehood website and request our services."
     >
       <LegalSection title="Using this site">
         <p>This website is provided by {SITE.legal.entity} to help you check coverage, discover plans, and request a connection. You agree to use it lawfully and not to misuse any forms or contact channels.</p>
@@ -18,7 +18,7 @@ export default function Terms() {
       </LegalSection>
 
       <LegalSection title="Requests and enquiries">
-        <p>Submitting a contact or connection request expresses your interest in our services. It does not by itself create a service contract. A contract is formed only when you and FibreHood agree to specific service terms, including plan, pricing, installation, and contract length.</p>
+        <p>Submitting a contact or connection request expresses your interest in our services. It does not by itself create a service contract. A contract is formed only when you and Fibrehood agree to specific service terms, including plan, pricing, installation, and contract length.</p>
       </LegalSection>
 
       <LegalSection title="Service availability">

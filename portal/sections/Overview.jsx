@@ -271,7 +271,7 @@ function NetworkStatusCard() {
           </span>
           <div>
             <p className="text-[11px] font-semibold uppercase tracking-[0.16em] text-muted-foreground">
-              FibreHood Network
+              Fibrehood Network
             </p>
             <h3 className="font-heading text-lg font-bold tracking-tight text-foreground">
               {NETWORK_STATUS.headline}
@@ -407,7 +407,7 @@ export default function Overview() {
             {greeting()}, {CUSTOMER.firstName}
           </p>
           <p className="mt-1 text-[15px] text-muted-foreground">
-            Here's how your FibreHood connection is doing.
+            Here's how your Fibrehood connection is doing.
           </p>
         </div>
         <Pill tone="green" dot="green">

@@ -4,7 +4,7 @@ import { motion, useReducedMotion } from "framer-motion";
 import { ArrowRight, Check } from "lucide-react";
 import { ACCENTS } from "@/data/fibrePricing";
 
-// FibreHood brand tokens
+// Fibrehood brand tokens
 const NAVY = "#072248";
 const NAVY_SOFT = "#5A6B82";
 const NAVY_FAINT = "#8A98AD";
@@ -13,7 +13,7 @@ const GOLD_DEEP = "#E0B400";
 const WHITE = "#FFFFFF";
 
 /**
- * FibreHood "network tile" pricing card.
+ * Fibrehood "network tile" pricing card.
  * Sections distribute evenly top-to-bottom (no single void):
  * header → speed → divider+price → inclusions → CTA.
  */

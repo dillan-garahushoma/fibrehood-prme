@@ -374,7 +374,7 @@ export function LocationPanel({ onResolve }) {
         )}
 
         <p className="mt-4 text-[11px] leading-relaxed text-ink-soft/80">
-          Your location is only used to check FibreHood coverage.
+          Your location is only used to check Fibrehood coverage.
         </p>
       </div>
     </div>

@@ -7,7 +7,7 @@ const AUDIENCES = [
     icon: Users,
     label: "COMMUNITY RESIDENTS ASSOCIATIONS",
     headline: "Bring world-class connectivity to your neighbourhood.",
-    body: "Partner with FibreHood to give every home in your estate reliable, high-speed fibre — at no cost to the community body. We handle infrastructure, installation, and ongoing support.",
+    body: "Partner with Fibrehood to give every home in your estate reliable, high-speed fibre — at no cost to the community body. We handle infrastructure, installation, and ongoing support.",
     bullets: [
       "Reliable, high-speed fibre for all homes",
       "Increases property value and desirability",
@@ -31,7 +31,7 @@ const AUDIENCES = [
     icon: Home,
     label: "PROPERTY MANAGERS & BODY CORPORATES",
     headline: "Upgrade your building with modern fibre infrastructure.",
-    body: "FibreHood manages the full backbone installation for apartment blocks and gated communities — providing every resident with gigabit-capable connectivity at zero cost to the body corporate.",
+    body: "Fibrehood manages the full backbone installation for apartment blocks and gated communities — providing every resident with gigabit-capable connectivity at zero cost to the body corporate.",
     bullets: [
       "Building management liaison included",
       "Internal riser optimisation",
@@ -50,7 +50,7 @@ export function AudienceCards() {
             A partnership model built for your context
           </h2>
           <p className="mt-4 max-w-2xl text-base leading-relaxed text-ink-soft lg:text-lg">
-            Whether you represent a community, are building a new development, or manage an existing building — FibreHood has a partnership structure that fits.
+            Whether you represent a community, are building a new development, or manage an existing building — Fibrehood has a partnership structure that fits.
           </p>
         </Reveal>
 

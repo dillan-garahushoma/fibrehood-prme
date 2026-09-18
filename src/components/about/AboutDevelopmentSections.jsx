@@ -45,7 +45,7 @@ function OpeningStatement() {
               Behind every video call, stream, download, business meeting and late-night scroll is an infrastructure layer
               most people never see.
             </p>
-            <p>That is where FibreHood comes in.</p>
+            <p>That is where Fibrehood comes in.</p>
             <p>
               We design, deploy and operate fibre infrastructure that gives communities a stronger foundation for everything
               digital today &mdash; and everything coming next.
@@ -101,7 +101,7 @@ function DifferenceSection() {
           <div>
             <Reveal>
               <p className="mb-6 flex items-center gap-3 text-xs font-semibold uppercase tracking-[0.3em] text-ink-soft">
-                <span className="h-px w-8 bg-loop" /> The FibreHood Difference
+                <span className="h-px w-8 bg-loop" /> The Fibrehood Difference
               </p>
             </Reveal>
             <Reveal delay={0.1}>
@@ -111,7 +111,7 @@ function DifferenceSection() {
             </Reveal>
             <Reveal delay={0.2}>
               <div className="mt-8 max-w-md space-y-4 text-base leading-relaxed text-ink-soft">
-                <p>FibreHood separates the network from the service.</p>
+                <p>Fibrehood separates the network from the service.</p>
                 <p>
                   Our infrastructure is designed to allow multiple service providers to access the same network, giving
                   customers greater freedom to choose the service that works for them.
@@ -130,8 +130,8 @@ function DifferenceSection() {
                   <Connector />
                   <Node label="Customer" filled />
                 </Model>
-                <Model title="FibreHood model" amber>
-                  <Node label="FibreHood Infrastructure" amber />
+                <Model title="Fibrehood model" amber>
+                  <Node label="Fibrehood Infrastructure" amber />
                   <svg width="100%" height="34" viewBox="0 0 200 34" className="my-1">
                     <path d="M100,0 L30,34" stroke="#FFCC00" strokeWidth="1.5" fill="none" />
                     <path d="M100,0 L100,34" stroke="#FFCC00" strokeWidth="1.5" fill="none" />
@@ -215,7 +215,7 @@ function PeopleSection() {
               <div className="mt-8 max-w-md space-y-4 text-base leading-relaxed text-ink-soft">
                 <p>It takes planners, engineers, technicians, project teams and people who care about getting the details right.</p>
                 <p>
-                  From network design and deployment to commissioning, operation and maintenance, FibreHood brings together
+                  From network design and deployment to commissioning, operation and maintenance, Fibrehood brings together
                   the expertise required to turn a plan into infrastructure people can rely on.
                 </p>
               </div>
@@ -322,7 +322,7 @@ function TodaySection() {
               <div className="mt-8 max-w-md space-y-4 text-base leading-relaxed text-paper/75">
                 <p>As communities become increasingly connected, the infrastructure beneath them matters more than ever.</p>
                 <p>
-                  FibreHood continues to build networks designed around accessibility, flexibility and long-term value
+                  Fibrehood continues to build networks designed around accessibility, flexibility and long-term value
                   &mdash; creating stronger digital foundations for the places people live and work.
                 </p>
               </div>
@@ -366,7 +366,7 @@ function FutureSection() {
         </Reveal>
         <Reveal delay={0.2}>
           <p className="mx-auto mt-8 max-w-lg text-base leading-relaxed text-paper/70">
-            Technology changes quickly. The infrastructure beneath it shouldn&rsquo;t have to. That&rsquo;s why FibreHood
+            Technology changes quickly. The infrastructure beneath it shouldn&rsquo;t have to. That&rsquo;s why Fibrehood
             builds with the future in mind &mdash; creating networks capable of supporting the evolving ways people live,
             work, communicate and connect.
           </p>
@@ -398,7 +398,7 @@ function FutureSection() {
       <Reveal delay={0.3}>
         <p className="relative mx-auto mt-6 max-w-md px-6 text-center text-xs text-paper/40">
           Examples of the kinds of technology that resilient infrastructure can enable &mdash; not a list of current
-          FibreHood services.
+          Fibrehood services.
         </p>
       </Reveal>
     </section>
@@ -412,7 +412,7 @@ function FinalCTA() {
       <div className="relative mx-auto max-w-4xl px-6 text-center lg:px-10">
         <Reveal>
           <p className="flex items-center justify-center gap-3 text-xs font-semibold uppercase tracking-[0.3em] text-loop">
-            <span className="h-px w-8 bg-loop" /> Discover FibreHood
+            <span className="h-px w-8 bg-loop" /> Discover Fibrehood
           </p>
         </Reveal>
         <Reveal delay={0.1}>

@@ -49,7 +49,7 @@ function AudienceCard({ item }) {
 
 export function FibreInstallation({
   imageSrc = "/images/collage-fibre-installation.png",
-  imageAlt = "FibreHood technicians installing fibre equipment in a neighbourhood",
+  imageAlt = "Fibrehood technicians installing fibre equipment in a neighbourhood",
   onExpressInterest,
   ctaHref = "/fibre-installation",
 }) {

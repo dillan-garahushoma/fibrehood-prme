@@ -1,4 +1,4 @@
-# FibreHood — Standalone Deployment
+# Fibrehood — Standalone Deployment
 
 This site is fully standalone — no Base44 dependencies. It builds to a static
 bundle hosted on **Cloudflare Pages**, with a single Pages Function for lead

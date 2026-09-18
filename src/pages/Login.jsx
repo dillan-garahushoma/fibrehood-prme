@@ -7,7 +7,7 @@ export default function Login() {
     <AuthPlaceholder
       icon={LogIn}
       title="Account access is coming soon"
-      subtitle="We're building a self-service portal for FibreHood customers."
+      subtitle="We're building a self-service portal for Fibrehood customers."
     />
   );
 }

@@ -52,7 +52,7 @@ export function PartnerProcess() {
           </h2>
           <p className="mx-auto mt-6 max-w-[680px] text-center text-base leading-[1.86] text-ink-soft lg:text-lg">
             Four clear phases — from the first conversation to a fully connected
-            community — with FibreHood alongside you every step of the way.
+            community — with Fibrehood alongside you every step of the way.
           </p>
         </Reveal>
 

@@ -1,5 +1,5 @@
 // ─────────────────────────────────────────────────────────────────────────────
-// FibreHood Client Portal — shared UI primitives.
+// Fibrehood Client Portal — shared UI primitives.
 // Designed to feel like a premium telecom product: rounded, calm, restrained.
 // ─────────────────────────────────────────────────────────────────────────────
 import React, { useEffect } from "react";

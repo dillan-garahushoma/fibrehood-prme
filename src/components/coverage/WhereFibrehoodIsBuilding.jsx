@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { ChevronDown, ArrowRight, ArrowLeft, Info, MapPin } from "lucide-react";
+import { ArrowRight, ArrowLeft, Info, MapPin } from "lucide-react";
 import { NATIONAL_ROLLOUT_REGIONS } from "@/data/coverageAreas";
 import { DEPLOYMENT_STATUS } from "@/data/coverageStatus";
 import { cn } from "@/lib/utils";
@@ -428,52 +428,21 @@ export function WhereFibrehoodIsBuilding({
     <section className="px-6 py-20 sm:py-24 lg:py-32" aria-label="Network Rollout">
       <div className="mx-auto max-w-7xl">
 
-        {/* ── 1. Top Section Header with Generous Whitespace & City Selection ── */}
-        <div className="mb-10 sm:mb-14 flex flex-col justify-between gap-6 md:flex-row md:items-end">
-          <div className="max-w-2xl">
-            <span className="text-xs font-bold uppercase tracking-widest text-[#2563EB]">
-              National Coverage
-            </span>
-            <h2 className="mt-2 text-3xl font-extrabold tracking-tight sm:text-4xl lg:text-5xl" style={{ color: NAVY }}>
-              Explore network rollout
-            </h2>
-            <p className="mt-3.5 max-w-xl text-base sm:text-lg leading-relaxed text-slate-500">
-              Select a town or city to see its current status and view projects across Zimbabwe in line with our national licence and obligations.
-            </p>
-          </div>
-
-          {/* Compact, refined global selector — ONLY city names */}
-          <div className="flex flex-col sm:items-end shrink-0">
-            <label htmlFor="fh-town-select" className="mb-2 text-xs font-bold uppercase tracking-widest text-slate-400">
-              Town / City
-            </label>
-            <div className="relative w-full sm:w-64 md:w-72">
-              <select
-                id="fh-town-select"
-                value={selectedTownId ?? ""}
-                onChange={(e) => selectTown(e.target.value)}
-                className="w-full appearance-none rounded-xl border border-slate-200/90 bg-white px-4 py-3 pr-10 text-sm font-semibold shadow-xs transition-colors hover:border-slate-300 focus:border-[#2563EB] focus:outline-none focus:ring-2 focus:ring-blue-100/50"
-                style={{ color: NAVY }}
-              >
-                <option value="" disabled>
-                  Choose a town or city
-                </option>
-                {regions.map((r) => (
-                  <option key={r.id} value={r.id}>
-                    {r.name}
-                  </option>
-                ))}
-              </select>
-              <ChevronDown
-                className="pointer-events-none absolute right-3.5 top-1/2 h-4 w-4 -translate-y-1/2 text-slate-400"
-                aria-hidden="true"
-              />
-            </div>
-          </div>
+        {/* ── 1. Top Section Header with Generous Whitespace ── */}
+        <div className="mb-10 sm:mb-12 max-w-2xl">
+          <span className="text-xs font-bold uppercase tracking-widest text-[#2563EB]">
+            National Coverage
+          </span>
+          <h2 className="mt-2 text-3xl font-extrabold tracking-tight sm:text-4xl lg:text-5xl" style={{ color: NAVY }}>
+            Explore network rollout
+          </h2>
+          <p className="mt-3.5 max-w-xl text-base sm:text-lg leading-relaxed text-slate-500">
+            Select a town or city to see its current status and view projects across Zimbabwe in line with our national licence and obligations.
+          </p>
         </div>
 
-        {/* ── 2. Status Legend Row with Generous Vertical Padding & Margin ── */}
-        <div className="mb-12 sm:mb-16 border-y border-slate-100/90 py-6 sm:py-8">
+        {/* ── 2. Status Legend Row aligned with City Selector & more visible top/bottom lines ── */}
+        <div className="mb-12 sm:mb-16 flex flex-col gap-6 border-y border-slate-200 py-5 sm:py-6 lg:flex-row lg:items-center lg:justify-between">
           <StatusLegend />
         </div>
 
@@ -520,7 +489,7 @@ export function WhereFibrehoodIsBuilding({
             </div>
           </div>
 
-          {/* ── 4. Vertical FibreHood Gold Divider (Desktop) ── */}
+          {/* ── 4. Vertical Fibrehood Gold Divider (Desktop) ── */}
           <div
             className="hidden lg:block w-[2.5px] bg-[#FFCC00] self-stretch min-h-[460px] rounded-full my-1 opacity-90"
             aria-hidden="true"

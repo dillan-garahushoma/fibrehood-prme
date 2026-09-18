@@ -243,7 +243,7 @@ export function ConnectionGlobe() {
 
   return (
     <div className="relative h-full w-full">
-      <div ref={containerRef} className="h-full w-full" role="img" aria-label="A rotating globe showing FibreHood's African network hub in Harare with connections reaching across Africa and internationally" />
+      <div ref={containerRef} className="h-full w-full" role="img" aria-label="A rotating globe showing Fibrehood's African network hub in Harare with connections reaching across Africa and internationally" />
     </div>
   );
 }

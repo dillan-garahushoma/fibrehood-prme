@@ -1,4 +1,4 @@
-// Small formatting + helper utilities for the FibreHood Client Portal.
+// Small formatting + helper utilities for the Fibrehood Client Portal.
 // Kept intentionally framework-free so sample data can later be swapped for
 // real API payloads without touching these.
 

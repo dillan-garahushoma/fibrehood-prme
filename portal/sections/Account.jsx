@@ -189,7 +189,7 @@ function AccountRefCard() {
         <DetailRow label="Service address" value={CUSTOMER.serviceAddress} />
       </div>
       <p className="mt-4 rounded-xl bg-muted/50 p-3 text-xs leading-relaxed text-muted-foreground">
-        Quote your account number when contacting FibreHood so we can find you faster.
+        Quote your account number when contacting Fibrehood so we can find you faster.
       </p>
     </Card>
   );
@@ -219,8 +219,8 @@ function SessionsCard() {
   const { notify } = usePortal();
   const sessions = [
     { id: 1, device: "This browser · Chrome on macOS", location: "Harare, ZW", current: true, icon: Monitor },
-    { id: 2, device: "iPhone 15 · FibreHood app", location: "Harare, ZW", current: false, icon: Smartphone },
-    { id: 3, device: "Living room TV · FibreHood TV", location: "Harare, ZW", current: false, icon: Laptop },
+    { id: 2, device: "iPhone 15 · Fibrehood app", location: "Harare, ZW", current: false, icon: Smartphone },
+    { id: 3, device: "Living room TV · Fibrehood TV", location: "Harare, ZW", current: false, icon: Laptop },
   ];
   return (
     <Card className="p-5 sm:p-6">
@@ -262,7 +262,7 @@ export default function Account() {
       <div>
         <h1 className="font-heading text-2xl font-extrabold tracking-tight text-foreground sm:text-3xl">Account</h1>
         <p className="mt-1 text-[15px] text-muted-foreground">
-          Your personal details, security and how FibreHood gets in touch.
+          Your personal details, security and how Fibrehood gets in touch.
         </p>
       </div>
 
@@ -285,7 +285,7 @@ export default function Account() {
           </IconBox>
           <div>
             <p className="text-sm font-semibold text-foreground">Sign out of the portal</p>
-            <p className="text-xs text-muted-foreground">You'll return to the FibreHood website.</p>
+            <p className="text-xs text-muted-foreground">You'll return to the Fibrehood website.</p>
           </div>
         </div>
         <Button variant="outline" onClick={() => navigate("/")}>

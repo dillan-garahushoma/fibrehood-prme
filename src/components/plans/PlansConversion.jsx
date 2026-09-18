@@ -16,7 +16,7 @@ export function PlansConversion({ onSelectPackage }) {
             Found your plan?
           </h2>
           <p className="mt-3 text-base leading-relaxed text-paper/75">
-            Check whether FibreHood is live at your address — coverage is the
+            Check whether Fibrehood is live at your address — coverage is the
             one thing that gates everything else.
           </p>
         </Reveal>

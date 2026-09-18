@@ -1,4 +1,4 @@
-// FibreHood fibre pricing — verified commercial packages.
+// Fibrehood fibre pricing — verified commercial packages.
 // Home Fibre and SME Fibre plans used by the pricing carousel and plan pages.
 
 const HOME_FEATURES = [

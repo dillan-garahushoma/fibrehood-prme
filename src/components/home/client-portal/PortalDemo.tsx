@@ -32,7 +32,7 @@ const moments: Moment[] = [
     tab: "Connection",
     icon: WifiIcon,
     headline: "Know your connection is healthy.",
-    sub: "See your FibreHood service status at a glance, the moment you open the portal.",
+    sub: "See your Fibrehood service status at a glance, the moment you open the portal.",
     sidebarActive: "Overview",
   },
   {
@@ -56,7 +56,7 @@ const moments: Moment[] = [
     tab: "Support",
     icon: SupportIcon,
     headline: "Get help without the back-and-forth.",
-    sub: "Talk to FibreHood and track your support request in one place.",
+    sub: "Talk to Fibrehood and track your support request in one place.",
     sidebarActive: "Support",
   },
   {
@@ -291,7 +291,7 @@ function PanelBody({ moment }: { moment: MomentId }) {
               <Avatar label="FH" tone="fh" />
               <div>
                 <p className="text-[11.5px]">
-                  <b className="font-semibold text-ink">FibreHood</b>{" "}
+                  <b className="font-semibold text-ink">Fibrehood</b>{" "}
                   <span className="text-ink-soft">9:42 PM</span>
                 </p>
                 <p className="mt-0.5 max-w-[230px] rounded-lg rounded-tl-sm border border-signal/20 bg-signal/[0.07] px-3 py-2 text-[13px] leading-snug text-ink">
@@ -317,7 +317,7 @@ function PanelBody({ moment }: { moment: MomentId }) {
             <div className="min-h-[18px] text-[13px]">
               <TypingReply />
             </div>
-            <p className="mt-2 text-[11px] text-ink-soft">Reply to FibreHood…</p>
+            <p className="mt-2 text-[11px] text-ink-soft">Reply to Fibrehood…</p>
           </div>
         </div>
       );
@@ -492,7 +492,7 @@ export default function PortalDemo() {
               <span className="flex h-6 w-6 items-center justify-center rounded-md bg-signal text-[11px] font-bold text-paper">
                 F
               </span>
-              <span className="text-[13px] font-semibold text-ink">FibreHood</span>
+              <span className="text-[13px] font-semibold text-ink">Fibrehood</span>
             </div>
             <nav className="space-y-1">
               {sidebarItems.map((item) => {

@@ -3,7 +3,7 @@ import { cn } from "@/lib/utils";
 import { LoopMark } from "./LoopMark";
 
 /**
- * FibreHood wordmark: "fibre" + infinity loop (replaces "oo") + "d".
+ * Fibrehood wordmark: "fibre" + infinity loop (replaces "oo") + "d".
  * The loop is rendered in Loop Yellow; the rest follows the surrounding tone.
  */
 export function Logo({ className, tone = "ink", loopClass = "text-loop", showTagline = true, taglineClass }) {

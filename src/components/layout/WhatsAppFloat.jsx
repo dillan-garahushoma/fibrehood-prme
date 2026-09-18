@@ -26,7 +26,7 @@ export function WhatsAppFloat() {
         href={WA_INTENTS.connect()}
         target="_blank"
         rel="noreferrer"
-        aria-label="Speak to a FibreHood advisor on WhatsApp"
+        aria-label="Speak to a Fibrehood advisor on WhatsApp"
         className="fixed bottom-5 right-5 z-40 inline-flex h-12 w-12 items-center justify-center rounded-full bg-loop text-signal shadow-lift"
       >
         <MessageCircle className="h-5 w-5" />
@@ -41,7 +41,7 @@ export function WhatsAppFloat() {
           href={WA_INTENTS.connect()}
           target="_blank"
           rel="noreferrer"
-          aria-label="Speak to a FibreHood advisor on WhatsApp"
+          aria-label="Speak to a Fibrehood advisor on WhatsApp"
           initial={{ opacity: 0, y: 24, scale: 0.9 }}
           animate={{ opacity: 1, y: 0, scale: 1 }}
           exit={{ opacity: 0, y: 24, scale: 0.9 }}

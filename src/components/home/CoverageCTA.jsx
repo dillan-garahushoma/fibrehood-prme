@@ -19,7 +19,7 @@ export function CoverageCTA() {
             <MapPin className="h-3.5 w-3.5" /> The next step
           </span>
           <h2 className="mt-6 font-heading text-3xl font-bold tracking-tighter sm:text-4xl md:text-5xl">
-            Is FibreHood available at your address?
+            Is Fibrehood available at your address?
           </h2>
           <p className="mt-5 text-base leading-relaxed text-paper/75 sm:text-lg">
             Check now and find out what fibre is live at your door — then request your
