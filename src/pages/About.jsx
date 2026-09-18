@@ -2,6 +2,12 @@ import { SplitHero } from "@/components/common/SplitHero";
 import { IMAGES } from "@/data/images";
 import AboutBody from "@/components/about/AboutBody";
 
+const ABOUT_PAGE_IMAGES = {
+  belief: "/images/about/our-belief.jpg",
+  people: "/images/about/our-people.jpg",
+  connectivity: "/images/about/connectivity-banner.jpg",
+};
+
 export default function About() {
   return (
     <>
@@ -9,10 +15,10 @@ export default function About() {
         image={IMAGES.aboutHero}
         alt="FibreHood fibre infrastructure connecting a community at dusk"
         eyebrow="About FibreHood"
-        title="We exist to bridge the access gap."
-        subtitle="FibreHood is a direct fibre connectivity platform — built so people can find out what fibre really reaches them, choose with clarity, and get connected without the runaround."
+        title="We exist to unlock opportunities and talent."
+        subtitle="Connectivity for marginalised communities."
       />
-      <AboutBody />
+      <AboutBody images={ABOUT_PAGE_IMAGES} />
     </>
   );
 }

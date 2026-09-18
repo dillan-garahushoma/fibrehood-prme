@@ -82,15 +82,15 @@ export function PartnerProcess() {
           </div>
         </Reveal>
 
-        {/* ── Exit link — same underline-reveal pattern as ValueProp ─── */}
         <Reveal delay={0.14} className="mt-12 lg:mt-14">
           <Link
             to="/contact"
             className="group relative inline-flex items-center gap-2 text-base font-semibold text-signal transition-[color,gap] duration-300 hover:gap-3 hover:text-ink after:absolute after:-bottom-1 after:left-0 after:h-px after:w-full after:origin-left after:scale-x-0 after:bg-loop after:transition-transform after:duration-300 group-hover:after:scale-x-100 motion-reduce:transition-none motion-reduce:after:transition-none"
           >
             Start a conversation
-            <ArrowRight className="h-4 w-4 transition-transform duration-300 group-hover:translate-x-1 motion-reduce:transition-none" />
+            <ArrowRight className="h-4 w-4 transition-transform duration-300 group-hover:translate-x-1 motion-reduce:transition-none" aria-hidden="true" />
           </Link>
+          <p className="mt-3 text-sm text-ink-soft">Let's build a connected future together.</p>
         </Reveal>
       </div>
     </section>

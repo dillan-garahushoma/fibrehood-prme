@@ -138,7 +138,15 @@ export function LocationPanel({ onResolve }) {
     setQuery(s.label);
     setSuggestions([]);
     setAmbiguous([]);
-    onResolve({ lat: s.lat, lng: s.lng, label: s.label, method: "address" });
+    onResolve({
+      lat: s.lat,
+      lng: s.lng,
+      label: s.label,
+      townId: s.townId,
+      suburbId: s.suburbId,
+      mduId: s.mduId,
+      method: "address"
+    });
   };
 
   const checkAddress = () => {

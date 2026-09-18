@@ -1,10 +1,9 @@
 import React from "react";
-import { Link } from "react-router-dom";
 import { ArrowRight, MessageCircle } from "lucide-react";
 import { Reveal } from "@/components/common/Reveal";
 import { WA_INTENTS } from "@/data/site";
 
-export function PlansConversion() {
+export function PlansConversion({ onSelectPackage }) {
   return (
     <section className="bg-signal-deep text-paper">
       <div className="container-lattice py-16 md:py-24">
@@ -23,12 +22,13 @@ export function PlansConversion() {
         </Reveal>
 
         <Reveal className="mt-10 flex flex-col items-center justify-center gap-3 sm:flex-row">
-          <Link
-            to="/coverage"
+          <button
+            type="button"
+            onClick={() => onSelectPackage?.()}
             className="inline-flex items-center justify-center gap-2 rounded-full bg-loop px-6 py-3 text-sm font-semibold text-signal transition-colors hover:brightness-95"
           >
-            Check availability <ArrowRight className="h-4 w-4" />
-          </Link>
+            Select Package <ArrowRight className="h-4 w-4" />
+          </button>
           <a
             href={WA_INTENTS.connect()}
             target="_blank"

@@ -2,9 +2,9 @@ import { IMAGES } from "@/data/images";
 
 // Generated on-brand visuals (authentic Zimbabwean editorial photography).
 export const ABOUT_IMAGES = {
-  story: "https://media.base44.com/images/public/6a9190c938c1fe8b87ce238c/d8c604144_generated_image.png",
-  impact: "https://media.base44.com/images/public/6a9190c938c1fe8b87ce238c/df4ba6925_generated_image.png",
-  infrastructure: "https://media.base44.com/images/public/6a9190c938c1fe8b87ce238c/37be6887a_generated_image.png"
+  story: "/images/community-coverage.jpg",
+  impact: "/images/in-home-joy.png",
+  infrastructure: "/images/fibre-installation.png"
 };
 
 export const PRINCIPLES = [

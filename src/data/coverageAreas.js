@@ -122,9 +122,19 @@ export const TOWNS = [
         lat: -17.893,
         lng: 31.08,
         mdus: [
+          { id: "fidelity-southview-park", name: "Fidelity Southview Park", status: DEPLOYMENT_STATUS.LIVE, lat: -17.893, lng: 31.08, updatedAt: "2026-09-16" },
           { id: "southview-park-a", name: "Southview Park — Block A", status: DEPLOYMENT_STATUS.LIVE, lat: -17.8925, lng: 31.0795, updatedAt: "2026-08-28" },
           { id: "southview-park-b", name: "Southview Park — Block B", status: DEPLOYMENT_STATUS.IN_PROGRESS, lat: -17.8918, lng: 31.0812, updatedAt: "2026-09-02" },
           { id: "southview-apartments", name: "Southview Apartments", status: DEPLOYMENT_STATUS.LIVE, lat: -17.8941, lng: 31.0783, updatedAt: "2026-08-28" }
+        ]
+      },
+      {
+        id: "avenues",
+        name: "Avenues",
+        lat: -17.81,
+        lng: 31.04,
+        mdus: [
+          { id: "avenues-area", name: "Avenues Area", status: DEPLOYMENT_STATUS.LIVE, lat: -17.81, lng: 31.04, updatedAt: "2026-09-16" }
         ]
       },
       {
@@ -134,7 +144,16 @@ export const TOWNS = [
         lat: -17.851,
         lng: 31.163,
         mdus: [
-          { id: "tafara-court", name: "Tafara Court", status: DEPLOYMENT_STATUS.LIVE, lat: -17.8505, lng: 31.1625, updatedAt: "2026-08-30" }
+          { id: "tafara-flats", name: "Tafara Flats", status: DEPLOYMENT_STATUS.LIVE, lat: -17.851, lng: 31.163, updatedAt: "2026-09-16" }
+        ]
+      },
+      {
+        id: "glen-lorne",
+        name: "Glen Lorne",
+        lat: -17.738,
+        lng: 31.12,
+        mdus: [
+          { id: "lifestyle-apartments", name: "Lifestyle Apartments", status: DEPLOYMENT_STATUS.LIVE, lat: -17.738, lng: 31.12, updatedAt: "2026-09-16" }
         ]
       },
       { id: "waterfalls", name: "Waterfalls", areaId: "waterfalls", lat: -17.87, lng: 31.03, mdus: [] },
@@ -151,6 +170,16 @@ export const TOWNS = [
     id: "norton",
     name: "Norton",
     suburbs: [
+      {
+        id: "norton-galloway",
+        name: "Galloway Road",
+        areaId: "norton",
+        lat: -17.886,
+        lng: 30.697,
+        mdus: [
+          { id: "norton-galloway-road", name: "Norton (Galloway Road)", status: DEPLOYMENT_STATUS.LIVE, lat: -17.886, lng: 30.697, updatedAt: "2026-09-16" }
+        ]
+      },
       { id: "norton-central", name: "Norton Central", areaId: "norton", lat: -17.886, lng: 30.697, mdus: [] },
       { id: "katanga", name: "Katanga", lat: -17.876, lng: 30.705, mdus: [] }
     ]
@@ -168,7 +197,15 @@ export const TOWNS = [
     name: "Bulawayo",
     suburbs: [
       { id: "hillside-byo", name: "Hillside", lat: -20.17, lng: 28.61, mdus: [] },
-      { id: "byo-cbd", name: "Bulawayo CBD", lat: -20.14, lng: 28.58, mdus: [] }
+      {
+        id: "byo-cbd",
+        name: "Bulawayo CBD",
+        lat: -20.14,
+        lng: 28.58,
+        mdus: [
+          { id: "bulawayo-tba", name: "Bulawayo TBA", status: DEPLOYMENT_STATUS.LIVE, lat: -20.14, lng: 28.58, updatedAt: "2026-09-16" }
+        ]
+      }
     ]
   }
 ];
@@ -176,8 +213,13 @@ export const TOWNS = [
 // Local address dataset powering autocomplete + reverse geocoding without an
 // external API. Each entry resolves to a coordinate used by the coverage engine.
 export const ADDRESS_LOCALITIES = [
+  { id: "avenues-area", name: "Avenues Area", region: "Harare", lat: -17.81, lng: 31.04, townId: "harare", suburbId: "avenues", mduId: "avenues-area" },
+  { id: "lifestyle-apartments", name: "Lifestyle Apartments", region: "Glen Lorne, Harare", lat: -17.738, lng: 31.12, townId: "harare", suburbId: "glen-lorne", mduId: "lifestyle-apartments" },
+  { id: "fidelity-southview-park", name: "Fidelity Southview Park", region: "Harare", lat: -17.893, lng: 31.08, townId: "harare", suburbId: "southview", mduId: "fidelity-southview-park" },
+  { id: "norton-galloway-road", name: "Norton (Galloway Road)", region: "Norton", lat: -17.886, lng: 30.697, townId: "norton", suburbId: "norton-galloway", mduId: "norton-galloway-road" },
+  { id: "bulawayo-tba", name: "Bulawayo TBA", region: "Bulawayo", lat: -20.14, lng: 28.58, townId: "bulawayo", suburbId: "byo-cbd", mduId: "bulawayo-tba" },
   { id: "southview", name: "Southview", region: "Harare", lat: -17.893, lng: 31.08 },
-  { id: "tafara-flats", name: "Tafara Flats", region: "Harare", lat: -17.851, lng: 31.163 },
+  { id: "tafara-flats", name: "Tafara Flats", region: "Harare", lat: -17.851, lng: 31.163, townId: "harare", suburbId: "tafara-flats", mduId: "tafara-flats" },
   { id: "norton", name: "Norton", region: "Mashonaland West", lat: -17.886, lng: 30.697 },
   { id: "harare-cbd", name: "Harare CBD", region: "Harare", lat: -17.8292, lng: 31.0539 },
   { id: "avondale", name: "Avondale", region: "Harare", lat: -17.793, lng: 31.04 },
@@ -220,3 +262,167 @@ export const ADDRESS_LOCALITIES = [
   { id: "chinhoyi", name: "Chinhoyi", region: "Mashonaland West", lat: -17.37, lng: 30.2 },
   { id: "victoria-falls", name: "Victoria Falls", region: "Matabeleland North", lat: -18.26, lng: 25.84 }
 ];
+
+// National rollout dataset powering the 'Where FibreHood is building' rollout explorer.
+// Represents FibreHood's deployment footprint across Zimbabwe's major urban centers.
+export const NATIONAL_ROLLOUT_REGIONS = [
+  {
+    id: "harare",
+    name: "Harare",
+    status: DEPLOYMENT_STATUS.LIVE,
+    description:
+      "Zimbabwe's capital is our most developed coverage area, with several neighbourhoods live and more under active construction.",
+    areas: [
+      {
+        id: "southview-park",
+        name: "Southview Park",
+        status: DEPLOYMENT_STATUS.LIVE,
+        imageSrc: "/images/coverage-aerial.png",
+        description: "FTTH network deployment across 3,610 homes. Phased rollout underway.",
+        homesInScope: 3610,
+        homesConnected: 2158,
+      },
+      {
+        id: "harare-avenues",
+        name: "Harare Avenues",
+        status: DEPLOYMENT_STATUS.IN_PROGRESS,
+        imageSrc: "/images/partners-hero.jpg",
+        description: "MDU and residential deployments in key Avenues locations.",
+        homesInScope: 1280,
+        homesConnected: 860,
+      },
+      {
+        id: "tafara-mabvuka",
+        name: "Tafara / Mabvuka",
+        status: DEPLOYMENT_STATUS.IN_PROGRESS,
+        imageSrc: "/images/partners-estate.jpg",
+        description: "FTTH rollout for residential areas in Tafara and Mabvuka.",
+        homesInScope: 4200,
+        homesConnected: 1240,
+      },
+      {
+        id: "mufakose",
+        name: "Mufakose",
+        status: DEPLOYMENT_STATUS.IN_PROGRESS,
+        imageSrc: "/images/community-coverage.jpg",
+        description: "Network construction and deployments underway.",
+        homesInScope: 3050,
+      },
+    ],
+  },
+  {
+    id: "bulawayo",
+    name: "Bulawayo",
+    status: DEPLOYMENT_STATUS.IN_PROGRESS,
+    description: "Network construction is underway across Bulawayo's key residential nodes.",
+    areas: [
+      {
+        id: "hillside",
+        name: "Hillside",
+        status: DEPLOYMENT_STATUS.IN_PROGRESS,
+        imageSrc: "/images/img-hero-6.jpg",
+        description: "Fibre construction underway across Hillside's residential streets.",
+        homesInScope: 1840,
+      },
+      {
+        id: "kumalo",
+        name: "Kumalo",
+        status: DEPLOYMENT_STATUS.PLANNED,
+        description: "Design and permitting in progress ahead of construction.",
+      },
+    ],
+  },
+  {
+    id: "gweru",
+    name: "Gweru",
+    status: DEPLOYMENT_STATUS.IN_PROGRESS,
+    description: "Early-stage construction has begun in Gweru's central suburbs.",
+    areas: [
+      {
+        id: "mkoba",
+        name: "Mkoba",
+        status: DEPLOYMENT_STATUS.IN_PROGRESS,
+        imageSrc: "/images/community-coverage.jpg",
+        description: "Network build underway across Mkoba's residential sections.",
+        homesInScope: 2100,
+      },
+    ],
+  },
+  {
+    id: "mutare",
+    name: "Mutare",
+    status: DEPLOYMENT_STATUS.PLANNED,
+    description: "Network design is underway ahead of construction in Mutare.",
+    areas: [],
+  },
+  {
+    id: "kwekwe",
+    name: "Kwekwe",
+    status: DEPLOYMENT_STATUS.PLANNED,
+    description: "Network design is underway ahead of construction in Kwekwe.",
+    areas: [],
+  },
+  {
+    id: "masvingo",
+    name: "Masvingo",
+    status: DEPLOYMENT_STATUS.PLANNED,
+    description: "Network design is underway ahead of construction in Masvingo.",
+    areas: [],
+  },
+  {
+    id: "chinhoyi",
+    name: "Chinhoyi",
+    status: DEPLOYMENT_STATUS.NOT_STARTED,
+    description: "Chinhoyi is part of our national rollout plan and will begin in a future phase.",
+    areas: [],
+  },
+  {
+    id: "kadoma",
+    name: "Kadoma",
+    status: DEPLOYMENT_STATUS.NOT_STARTED,
+    description: "Kadoma is part of our national rollout plan and will begin in a future phase.",
+    areas: [],
+  },
+  {
+    id: "chegutu",
+    name: "Chegutu",
+    status: DEPLOYMENT_STATUS.NOT_STARTED,
+    description: "Chegutu is part of our national rollout plan and will begin in a future phase.",
+    areas: [],
+  },
+  {
+    id: "norton",
+    name: "Norton",
+    status: DEPLOYMENT_STATUS.NOT_STARTED,
+    description: "Norton is part of our national rollout plan and will begin in a future phase.",
+    areas: [],
+  },
+  {
+    id: "victoria-falls",
+    name: "Victoria Falls",
+    status: DEPLOYMENT_STATUS.NOT_STARTED,
+    description: "Victoria Falls is part of our national rollout plan and will begin in a future phase.",
+    areas: [],
+  },
+  {
+    id: "marondera",
+    name: "Marondera",
+    status: DEPLOYMENT_STATUS.NOT_STARTED,
+    description: "Marondera is part of our national rollout plan and will begin in a future phase.",
+    areas: [],
+  },
+  {
+    id: "zvishavane",
+    name: "Zvishavane",
+    status: DEPLOYMENT_STATUS.NOT_STARTED,
+    description: "Zvishavane is part of our national rollout plan and will begin in a future phase.",
+    areas: [],
+  },
+  {
+    id: "hwange",
+    name: "Hwange",
+    status: DEPLOYMENT_STATUS.NOT_STARTED,
+    description: "Hwange is part of our national rollout plan and will begin in a future phase.",
+    areas: [],
+  },
+];

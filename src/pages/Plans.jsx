@@ -1,16 +1,19 @@
 import React, { useState } from "react";
-import { Link } from "react-router-dom";
 import { 
-  Check, GitCompare, ArrowRight, Info,
+  Check, GitCompare, ArrowRight,
   Infinity as InfinityIcon, Wifi, Zap, Ban, Headphones, ArrowLeftRight, TrendingUp 
 } from "lucide-react";
 import { PlansHero } from "@/components/plans/PlansHero";
-import { ConnectionSelector } from "@/components/plans/ConnectionSelector";
 import { PlansConversion } from "@/components/plans/PlansConversion";
 import { PlanCard } from "@/components/plans/PlanCard";
 import { EveryPlanIncludes } from "@/components/plans/EveryPlanIncludes";
 import { WhatYouGet } from "@/components/plans/WhatYouGet";
 import { RouterSection } from "@/components/plans/RouterSection";
+import EnterpriseConnectivity from "@/components/plans/EnterpriseConnectivity";
+import WhyChooseFibrehood from "@/components/plans/WhyChooseFibrehood";
+import { IMAGES } from "@/data/images";
+import { WA_INTENTS } from "@/data/site";
+import SignupFlow from "@/components/signup/SignupFlow";
 import { PLANS, formatSpeed } from "@/data/plans";
 import { Reveal } from "@/components/common/Reveal";
 import {
@@ -22,7 +25,7 @@ const GROUPS = [
   {
     id: "home-fibre",
     segment: "home",
-    heading: "Home Fibre",
+    heading: "Residential Fibre",
     blurb: "Everyday connectivity for households — a progression from light browsing to a fully connected home.",
     includes: [
       { icon: InfinityIcon, label: "Unlimited data" },
@@ -35,7 +38,7 @@ const GROUPS = [
   {
     id: "sme-fibre",
     segment: "business",
-    heading: "SME Fibre",
+    heading: "SME Business Fibre",
     blurb: "Symmetric connectivity for growing businesses — built for teams, cloud tools and uptime.",
     includes: [
       { icon: ArrowLeftRight, label: "Symmetric speeds" },
@@ -50,6 +53,13 @@ const GROUPS = [
 export default function Plans() {
   const [selected, setSelected] = useState([]);
   const [compareOpen, setCompareOpen] = useState(false);
+  const [signupOpen, setSignupOpen] = useState(false);
+  const [signupPlanId, setSignupPlanId] = useState(null);
+
+  const startSignup = (planId = "smart-home-connect") => {
+    setSignupPlanId(planId);
+    setSignupOpen(true);
+  };
 
   const toggle = (id) => {
     setSelected((cur) => {
@@ -64,15 +74,10 @@ export default function Plans() {
   return (
     <>
       <PlansHero />
-      <ConnectionSelector />
 
       {/* ── Plans (grouped by segment) ─────────────────────────────── */}
       <section className="pb-16 md:pb-20">
         <div className="container-lattice">
-          <div className="flex items-center gap-2 text-xs text-ink-soft">
-            <Info className="h-3.5 w-3.5" /> Select up to 3 plans to compare.
-          </div>
-
           {GROUPS.map((group) => {
             const plans = PLANS
               .filter((p) => p.segment === group.segment)
@@ -86,7 +91,12 @@ export default function Plans() {
               <div className="mt-8 flex flex-wrap justify-center gap-6">
                 {plans.map((p, i) => (
                   <Reveal key={p.id} className="h-full w-full sm:w-[calc(50%-12px)] lg:w-[calc(33.333%-16px)] lg:max-w-xs" delay={i * 0.05}>
-                    <PlanCard plan={p} selected={selected.includes(p.id)} onToggle={toggle} />
+                    <PlanCard
+                      plan={p}
+                      selected={selected.includes(p.id)}
+                      onToggle={toggle}
+                      onSelectPackage={startSignup}
+                    />
                   </Reveal>
                 ))}
               </div>
@@ -94,7 +104,12 @@ export default function Plans() {
               <div className="mt-8 grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-4">
                 {plans.map((p, i) => (
                   <Reveal key={p.id} className="h-full" delay={(i % 4) * 0.05}>
-                    <PlanCard plan={p} selected={selected.includes(p.id)} onToggle={toggle} />
+                    <PlanCard
+                      plan={p}
+                      selected={selected.includes(p.id)}
+                      onToggle={toggle}
+                      onSelectPackage={startSignup}
+                    />
                   </Reveal>
                 ))}
               </div>
@@ -120,11 +135,21 @@ export default function Plans() {
         </div>
       </section>
 
+      <EnterpriseConnectivity imageSrc={IMAGES.domainCorporate} ctaHref={WA_INTENTS.enterprise()} />
+      <WhyChooseFibrehood />
+
       {/* ── What You Get ────────────────────────── */}
       <WhatYouGet />
 
       {/* ── Router section ──────────────────────── */}
-      <RouterSection />
+      <RouterSection onSelectPackage={() => startSignup()} />
+
+      <SignupFlow
+        open={signupOpen}
+        location={null}
+        initialPlanId={signupPlanId}
+        onClose={() => setSignupOpen(false)}
+      />
 
       {/* Compare bar — kept with the plans */}
       {comparePlans.length > 0 && (
@@ -159,9 +184,13 @@ export default function Plans() {
           </DialogHeader>
           <CompareTable plans={comparePlans} />
           <div className="mt-4 flex justify-end">
-            <Link to="/coverage" className="inline-flex items-center gap-2 rounded-full bg-signal px-5 py-2.5 text-sm font-semibold text-paper hover:bg-signal-deep">
-              Check availability <ArrowRight className="h-4 w-4" />
-            </Link>
+            <button
+              type="button"
+              onClick={() => startSignup(comparePlans[0]?.id)}
+              className="inline-flex items-center gap-2 rounded-full bg-signal px-5 py-2.5 text-sm font-semibold text-paper hover:bg-signal-deep"
+            >
+              Select Package <ArrowRight className="h-4 w-4" />
+            </button>
           </div>
         </DialogContent>
       </Dialog>
@@ -202,7 +231,7 @@ export default function Plans() {
         </div>
       </section>
 
-      <PlansConversion />
+      <PlansConversion onSelectPackage={() => startSignup()} />
     </>
   );
 }

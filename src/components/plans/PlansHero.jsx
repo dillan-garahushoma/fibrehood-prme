@@ -4,8 +4,7 @@ import { Image } from "@/components/ui/image";
 import { SectionLabel } from "@/components/common/SectionLabel";
 import { entranceContainer, entranceItem } from "@/components/common/Reveal";
 
-const HERO_IMAGE =
-  "https://media.base44.com/images/public/6a9190c938c1fe8b87ce238c/62a2fe126_generated_image.png";
+const HERO_IMAGE = "/images/in-home-joy.png";
 
 export function PlansHero() {
   const reduce = useReducedMotion();
@@ -41,7 +40,7 @@ export function PlansHero() {
             variants={entranceItem}
             className="mt-5 max-w-xl font-heading text-4xl font-extrabold leading-[1.05] tracking-tighter text-paper sm:text-5xl lg:text-[3.6rem]"
           >
-            Get unlimited fibre for the way you live<span className="text-loop">.</span>
+            Get unlimited fibre for the way you live
           </motion.h1>
 
           <motion.p

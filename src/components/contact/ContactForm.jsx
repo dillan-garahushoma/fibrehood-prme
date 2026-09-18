@@ -1,12 +1,17 @@
 import { useState } from "react";
-import { ArrowRight, ShieldCheck, AlertCircle, CheckCircle2 } from "lucide-react";
+import { ArrowRight, ShieldCheck, AlertCircle, CheckCircle2, Clock3, Users, Lock } from "lucide-react";
 import { Reveal } from "@/components/common/Reveal";
-import { SectionLabel } from "@/components/common/SectionLabel";
 import { submitLead } from "@/lib/leads";
 import { ENQUIRY_TYPES } from "@/data/contactContent";
 
 const INITIAL = { name: "", email: "", phone: "", enquiry: "", area: "", customer: "", message: "", consent: false };
-const BASE = "h-11 w-full border bg-paper px-3.5 text-sm text-ink outline-none transition focus:border-signal focus:ring-2 focus:ring-signal/15";
+const BASE = "h-11 w-full rounded-xl border bg-paper px-3.5 text-sm text-ink outline-none transition focus:border-signal focus:ring-2 focus:ring-signal/15";
+
+const trustPoints = [
+  { icon: Clock3, title: "Quick response", copy: "We aim to respond within 24 hours." },
+  { icon: Users, title: "Real people", copy: "Speak to a dedicated team." },
+  { icon: Lock, title: "Your information is safe", copy: "We only use your details to respond to your enquiry." }
+];
 
 function validate(v) {
   const e = {};
@@ -52,84 +57,125 @@ export default function ContactForm() {
 
   if (status === "success") {
     return (
-      <section id="send-message" aria-labelledby="form-heading" className="bg-paper py-24 lg:py-32">
-        <div className="container-lattice max-w-2xl text-center">
+      <section id="send-message" aria-labelledby="form-heading" className="fh-contact__section">
+        <div className="fh-contact__intro">
+          <p className="fh-contact__eyebrow">
+            <span className="fh-contact__eyebrow-line" aria-hidden="true" /> SEND US A MESSAGE
+          </p>
+          <h2 className="fh-contact__heading">We’re here to <span className="fh-contact__accent">help.</span></h2>
+          <p className="fh-contact__lede">Tell us what you need and we’ll route it to the right FibreHood team.</p>
+          <TrustPoints />
+        </div>
+        <div className="fh-contact__form-wrap">
           <CheckCircle2 className="mx-auto h-12 w-12 text-signal" aria-hidden="true" strokeWidth={1.5} />
-          <h2 id="form-heading" className="ff-serif mt-5 text-3xl font-medium text-ink">Thanks for reaching out.</h2>
-          <p className="mt-3 text-base text-ink-soft">Your enquiry has been received by FibreHood. We&rsquo;ll be in touch soon.</p>
+          <h2 id="form-heading" className="fh-contact__form-heading">Thanks for reaching out.</h2>
+          <p className="fh-contact__form-lede">Your enquiry has been received by FibreHood. We’ll be in touch soon.</p>
         </div>
       </section>
     );
   }
 
   return (
-    <section id="send-message" aria-labelledby="form-heading" className="bg-paper py-24 lg:py-32">
-      <div className="container-lattice max-w-2xl">
-        <Reveal><SectionLabel>Send Us a Message</SectionLabel></Reveal>
-        <Reveal delay={0.08}>
-          <h2 id="form-heading" className="ff-serif mt-6 text-3xl font-medium leading-tight text-ink sm:text-4xl">Send us an enquiry.</h2>
-        </Reveal>
-        <Reveal delay={0.16}>
-          <p className="mt-4 text-base text-ink-soft">Tell us what you need and we&rsquo;ll route it to the right FibreHood team.</p>
-        </Reveal>
-
-        {Object.keys(errors).length > 0 && (
-          <div role="alert" className="mt-8 flex items-start gap-3 border border-destructive bg-destructive/5 p-4">
-            <AlertCircle className="mt-0.5 h-5 w-5 flex-none text-destructive" aria-hidden="true" />
-            <div>
-              <p className="text-sm font-semibold text-destructive">Please fix the following:</p>
-              <ul className="mt-1 list-disc pl-5 text-sm text-ink-soft">
-                {Object.values(errors).map((m) => <li key={m}>{m}</li>)}
-              </ul>
-            </div>
-          </div>
-        )}
-        {status === "error" && (
-          <div role="alert" className="mt-8 border border-destructive bg-destructive/5 p-4 text-sm text-destructive">
-            Something went wrong sending your enquiry. Please try again, or reach us by phone or WhatsApp.
-          </div>
-        )}
-
-        <form onSubmit={onSubmit} noValidate className="mt-8 space-y-5">
-          <div className="grid gap-5 sm:grid-cols-2">
-            <Field id="name" label="Full name" autoComplete="name" value={data.name} onChange={update} error={errors.name} border={border} required />
-            <Field id="phone" label="Mobile number" type="tel" autoComplete="tel" value={data.phone} onChange={update} error={errors.phone} border={border} required />
-          </div>
-          <Field id="email" label="Email address" type="email" autoComplete="email" value={data.email} onChange={update} error={errors.email} border={border} required />
-          <div className="grid gap-5 sm:grid-cols-2">
-            <SelectField id="enquiry" label="Enquiry type" value={data.enquiry} onChange={update} error={errors.enquiry} options={ENQUIRY_TYPES} border={border} required />
-            <Field id="area" label="Area / suburb" autoComplete="address-level2" value={data.area} onChange={update} border={border} />
-          </div>
-          <SelectField id="customer" label="Are you an existing customer?" value={data.customer} onChange={update}
-            options={[{ value: "", label: "Select…" }, { value: "yes", label: "Yes" }, { value: "no", label: "No, I’m new" }]} border={border} />
-
-          <div>
-            <label htmlFor="message" className="mb-1.5 block text-sm font-medium text-ink">Message <span className="text-destructive">*</span></label>
-            <textarea id="message" name="message" rows={5} value={data.message} onChange={update}
-              aria-invalid={!!errors.message} aria-describedby={errors.message ? "message-err" : undefined}
-              className={`${BASE} ${border("message")} resize-y py-3`} placeholder="Tell us how we can help…" />
-            {errors.message && <p id="message-err" className="mt-1 text-sm text-destructive">{errors.message}</p>}
+    <section id="send-message" aria-labelledby="form-heading" className="fh-contact__section">
+          <div className="fh-contact__intro">
+            <p className="fh-contact__eyebrow">
+              <span className="fh-contact__eyebrow-line" aria-hidden="true" /> SEND US A MESSAGE
+            </p>
+            <h2 className="fh-contact__heading">
+              We’re here to <span className="fh-contact__accent">help.</span>
+            </h2>
+            <p className="fh-contact__lede">
+              Tell us what you need and we’ll route it to the right FibreHood team.
+            </p>
+            <TrustPoints />
           </div>
 
-          <div>
-            <label className="flex items-start gap-3">
-              <input type="checkbox" name="consent" checked={data.consent} onChange={update}
-                aria-invalid={!!errors.consent} className="mt-1 h-4 w-4 rounded border-line text-signal focus:ring-signal" />
-              <span className="text-sm text-ink-soft">I consent to FibreHood contacting me about this enquiry.</span>
-            </label>
-            {errors.consent && <p className="mt-1 pl-7 text-sm text-destructive">{errors.consent}</p>}
-          </div>
+          <div className="fh-contact__form-wrap">
+            <Reveal>
+              <h3 className="fh-contact__form-title">Send us an enquiry.</h3>
+            </Reveal>
+            <Reveal delay={0.08}>
+              <p className="fh-contact__form-lede">Tell us what you need and we’ll route it to the right FibreHood team.</p>
+            </Reveal>
 
-          <button type="submit" disabled={status === "submitting"}
-            className="inline-flex w-full items-center justify-center gap-2 bg-signal px-6 py-3.5 text-sm font-semibold text-paper transition-colors hover:bg-signal-deep focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-signal disabled:opacity-70 sm:w-auto">
-            {status === "submitting" ? "Sending…" : "Send enquiry"} <ArrowRight className="h-4 w-4" aria-hidden="true" />
-          </button>
-          <p className="flex items-center gap-2 text-xs text-ink-soft">
-            <ShieldCheck className="h-3.5 w-3.5" aria-hidden="true" /> Your information is kept private and used only to respond to your enquiry.
-          </p>
-        </form>
-      </div>
+            {Object.keys(errors).length > 0 && (
+              <div role="alert" className="mt-8 flex items-start gap-3 border border-destructive bg-destructive/5 p-4">
+                <AlertCircle className="mt-0.5 h-5 w-5 flex-none text-destructive" aria-hidden="true" />
+                <div>
+                  <p className="text-sm font-semibold text-destructive">Please fix the following:</p>
+                  <ul className="mt-1 list-disc pl-5 text-sm text-ink-soft">
+                    {Object.values(errors).map((m) => <li key={m}>{m}</li>)}
+                  </ul>
+                </div>
+              </div>
+            )}
+            {status === "error" && (
+              <div role="alert" className="mt-8 border border-destructive bg-destructive/5 p-4 text-sm text-destructive">
+                Something went wrong sending your enquiry. Please try again, or reach us by phone or WhatsApp.
+              </div>
+            )}
+
+            <form onSubmit={onSubmit} noValidate className="mt-8 space-y-5">
+              <div className="grid gap-5 sm:grid-cols-2">
+                <Field id="name" label="Full name" autoComplete="name" value={data.name} onChange={update} error={errors.name} border={border} required />
+                <Field id="email" label="Email address" type="email" autoComplete="email" value={data.email} onChange={update} error={errors.email} border={border} required />
+              </div>
+              <div>
+                <label htmlFor="message" className="mb-1.5 block text-sm font-medium text-ink">Message <span className="text-destructive"> *</span></label>
+                <textarea id="message" name="message" rows={5} value={data.message} onChange={update}
+                  aria-invalid={!!errors.message} aria-describedby={errors.message ? "message-err" : undefined}
+                  className={`${BASE} ${border("message")} resize-y py-3`} placeholder="Tell us how we can help…" />
+                {errors.message && <p id="message-err" className="mt-1 text-sm text-destructive">{errors.message}</p>}
+              </div>
+
+              <div className="grid gap-5 sm:grid-cols-2">
+                <Field id="phone" label="Mobile number" type="tel" autoComplete="tel" value={data.phone} onChange={update} error={errors.phone} border={border} required />
+                <SelectField id="enquiry" label="Enquiry type" value={data.enquiry} onChange={update} error={errors.enquiry} options={ENQUIRY_TYPES} border={border} required />
+              </div>
+              <div className="grid gap-5 sm:grid-cols-2">
+                <Field id="area" label="Area / suburb" autoComplete="address-level2" value={data.area} onChange={update} border={border} />
+                <SelectField id="customer" label="Are you an existing customer?" value={data.customer} onChange={update}
+                  options={[{ value: "", label: "Select…" }, { value: "yes", label: "Yes" }, { value: "no", label: "No, I’m new" }]} border={border} />
+              </div>
+
+              <div>
+                <label className="flex items-start gap-3">
+                  <input type="checkbox" name="consent" checked={data.consent} onChange={update}
+                    aria-invalid={!!errors.consent} className="mt-1 h-4 w-4 rounded border-line text-signal focus:ring-signal" />
+                  <span className="text-sm text-ink-soft">I consent to FibreHood contacting me about this enquiry.</span>
+                </label>
+                {errors.consent && <p className="mt-1 pl-7 text-sm text-destructive">{errors.consent}</p>}
+              </div>
+
+              <div className="flex flex-col gap-4 pt-2 sm:flex-row sm:items-center sm:justify-between">
+                <button type="submit" disabled={status === "submitting"}
+                  className="inline-flex w-full items-center justify-center gap-2 rounded-full bg-loop px-6 py-3.5 text-sm font-semibold text-signal transition-colors hover:bg-loop-soft focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-loop disabled:opacity-70 sm:w-auto">
+                  {status === "submitting" ? "Sending…" : "Send message"} <ArrowRight className="h-4 w-4" aria-hidden="true" />
+                </button>
+                <div className="flex items-center gap-2 text-xs text-ink-soft">
+                  <ShieldCheck className="h-3.5 w-3.5 text-signal" aria-hidden="true" />
+                  We’ll get back to you as soon as possible — usually within 24 hours.
+                </div>
+              </div>
+            </form>
+          </div>
     </section>
+  );
+}
+
+function TrustPoints() {
+  return (
+    <ul className="fh-contact__benefits">
+      {trustPoints.map(({ icon: Icon, title, copy }) => (
+        <li key={title} className="fh-contact__benefit">
+          <Icon className="fh-contact__benefit-icon" size={18} aria-hidden="true" />
+          <div>
+            <p className="fh-contact__benefit-title">{title}</p>
+            <p className="fh-contact__benefit-body">{copy}</p>
+          </div>
+        </li>
+      ))}
+    </ul>
   );
 }
 

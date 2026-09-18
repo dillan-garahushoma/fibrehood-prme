@@ -1,6 +1,6 @@
 // Lead capture — submits to the local /api/lead endpoint, served by a
 // Cloudflare Pages Function (functions/api/lead.js) that persists to KV.
-// No Base44 dependency.
+// Uses the local /api/lead endpoint.
 
 /** Customer-facing reference for a submitted request. */
 export function makeReference() {

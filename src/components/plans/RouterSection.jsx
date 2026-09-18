@@ -1,6 +1,5 @@
 import React from "react";
 import { ArrowRight, Check } from "lucide-react";
-import { Link } from "react-router-dom";
 import { Reveal } from "@/components/common/Reveal";
 import { SectionLabel } from "@/components/common/SectionLabel";
 import { IMAGES } from "@/data/images";
@@ -11,7 +10,7 @@ const ROUTER_FEATURES = [
   "Simple setup with support from the FibreHood team",
 ];
 
-export function RouterSection() {
+export function RouterSection({ onSelectPackage }) {
   return (
     <section className="overflow-hidden bg-paper pt-8 pb-16 md:pt-10 md:pb-24">
       <div className="container-lattice">
@@ -45,7 +44,7 @@ export function RouterSection() {
 
               {/*
                 Plain <img> with object-contain:
-                The local PNG is not a Wix/Base44 media URL so the responsive
+                The local PNG is not a remote media URL so the responsive
                 Image component's transform pipeline won't apply. Using a
                 plain <img> makes the contain behaviour explicit and avoids the
                 component falling back internally anyway.
@@ -63,13 +62,6 @@ export function RouterSection() {
               />
             </div>
 
-            {/* Floating badge */}
-            <div
-              className="absolute -bottom-4 -right-3 rounded-2xl bg-loop px-4 py-3 text-sm font-semibold text-signal shadow-lift sm:-right-5"
-              aria-hidden="true"
-            >
-              Wi-Fi included
-            </div>
           </Reveal>
 
           {/* Copy column */}
@@ -79,9 +71,7 @@ export function RouterSection() {
               Your FibreHood router, ready to connect your home.
             </h2>
             <p className="mt-5 max-w-2xl text-base leading-relaxed text-ink-soft">
-              Every home fibre plan includes a dependable Wi-Fi router, so you
-              have what you need to get online from day one. We keep setup
-              straightforward and our team is here if you need a hand.
+              Everyhome fibre plan includes a free to use Router provided upon sign-up for activation. It remains the property of Fibrehood available for your use as long as you require our service.
             </p>
 
             <ul className="mt-7 space-y-3">
@@ -95,12 +85,13 @@ export function RouterSection() {
               ))}
             </ul>
 
-            <Link
-              to="/coverage"
+            <button
+              type="button"
+              onClick={() => onSelectPackage?.()}
               className="mt-8 inline-flex items-center gap-2 rounded-full bg-signal px-5 py-3 text-sm font-semibold text-paper shadow-signal transition-transform hover:-translate-y-0.5"
             >
-              Check availability <ArrowRight className="h-4 w-4 text-loop" />
-            </Link>
+              Select Package <ArrowRight className="h-4 w-4 text-loop" />
+            </button>
           </Reveal>
 
         </div>

@@ -34,9 +34,11 @@ export function SplitHero({ eyebrow, title, subtitle, image, alt, children, bott
             bottomContentExpanded ? "-translate-y-8 sm:-translate-y-10" : ""
           }`}
         >
-          <motion.div variants={entranceItem}>
-            <SectionLabel tone="light">{eyebrow}</SectionLabel>
-          </motion.div>
+          {eyebrow && (
+            <motion.div variants={entranceItem}>
+              <SectionLabel tone="light">{eyebrow}</SectionLabel>
+            </motion.div>
+          )}
 
           <motion.h1
             variants={entranceItem}

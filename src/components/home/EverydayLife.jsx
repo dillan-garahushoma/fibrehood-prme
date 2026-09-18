@@ -26,7 +26,7 @@ export function EverydayLife() {
           </span>
 
           <h2 className="mt-6 font-heading text-4xl font-extrabold leading-[1.05] tracking-tightest text-signal sm:text-5xl">
-            Internet that keeps up with your life<span className="text-loop">.</span>
+            Internet that keeps up with your life
           </h2>
 
           <p className="mt-6 text-lg italic leading-relaxed text-ink-soft">

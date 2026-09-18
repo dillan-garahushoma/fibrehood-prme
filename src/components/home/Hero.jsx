@@ -2,8 +2,7 @@ import React from "react";
 import { Link } from "react-router-dom";
 import { ArrowRight } from "lucide-react";
 import { Image } from "@/components/ui/image";
-import { CoverageChecker } from "@/components/coverage/CoverageChecker";
-import { Reveal, entranceContainer, entranceItem } from "@/components/common/Reveal";
+import { entranceContainer, entranceItem } from "@/components/common/Reveal";
 import { IMAGES } from "@/data/images";
 import { PLANS } from "@/data/plans";
 import { motion, useReducedMotion } from "framer-motion";
@@ -29,27 +28,27 @@ export function Hero() {
       </div>
 
       <motion.div
-        className="container-lattice relative flex min-h-[90svh] flex-col pt-28 pb-16 md:pt-36 lg:min-h-[92vh] lg:grid lg:grid-cols-[45%_55%] lg:grid-rows-[1fr_auto] lg:pt-24 lg:pb-20"
+        className="container-lattice relative flex min-h-[85svh] flex-col justify-center pt-28 pb-16 md:pt-36 lg:min-h-[88vh] lg:grid lg:grid-cols-[48%_52%] lg:items-center lg:pt-20 lg:pb-20"
         variants={entranceContainer}
         initial={reduce ? false : "hidden"}
         animate="show"
       >
-        {/* Brand logo — sits at navbar level, shows through the transparent nav */}
-        <div className="absolute inset-x-0 top-0 z-20 flex items-start">
+        {/* Brand logo — sits at navbar level, vertically aligned with content */}
+        <div className="absolute inset-x-0 top-0 z-20 flex items-start px-5 sm:px-8 lg:px-12">
           <img
             src="/white.png"
             alt="FibreHood"
-            className="-mt-9 h-[7.5rem] w-auto object-contain md:-mt-11 md:h-[9rem]"
+            className="-mt-9 -ml-2 h-[7.5rem] w-auto object-contain md:-mt-11 md:-ml-2.5 md:h-[9rem]"
           />
         </div>
 
         {/* ── Left: headline, price, CTAs ───────────────────────────── */}
-        <div className="relative z-10 my-auto lg:self-center">
+        <div className="relative z-10 my-auto lg:my-0">
           <motion.h1
             variants={entranceItem}
             className="max-w-xl font-heading text-4xl font-extrabold leading-[1.05] tracking-tighter text-paper sm:text-5xl lg:text-[3.6rem]"
           >
-            Fast, reliable fibre internet for your home<span className="text-loop">.</span>
+            Fast, reliable fibre internet for your community
           </motion.h1>
 
           <motion.div variants={entranceItem} className="mt-8">
@@ -65,25 +64,17 @@ export function Hero() {
           <motion.div variants={entranceItem} className="mt-8 flex flex-col gap-3 sm:flex-row sm:items-center">
             <Link
               to="/plans"
+              className="inline-flex items-center justify-center gap-2 rounded-full bg-loop px-6 py-3 text-sm font-semibold text-signal transition-all hover:bg-loop/90 hover:shadow-loop"
+            >
+              Service Plan <ArrowRight className="h-4 w-4" />
+            </Link>
+            <Link
+              to="/fibre-installation"
               className="inline-flex items-center justify-center gap-2 rounded-full border border-paper/40 px-6 py-3 text-sm font-semibold text-paper transition-colors hover:border-paper hover:bg-paper/10"
             >
-              View Plans <ArrowRight className="h-4 w-4" />
+              Fibre Installation <ArrowRight className="h-4 w-4" />
             </Link>
           </motion.div>
-        </div>
-
-        {/* ── Coverage checker — sits inside the hero, close under the content ── */}
-        <div className="relative z-20 mt-12 sm:mt-14 lg:col-span-2 lg:mt-0">
-          <div className="mx-auto max-w-2xl">
-            <div className="mb-4 text-center">
-              <span className="text-xs font-semibold uppercase tracking-[0.22em] text-paper/70 drop-shadow-sm">
-                Check if FibreHood is live at your address
-              </span>
-            </div>
-            <Reveal className="relative rounded-2xl border border-paper/10 bg-signal-deep/50 p-2 backdrop-blur-md">
-              <CoverageChecker variant="hero" source="hero-bottom" />
-            </Reveal>
-          </div>
         </div>
       </motion.div>
     </section>

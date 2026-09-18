@@ -3,9 +3,9 @@ import { Wrench, Zap, Wifi } from "lucide-react";
 import { Reveal } from "@/components/common/Reveal";
 
 const STEPS = [
-  { icon: Wrench, label: "Installation", note: "Included in activation fee" },
-  { icon: Zap, label: "Activation", note: "From US$65 (Home) · US$100 (SME)" },
-  { icon: Wifi, label: "Wi-Fi router", note: "Included with every plan, no extra cost" },
+  { icon: Wrench, label: "FREE Installation", note: "For everyhome in your community." },
+  { icon: Zap, label: "Activation Fee", note: "Once-Off fee starting from US$65 (Home) / US$75 (SME Business) / POA (Enterprise)" },
+  { icon: Wifi, label: "Free-to-Use Router", note: "Included with every plan, at no extra cost." },
 ];
 
 export function WhatYouGet() {
@@ -17,9 +17,6 @@ export function WhatYouGet() {
           <h2 className="mt-4 font-heading text-3xl font-bold tracking-tighter text-signal sm:text-4xl">
             Everything that comes with your connection
           </h2>
-          <p className="mt-3 text-sm leading-relaxed text-ink-soft">
-            One router, one setup process, across every Home and SME plan.
-          </p>
         </Reveal>
 
         <Reveal className="mt-10 grid gap-4 sm:grid-cols-3">

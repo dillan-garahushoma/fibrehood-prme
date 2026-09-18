@@ -13,7 +13,7 @@ export const CONTACT_DETAILS = [
 export const PATHWAYS = [
   { icon: Wifi, title: "Get connected / check coverage", copy: "Find out what fibre reaches your address and take the first step.", action: "Check coverage", to: "/coverage" },
   { icon: LifeBuoy, title: "Existing customer support", copy: "Help with your connection, account, or billing.", action: "Visit support", to: "/faq" },
-  { icon: Briefcase, title: "Business or partnership enquiries", copy: "Bring fibre to your estate, development, or business.", action: "Explore partnerships", to: "/partners" },
+  { icon: Briefcase, title: "Business or partnership enquiries", copy: "Bring fibre to your estate, development, or business.", action: "Explore fibre installation", to: "/fibre-installation" },
   { icon: HelpCircle, title: "General enquiries", copy: "Something else on your mind? Send us a message.", action: "Send us a message", href: "#send-message" }
 ];
 

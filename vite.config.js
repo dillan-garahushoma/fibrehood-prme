@@ -1,9 +1,9 @@
 import { fileURLToPath, URL } from 'node:url'
 import react from '@vitejs/plugin-react'
 import { defineConfig } from 'vite'
-import { processLead } from './base44/functions/lib/lead/entry.js'
+import { processLead } from './src/lib/leadValidation.js'
 
-// Standalone Vite config — no Base44 plugin.
+// Standalone Vite config with a local development endpoint for lead capture.
 // Builds a static bundle in dist/ deployable to Cloudflare Pages.
 export default defineConfig({
   plugins: [

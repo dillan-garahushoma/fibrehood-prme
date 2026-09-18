@@ -30,13 +30,13 @@ export function SupportPreview() {
           {featured.map((a, i) => (
             <Reveal key={a.id} delay={i * 0.05}>
               <Link
-                to={`/faq?cat=${a.category}`}
+                to={`/faq?cat=${a.categoryId || a.category}`}
                 className="group flex h-full flex-col rounded-2xl border border-line bg-paper p-5 transition-all hover:-translate-y-0.5 hover:border-signal/40 hover:shadow-signal"
               >
                 <span className="text-[11px] font-semibold uppercase tracking-wider text-ink-soft">
-                  {SUPPORT_CATEGORIES.find((c) => c.id === a.category)?.label}
+                  {SUPPORT_CATEGORIES.find((c) => c.id === (a.categoryId || a.category))?.label}
                 </span>
-                <h3 className="mt-2 font-semibold text-signal">{a.title}</h3>
+                <h3 className="mt-2 font-semibold text-signal">{a.question || a.title}</h3>
                 <span className="mt-auto pt-4 inline-flex items-center gap-1 text-xs font-medium text-signal group-hover:text-loop">
                   Find an answer <ArrowRight className="h-3.5 w-3.5" />
                 </span>

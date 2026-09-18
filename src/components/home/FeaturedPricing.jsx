@@ -46,7 +46,7 @@ export default function FeaturedPricing() {
               className="font-heading text-3xl sm:text-4xl lg:text-[2.6rem] font-extrabold tracking-tighter text-balance"
               style={{ color: "#072146" }}
             >
-              PICK THE SPEED YOUR HOME LIVES AT
+              SELECT THE FIBRE SERVICE SUITABLE TO YOUR NEEDS
             </h2>
             <p className="mt-3 text-sm sm:text-base text-ink-soft max-w-xl mx-auto text-balance">
               From light browsing to a fully connected household. Free installation, Wi-Fi router included, month-to-month — no lock-in.
@@ -65,18 +65,14 @@ export default function FeaturedPricing() {
         />
 
         {/* Compare all plans gateway */}
-        <div className="container-lattice pb-16 pt-2 flex flex-col sm:flex-row items-center justify-center gap-4">
+        <div className="container-lattice pb-16 pt-2 flex items-center justify-center">
           <Link
             to="/plans"
-            className="group inline-flex items-center gap-2 text-ink font-semibold text-sm hover:text-signal transition-colors"
+            className="group inline-flex items-center gap-2 rounded-full border border-[#072146]/10 bg-[#FFCC00] px-5 py-3 text-sm font-semibold text-[#072146] shadow-sm transition-all duration-200 hover:-translate-y-0.5 hover:shadow-[0_0_0_4px_rgba(255,204,0,0.22),0_8px_22px_rgba(255,204,0,0.35)] focus:outline-none focus:ring-2 focus:ring-[#FFCC00]/60"
           >
             Compare all plans
             <ArrowRight size={15} strokeWidth={2.5} className="transition-transform group-hover:translate-x-1" />
           </Link>
-          <span className="hidden sm:inline text-ink-soft/40">·</span>
-          <span className="text-xs text-ink-soft">
-            Free installation · Wi-Fi router included · Month-to-month · No fibre, no fee
-          </span>
         </div>
       </div>
     </section>

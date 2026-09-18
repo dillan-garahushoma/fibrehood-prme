@@ -1,5 +1,4 @@
 ﻿import React from "react";
-import { Link } from "react-router-dom";
 import {
   ArrowRight,
   ArrowLeftRight,
@@ -14,7 +13,7 @@ import { formatSpeed } from "@/data/plans";
 import { WA_INTENTS } from "@/data/site";
 import { cn } from "@/lib/utils";
 
-export function PlanCard({ plan, selected = false, onToggle }) {
+export function PlanCard({ plan, selected = false, onToggle, onSelectPackage }) {
   const isBiz = plan.segment === "business";
   const isSymmetric = plan.download === plan.upload;
   const reduce = useReducedMotion();
@@ -185,13 +184,14 @@ export function PlanCard({ plan, selected = false, onToggle }) {
           </label>
         )}
 
-        <Link
-          to="/coverage"
+        <button
+          type="button"
+          onClick={() => onSelectPackage?.(plan.id)}
           className="inline-flex w-full items-center justify-center gap-2 rounded-xl bg-signal px-4 py-3 text-sm font-semibold text-paper transition-colors hover:bg-signal-deep"
         >
-          Check availability
+          Select Package
           <ArrowRight className="h-4 w-4" />
-        </Link>
+        </button>
 
         <a
           href={WA_INTENTS.plan(plan.name)}

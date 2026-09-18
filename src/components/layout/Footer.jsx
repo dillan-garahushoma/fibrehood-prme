@@ -6,7 +6,7 @@ import { SITE, whatsappLink } from "@/data/site";
 const EXPLORE = [
   { label: "Fibre Plans", to: "/plans" },
   { label: "Coverage", to: "/coverage" },
-  { label: "Partners", to: "/partners" },
+  { label: "Fibre Installation", to: "/fibre-installation" },
   { label: "About", to: "/about" },
   { label: "Support", to: "/faq" },
   { label: "Contact", to: "/contact" }

@@ -1,12 +1,7 @@
 import React, { createContext, useState, useContext, useEffect } from 'react';
-import { base44 } from '@/api/base44Client';
-
 const AuthContext = createContext();
 
-// Standalone auth provider — no Base44 backend. The site renders as an
-// unauthenticated public visitor. The `base44` import is retained because
-// this file is platform-managed; the stub in @/api/base44Client has no SDK
-// dependency, so the build is fully Base44-free.
+// Standalone auth provider. The site renders as an unauthenticated public visitor.
 export const AuthProvider = ({ children }) => {
   const [user, setUser] = useState(null);
   const [isAuthenticated, setIsAuthenticated] = useState(false);

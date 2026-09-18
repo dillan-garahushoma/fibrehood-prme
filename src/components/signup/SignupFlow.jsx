@@ -9,9 +9,11 @@ import { StepContact } from "./StepContact";
 import { StepReview } from "./StepReview";
 import { FlowDone } from "./FlowDone";
 import { getPlan, plansBySegment } from "@/data/plans";
-import { LEAD_INTENT } from "@/data/coverageStatus";
+import { DEPLOYMENT_STATUS, LEAD_INTENT, RESOLUTION } from "@/data/coverageStatus";
 import { submitLead, coverageContext, makeReference } from "@/lib/leads";
 import { WA_INTENTS } from "@/data/site";
+import { LocationPanel } from "@/components/coverage/LocationPanel";
+import { resolveCoverage } from "@/lib/coverageService";
 
 const EMPTY_INSTALL = {
   locationType: "home",
@@ -40,7 +42,7 @@ const STEPS = ["plan", "install", "contact", "review"];
  * Guided connection journey for a LIVE location: package → installation →
  * contact → review, ending in a saved installation request via /api/lead.
  */
-export function SignupFlow({ open, location, onClose, onChangeAddress }) {
+export function SignupFlow({ open, location, initialPlanId, onClose }) {
   const reduce = useReducedMotion();
   const [index, setIndex] = useState(0);
   const [segment, setSegment] = useState("home");
@@ -51,18 +53,29 @@ export function SignupFlow({ open, location, onClose, onChangeAddress }) {
   const [busy, setBusy] = useState(false);
   const [error, setError] = useState("");
   const [done, setDone] = useState(null);
+  const [flowLocation, setFlowLocation] = useState(location);
+  const [addressPickerOpen, setAddressPickerOpen] = useState(!location);
+  const [addressError, setAddressError] = useState("");
 
   const current = STEPS[Math.min(index, STEPS.length - 1)];
 
   useEffect(() => {
     if (!open) return;
     setIndex(0);
+    const initialPlan = getPlan(initialPlanId);
+    if (initialPlan) {
+      setSegment(initialPlan.segment);
+      setPlanId(initialPlan.id);
+    }
     setInstall(EMPTY_INSTALL);
     setAccount(EMPTY_ACCOUNT);
     setConsent(false);
     setError("");
     setDone(null);
-  }, [open]);
+    setFlowLocation(location || null);
+    setAddressPickerOpen(!location);
+    setAddressError("");
+  }, [open, initialPlanId, location]);
 
   const dirty = !done && (index > 0 || install.streetName || account.email);
 
@@ -113,7 +126,7 @@ export function SignupFlow({ open, location, onClose, onChangeAddress }) {
     const plan = getPlan(planId);
     try {
       await submitLead({
-        ...coverageContext(location),
+        ...coverageContext(flowLocation),
         name: `${account.firstName} ${account.lastName}`.trim() || "FibreHood customer",
         phone: install.phone.trim(),
         alt_phone: install.altPhone.trim(),
@@ -145,6 +158,9 @@ export function SignupFlow({ open, location, onClose, onChangeAddress }) {
       return advance();
     }
     if (current === "install") {
+      if (addressPickerOpen || !flowLocation) {
+        return setError("Please check and select a live installation address to continue.");
+      }
       const problem = validateInstall();
       if (problem) return setError(problem);
       return advance();
@@ -158,6 +174,17 @@ export function SignupFlow({ open, location, onClose, onChangeAddress }) {
   };
 
   const nextLabel = current === "review" ? "Submit installation request" : "Continue";
+
+  const handleAddressResolve = (input) => {
+    const checked = resolveCoverage(input);
+    if (checked.status !== DEPLOYMENT_STATUS.LIVE || checked.resolution === RESOLUTION.NEARBY) {
+      setAddressError("This address is not currently live for FibreHood. Please check another address.");
+      return;
+    }
+    setFlowLocation(checked);
+    setAddressError("");
+    setAddressPickerOpen(false);
+  };
 
   const footer = done ? null : (
     <FlowFooter
@@ -193,7 +220,7 @@ export function SignupFlow({ open, location, onClose, onChangeAddress }) {
       {done ? (
         <FlowDone
           title="Installation request received"
-          body={`Your ${done.planName} connection request for ${location?.label} is with our provisioning team. We'll be in touch on ${install.phone} to confirm your installation window.`}
+          body={`Your ${done.planName} connection request for ${flowLocation?.label} is with our provisioning team. We'll be in touch on ${install.phone} to confirm your installation window.`}
           reference={done.reference}
           next={[
             "Our team reviews your line location and confirms serviceability.",
@@ -201,7 +228,7 @@ export function SignupFlow({ open, location, onClose, onChangeAddress }) {
             "A FibreHood technician installs and activates your line."
           ]}
           onClose={onClose}
-          waHref={WA_INTENTS.coverage(location?.label || "")}
+          waHref={WA_INTENTS.coverage(flowLocation?.label || "")}
         />
       ) : (
         <AnimatePresence mode="wait">
@@ -210,21 +237,36 @@ export function SignupFlow({ open, location, onClose, onChangeAddress }) {
               <StepPlan segment={segment} onSegmentChange={handleSegmentChange} planId={planId} onPlanChange={setPlanId} />
             )}
             {current === "install" && (
-              <StepInstallation
-                install={install}
-                onChange={setInstall}
-                location={location}
-                onChangeAddress={() => {
-                  onClose?.();
-                  onChangeAddress?.();
-                }}
-              />
+              addressPickerOpen ? (
+                <div>
+                  <h1 className="ff-serif text-3xl sm:text-[2.2rem] leading-[1.1] text-[#031630] font-semibold tracking-tight">
+                    Check your installation address
+                  </h1>
+                  <p className="text-stone-700 mt-3 text-[15px] leading-relaxed max-w-md">
+                    Search for the address where you want FibreHood installed.
+                  </p>
+                  <div className="mt-8">
+                    <LocationPanel onResolve={handleAddressResolve} />
+                    {addressError && <p className="mt-3 text-sm text-red-700">{addressError}</p>}
+                  </div>
+                </div>
+              ) : (
+                <StepInstallation
+                  install={install}
+                  onChange={setInstall}
+                  location={flowLocation}
+                  onChangeAddress={() => {
+                    setAddressError("");
+                    setAddressPickerOpen(true);
+                  }}
+                />
+              )
             )}
             {current === "contact" && <StepContact account={account} onChange={setAccount} />}
             {current === "review" && (
               <StepReview
                 data={{ planId, install, account }}
-                location={location}
+                location={flowLocation}
                 consent={consent}
                 onConsentChange={setConsent}
               />

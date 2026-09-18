@@ -1,8 +1,8 @@
 // On-brand visuals (cinematic editorial photography + abstract glass renderings).
-// All assets are served locally from /images/ — no external/Base44 hosting.
+// All assets are served locally from /images/.
 export const IMAGES = {
   heroHouse: "/images/hero-house.png",
-  coverageAerial: "/images/coverage-aerial.png",
+  coverageAerial: "/images/coverage-hero.png",
   fibreGlass: "/images/fibre-glass.png",
   routerNode: "/images/router-removebg-preview.png",
   lightTrails: "/images/light-trails.png",

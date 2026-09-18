@@ -25,8 +25,10 @@ function SignUpButton({ className, onClick }) {
 
 function ClientPortalLink({ className, onClick }) {
   return (
-    <Link
-      to="/login"
+    <a
+      href="https://fibrehood.splynx.app/portal/login"
+      target="_blank"
+      rel="noreferrer"
       onClick={onClick}
       className={cn(
         "inline-flex items-center gap-2 text-sm font-medium transition-colors hover:text-loop",
@@ -35,7 +37,7 @@ function ClientPortalLink({ className, onClick }) {
     >
       <User className="h-4 w-4" />
       Client Portal
-    </Link>
+    </a>
   );
 }
 
@@ -45,6 +47,7 @@ export const MOBILE_ICONS = {
   "/coverage": MapPin,
   "/about": Info,
   "/partners": Handshake,
+  "/fibre-installation": Handshake,
   "/faq": Headset,
   "/contact": Mail
 };

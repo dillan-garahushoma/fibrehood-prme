@@ -55,7 +55,15 @@ export function searchAddresses(query) {
     (l) => l.name.toLowerCase().includes(q) || l.region.toLowerCase().includes(q)
   )
     .slice(0, 6)
-    .map((l) => ({ id: l.id, label: `${l.name}, ${l.region}`, lat: l.lat, lng: l.lng }));
+    .map((l) => ({
+      id: l.id,
+      label: `${l.name}, ${l.region}`,
+      lat: l.lat,
+      lng: l.lng,
+      townId: l.townId,
+      suburbId: l.suburbId,
+      mduId: l.mduId
+    }));
 }
 
 /** Request browser geolocation. Rejects with { code, message } on failure. */

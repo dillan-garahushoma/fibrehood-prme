@@ -102,32 +102,74 @@ function ImageTile({ src, alt, className }) {
 }
 
 export function BeliefSection() {
+  const NAVY = "#072146";
+  const GOLD = "#FFCC00";
+
+  const forItems = [
+    "students",
+    "entrepreneurs",
+    "families",
+    "communities",
+    "new ideas",
+    "a brighter tomorrow",
+  ];
+
   return (
-    <section className="relative overflow-hidden bg-bone-50 py-28 lg:py-40">
-      <div className="mx-auto max-w-4xl px-6 text-center lg:px-10">
-        <Reveal><span className="font-heading text-6xl text-amber-500/50">&ldquo;</span></Reveal>
-        <Reveal delay={0.1}>
-          <blockquote className="font-display text-2xl leading-[1.3] text-navy-950 sm:text-4xl">
-            Access is more than a connection. It is possibility.
-          </blockquote>
-        </Reveal>
-        <Reveal delay={0.25}>
-          <p className="mt-12 text-sm font-semibold uppercase tracking-[0.25em] text-amber-600">That is why we build.</p>
-        </Reveal>
-        <Reveal delay={0.35}>
-          <div className="mt-8 space-y-2 text-lg text-navy-700/90">
-            <p>Not just for faster downloads.</p>
-            <p>Not just for another connection.</p>
-            <p>But for the student learning from home.</p>
-            <p>The entrepreneur building a business.</p>
-            <p>The family staying connected.</p>
-            <p>The team working across borders.</p>
-            <p>The next idea that hasn&rsquo;t been imagined yet.</p>
+    <section className="bg-white py-16 lg:py-24">
+      <div className="mx-auto max-w-7xl px-6">
+        <div className="grid grid-cols-1 gap-0 overflow-hidden rounded-2xl lg:grid-cols-2">
+          {/* Left: Kid2 image */}
+          <div className="relative min-h-[360px] overflow-hidden lg:min-h-[520px]">
+            <img
+              src="/images/kid2.jpg"
+              alt="A young boy studying and writing with a laptop in an outdoor community setting"
+              className="h-full w-full object-cover transition-transform duration-700 hover:scale-105"
+            />
           </div>
-        </Reveal>
-        <Reveal delay={0.45}>
-          <p className="font-display mt-10 text-xl text-navy-950 sm:text-2xl">Infrastructure changes what people can do.</p>
-        </Reveal>
+
+          {/* Right: belief copy */}
+          <div className="flex flex-col justify-center bg-white px-8 py-12 lg:px-14">
+            {/* Eyebrow */}
+            <div className="mb-5 flex items-center gap-3">
+              <span className="text-xs font-bold uppercase tracking-[0.2em] text-slate-400">
+                Our Belief
+              </span>
+              <span className="h-0.5 w-8" style={{ backgroundColor: GOLD }} aria-hidden="true" />
+            </div>
+
+            {/* Main heading */}
+            <h2
+              className="mb-6 font-heading text-3xl font-extrabold leading-[1.1] tracking-tight sm:text-4xl"
+              style={{ color: NAVY }}
+            >
+              Access is more than a connection.{" "}
+              <span style={{ color: GOLD }}>It is possibility</span>
+            </h2>
+
+            {/* For list */}
+            <ul className="mb-8 space-y-2">
+              {forItems.map((item) => (
+                <li key={item} className="flex items-baseline gap-1.5 text-base text-slate-500">
+                  <span className="font-normal">For</span>
+                  <span className="font-bold" style={{ color: NAVY }}>{item}</span>
+                </li>
+              ))}
+            </ul>
+
+            {/* Gold rule */}
+            <span
+              className="mb-6 block h-1 w-10 rounded-full"
+              style={{ backgroundColor: GOLD }}
+              aria-hidden="true"
+            />
+
+            {/* Footer line */}
+            <p className="text-xl font-extrabold leading-snug sm:text-2xl" style={{ color: NAVY }}>
+              Infrastructure changes<br />
+              what people can do
+            </p>
+          </div>
+        </div>
       </div>
     </section>
   );

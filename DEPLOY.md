@@ -44,7 +44,6 @@ with a local KV instance — leads are stored in-memory for the session.
 - SPA routing is handled by `public/_redirects` (`/* → /index.html 200`).
   `/api/lead` is served by the Pages Function and takes precedence over the
   redirect.
-- The `base44/` directory is no longer used and can be deleted.
 - The four auth pages (`/login`, `/register`, `/forgot-password`,
   `/reset-password`) render a "coming soon" placeholder — they're kept so
   existing links don't break.

@@ -24,7 +24,7 @@ export const NAV_LINKS = [
   { label: "Fibre Plans", to: "/plans" },
   { label: "Coverage", to: "/coverage" },
   { label: "About", to: "/about" },
-  { label: "Partners", to: "/partners" },
+  { label: "Fibre Installation", to: "/fibre-installation" },
   { label: "Support", to: "/faq" },
   { label: "Contact", to: "/contact" }
 ];
@@ -42,5 +42,6 @@ export const WA_INTENTS = {
   nearCoverage: (address) => whatsappLink(`I'd like to register my interest for fibre at ${address} and be notified when my area goes live.`),
   notCovered: (address) => whatsappLink(`FibreHood isn't showing coverage at ${address} yet. I'd like to be kept informed about future rollouts here.`),
   support: () => whatsappLink("Hi FibreHood, I need some support with my connection."),
-  partner: () => whatsappLink("Hi FibreHood, I'd like to explore a partnership — bringing fibre to my estate / development / community.")
+  partner: () => whatsappLink("Hi FibreHood, I'd like to explore a partnership — bringing fibre to my estate / development / community."),
+  enterprise: () => whatsappLink("Hi FibreHood, I'd like to speak to your solutions team about enterprise connectivity.")
 };

@@ -1,33 +1,60 @@
-import { Reveal } from "@/components/common/Reveal";
-import { SectionLabel } from "@/components/common/SectionLabel";
-import { PRINCIPLES } from "@/data/aboutContent";
+import { Coins, Users, ShieldCheck } from "lucide-react";
+import { NAVY, GOLD, Reveal } from "./aboutHooks";
 
-export default function WhatWeStandFor() {
+export const VALUES = [
+  { id: "affordability", icon: Coins, accent: "navy", title: "Affordability", description: "Quality internet that fits more lives." },
+  { id: "inclusivity", icon: Users, accent: "gold", title: "Inclusivity", description: "Everyone connected. No one left behind." },
+  { id: "reliability", icon: ShieldCheck, accent: "navy", title: "Reliability", description: "A connection you can count on." },
+];
+
+export function ValueCard({ value, delay = 0 }) {
+  const Icon = value.icon;
+  const isGold = value.accent === "gold";
+
   return (
-    <section aria-labelledby="principles-heading" className="bg-fog py-24 lg:py-32">
-      <div className="container-lattice">
-        <div className="max-w-2xl">
-          <Reveal><SectionLabel>What We Stand For</SectionLabel></Reveal>
-          <Reveal delay={0.08}>
-            <h2 id="principles-heading" className="font-heading mt-6 text-3xl font-bold leading-[1.15] tracking-tighter text-signal sm:text-4xl lg:text-[2.75rem]">
-              Five things we won&rsquo;t compromise on.
-            </h2>
-          </Reveal>
-        </div>
-        <ol className="mt-14 divide-y divide-line border-y border-line">
-          {PRINCIPLES.map((p, i) => (
-            <Reveal key={p.title} delay={i * 0.06}>
-              <li className="group grid gap-2 py-7 transition-colors focus-within:bg-paper/60 hover:bg-paper/60 sm:grid-cols-[3rem_1fr] sm:gap-6">
-                <span className="font-mono text-sm text-ink-soft/60">{String(i + 1).padStart(2, "0")}</span>
-                <div>
-                  <h3 className="text-lg font-semibold text-ink transition-colors group-hover:text-signal">{p.title}</h3>
-                  <p className="mt-1.5 max-w-xl text-sm leading-relaxed text-ink-soft">{p.copy}</p>
-                </div>
-              </li>
-            </Reveal>
+    <Reveal delay={delay} className="group rounded-2xl border border-slate-100 bg-white p-6 shadow-sm transition-all duration-500 hover:-translate-y-1 hover:shadow-lg">
+      <span
+        className="mb-5 flex h-14 w-14 items-center justify-center rounded-full transition-transform duration-500 group-hover:scale-110"
+        style={{ backgroundColor: isGold ? GOLD : NAVY }}
+      >
+        <Icon className="h-6 w-6" style={{ color: isGold ? NAVY : "#FFFFFF" }} strokeWidth={1.75} aria-hidden="true" />
+      </span>
+      <h3 className="mb-2 text-xl font-extrabold" style={{ color: NAVY }}>
+        {value.title}
+      </h3>
+      <p className="mb-4 text-sm leading-relaxed text-slate-500">{value.description}</p>
+      <span
+        className="block h-1 w-8 rounded-full transition-all duration-500 group-hover:w-12"
+        style={{ backgroundColor: GOLD }}
+        aria-hidden="true"
+      />
+    </Reveal>
+  );
+}
+
+export default function WhatWeStandFor({ values = VALUES }) {
+  return (
+    <section className="px-6 py-16">
+      <div className="mx-auto max-w-7xl">
+        <Reveal>
+          <div className="mb-4 flex items-center gap-3">
+            <span className="h-0.5 w-8" style={{ backgroundColor: GOLD }} aria-hidden="true" />
+            <span className="text-xs font-bold uppercase tracking-[0.2em] text-slate-400">What We Stand For</span>
+          </div>
+          <h2 className="mb-3 text-3xl font-extrabold leading-tight sm:text-4xl" style={{ color: NAVY }}>
+            Three things we&apos;ll never compromise on
+          </h2>
+          <p className="mb-10 text-base text-slate-500">A fairer, more connected future for everyone.</p>
+        </Reveal>
+
+        <div className="grid grid-cols-1 gap-5 sm:grid-cols-3">
+          {values.map((value, i) => (
+            <ValueCard key={value.id} value={value} delay={i * 0.1} />
           ))}
-        </ol>
+        </div>
       </div>
     </section>
   );
 }
+
+export { WhatWeStandFor };
