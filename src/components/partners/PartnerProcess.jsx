@@ -14,22 +14,22 @@ import { cn } from "@/lib/utils";
 
 const STEPS = [
   {
-    number: "01",
+    step: "Step 01",
     title: "Understand",
     body: "We listen to your needs and assess your estate, building, or development to design the right solution — no guesswork, no generic proposals.",
   },
   {
-    number: "02",
+    step: "Step 02",
     title: "Design",
     body: "Our engineers design the best fibre solution tailored to your requirements — cable routes, riser plans, and realistic timelines.",
   },
   {
-    number: "03",
+    step: "Step 03",
     title: "Build",
     body: "We deploy the infrastructure with minimal disruption, to the highest standards, keeping you and your residents informed throughout.",
   },
   {
-    number: "04",
+    step: "Step 04",
     title: "Connect & Support",
     body: "We activate the network, onboard residents, and provide ongoing local support for the long term — not just until the job is signed off.",
   },
@@ -69,9 +69,9 @@ export function PartnerProcess() {
                     : ""
                 )}
               >
-                {/* Step number — display-mono, loop accent */}
-                <span className="display-mono mb-5 block text-[11px] font-semibold uppercase tracking-[0.22em] text-loop">
-                  {step.number}
+                {/* Step indicator — display-mono, loop accent */}
+                <span className="display-mono mb-5 block text-sm font-bold uppercase tracking-[0.2em] text-loop sm:text-base">
+                  {step.step}
                 </span>
                 <h3 className="font-heading text-2xl font-semibold leading-tight tracking-tight text-signal">
                   {step.title}

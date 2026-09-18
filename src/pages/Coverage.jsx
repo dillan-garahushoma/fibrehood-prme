@@ -18,7 +18,7 @@ export default function Coverage() {
         image={IMAGES.coverageAerial}
         alt="Fibrehood fibre network coverage"
         eyebrow="Check your coverage"
-        title="Find out if your neighbourhood has a Fibrehood"
+        title="Is your neighbourhood a Fibrehood?"
         subtitle="We are building FTTH (Fibre-To-The-Home networks throughout all locations for the country. Find out if your area is connected and register your interest."
         bottomContentExpanded={checkerExpanded}
         bottomContent={

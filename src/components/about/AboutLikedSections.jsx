@@ -185,9 +185,8 @@ export function TodaySection() {
               <SectionLabel tone="light">Today</SectionLabel>
             </Reveal>
             <Reveal delay={0.1}>
-              <h2 className="font-heading mt-6 flex max-w-lg items-start gap-3 text-3xl font-bold leading-[1.15] tracking-tighter text-paper sm:text-4xl lg:text-[2.75rem]">
-                <span className="mt-[0.38em] h-2.5 w-2.5 shrink-0 rounded-full bg-loop" aria-hidden="true" />
-                The network keeps growing. So does the opportunity.
+              <h2 className="font-heading mt-6 max-w-lg text-3xl font-bold leading-[1.15] tracking-tighter text-paper sm:text-4xl lg:text-[2.75rem]">
+                The network keeps growing. So does the opportunity
               </h2>
             </Reveal>
             <Reveal delay={0.2}>
