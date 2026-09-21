@@ -152,7 +152,7 @@ export function LocationPanel({ onResolve }) {
   const checkAddress = () => {
     const matches = searchAddresses(query);
     if (matches.length === 0) {
-      setError("We couldn't recognise that location. Try another spelling, use your location, or choose your area.");
+      setError("We couldn't match that address to a known Fibrehood location. Include the suburb or town, use your location, or choose your area.");
       return;
     }
     if (matches.length > 1) {

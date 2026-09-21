@@ -51,11 +51,17 @@ export function pointInPolygon(point, polygon) {
 export function searchAddresses(query) {
   const q = (query || "").trim().toLowerCase();
   if (q.length < 2) return [];
-  return ADDRESS_LOCALITIES.filter(
-    (l) => l.name.toLowerCase().includes(q) || l.region.toLowerCase().includes(q)
-  )
+  const terms = q.split(/[^a-z0-9]+/).filter((term) => term.length >= 3);
+  return ADDRESS_LOCALITIES.map((locality, index) => {
+    const haystack = `${locality.name} ${locality.region}`.toLowerCase();
+    const fullMatch = haystack.includes(q);
+    const matchingTerms = terms.filter((term) => haystack.includes(term)).length;
+    return { locality, index, score: fullMatch ? 100 : matchingTerms * 10 };
+  })
+    .filter(({ score }) => score > 0)
+    .sort((a, b) => b.score - a.score || a.index - b.index)
     .slice(0, 6)
-    .map((l) => ({
+    .map(({ locality: l }) => ({
       id: l.id,
       label: `${l.name}, ${l.region}`,
       lat: l.lat,

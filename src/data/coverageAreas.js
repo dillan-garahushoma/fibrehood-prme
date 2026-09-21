@@ -292,6 +292,13 @@ export const NATIONAL_ROLLOUT_REGIONS = [
         homesConnected: 860,
       },
       {
+        id: "avenues-area",
+        name: "Avenues Area",
+        status: DEPLOYMENT_STATUS.LIVE,
+        description: "Verified live MDU coverage in the Avenues Area.",
+        coordinates: [-17.81, 31.04],
+      },
+      {
         id: "tafara-mabvuka",
         name: "Tafara / Mabvuka",
         status: DEPLOYMENT_STATUS.IN_PROGRESS,
@@ -299,6 +306,27 @@ export const NATIONAL_ROLLOUT_REGIONS = [
         description: "FTTH rollout for residential areas in Tafara and Mabvuka.",
         homesInScope: 4200,
         homesConnected: 1240,
+      },
+      {
+        id: "tafara-flats",
+        name: "Tafara Flats",
+        status: DEPLOYMENT_STATUS.LIVE,
+        description: "Verified live MDU coverage at Tafara Flats.",
+        coordinates: [-17.851, 31.163],
+      },
+      {
+        id: "lifestyle-apartments",
+        name: "Lifestyle Apartments",
+        status: DEPLOYMENT_STATUS.LIVE,
+        description: "Verified live MDU coverage in Glen Lorne.",
+        coordinates: [-17.738, 31.12],
+      },
+      {
+        id: "fidelity-southview-park",
+        name: "Fidelity Southview Park",
+        status: DEPLOYMENT_STATUS.LIVE,
+        description: "Verified live MDU coverage in Southview Park.",
+        coordinates: [-17.893, 31.08],
       },
       {
         id: "mufakose",
@@ -329,6 +357,13 @@ export const NATIONAL_ROLLOUT_REGIONS = [
         name: "Kumalo",
         status: DEPLOYMENT_STATUS.PLANNED,
         description: "Design and permitting in progress ahead of construction.",
+      },
+      {
+        id: "bulawayo-tba",
+        name: "Bulawayo TBA",
+        status: DEPLOYMENT_STATUS.LIVE,
+        description: "Verified live MDU coverage at Bulawayo TBA.",
+        coordinates: [-20.14, 28.58],
       },
     ],
   },
@@ -393,9 +428,17 @@ export const NATIONAL_ROLLOUT_REGIONS = [
   {
     id: "norton",
     name: "Norton",
-    status: DEPLOYMENT_STATUS.NOT_STARTED,
-    description: "Norton is part of our national rollout plan and will begin in a future phase.",
-    areas: [],
+    status: DEPLOYMENT_STATUS.IN_PROGRESS,
+    description: "Network construction is underway, with verified live coverage at selected buildings.",
+    areas: [
+      {
+        id: "norton-galloway-road",
+        name: "Norton (Galloway Road)",
+        status: DEPLOYMENT_STATUS.LIVE,
+        description: "Verified live MDU coverage on Galloway Road.",
+        coordinates: [-17.886, 30.697],
+      },
+    ],
   },
   {
     id: "victoria-falls",
@@ -425,4 +468,4 @@ export const NATIONAL_ROLLOUT_REGIONS = [
     description: "Hwange is part of our national rollout plan and will begin in a future phase.",
     areas: [],
   },
-];
+];
