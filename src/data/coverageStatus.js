@@ -41,9 +41,9 @@ export const STATUS_META = {
     body: "Your location is ready for connection.",
     cta: "Get connected",
     intent: LEAD_INTENT.INSTALL_REQUEST,
-    mapColor: "#FFCC00",
-    dotClass: "bg-loop",
-    chipClass: "bg-loop text-signal"
+    mapColor: "#16A34A",
+    dotClass: "bg-green-600",
+    chipClass: "bg-green-100 text-green-800"
   },
   IN_PROGRESS: {
     label: "In progress",

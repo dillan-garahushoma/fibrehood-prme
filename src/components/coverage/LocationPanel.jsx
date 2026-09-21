@@ -170,7 +170,7 @@ export function LocationPanel({ onResolve }) {
       .then((pos) => {
         const label = reverseGeocode(pos.lat, pos.lng);
         setQuery(label);
-        onResolve({ lat: pos.lat, lng: pos.lng, label, method: "device" });
+        onResolve({ lat: pos.lat, lng: pos.lng, accuracy: pos.accuracy, label, method: "device" });
       })
       .catch((err) => setError(err.message || "We couldn't determine your location. Enter your address instead."))
       .finally(() => setLocating(false));

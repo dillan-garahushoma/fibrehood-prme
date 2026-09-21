@@ -60,6 +60,8 @@ export function processLead(body) {
     confidence: pick(ALLOWED_CONFIDENCE, body.confidence),
     latitude: coord(body.latitude, 90),
     longitude: coord(body.longitude, 180),
+    location_accuracy: coord(body.location_accuracy, 100000),
+    location_method: clean(body.location_method, 20) || undefined,
     town_id: clean(body.town_id, 60) || undefined,
     suburb_id: clean(body.suburb_id, 60) || undefined,
     area_id: clean(body.area_id, 60) || undefined,

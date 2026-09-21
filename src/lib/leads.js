@@ -23,6 +23,8 @@ export function coverageContext(result) {
     confidence: result.confidence,
     latitude: result.lat,
     longitude: result.lng,
+    location_accuracy: result.accuracy,
+    location_method: result.method,
     town_id: result.townId,
     suburb_id: result.suburbId,
     area_id: result.areaId,

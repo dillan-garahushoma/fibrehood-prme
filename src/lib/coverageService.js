@@ -145,7 +145,7 @@ export function getCoverageUpdatedAt() {
  * returns a normalized CoverageResult.
  */
 export function resolveCoverage(input) {
-  const { lat, lng, label, townId, suburbId, mduId, method = "address" } = input;
+  const { lat, lng, label, townId, suburbId, mduId, method = "address", accuracy } = input;
 
   const base = {
     label,
@@ -155,6 +155,7 @@ export function resolveCoverage(input) {
     suburbId,
     mduId,
     method,
+    accuracy: typeof accuracy === "number" ? Math.round(accuracy) : null,
     zone: null,
     mdu: null,
     distance: null

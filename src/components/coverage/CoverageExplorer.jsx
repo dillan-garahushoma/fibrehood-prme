@@ -88,7 +88,7 @@ export function CoverageExplorer() {
       getCurrentPosition()
         .then((pos) => {
           const label = reverseGeocode(pos.lat, pos.lng);
-          handleResolve({ lat: pos.lat, lng: pos.lng, label, method: "device" });
+          handleResolve({ lat: pos.lat, lng: pos.lng, accuracy: pos.accuracy, label, method: "device" });
         })
         .catch(() => {});
     }

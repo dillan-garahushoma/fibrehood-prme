@@ -67,6 +67,23 @@ export function CoverageResultPanel({ checking, result, onPrimary, onReset }) {
         <span className="truncate">{result.label}</span>
       </motion.div>
 
+      {result.method === "device" && typeof result.lat === "number" && typeof result.lng === "number" && (
+        <motion.div variants={itemVariants} className="mt-3 rounded-lg bg-loop/10 px-3.5 py-3 text-xs leading-relaxed text-ink-soft">
+          <div className="font-semibold text-ink">Exact device location captured</div>
+          <div className="mt-1">
+            {result.accuracy ? `Browser accuracy: approximately ${result.accuracy} m. ` : "GPS accuracy was not reported. "}
+            <a
+              href={`https://www.google.com/maps/search/?api=1&query=${result.lat},${result.lng}`}
+              target="_blank"
+              rel="noreferrer"
+              className="font-semibold text-signal underline-offset-2 hover:underline"
+            >
+              Open exact pin
+            </a>
+          </div>
+        </motion.div>
+      )}
+
       <motion.p variants={itemVariants} className="mt-4 text-sm leading-relaxed text-ink-soft">
         {body}
       </motion.p>
