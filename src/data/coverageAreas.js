@@ -276,7 +276,7 @@ export const NATIONAL_ROLLOUT_REGIONS = [
       {
         id: "southview-park",
         name: "Southview Park",
-        status: DEPLOYMENT_STATUS.LIVE,
+        status: DEPLOYMENT_STATUS.IN_PROGRESS,
         imageSrc: "/images/coverage-aerial.png",
         description: "FTTH network deployment across 3,610 homes. Phased rollout underway.",
         homesInScope: 3610,
@@ -297,6 +297,7 @@ export const NATIONAL_ROLLOUT_REGIONS = [
         status: DEPLOYMENT_STATUS.LIVE,
         description: "Verified live MDU coverage in the Avenues Area.",
         coordinates: [-17.81, 31.04],
+        coverageRef: { townId: "harare", suburbId: "avenues", mduId: "avenues-area" },
       },
       {
         id: "tafara-mabvuka",
@@ -313,6 +314,7 @@ export const NATIONAL_ROLLOUT_REGIONS = [
         status: DEPLOYMENT_STATUS.LIVE,
         description: "Verified live MDU coverage at Tafara Flats.",
         coordinates: [-17.851, 31.163],
+        coverageRef: { townId: "harare", suburbId: "tafara-flats", mduId: "tafara-flats" },
       },
       {
         id: "lifestyle-apartments",
@@ -320,6 +322,7 @@ export const NATIONAL_ROLLOUT_REGIONS = [
         status: DEPLOYMENT_STATUS.LIVE,
         description: "Verified live MDU coverage in Glen Lorne.",
         coordinates: [-17.738, 31.12],
+        coverageRef: { townId: "harare", suburbId: "glen-lorne", mduId: "lifestyle-apartments" },
       },
       {
         id: "fidelity-southview-park",
@@ -327,6 +330,7 @@ export const NATIONAL_ROLLOUT_REGIONS = [
         status: DEPLOYMENT_STATUS.LIVE,
         description: "Verified live MDU coverage in Southview Park.",
         coordinates: [-17.893, 31.08],
+        coverageRef: { townId: "harare", suburbId: "southview", mduId: "fidelity-southview-park" },
       },
       {
         id: "mufakose",
@@ -364,6 +368,7 @@ export const NATIONAL_ROLLOUT_REGIONS = [
         status: DEPLOYMENT_STATUS.LIVE,
         description: "Verified live MDU coverage at Bulawayo TBA.",
         coordinates: [-20.14, 28.58],
+        coverageRef: { townId: "bulawayo", suburbId: "byo-cbd", mduId: "bulawayo-tba" },
       },
     ],
   },
@@ -437,6 +442,7 @@ export const NATIONAL_ROLLOUT_REGIONS = [
         status: DEPLOYMENT_STATUS.LIVE,
         description: "Verified live MDU coverage on Galloway Road.",
         coordinates: [-17.886, 30.697],
+        coverageRef: { townId: "norton", suburbId: "norton-galloway", mduId: "norton-galloway-road" },
       },
     ],
   },

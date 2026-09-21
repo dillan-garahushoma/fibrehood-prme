@@ -6,7 +6,7 @@ import CoverageResultPanel from "./CoverageResultPanel";
 import WhereFibrehoodIsBuilding from "./WhereFibrehoodIsBuilding";
 import SignupFlow from "@/components/signup/SignupFlow";
 import InterestFlow from "@/components/signup/InterestFlow";
-import { getCoverageAreas, resolveCoverage, searchAddresses, getCurrentPosition, reverseGeocode } from "@/lib/coverageService";
+import { getCoverageAreas, isInstallationReady, resolveCoverage, searchAddresses, getCurrentPosition, reverseGeocode } from "@/lib/coverageService";
 import { DEPLOYMENT_STATUS, RESOLUTION, CONFIDENCE, LEAD_INTENT, statusMeta, STATUS_ORDER } from "@/data/coverageStatus";
 import { cn } from "@/lib/utils";
 
@@ -135,20 +135,42 @@ export function CoverageExplorer() {
       };
 
   const handleOpenArea = (area, town) => {
-    const isLive = String(area.status).toUpperCase() === DEPLOYMENT_STATUS.LIVE;
-    const locationData = {
-      address: `${area.name}, ${town?.name || "Harare"}`,
-      status: isLive ? DEPLOYMENT_STATUS.LIVE : area.status,
-      areaId: area.id,
-      townId: town?.id || "harare",
-      resolution: RESOLUTION.AREA,
-      confidence: CONFIDENCE.HIGH,
-    };
+    const label = `${area.name}, ${town?.name || "Harare"}`;
+    const locationData = area.coverageRef
+      ? resolveCoverage({ ...area.coordinates && { lat: area.coordinates[0], lng: area.coordinates[1] }, ...area.coverageRef, label, method: "national-rollout" })
+      : {
+          label,
+          status: area.status,
+          areaId: area.id,
+          townId: town?.id || "harare",
+          resolution: RESOLUTION.AREA,
+          confidence: CONFIDENCE.MEDIUM,
+        };
     setResult(locationData);
-    setInterest(isLive ? LEAD_INTENT.REGISTER_INTEREST : statusMeta(area.status)?.intent || LEAD_INTENT.REGISTER_INTEREST);
+    if (isInstallationReady(locationData)) {
+      setSignupOpen(true);
+    } else {
+      setInterest(statusMeta(locationData.status)?.intent || LEAD_INTENT.REGISTER_INTEREST);
+    }
   };
 
   const handleViewOnMap = useCallback((area, town) => {
+    if (area.coverageRef) {
+      const label = `${area.name}, ${town?.name || "Harare"}`;
+      const locationData = resolveCoverage({ ...area.coordinates && { lat: area.coordinates[0], lng: area.coordinates[1] }, ...area.coverageRef, label, method: "national-rollout" });
+      const lat = locationData.lat;
+      const lng = locationData.lng;
+      setMarker({ lat, lng });
+      setAreaFocus(locationData.area || null);
+      setResult(locationData);
+      setChecking(false);
+      flyTo(lat, lng, 14);
+      window.requestAnimationFrame(() => {
+        resultZone.current?.scrollIntoView({ behavior: "smooth", block: "start" });
+      });
+      return;
+    }
+
     const norm = (s) => (s || "").toLowerCase().replace(/[^a-z0-9]/g, "");
     const areaKey = norm(area.name);
     const matchedArea = areas.find(
