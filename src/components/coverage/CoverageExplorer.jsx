@@ -15,16 +15,19 @@ let nonceSeed = 0;
 
 function MapLegend() {
   return (
-    <div className="absolute bottom-4 left-4 z-[1000] flex flex-wrap gap-x-4 gap-y-1.5 rounded-lg bg-paper/85 px-3 py-2 text-[11px] text-ink-soft shadow-[0_1px_3px_rgba(7,34,72,0.08)] backdrop-blur-sm">
-      {STATUS_ORDER.map((s) => {
-        const meta = statusMeta(s);
-        return (
-          <div key={s} className="flex items-center gap-1.5">
-            <span className={cn("inline-block h-1.5 w-1.5 rounded-full", meta.dotClass)} />
-            <span>{meta.label}</span>
-          </div>
-        );
-      })}
+    <div className="absolute bottom-4 left-4 z-[1000] rounded-lg bg-paper/85 px-3 py-2 text-[11px] text-ink-soft shadow-[0_1px_3px_rgba(7,34,72,0.08)] backdrop-blur-sm">
+      <div className="flex flex-wrap gap-x-4 gap-y-1.5">
+        {STATUS_ORDER.map((s) => {
+          const meta = statusMeta(s);
+          return (
+            <div key={s} className="flex items-center gap-1.5">
+              <span className={cn("inline-block h-1.5 w-1.5 rounded-full", meta.dotClass)} />
+              <span>{meta.label}</span>
+            </div>
+          );
+        })}
+      </div>
+      <div className="mt-1.5 border-t border-line/70 pt-1.5 text-[10px] text-ink-soft/80">Indicative area footprint; exact availability requires building confirmation.</div>
     </div>
   );
 }
@@ -110,13 +113,15 @@ export function CoverageExplorer() {
 
   const startConversion = () => {
     if (!result) return;
-    const live = result.status === DEPLOYMENT_STATUS.LIVE && result.resolution !== RESOLUTION.NEARBY;
+    const live = result.status === DEPLOYMENT_STATUS.LIVE && result.resolution === RESOLUTION.EXACT;
     if (live) {
       setSignupOpen(true);
       return;
     }
     const intent =
-      result.resolution === RESOLUTION.NEARBY ? LEAD_INTENT.REGISTER_INTEREST : statusMeta(result.status).intent;
+      result.resolution === RESOLUTION.NEARBY || result.resolution === RESOLUTION.AREA
+        ? LEAD_INTENT.REGISTER_INTEREST
+        : statusMeta(result.status).intent;
     setInterest(intent);
   };
 
@@ -140,11 +145,7 @@ export function CoverageExplorer() {
       confidence: CONFIDENCE.HIGH,
     };
     setResult(locationData);
-    if (isLive) {
-      setSignupOpen(true);
-    } else {
-      setInterest(statusMeta(area.status)?.intent || LEAD_INTENT.REGISTER_INTEREST);
-    }
+    setInterest(isLive ? LEAD_INTENT.REGISTER_INTEREST : statusMeta(area.status)?.intent || LEAD_INTENT.REGISTER_INTEREST);
   };
 
   const handleViewOnMap = useCallback((area, town) => {
@@ -171,11 +172,11 @@ export function CoverageExplorer() {
 
     const locationData = {
       address: `${area.name}, ${town?.name || "Harare"}`,
-      status: DEPLOYMENT_STATUS.LIVE,
+      status: matchedArea?.status || area.status,
       areaId: matchedArea?.id || area.id,
       townId: town?.id || "harare",
-      resolution: RESOLUTION.EXACT,
-      confidence: CONFIDENCE.HIGH,
+      resolution: RESOLUTION.AREA,
+      confidence: CONFIDENCE.MEDIUM,
       lat,
       lng
     };

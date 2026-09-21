@@ -7,6 +7,7 @@ import { cn } from "@/lib/utils";
 // ─── Brand Tokens ─────────────────────────────────────────────────────────────
 const NAVY = "#072248";
 const GOLD = "#FFCC00";
+const LIVE_GREEN = "#16A34A";
 const BLUE = "#2563EB";
 const ORANGE = "#F97316";
 const SLATE = "#9CA3AF";
@@ -17,9 +18,9 @@ const STATUS = {
     key: DEPLOYMENT_STATUS.LIVE,
     label: "Live",
     description: "Service available",
-    dot: GOLD,
-    badgeBg: GOLD,
-    badgeText: NAVY,
+    dot: LIVE_GREEN,
+    badgeBg: LIVE_GREEN,
+    badgeText: "#FFFFFF",
   },
   [DEPLOYMENT_STATUS.IN_PROGRESS]: {
     key: DEPLOYMENT_STATUS.IN_PROGRESS,
@@ -455,7 +456,10 @@ export function WhereFibrehoodIsBuilding({
             Explore network rollout
           </h2>
           <p className="mt-3.5 max-w-xl text-base sm:text-lg leading-relaxed text-slate-500">
-            Select a town or city to see its current status and view projects across Zimbabwe in line with our national licence and obligations.
+            Select a town or city to explore indicative rollout status and projects across Zimbabwe. Exact availability is confirmed at building or address level.
+          </p>
+          <p className="mt-3 max-w-xl text-xs leading-relaxed text-slate-500">
+            Rollout areas show where deployment is planned or underway; they do not mean every property in the area can connect.
           </p>
         </div>
 

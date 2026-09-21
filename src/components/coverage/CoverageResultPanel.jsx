@@ -40,12 +40,20 @@ export function CoverageResultPanel({ checking, result, onPrimary, onReset }) {
 
   const meta = statusMeta(result.status);
   const isLive = result.status === DEPLOYMENT_STATUS.LIVE;
+  const exact = result.resolution === RESOLUTION.EXACT;
   const nearby = result.resolution === RESOLUTION.NEARBY;
+  const areaMatch = result.resolution === RESOLUTION.AREA;
   const notFound = result.resolution === RESOLUTION.NOT_FOUND;
 
-  const headline = nearby && isLive ? "Fibrehood is available nearby" : meta.headline;
+  const headline = nearby && isLive
+    ? "Fibrehood is available nearby"
+    : areaMatch && isLive
+      ? "Fibrehood deployment is in this area"
+      : meta.headline;
   const body = nearby
     ? "We established coverage close to your location, but not at this exact address yet. Confirm with us and we'll verify the line."
+    : areaMatch && isLive
+      ? "Your location is inside an indicative Fibrehood deployment area. We still need to confirm the exact building or address before arranging installation."
     : meta.body;
 
   return (
@@ -94,15 +102,16 @@ export function CoverageResultPanel({ checking, result, onPrimary, onReset }) {
         </motion.p>
       )}
 
-      {result.confidence === CONFIDENCE.LOW && !notFound && (
+      {((result.confidence === CONFIDENCE.LOW && !notFound) || areaMatch) && (
         <motion.div
           variants={itemVariants}
           className="mt-4 flex items-start gap-2.5 rounded-lg bg-fog/60 px-3.5 py-3 text-xs leading-relaxed text-ink-soft"
         >
           <Info className="mt-0.5 h-3.5 w-3.5 shrink-0 text-ink-soft" />
           <span>
-            This is an approximate match{result.area ? ` near ${result.area.name}` : ""}. Confirm your exact address
-            for a more accurate result.
+            {areaMatch
+              ? "This is an area-level match, not a building-level serviceability confirmation. Confirm your exact address before installation."
+              : `This is an approximate match${result.area ? ` near ${result.area.name}` : ""}. Confirm your exact address for a more accurate result.`}
           </span>
         </motion.div>
       )}
@@ -113,12 +122,12 @@ export function CoverageResultPanel({ checking, result, onPrimary, onReset }) {
         onClick={onPrimary}
         className="mt-6 inline-flex h-12 w-full items-center justify-center gap-2 rounded-lg bg-signal px-5 text-sm font-semibold text-paper transition-colors hover:bg-signal-deep"
       >
-        {isLive && !nearby ? "Get connected" : nearby ? "Register interest" : meta.cta}
+        {isLive && exact ? "Get connected" : nearby || areaMatch ? "Register interest" : meta.cta}
         <ArrowRight className="h-4 w-4" />
       </motion.button>
 
       <motion.div variants={itemVariants} className="mt-4 flex flex-wrap items-center gap-x-4 gap-y-2 text-xs font-medium text-ink-soft">
-        {isLive && !nearby && (
+        {isLive && exact && (
           <Link to="/plans" className="inline-flex items-center gap-1.5 transition-colors hover:text-ink">
             View fibre plans
           </Link>

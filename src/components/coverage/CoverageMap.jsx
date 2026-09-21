@@ -86,7 +86,7 @@ export function CoverageMap({ areas, activeAreaId, flyTarget, marker, onReady, o
             >
               <Tooltip sticky direction="top">
                 <div className="font-semibold text-signal">{a.name}</div>
-                <div className="text-xs text-ink-soft">{meta.label}</div>
+                <div className="text-xs text-ink-soft">Indicative area · {meta.label}</div>
               </Tooltip>
             </Polygon>
           );

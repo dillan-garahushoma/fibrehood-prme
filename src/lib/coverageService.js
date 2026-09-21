@@ -199,8 +199,8 @@ export function resolveCoverage(input) {
       return {
         ...base,
         status: area.status,
-        resolution: mduId || method === "device" ? RESOLUTION.EXACT : RESOLUTION.AREA,
-        confidence: method === "device" ? CONFIDENCE.HIGH : CONFIDENCE.MEDIUM,
+        resolution: RESOLUTION.AREA,
+        confidence: CONFIDENCE.MEDIUM,
         area,
         areaId: area.id,
         distance: 0,
