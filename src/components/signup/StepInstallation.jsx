@@ -35,8 +35,11 @@ export function StepInstallation({ install, onChange, location, onChangeAddress 
         <div className="flex items-start gap-3">
           <MapPin size={18} className="text-[#FFCC00] mt-0.5 shrink-0" />
           <div>
-            <div className="text-[#031630] font-semibold">{location?.label || "Southview, Harare"}</div>
-            <div className="text-stone-500 text-sm mt-0.5 font-medium">Installation address</div>
+            <div className="text-[#031630] font-semibold">{location?.label || "Select a verified address"}</div>
+            <div className="text-stone-500 text-sm mt-0.5 font-medium">
+              Verified installation location
+              {location?.method === "device" && location.accuracy ? ` · GPS ±${location.accuracy} m` : ""}
+            </div>
           </div>
         </div>
         <button

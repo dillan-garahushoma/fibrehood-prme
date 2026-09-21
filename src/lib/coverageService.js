@@ -136,6 +136,11 @@ export function getCoverageUpdatedAt() {
   return stamps.sort().slice(-1)[0] || null;
 }
 
+/** Only an exact, live result is safe to present as ready for installation. */
+export function isInstallationReady(result) {
+  return result?.status === DEPLOYMENT_STATUS.LIVE && result?.resolution === RESOLUTION.EXACT;
+}
+
 /* ── The coverage engine ─────────────────────────────────────────────── */
 
 /**

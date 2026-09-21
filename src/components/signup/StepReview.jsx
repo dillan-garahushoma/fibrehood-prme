@@ -69,6 +69,9 @@ export function StepReview({ data, location, consent, onConsentChange }) {
         <span className="block text-sm text-stone-800 font-medium mb-2">Installation details</span>
         <div className="divide-y divide-stone-200">
           <Row label="Location" value={location?.label} />
+          {location?.lat != null && location?.lng != null && (
+            <Row label="Map pin" value={`${location.lat.toFixed(6)}, ${location.lng.toFixed(6)}`} />
+          )}
           <Row label="Address" value={street} />
           <Row label="Property" value={propertyType} />
           <Row label="Order type" value={orderLabel} />

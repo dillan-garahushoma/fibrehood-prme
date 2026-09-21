@@ -13,12 +13,12 @@ import { DEPLOYMENT_STATUS, LEAD_INTENT, RESOLUTION } from "@/data/coverageStatu
 import { submitLead, coverageContext, makeReference } from "@/lib/leads";
 import { WA_INTENTS } from "@/data/site";
 import { LocationPanel } from "@/components/coverage/LocationPanel";
-import { resolveCoverage } from "@/lib/coverageService";
+import { isInstallationReady, resolveCoverage } from "@/lib/coverageService";
 
 const EMPTY_INSTALL = {
   locationType: "home",
-  streetNumber: "10",
-  streetName: "Mbovu Road",
+  streetNumber: "",
+  streetName: "",
   customName: "",
   orderType: "new",
   phone: "",
@@ -105,6 +105,7 @@ export function SignupFlow({ open, location, initialPlanId, onClose }) {
   };
 
   const validateInstall = () => {
+    if (!isInstallationReady(flowLocation)) return "Please select a verified live building or address before continuing.";
     if (!install.locationType) return "Please select the type of property.";
     if (!install.streetNumber.trim() || !install.streetName.trim()) return "Please enter the street number and name.";
     if (!install.orderType) return "Please select whether this is a new installation or a migration.";
@@ -177,8 +178,12 @@ export function SignupFlow({ open, location, initialPlanId, onClose }) {
 
   const handleAddressResolve = (input) => {
     const checked = resolveCoverage(input);
-    if (checked.status !== DEPLOYMENT_STATUS.LIVE || checked.resolution === RESOLUTION.NEARBY) {
-      setAddressError("This address is not currently live for Fibrehood. Please check another address.");
+    if (!isInstallationReady(checked)) {
+      setAddressError(
+        checked.status === DEPLOYMENT_STATUS.LIVE
+          ? "This location is in a live rollout area, but we need a verified building or address before starting an installation."
+          : "This address is not currently verified as live for Fibrehood. Please check another address."
+      );
       return;
     }
     setFlowLocation(checked);
