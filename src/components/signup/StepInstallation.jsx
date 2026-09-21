@@ -15,7 +15,7 @@ export const ORDER_TYPES = [
 ];
 
 /** Step 2 — where the line goes and how it should be installed. */
-export function StepInstallation({ install, onChange, location, onChangeAddress }) {
+export function StepInstallation({ install, errors = {}, onChange, location, onChangeAddress }) {
   const set = (k, v) => onChange({ ...install, [k]: v });
   const locationType = install.locationType || "home";
   const orderType = install.orderType || "new";
@@ -80,8 +80,9 @@ export function StepInstallation({ install, onChange, location, onChangeAddress 
       {/* Street fields */}
       <div className="mt-8 pt-7 border-t border-stone-200 grid grid-cols-3 gap-x-6 gap-y-8">
         <div className="col-span-1">
-          <Field label="Street no.">
+          <Field label="Street no." error={errors.streetNumber}>
             <TextInput
+              invalid={!!errors.streetNumber}
               placeholder="10"
               value={install.streetNumber || ""}
               onChange={(e) => set("streetNumber", e.target.value)}
@@ -89,8 +90,9 @@ export function StepInstallation({ install, onChange, location, onChangeAddress 
           </Field>
         </div>
         <div className="col-span-2">
-          <Field label="Street name">
+          <Field label="Street name" error={errors.streetName}>
             <TextInput
+              invalid={!!errors.streetName}
               placeholder="Mbovu Road"
               value={install.streetName || ""}
               onChange={(e) => set("streetName", e.target.value)}
@@ -100,6 +102,7 @@ export function StepInstallation({ install, onChange, location, onChangeAddress 
         <div className="col-span-3">
           <Field label="Name for this address" hint="Optional — helps you recognise it later.">
             <TextInput
+              invalid={!!errors.customName}
               placeholder="Home"
               value={install.customName || ""}
               onChange={(e) => set("customName", e.target.value)}
@@ -135,10 +138,11 @@ export function StepInstallation({ install, onChange, location, onChangeAddress 
 
       {/* Contact numbers */}
       <div className="mt-8 pt-7 border-t border-stone-200 grid grid-cols-1 sm:grid-cols-2 gap-x-6 gap-y-8">
-        <Field label="Contact number for installation">
+        <Field label="Contact number for installation" error={errors.phone}>
           <div className="flex items-center gap-2.5">
             <Phone size={15} className="text-stone-500 shrink-0" />
             <TextInput
+              invalid={!!errors.phone}
               placeholder="077 000 0000"
               value={install.phone || ""}
               onChange={(e) => set("phone", e.target.value)}

@@ -52,6 +52,7 @@ export function SignupFlow({ open, location, initialPlanId, onClose }) {
   const [consent, setConsent] = useState(false);
   const [busy, setBusy] = useState(false);
   const [error, setError] = useState("");
+  const [fieldErrors, setFieldErrors] = useState({});
   const [done, setDone] = useState(null);
   const [flowLocation, setFlowLocation] = useState(location);
   const [addressPickerOpen, setAddressPickerOpen] = useState(!location);
@@ -71,6 +72,7 @@ export function SignupFlow({ open, location, initialPlanId, onClose }) {
     setAccount(EMPTY_ACCOUNT);
     setConsent(false);
     setError("");
+    setFieldErrors({});
     setDone(null);
     setFlowLocation(location || null);
     setAddressPickerOpen(!location);
@@ -105,17 +107,25 @@ export function SignupFlow({ open, location, initialPlanId, onClose }) {
   };
 
   const validateInstall = () => {
-    if (!isInstallationReady(flowLocation)) return "Please select a verified live building or address before continuing.";
-    if (!install.locationType) return "Please select the type of property.";
-    if (!install.streetNumber.trim() || !install.streetName.trim()) return "Please enter the street number and name.";
-    if (!install.orderType) return "Please select whether this is a new installation or a migration.";
-    if (install.phone.trim().length < 6) return "Please enter a contact number for the installation.";
+    const next = {};
+    if (!isInstallationReady(flowLocation)) next.address = "Select a verified live building or address.";
+    if (!install.locationType) next.locationType = "Choose a property type.";
+    if (!install.streetNumber.trim()) next.streetNumber = "Enter the street number.";
+    if (!install.streetName.trim()) next.streetName = "Enter the street name.";
+    if (!install.orderType) next.orderType = "Choose an order type.";
+    if (install.phone.trim().length < 6) next.phone = "Enter a contact number we can reach you on.";
+    setFieldErrors(next);
+    if (Object.keys(next).length) return "Please fix the highlighted installation details.";
     return "";
   };
 
   const validateContact = () => {
-    if (!account.firstName.trim() || !account.lastName.trim()) return "Please enter your first and last name.";
-    if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(account.email.trim())) return "Please enter a valid email address.";
+    const next = {};
+    if (!account.firstName.trim()) next.firstName = "Enter your first name.";
+    if (!account.lastName.trim()) next.lastName = "Enter your last name.";
+    if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(account.email.trim())) next.email = "Enter a valid email address.";
+    setFieldErrors(next);
+    if (Object.keys(next).length) return "Please fix the highlighted contact details.";
     return "";
   };
 
@@ -154,6 +164,7 @@ export function SignupFlow({ open, location, initialPlanId, onClose }) {
   };
 
   const onNext = () => {
+    setFieldErrors({});
     if (current === "plan") {
       if (!planId) return setError("Please choose a package to continue.");
       return advance();
@@ -258,7 +269,11 @@ export function SignupFlow({ open, location, initialPlanId, onClose }) {
               ) : (
                 <StepInstallation
                   install={install}
-                  onChange={setInstall}
+                  onChange={(next) => {
+                    setInstall(next);
+                    setFieldErrors({});
+                  }}
+                  errors={fieldErrors}
                   location={flowLocation}
                   onChangeAddress={() => {
                     setAddressError("");
@@ -267,7 +282,16 @@ export function SignupFlow({ open, location, initialPlanId, onClose }) {
                 />
               )
             )}
-            {current === "contact" && <StepContact account={account} onChange={setAccount} />}
+            {current === "contact" && (
+              <StepContact
+                account={account}
+                errors={fieldErrors}
+                onChange={(next) => {
+                  setAccount(next);
+                  setFieldErrors({});
+                }}
+              />
+            )}
             {current === "review" && (
               <StepReview
                 data={{ planId, install, account }}

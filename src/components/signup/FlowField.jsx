@@ -1,25 +1,29 @@
-import React from "react";
+import React, { useEffect, useRef } from "react";
 import { cn } from "@/lib/utils";
 
-export function Field({ label, required, hint, className, children }) {
+export function Field({ label, required, hint, error, className, children }) {
   return (
     <label className={cn("block", className)}>
-      <span className="block text-sm text-stone-500 mb-2">
+      <span className={cn("block text-sm mb-2", error ? "text-red-700" : "text-stone-500")}>
         {label}
         {required && <span className="text-[#FFCC00] font-medium ml-1">*</span>}
       </span>
       {children}
       {hint && <span className="block text-xs text-stone-400 mt-1.5">{hint}</span>}
+      {error && <span className="block mt-1.5 text-xs font-medium text-red-700">{error}</span>}
     </label>
   );
 }
 
-export function TextInput({ className, ...props }) {
+export function TextInput({ invalid, className, ...props }) {
   return (
     <input
       {...props}
       className={cn(
-        "w-full bg-transparent border-0 border-b border-stone-300 py-2.5 text-stone-900 placeholder-stone-400 focus:outline-none focus:border-[#FFCC00] transition-colors duration-300 text-sm",
+        cn(
+          "w-full bg-transparent border-0 border-b py-2.5 text-stone-900 placeholder-stone-400 focus:outline-none transition-colors duration-300 text-sm",
+          invalid ? "border-red-600 focus:border-red-600" : "border-stone-300 focus:border-[#FFCC00]"
+        ),
         className
       )}
     />
@@ -32,9 +36,17 @@ export const fieldClass =
   "w-full bg-transparent border-0 border-b border-stone-300 py-2.5 text-stone-900 placeholder-stone-400 focus:outline-none focus:border-[#FFCC00] transition-colors duration-300 text-sm";
 
 export function FlowError({ children }) {
+  const ref = useRef(null);
+
+  useEffect(() => {
+    if (!children) return;
+    ref.current?.scrollIntoView({ behavior: "smooth", block: "nearest" });
+    ref.current?.focus({ preventScroll: true });
+  }, [children]);
+
   if (!children) return null;
   return (
-    <div className="mb-6 rounded-xl border border-[#FFCC00]/40 bg-[#FFFAE0] px-4 py-3 text-sm text-[#FFCC00]">
+    <div ref={ref} role="alert" tabIndex={-1} className="mb-6 rounded-xl border border-red-300 bg-red-50 px-4 py-3 text-sm text-red-800 outline-none focus:ring-2 focus:ring-red-300">
       {children}
     </div>
   );

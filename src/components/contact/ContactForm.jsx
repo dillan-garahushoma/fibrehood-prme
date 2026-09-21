@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { ArrowRight, ShieldCheck, AlertCircle, CheckCircle2, Clock3, Users, Lock } from "lucide-react";
 import { Reveal } from "@/components/common/Reveal";
 import { SectionLabel } from "@/components/common/SectionLabel";
@@ -30,6 +30,13 @@ export default function ContactForm() {
   const [data, setData] = useState(INITIAL);
   const [errors, setErrors] = useState({});
   const [status, setStatus] = useState("idle");
+  const errorSummaryRef = useRef(null);
+
+  useEffect(() => {
+    if (!Object.keys(errors).length && status !== "error") return;
+    errorSummaryRef.current?.scrollIntoView({ behavior: "smooth", block: "center" });
+    errorSummaryRef.current?.focus({ preventScroll: true });
+  }, [errors, status]);
 
   function update(e) {
     const { name, value, type, checked } = e.target;
@@ -106,7 +113,7 @@ export default function ContactForm() {
             </Reveal>
 
             {Object.keys(errors).length > 0 && (
-              <div role="alert" className="mt-8 flex items-start gap-3 border border-destructive bg-destructive/5 p-4">
+              <div ref={errorSummaryRef} role="alert" tabIndex={-1} className="mt-8 flex items-start gap-3 border border-destructive bg-destructive/5 p-4 outline-none focus:ring-2 focus:ring-destructive/30">
                 <AlertCircle className="mt-0.5 h-5 w-5 flex-none text-destructive" aria-hidden="true" />
                 <div>
                   <p className="text-sm font-semibold text-destructive">Please fix the following:</p>
@@ -117,7 +124,7 @@ export default function ContactForm() {
               </div>
             )}
             {status === "error" && (
-              <div role="alert" className="mt-8 border border-destructive bg-destructive/5 p-4 text-sm text-destructive">
+              <div ref={errorSummaryRef} role="alert" tabIndex={-1} className="mt-8 border border-destructive bg-destructive/5 p-4 text-sm text-destructive outline-none focus:ring-2 focus:ring-destructive/30">
                 Something went wrong sending your enquiry. Please try again, or reach us by phone or WhatsApp.
               </div>
             )}

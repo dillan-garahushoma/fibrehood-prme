@@ -34,25 +34,37 @@ export function InterestFlow({ open, intent = LEAD_INTENT.REGISTER_INTEREST, loc
   const [consent, setConsent] = useState(false);
   const [busy, setBusy] = useState(false);
   const [error, setError] = useState("");
+  const [fieldErrors, setFieldErrors] = useState({});
   const [done, setDone] = useState(null);
 
   const copy = COPY[intent] || COPY[LEAD_INTENT.REGISTER_INTEREST];
   const meta = statusMeta(location?.status);
-  const set = (k, v) => setForm((f) => ({ ...f, [k]: v }));
+  const set = (k, v) => {
+    setForm((f) => ({ ...f, [k]: v }));
+    setFieldErrors((current) => {
+      const next = { ...current };
+      delete next[k];
+      return next;
+    });
+  };
 
   useEffect(() => {
     if (!open) return;
     setForm({ ...EMPTY, area: location?.label || "" });
     setConsent(false);
     setError("");
+    setFieldErrors({});
     setDone(null);
   }, [open, location?.label]);
 
   const submit = async () => {
-    if (form.name.trim().length < 2) return setError("Please enter your name.");
-    if (form.phone.trim().length < 6) return setError("Please enter a phone number we can reach you on.");
-    if (!form.area.trim()) return setError("Please tell us the area you'd like Fibrehood in.");
-    if (!consent) return setError("Please confirm you're happy for us to contact you.");
+    const next = {};
+    if (form.name.trim().length < 2) next.name = "Enter your name.";
+    if (form.phone.trim().length < 6) next.phone = "Enter a phone number we can reach you on.";
+    if (!form.area.trim()) next.area = "Enter the area or address.";
+    if (!consent) next.consent = "Consent is required.";
+    setFieldErrors(next);
+    if (Object.keys(next).length) return setError("Please fix the highlighted fields.");
 
     setBusy(true);
     setError("");
@@ -115,17 +127,17 @@ export function InterestFlow({ open, intent = LEAD_INTENT.REGISTER_INTEREST, loc
           )}
 
           <div className="mt-8 pt-7 border-t border-stone-200 grid gap-x-6 gap-y-8 sm:grid-cols-2">
-            <FlowField label="Full name" required>
-              <TextInput value={form.name} onChange={(e) => set("name", e.target.value)} placeholder="Tendai Moyo" />
+              <FlowField label="Full name" required error={fieldErrors.name}>
+              <TextInput invalid={!!fieldErrors.name} value={form.name} onChange={(e) => set("name", e.target.value)} placeholder="Tendai Moyo" />
             </FlowField>
-            <FlowField label="Phone number" required>
-              <TextInput value={form.phone} onChange={(e) => set("phone", e.target.value)} placeholder="077 000 0000" />
+              <FlowField label="Phone number" required error={fieldErrors.phone}>
+              <TextInput invalid={!!fieldErrors.phone} value={form.phone} onChange={(e) => set("phone", e.target.value)} placeholder="077 000 0000" />
             </FlowField>
             <FlowField label="Email address">
               <TextInput type="email" value={form.email} onChange={(e) => set("email", e.target.value)} placeholder="you@example.com" />
             </FlowField>
-            <FlowField label="Area or address" required>
-              <TextInput value={form.area} onChange={(e) => set("area", e.target.value)} placeholder="Your suburb or street" />
+            <FlowField label="Area or address" required error={fieldErrors.area}>
+              <TextInput invalid={!!fieldErrors.area} value={form.area} onChange={(e) => set("area", e.target.value)} placeholder="Your suburb or street" />
             </FlowField>
           </div>
 
@@ -143,16 +155,21 @@ export function InterestFlow({ open, intent = LEAD_INTENT.REGISTER_INTEREST, loc
 
           <div className="mt-8 pt-7 border-t border-stone-200">
             <label className="flex cursor-pointer items-start gap-3">
-              <input
+                  <input
                 type="checkbox"
                 checked={consent}
-                onChange={(e) => setConsent(e.target.checked)}
-                className="mt-0.5 h-4 w-4 shrink-0 rounded border-stone-400 accent-[#FFCC00] text-[#FFCC00] focus:ring-[#FFCC00]"
+                    onChange={(e) => {
+                      setConsent(e.target.checked);
+                      setFieldErrors((current) => ({ ...current, consent: undefined }));
+                    }}
+                    aria-invalid={!!fieldErrors.consent}
+                    className="mt-0.5 h-4 w-4 shrink-0 rounded border-stone-400 accent-[#FFCC00] text-[#FFCC00] focus:ring-[#FFCC00]"
               />
               <span className="text-xs sm:text-sm text-stone-700 font-medium leading-relaxed">
                 I'd like Fibrehood to contact me about coverage and service availability at this location.
               </span>
             </label>
+            {fieldErrors.consent && <p className="mt-1 pl-7 text-xs font-medium text-red-700">{fieldErrors.consent}</p>}
           </div>
         </div>
       )}
