@@ -276,11 +276,12 @@ export const NATIONAL_ROLLOUT_REGIONS = [
       {
         id: "southview-park",
         name: "Southview Park",
-        status: DEPLOYMENT_STATUS.IN_PROGRESS,
+        status: DEPLOYMENT_STATUS.LIVE,
         imageSrc: "/images/coverage-aerial.png",
-        description: "FTTH network deployment across 3,610 homes. Phased rollout underway.",
+        description: "Verified live MDU coverage in Southview Park, with wider phased rollout underway.",
         homesInScope: 3610,
         homesConnected: 2158,
+        coverageRef: { townId: "harare", suburbId: "southview", mduId: "fidelity-southview-park" },
       },
       {
         id: "harare-avenues",
