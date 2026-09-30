@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { Link, useLocation } from "react-router-dom";
 import { AnimatePresence, motion } from "framer-motion";
-import { Menu, X, User, Home, Gauge, MapPin, Info, Headset, Mail, Handshake } from "lucide-react";
+import { Menu, X, User, Home, Gauge, MapPin, Info, Headset, Mail, Handshake, Network, ArrowRight } from "lucide-react";
 import { Logo } from "@/components/brand/Logo";
 import { NAV_LINKS } from "@/data/site";
 import { useNavOverDark } from "@/hooks/useNavOverDark";
@@ -32,7 +32,7 @@ export const MOBILE_ICONS = {
   "/coverage": MapPin,
   "/about": Info,
   "/partners": Handshake,
-  "/fibre-installation": Handshake,
+  "/fibre-installation": Network,
   "/faq": Headset,
   "/contact": Mail
 };
@@ -93,8 +93,19 @@ export function Navbar() {
             })}
           </div>
 
-          <div className="hidden items-center gap-6 lg:flex">
+          <div className="hidden items-center gap-4 lg:flex">
             <ClientPortalLink className={solid ? "text-ink-soft" : "text-paper/80"} />
+            <Link
+              to="/signup"
+              className={cn(
+                "inline-flex items-center gap-1.5 rounded-full px-4 py-2 text-sm font-semibold transition-all hover:scale-[1.03] focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-loop",
+                solid
+                  ? "bg-loop text-signal hover:bg-loop/90 hover:shadow-loop"
+                  : "bg-loop text-signal hover:bg-loop/90 hover:shadow-loop"
+              )}
+            >
+              Sign Up <ArrowRight className="h-3.5 w-3.5" aria-hidden="true" />
+            </Link>
           </div>
 
           <button
@@ -139,7 +150,14 @@ export function Navbar() {
                   </Link>
                 );
               })}
-              <div className="mt-3 border-t border-line/50 pt-3">
+              <div className="mt-3 border-t border-line/50 pt-3 flex flex-col gap-2">
+                <Link
+                  to="/signup"
+                  onClick={() => setOpen(false)}
+                  className="flex items-center justify-center gap-2 rounded-full bg-loop px-4 py-3 text-base font-semibold text-signal transition-colors hover:bg-loop/90 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-loop"
+                >
+                  Sign Up <ArrowRight className="h-4 w-4" aria-hidden="true" />
+                </Link>
                 <ClientPortalLink
                   className="px-3 py-2 text-base text-ink-soft hover:text-signal"
                   onClick={() => setOpen(false)}

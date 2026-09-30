@@ -1,0 +1,52 @@
+/* Fibrehood design tokens.
+   Scoped to .fh-scope and .fh-dialog to prevent interfering with global Tailwind tokens. */
+@import url('https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,500..800&family=Inter:wght@400;500;600;700&display=swap');
+
+.fh-scope,
+.fh-dialog {
+  /* Colour: roughly 60% white/cream, 25% gold as surface, 15% navy.
+     Rule: text on gold is always navy (about 10:1), never white. */
+  --gold-500: #ffc72c;
+  --gold-400: #ffd25a;
+  --gold-300: #ffe28a;
+  --cream: #fff8e5;
+  --navy-900: #0a1f44;
+  --navy-800: #13306a;
+  --sky-100: #e6f0ff;
+  --coral-500: #ff6b4a; /* tiny highlights only */
+  --paper: #ffffff;
+
+  --ink: var(--navy-900);
+  --ink-soft: rgba(10, 31, 68, 0.78); /* about 7.5:1 on cream */
+  --line: rgba(10, 31, 68, 0.1);
+  --line-strong: rgba(10, 31, 68, 0.22);
+  --focus: var(--navy-900);
+
+  /* Type: a characterful display face for headlines, figures and prices,
+     Inter for reading. */
+  --font-display: 'Bricolage Grotesque', 'Inter', system-ui, sans-serif;
+  --font-body: 'Inter', system-ui, -apple-system, 'Segoe UI', sans-serif;
+
+  --fs-h2: clamp(2rem, 1.3rem + 2.8vw, 3.25rem);
+  --fs-price: clamp(3rem, 2.4rem + 2vw, 4.25rem);
+  --fs-figure: clamp(3.5rem, 2.6rem + 3vw, 5rem);
+
+  /* Shape: radius follows hierarchy rather than one value everywhere. */
+  --r-card: 28px;
+  --r-tile: 32px;
+  --r-band: 40px;
+  --r-bar: 20px;
+  --r-pill: 999px;
+
+  --shadow-1: 0 1px 2px rgba(10, 31, 68, 0.06), 0 8px 24px -12px rgba(10, 31, 68, 0.16);
+  --shadow-2: 0 2px 4px rgba(10, 31, 68, 0.06), 0 24px 40px -16px rgba(10, 31, 68, 0.26);
+  --shadow-gold: 0 24px 48px -16px rgba(240, 165, 0, 0.55);
+  --shadow-bar: 0 1px 0 rgba(10, 31, 68, 0.06), 0 10px 30px -10px rgba(10, 31, 68, 0.2);
+
+  --ease-out: cubic-bezier(0.2, 0.8, 0.2, 1);
+
+  /* Layout: one container for everything. */
+  --gutter: clamp(16px, 4vw, 40px);
+  --container: 1200px;
+  --section-y: clamp(64px, 9vw, 112px);
+}

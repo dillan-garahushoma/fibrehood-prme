@@ -1,5 +1,5 @@
 const ALLOWED_SEGMENTS = new Set(["home", "business", "unsure"]);
-const ALLOWED_SOURCES = new Set(["coverage", "plans", "contact", "direct", "whatsapp"]);
+const ALLOWED_SOURCES = new Set(["coverage", "plans", "contact", "direct", "whatsapp", "signup"]);
 const ALLOWED_INTENTS = new Set(["install_request", "notify_when_live", "register_interest", "contact"]);
 const ALLOWED_STATUS = new Set(["LIVE", "IN_PROGRESS", "PLANNED", "NOT_STARTED"]);
 const ALLOWED_RESOLUTION = new Set(["EXACT", "AREA", "NEARBY", "NOT_FOUND"]);

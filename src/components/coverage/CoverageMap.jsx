@@ -43,9 +43,28 @@ function MapController({ flyTarget, onReady }) {
   return null;
 }
 
-export function CoverageMap({ areas, activeAreaId, flyTarget, marker, onReady, onAreaHover, onAreaLeave, onAreaClick, className, children }) {
+export function CoverageMap({
+  areas,
+  activeAreaId,
+  flyTarget,
+  marker,
+  onReady,
+  onAreaHover,
+  onAreaLeave,
+  onAreaClick,
+  className,
+  children,
+  center = ZIM_CENTER,
+  zoom = 6,
+  interactive = true,
+  ariaLabel
+}) {
   return (
-    <div className={`fh-coverage-map isolate ${className || "relative h-full w-full overflow-hidden"}`}>
+    <div
+      className={`fh-coverage-map isolate ${className || "relative h-full w-full overflow-hidden"}`}
+      role={ariaLabel ? "region" : undefined}
+      aria-label={ariaLabel}
+    >
       {/* Scoped so it only ever touches this map's own tiles, never a future
           second map elsewhere in the app. */}
       <style>{`
@@ -54,15 +73,19 @@ export function CoverageMap({ areas, activeAreaId, flyTarget, marker, onReady, o
         }
       `}</style>
       <MapContainer
-        center={ZIM_CENTER}
-        zoom={6}
+        center={center}
+        zoom={zoom}
         zoomControl={false}
-        scrollWheelZoom
+        scrollWheelZoom={interactive}
+        dragging={interactive}
+        doubleClickZoom={interactive}
+        touchZoom={interactive}
+        keyboard={interactive}
         className="absolute inset-0"
         style={{ height: "100%", width: "100%", background: "#ECEFF4" }}
       >
         <TileLayer url={TILE_URL} attribution={TILE_ATTRIBUTION} maxZoom={16} />
-        <ZoomControl position="topright" />
+        {interactive && <ZoomControl position="topright" />}
         <MapController flyTarget={flyTarget} onReady={onReady} />
 
         {areas.map((a) => {
@@ -72,6 +95,7 @@ export function CoverageMap({ areas, activeAreaId, flyTarget, marker, onReady, o
             <Polygon
               key={a.id}
               positions={a.polygon}
+              interactive={interactive}
               pathOptions={{
                 color: active ? "#072248" : meta.mapColor,
                 weight: active ? 3 : 1.5,

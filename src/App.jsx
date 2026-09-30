@@ -21,6 +21,9 @@ import ForgotPassword from '@/pages/ForgotPassword';
 import ResetPassword from '@/pages/ResetPassword';
 import HowItWorksMockup from '@/pages/HowItWorksMockup';
 import Partners from '@/pages/Partners';
+import Installations from '@/pages/Installations';
+import Signup from '@/pages/Signup';
+import PlansPreview from '@/pages/PlansPreview';
 
 const AuthenticatedApp = () => {
   const { isLoadingAuth, isLoadingPublicSettings, authError, navigateToLogin } = useAuth();
@@ -53,13 +56,15 @@ const AuthenticatedApp = () => {
       <Route path="/register" element={<Register />} />
       <Route path="/forgot-password" element={<ForgotPassword />} />
       <Route path="/reset-password" element={<ResetPassword />} />
+      <Route path="/plans-preview" element={<PlansPreview />} />
       <Route element={<Layout />}>
         <Route path="/" element={<Home />} />
         <Route path="/coverage" element={<Coverage />} />
         <Route path="/plans" element={<Plans />} />
+        <Route path="/signup" element={<Signup />} />
         <Route path="/about" element={<About />} />
         <Route path="/partners" element={<Partners />} />
-          <Route path="/fibre-installation" element={<Partners />} />
+          <Route path="/fibre-installation" element={<Installations />} />
           <Route path="/contact" element={<Contact />} />
         <Route path="/faq" element={<FAQ />} />
         <Route path="/privacy" element={<Privacy />} />

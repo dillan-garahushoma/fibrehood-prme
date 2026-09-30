@@ -6,6 +6,7 @@ import {
 import { PlansHero } from "@/components/plans/PlansHero";
 import { PlansConversion } from "@/components/plans/PlansConversion";
 import { PlanCard } from "@/components/plans/PlanCard";
+import { Wave } from "@/components/plans/Wave";
 import { EveryPlanIncludes } from "@/components/plans/EveryPlanIncludes";
 import { WhatYouGet } from "@/components/plans/WhatYouGet";
 import { RouterSection } from "@/components/plans/RouterSection";
@@ -71,69 +72,108 @@ export default function Plans() {
 
   const comparePlans = selected.map((id) => PLANS.find((p) => p.id === id)).filter(Boolean);
 
+  const homeGroup = GROUPS[0];
+  const smeGroup = GROUPS[1];
+
+  const homePlans = PLANS
+    .filter((p) => p.segment === homeGroup.segment)
+    .sort((a, b) => a.displayOrder - b.displayOrder);
+
+  const smePlans = PLANS
+    .filter((p) => p.segment === smeGroup.segment)
+    .sort((a, b) => a.displayOrder - b.displayOrder);
+
   return (
     <>
       <PlansHero />
 
-      {/* ── Plans (grouped by segment) ─────────────────────────────── */}
+      {/* ── Residential Plans ─────────────────────────────── */}
       <section className="pb-16 md:pb-20">
         <div className="container-lattice">
-          {GROUPS.map((group) => {
-            const plans = PLANS
-              .filter((p) => p.segment === group.segment)
-              .sort((a, b) => a.displayOrder - b.displayOrder);
+          <div id={homeGroup.id} className="scroll-mt-24 mt-10">
+            <Reveal>
+              <span className="eyebrow"><span className="h-px w-6 bg-loop" />Home connections</span>
+              <h2 className="font-heading text-2xl font-bold tracking-tight text-signal sm:text-3xl">
+                {homeGroup.heading}
+              </h2>
+              <p className="mt-2 max-w-2xl text-sm leading-relaxed text-ink-soft">{homeGroup.blurb}</p>
+              <EveryPlanIncludes items={homeGroup.includes} />
+            </Reveal>
 
-            const isSme = group.segment === "business";
-
-            // Home: regular 4-col grid; SME: centred flex row so 3 cards
-            // sit evenly without a ghost fourth-card gap.
-            const gridContent = isSme ? (
-              <div className="mt-8 flex flex-wrap justify-center gap-6">
-                {plans.map((p, i) => (
-                  <Reveal key={p.id} className="h-full w-full sm:w-[calc(50%-12px)] lg:w-[calc(33.333%-16px)] lg:max-w-xs" delay={i * 0.05}>
-                    <PlanCard
-                      plan={p}
-                      selected={selected.includes(p.id)}
-                      onToggle={toggle}
-                      onSelectPackage={startSignup}
-                    />
-                  </Reveal>
-                ))}
-              </div>
-            ) : (
-              <div className="mt-8 grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-4">
-                {plans.map((p, i) => (
-                  <Reveal key={p.id} className="h-full" delay={(i % 4) * 0.05}>
-                    <PlanCard
-                      plan={p}
-                      selected={selected.includes(p.id)}
-                      onToggle={toggle}
-                      onSelectPackage={startSignup}
-                    />
-                  </Reveal>
-                ))}
-              </div>
-            );
-
-            return (
-              <div
-                key={group.id}
-                id={group.id}
-                className={cn("scroll-mt-24", isSme ? "mt-20" : "mt-10")}
-              >
-                <Reveal>
-                  <h2 className="font-heading text-2xl font-bold tracking-tight text-signal sm:text-3xl">
-                    {group.heading}
-                  </h2>
-                  <p className="mt-2 max-w-2xl text-sm leading-relaxed text-ink-soft">{group.blurb}</p>
-                  <EveryPlanIncludes items={group.includes} />
+            <div className="mt-8 grid auto-rows-fr grid-cols-1 items-stretch gap-6 sm:grid-cols-2 lg:grid-cols-4">
+              {homePlans.map((p, i) => (
+                <Reveal key={p.id} className="h-full" delay={(i % 4) * 0.05}>
+                  <PlanCard
+                    plan={p}
+                    selected={selected.includes(p.id)}
+                    onToggle={toggle}
+                    onSelectPackage={startSignup}
+                  />
                 </Reveal>
-                {gridContent}
-              </div>
-            );
-          })}
+              ))}
+            </div>
+          </div>
         </div>
       </section>
+
+      {/* ── SME Business Plans (with organic wave separator) ── */}
+      <section className="relative overflow-hidden bg-fog pb-16 md:pb-24 pt-20 md:pt-28">
+        <Wave fill="hsl(var(--paper))" flip />
+        <div className="container-lattice relative">
+          <div id={smeGroup.id} className="scroll-mt-24">
+            <Reveal>
+              <span className="eyebrow"><span className="h-px w-6 bg-loop" />For growing teams</span>
+              <h2 className="font-heading text-2xl font-bold tracking-tight text-signal sm:text-3xl">
+                {smeGroup.heading}
+              </h2>
+              <p className="mt-2 max-w-2xl text-sm leading-relaxed text-ink-soft">{smeGroup.blurb}</p>
+              <EveryPlanIncludes items={smeGroup.includes} />
+            </Reveal>
+
+            {/* Centre 3 SME cards evenly */}
+            <div className="mt-8 flex flex-wrap items-stretch justify-center gap-6">
+              {smePlans.map((p, i) => (
+                <Reveal key={p.id} className="h-full w-full sm:w-[calc(50%-12px)] lg:w-[calc(33.333%-16px)] lg:max-w-xs" delay={i * 0.05}>
+                  <PlanCard
+                    plan={p}
+                    selected={selected.includes(p.id)}
+                    onToggle={toggle}
+                    onSelectPackage={startSignup}
+                  />
+                </Reveal>
+              ))}
+            </div>
+          </div>
+        </div>
+      </section>
+
+      {/* Keep the mobile compare controls in the page flow so they never cover plan details. */}
+      {comparePlans.length > 0 && (
+        <div className="relative z-40 border-y border-line bg-paper/95 py-4 backdrop-blur sm:fixed sm:inset-x-0 sm:bottom-0 sm:border-t sm:pb-[calc(1rem+env(safe-area-inset-bottom))] sm:pt-0">
+          <div className="container-lattice flex flex-col items-stretch justify-between gap-3 sm:flex-row sm:items-center sm:gap-4 sm:py-4">
+            <div className="flex min-w-0 flex-wrap items-center gap-x-2 gap-y-1 text-sm text-ink">
+              <GitCompare aria-hidden="true" className="h-5 w-5 shrink-0 text-signal" />
+              <span aria-live="polite" aria-atomic="true" className="font-semibold">{comparePlans.length} selected</span>
+              <span className="break-words text-xs text-ink-soft sm:max-w-[28rem] sm:truncate sm:text-sm">· {comparePlans.map((p) => p.name).join(", ")}</span>
+              <span id="compare-helper" className="w-full text-xs text-ink-soft sm:w-auto">Select 2–3 plans to compare.</span>
+            </div>
+            <div className="flex shrink-0 justify-end gap-2">
+              <button type="button" onClick={() => setSelected([])} className="min-h-11 rounded-full border border-line px-3 py-2 text-sm font-medium text-ink-soft transition-colors hover:bg-fog focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-signal focus-visible:ring-offset-2 sm:px-4">
+                Clear
+              </button>
+              <button
+                type="button"
+                onClick={() => setCompareOpen(true)}
+                disabled={comparePlans.length < 2}
+                aria-describedby="compare-helper"
+                className="inline-flex min-h-11 items-center justify-center gap-2 whitespace-nowrap rounded-full bg-loop px-3 py-2.5 text-sm font-semibold text-signal transition-colors hover:bg-loop-soft focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-signal focus-visible:ring-offset-2 disabled:cursor-not-allowed disabled:opacity-50 sm:px-5"
+              >
+                Compare plans <ArrowRight aria-hidden="true" className="h-4 w-4" />
+              </button>
+            </div>
+          </div>
+        </div>
+      )}
 
       <EnterpriseConnectivity imageSrc={IMAGES.enterpriseCampus} ctaHref={WA_INTENTS.enterprise()} />
       <WhyChooseFibrehood />
@@ -150,31 +190,6 @@ export default function Plans() {
         initialPlanId={signupPlanId}
         onClose={() => setSignupOpen(false)}
       />
-
-      {/* Compare bar — kept with the plans */}
-      {comparePlans.length > 0 && (
-        <div className="fixed inset-x-0 bottom-0 z-40 border-t border-line bg-paper/95 backdrop-blur">
-          <div className="container-lattice flex flex-col items-center justify-between gap-3 py-4 sm:flex-row">
-            <div className="flex items-center gap-2 text-sm text-ink">
-              <GitCompare className="h-5 w-5 text-signal" />
-              <span className="font-semibold">{comparePlans.length} selected</span>
-              <span className="text-ink-soft">· {comparePlans.map((p) => p.name).join(", ")}</span>
-            </div>
-            <div className="flex gap-2">
-              <button onClick={() => setSelected([])} className="rounded-full border border-line px-4 py-2 text-sm font-medium text-ink-soft hover:bg-fog">
-                Clear
-              </button>
-              <button
-                onClick={() => setCompareOpen(true)}
-                disabled={comparePlans.length < 2}
-                className="inline-flex items-center gap-2 rounded-full bg-loop px-5 py-2.5 text-sm font-semibold text-signal disabled:opacity-50"
-              >
-                Compare plans <ArrowRight className="h-4 w-4" />
-              </button>
-            </div>
-          </div>
-        </div>
-      )}
 
       <Dialog open={compareOpen} onOpenChange={setCompareOpen}>
         <DialogContent className="max-w-4xl">
@@ -232,6 +247,7 @@ export default function Plans() {
       </section>
 
       <PlansConversion onSelectPackage={() => startSignup()} />
+      {comparePlans.length > 0 && <div aria-hidden="true" className="hidden h-28 sm:block" />}
     </>
   );
 }
@@ -241,7 +257,7 @@ function CompareTable({ plans }) {
     { label: "Segment", get: (p) => (p.segment === "business" ? "SME" : "Home") },
     { label: "Download", get: (p) => formatSpeed(p.download), mono: true },
     { label: "Upload", get: (p) => formatSpeed(p.upload), mono: true },
-    { label: "Price", get: (p) => `$${p.price} / ${p.cycle}`, mono: true },
+    { label: "Price", get: (p) => `${p.currency === "USD" ? "US$" : "$"}${p.price} / ${p.cycle}`, mono: true },
     { label: "Type", get: (p) => p.type },
     { label: "Contract", get: (p) => p.contract },
     { label: "Installation", get: (p) => p.installation }

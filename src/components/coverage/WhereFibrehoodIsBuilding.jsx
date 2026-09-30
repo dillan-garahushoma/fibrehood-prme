@@ -1,8 +1,17 @@
 import React, { useState, useRef } from "react";
 import { ArrowRight, ArrowLeft, Info, MapPin } from "lucide-react";
-import { NATIONAL_ROLLOUT_REGIONS } from "@/data/coverageAreas";
+import { COVERAGE_AREAS, NATIONAL_ROLLOUT_REGIONS } from "@/data/coverageAreas";
 import { DEPLOYMENT_STATUS } from "@/data/coverageStatus";
+import { getMdus } from "@/lib/coverageService";
 import { cn } from "@/lib/utils";
+import CoverageMap from "@/components/coverage/CoverageMap";
+import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue
+} from "@/components/ui/select";
 
 // ─── Brand Tokens ─────────────────────────────────────────────────────────────
 const NAVY = "#072248";
@@ -66,29 +75,119 @@ const STATUS_ORDER = [
   DEPLOYMENT_STATUS.NOT_STARTED,
 ];
 
-// ─── Photographic Project Thumbnail with Resilient Fallback ───────────────────
-function ProjectImage({ src, alt, className = "" }) {
-  const [error, setError] = useState(false);
-  const fallbackSrc = "/images/coverage-aerial.png";
+const STATUS_RANK = new Map(STATUS_ORDER.map((status, index) => [status, index]));
 
-  if (error || !src) {
+function orderAreasByStatus(areas) {
+  return areas
+    .map((area, index) => ({ area, index }))
+    .sort((a, b) =>
+      STATUS_RANK.get(resolveStatus(a.area.status).key) -
+        STATUS_RANK.get(resolveStatus(b.area.status).key) ||
+      a.index - b.index
+    )
+    .map(({ area }) => area);
+}
+
+function ProjectCoverageMap({ area, town, interactive = false, detail = false }) {
+  const coverageArea = COVERAGE_AREAS.find((candidate) =>
+    candidate.id === area.coverageRef?.suburbId || candidate.id === area.id
+  );
+  const mdu = area.coverageRef
+    ? getMdus(area.coverageRef.townId, area.coverageRef.suburbId).find(
+        (candidate) => candidate.id === area.coverageRef.mduId
+      )
+    : null;
+  const point = area.coordinates || (mdu ? [mdu.lat, mdu.lng] : null);
+  const center = point || coverageArea?.center;
+  const mapAreas = coverageArea ? [coverageArea] : [];
+  const marker = point ? { lat: point[0], lng: point[1] } : null;
+  const label = `${area.name}, ${town.name}`;
+
+  if (!detail) {
+    if (!center) {
+      return (
+        <div
+          className="flex h-full w-full flex-col items-center justify-center gap-1.5 bg-slate-100 text-slate-400"
+          aria-hidden="true"
+        >
+          <MapPin className="h-4 w-4" />
+          <span className="text-[9px] font-semibold uppercase tracking-[0.12em]">Map pending</span>
+        </div>
+      );
+    }
+
+    const footprint = coverageArea?.polygon || [];
+    const latitudes = footprint.map(([lat]) => lat);
+    const longitudes = footprint.map(([, lng]) => lng);
+    const minLat = Math.min(...latitudes, center[0] - 0.008);
+    const maxLat = Math.max(...latitudes, center[0] + 0.008);
+    const minLng = Math.min(...longitudes, center[1] - 0.012);
+    const maxLng = Math.max(...longitudes, center[1] + 0.012);
+    const projectPoint = ([lat, lng]) => [
+      18 + ((lng - minLng) / (maxLng - minLng)) * 204,
+      16 + ((maxLat - lat) / (maxLat - minLat)) * 108
+    ];
+    const footprintPath = footprint.map(projectPoint).map(([x, y], index) =>
+      `${index === 0 ? "M" : "L"} ${x.toFixed(1)} ${y.toFixed(1)}`
+    ).join(" ") + (footprint.length ? " Z" : "");
+    const [markerX, markerY] = projectPoint(center);
+    const meta = resolveStatus(area.status);
+
     return (
-      <img
-        src={fallbackSrc}
-        alt={alt || "Fibrehood network rollout"}
-        className={cn("h-full w-full object-cover transition-transform duration-300 group-hover:scale-105", className)}
-        onError={() => {}}
-      />
+      <div className="relative h-full w-full overflow-hidden bg-[#eef3f7]" aria-hidden="true">
+        <svg viewBox="0 0 240 140" className="h-full w-full" preserveAspectRatio="xMidYMid slice">
+          <rect width="240" height="140" fill="#eef3f7" />
+          <path d="M-12 35 C45 48 72 14 129 28 S197 58 253 30 M-18 110 C44 91 83 123 129 100 S191 77 252 101 M47 -12 C68 26 43 67 71 151 M182 -10 C159 31 193 62 167 151" fill="none" stroke="#d8e1e9" strokeWidth="7" />
+          <path d="M-12 35 C45 48 72 14 129 28 S197 58 253 30 M-18 110 C44 91 83 123 129 100 S191 77 252 101 M47 -12 C68 26 43 67 71 151 M182 -10 C159 31 193 62 167 151" fill="none" stroke="#fff" strokeWidth="3" />
+          {footprintPath && (
+            <path
+              d={footprintPath}
+              fill={meta.dot}
+              fillOpacity="0.28"
+              stroke={meta.dot}
+              strokeWidth="2.5"
+              strokeLinejoin="round"
+            />
+          )}
+          <circle cx={markerX} cy={markerY} r="9" fill={meta.dot} fillOpacity="0.18" />
+          <circle cx={markerX} cy={markerY} r="4.5" fill={meta.dot} stroke="#fff" strokeWidth="2" />
+        </svg>
+        <span className="absolute bottom-1.5 left-1.5 rounded bg-white/90 px-1.5 py-0.5 text-[8px] font-semibold uppercase tracking-wide text-slate-500 shadow-sm">
+          Coverage area
+        </span>
+      </div>
+    );
+  }
+
+  if (!center) {
+    return (
+      <div
+        className={cn(
+          "flex h-full w-full flex-col items-center justify-center gap-2 bg-slate-100 px-3 text-center text-slate-500",
+          detail && "bg-slate-50"
+        )}
+        role={detail ? "status" : undefined}
+        aria-label={detail ? `Map coverage has not been published for ${label}` : undefined}
+        aria-hidden={detail ? undefined : "true"}
+      >
+        <MapPin className="h-5 w-5 text-slate-400" aria-hidden="true" />
+        <span className={detail ? "text-sm font-medium" : "text-[9px] font-semibold uppercase tracking-wide"}>
+          {detail ? "Map coverage for this area is not yet published" : "Map pending"}
+        </span>
+      </div>
     );
   }
 
   return (
-    <img
-      src={src}
-      alt={alt || "Fibrehood project"}
-      onError={() => setError(true)}
-      className={cn("h-full w-full object-cover transition-transform duration-300 group-hover:scale-105", className)}
-      loading="lazy"
+    <CoverageMap
+      areas={mapAreas}
+      activeAreaId={coverageArea?.id}
+      center={center}
+      zoom={coverageArea ? 14 : 15}
+      marker={marker}
+      interactive={interactive}
+      ariaLabel={detail ? `Coverage map for ${label}` : undefined}
+      className="absolute inset-0"
     />
   );
 }
@@ -119,91 +218,36 @@ function StatusLegend() {
   );
 }
 
-// ─── Left Column: Town Location Row ───────────────────────────────────────────
-function LocationRow({ name, status, onClick, isActive = false }) {
-  const s = resolveStatus(status);
-  return (
-    <button
-      type="button"
-      onClick={onClick}
-      aria-pressed={isActive}
-      className={cn(
-        "group flex w-full items-center justify-between py-2.5 px-3 rounded-r-lg text-left transition-all duration-150 border-l-[3px]",
-        isActive
-          ? "font-bold border-[#FFCC00] bg-[#FFCC00]/10"
-          : "font-medium text-slate-700 border-transparent hover:bg-slate-50 hover:text-[#072248]"
-      )}
-    >
-      <span className={cn("text-sm transition-colors", isActive ? "text-[#072248]" : "text-slate-700 group-hover:text-[#072248]")}>
-        {name}
-      </span>
-      <span className="flex items-center gap-3">
-        <span className="flex items-center gap-1.5 text-xs text-slate-500 font-normal">
-          <span
-            className="h-2 w-2 shrink-0 rounded-full"
-            style={{ backgroundColor: s.dot }}
-            aria-hidden="true"
-          />
-          {s.label}
-        </span>
-        <ArrowRight
-          className={cn(
-            "h-3.5 w-3.5 transition-all duration-150",
-            isActive
-              ? "text-[#072248] translate-x-0.5"
-              : "text-slate-300 group-hover:text-slate-500 group-hover:translate-x-0.5"
-          )}
-          aria-hidden="true"
-        />
-      </span>
-    </button>
-  );
-}
-
 // ─── Right Column: Project Card (Refined Content Row) ─────────────────────────
 function ProjectCard({ area, town, onClick, onViewOnMap }) {
   const s = resolveStatus(area.status);
   const isLive = s.key === DEPLOYMENT_STATUS.LIVE;
 
   return (
-    <div
-      role="button"
-      tabIndex={0}
-      onClick={onClick}
-      onKeyDown={(e) => {
-        if (e.key === "Enter" || e.key === " ") {
-          e.preventDefault();
-          onClick();
-        }
-      }}
-      className="group flex w-full cursor-pointer items-start sm:items-center gap-3.5 sm:gap-5 rounded-xl border border-slate-200/70 bg-white p-3.5 sm:p-4 text-left transition-all duration-150 hover:border-slate-300 hover:bg-slate-50/50 shadow-xs"
-    >
-      {/* Consistent Dimension Thumbnail */}
-      <div className="relative h-20 w-24 sm:h-22 sm:w-36 shrink-0 overflow-hidden rounded-lg bg-slate-100">
-        <ProjectImage src={area.imageSrc} alt={area.name} />
+    <article className="group relative flex w-full items-center gap-3 rounded-xl border border-slate-200 bg-white p-3 shadow-[0_1px_3px_rgba(7,34,72,0.04)] transition duration-150 hover:border-slate-300 hover:shadow-[0_8px_24px_rgba(7,34,72,0.08)] sm:gap-5 sm:p-4">
+      <button
+        type="button"
+        onClick={onClick}
+        aria-label={`View details for ${area.name} in ${town.name}`}
+        className="absolute inset-0 z-0 rounded-xl focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-blue-600"
+      />
+      <div className="pointer-events-none relative z-[1] h-[76px] w-[92px] shrink-0 overflow-hidden rounded-lg border border-slate-200/80 bg-slate-100 sm:h-24 sm:w-40">
+        <ProjectCoverageMap area={area} town={town} />
       </div>
 
-      {/* Main Info */}
-      <div className="min-w-0 flex-1">
-        <div className="flex flex-wrap items-center gap-2">
-          <h4 className="text-base font-bold leading-snug sm:text-lg" style={{ color: NAVY }}>
+      <div className="pointer-events-none relative z-[1] min-w-0 flex-1 py-0.5">
+        <div className="flex min-w-0 flex-wrap items-center gap-2">
+          <h4 className="min-w-0 text-sm font-bold leading-snug text-[#072248] sm:text-lg">
             {area.name}
           </h4>
-          <span
-            className="sm:hidden rounded-full px-2 py-0.5 text-[10px] font-bold whitespace-nowrap shadow-xs"
-            style={{ backgroundColor: s.badgeBg, color: s.badgeText }}
-          >
-            {s.label}
-          </span>
         </div>
-        <p className="mt-0.5 text-xs font-medium text-slate-400">
+        <p className="mt-0.5 text-[11px] font-medium text-slate-500 sm:text-xs">
           {town.name}
         </p>
-        <p className="mt-1 line-clamp-2 text-xs sm:text-sm leading-relaxed text-slate-500">
+        <p className="mt-1 line-clamp-2 text-[11px] leading-relaxed text-slate-600 sm:text-sm">
           {area.description}
         </p>
 
-        {/* Live project quick map action */}
         {isLive && onViewOnMap && (
           <button
             type="button"
@@ -211,28 +255,25 @@ function ProjectCard({ area, town, onClick, onViewOnMap }) {
               e.stopPropagation();
               onViewOnMap(area, town);
             }}
-            className="mt-2 inline-flex items-center gap-1.5 text-xs font-bold text-[#2563EB] transition-colors hover:underline"
+            className="pointer-events-auto relative z-10 mt-1.5 inline-flex min-h-8 items-center gap-1.5 rounded-md text-[11px] font-semibold text-blue-700 transition-colors hover:text-blue-900 hover:underline focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-blue-600 sm:text-xs"
           >
-            <MapPin className="h-3.5 w-3.5 text-[#2563EB]" />
+            <MapPin className="h-3.5 w-3.5" aria-hidden="true" />
             View coverage on map
           </button>
         )}
       </div>
 
-      {/* Status Pill Badge + Arrow (Desktop) */}
-      <div className="hidden sm:flex shrink-0 items-center gap-3 sm:gap-4 pl-2">
+      <div className="pointer-events-none relative z-[1] flex shrink-0 flex-col items-end gap-2 sm:flex-row sm:items-center sm:gap-3">
         <span
-          className="rounded-full px-2.5 py-0.5 text-xs font-bold whitespace-nowrap shadow-xs"
+          className="inline-flex items-center gap-1.5 whitespace-nowrap rounded-full px-2 py-1 text-[9px] font-bold sm:px-2.5 sm:text-xs"
           style={{ backgroundColor: s.badgeBg, color: s.badgeText }}
         >
+          <span className="h-1.5 w-1.5 rounded-full bg-white/90" aria-hidden="true" />
           {s.label}
         </span>
-        <ArrowRight
-          className="h-4 w-4 text-slate-300 transition-transform duration-150 group-hover:translate-x-1 group-hover:text-slate-600"
-          aria-hidden="true"
-        />
+        <ArrowRight className="hidden h-4 w-4 text-slate-300 transition-transform duration-150 group-hover:translate-x-0.5 group-hover:text-slate-600 sm:block" aria-hidden="true" />
       </div>
-    </div>
+    </article>
   );
 }
 
@@ -258,9 +299,9 @@ function AreaDetail({ area, town, onBack, onOpenArea, onViewOnMap }) {
         Back to Projects in {town.name}
       </button>
 
-      {/* Project Image Banner with map overlay for Live projects */}
+      {/* Area-level coverage map */}
       <div className="relative mb-6 h-52 w-full overflow-hidden rounded-xl bg-slate-100 shadow-xs sm:h-64">
-        <ProjectImage src={area.imageSrc} alt={area.name} />
+        <ProjectCoverageMap area={area} town={town} interactive detail />
 
         {isLive && onViewOnMap && (
           <button
@@ -439,8 +480,11 @@ export function WhereFibrehoodIsBuilding({
   }
 
   // Collect all projects across all regions for the "View all projects" mode
-  const allProjects = regions.flatMap((r) =>
+  const allProjects = orderAreasByStatus(regions.flatMap((r) =>
     (r.areas || []).map((area) => ({ ...area, town: r }))
+  ));
+  const townProjects = orderAreasByStatus(
+    selectedTown?.areas || []
   );
 
   return (
@@ -482,18 +526,32 @@ export function WhereFibrehoodIsBuilding({
               </p>
             </div>
 
-            {/* Clean navigation list */}
-            <div className="space-y-0.5 max-h-[580px] overflow-y-auto pr-1">
-              {regions.map((r) => (
-                <LocationRow
-                  key={r.id}
-                  name={r.name}
-                  status={r.status}
-                  isActive={!showAllProjectsView && r.id === selectedTownId}
-                  onClick={() => selectTown(r.id)}
-                />
-              ))}
-            </div>
+            <Select value={selectedTownId} onValueChange={selectTown}>
+              <SelectTrigger
+                aria-label="Choose a town or city"
+                className="h-12 w-full rounded-lg border-slate-200 bg-white px-4 text-sm font-semibold text-[#072248] shadow-xs transition-colors hover:border-slate-300 focus:border-[#2563EB] focus:ring-2 focus:ring-[#2563EB]/20 [&>svg]:text-slate-500 [&>svg]:opacity-100"
+              >
+                <SelectValue />
+              </SelectTrigger>
+              <SelectContent
+                position="popper"
+                side="bottom"
+                align="start"
+                avoidCollisions={false}
+                className="max-h-72 rounded-lg border-slate-200 bg-white p-1 text-[#072248] shadow-lg"
+                viewportClassName="h-auto max-h-64 w-full min-w-[var(--radix-select-trigger-width)]"
+              >
+                {regions.map((region) => (
+                  <SelectItem
+                    key={region.id}
+                    value={region.id}
+                    className="min-h-10 cursor-pointer rounded-md px-3 py-2 text-sm focus:bg-blue-50 focus:text-[#072248]"
+                  >
+                    {region.name}
+                  </SelectItem>
+                ))}
+              </SelectContent>
+            </Select>
 
             {/* Bottom link */}
             <div className="mt-5 pt-3.5 border-t border-slate-100">
@@ -579,7 +637,7 @@ export function WhereFibrehoodIsBuilding({
                 </div>
               ) : selectedTown && selectedTown.areas && selectedTown.areas.length > 0 ? (
                 <div className="space-y-3.5">
-                  {selectedTown.areas.map((area) => (
+                  {townProjects.map((area) => (
                     <ProjectCard
                       key={area.id}
                       area={area}
@@ -620,6 +678,3 @@ export function WhereFibrehoodIsBuilding({
 }
 
 export default WhereFibrehoodIsBuilding;
-
-
-

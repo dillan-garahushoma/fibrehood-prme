@@ -29,7 +29,9 @@ export default function Contact() {
     <>
       <SplitHero
         image={IMAGES.contactHero}
-        alt="Fibrehood customer support specialist"
+        alt="Fibrehood customer support and field technician"
+        fullBleed={true}
+        imageClassName="object-cover object-[85%_center] lg:object-[80%_center]"
         title={
           <>
             Let’s get you <br className="hidden sm:inline" />

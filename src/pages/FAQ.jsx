@@ -317,7 +317,8 @@ export default function FAQ() {
       {/* ── Split Hero without Search Bar & with Homepage-styled Pills ── */}
       <SplitHero
         image={IMAGES.supportHero}
-        alt="Fibrehood support and self-service"
+        alt="Fibrehood customer support specialist assisting a client"
+        fullBleed
         eyebrow="SUPPORT & SELF-SERVICE"
         title="Find an answer, fast"
         subtitle="Search common issues, browse by category, and escalate to a human when you need to."

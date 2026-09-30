@@ -37,7 +37,7 @@ const STEPS = [
 
 export function PartnerProcess() {
   return (
-    <section className="bg-fog pb-12 pt-24 md:pb-16 md:pt-32">
+    <section className="bg-fog pb-12 pt-16 md:pb-16 md:pt-20">
       <div className="container-lattice">
 
         {/* ── Section head ────────────────────────────────────────────── */}

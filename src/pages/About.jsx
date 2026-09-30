@@ -12,8 +12,9 @@ export default function About() {
   return (
     <>
       <SplitHero
-        image={IMAGES.aboutHero}
-        alt="Fibrehood fibre infrastructure connecting a community at dusk"
+        image={IMAGES.studentsHero}
+        alt="Students learning together in a Fibrehood-connected community"
+        fullBleed
         eyebrow="About Fibrehood"
         title="We exist to unlock opportunities and talent"
         subtitle="Connectivity for marginalised communities."

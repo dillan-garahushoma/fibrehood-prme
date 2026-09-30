@@ -30,3 +30,13 @@ dist-ssr
 .env
 .vite
 base44/.app.jsonc
+
+# Local scratch and temp files
+scratch/
+hero-images/
+FibrePlans/
+FibrePlans.zip
+/white.png
+*.html
+!index.html
+*.py

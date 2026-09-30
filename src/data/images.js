@@ -1,6 +1,7 @@
 // On-brand visuals (cinematic editorial photography + abstract glass renderings).
 // All assets are served locally from /images/.
 export const IMAGES = {
+  heroFamily: "/images/hero-family.jpg",
   heroHouse: "/images/hero-house.png",
   coverageAerial: "/images/coverage-hero.png",
   fibreGlass: "/images/fibre-glass.png",
@@ -29,7 +30,8 @@ export const IMAGES = {
   collagePoleInstallation: "/images/collage-pole-installation.png",
   contactHero: "/images/contact-hero.png",
   aboutHero: "/images/about-hero.png",
-  supportHero: "/images/support-hero.png",
+  studentsHero: "/images/students-hero.jpg",
+  supportHero: "/images/support-hero.jpg",
   // Connection Journey step icons (line-art, navy + amber)
   stepIcon01: "/images/step-icon-01.png",
   stepIcon02: "/images/step-icon-02.png",
