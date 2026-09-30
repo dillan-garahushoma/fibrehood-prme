@@ -102,7 +102,7 @@ export function FibreInstallation({
           </div>
 
           {/* Right: arched image with glow + floating card */}
-          <div className="relative pb-8 sm:pb-0 sm:pr-4">
+          <div className="relative pb-20 sm:pb-0 sm:pr-4">
             <div className="relative">
               {/* Subtle gold glow behind the curve */}
               <div

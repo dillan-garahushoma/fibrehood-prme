@@ -13,13 +13,15 @@ export default function Coverage() {
 
   return (
     <>
-      {/* Hero — split layout matching the Plans / site hero family */}
+      {/* Hero — full bleed layout with panoramic city background */}
       <SplitHero
         image={IMAGES.coverageAerial}
-        alt="Fibrehood fibre network coverage"
+        alt="Fibrehood fibre network coverage across the city"
         eyebrow="Check your coverage"
         title="Is your neighbourhood a Fibrehood?"
         subtitle="We are building FTTH (Fibre-To-The-Home networks throughout all locations for the country. Find out if your area is connected and register your interest."
+        fullBleed={true}
+        imageClassName="object-cover object-[50%_center] sm:object-[65%_center]"
         bottomContentExpanded={checkerExpanded}
         bottomContent={
           <div className="mx-auto w-full max-w-3xl">
