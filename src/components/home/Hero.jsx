@@ -57,7 +57,7 @@ export function Hero() {
         </div>
 
         {/* Content: exact original copy only */}
-        <div className="relative z-10 my-0 lg:my-0 max-lg:rounded-2xl max-lg:bg-[#0B1B33]/25 max-lg:px-3 max-lg:py-3 max-lg:backdrop-blur-[2px]">
+        <div className="relative z-10 my-0 lg:my-0">
           <motion.h1
             variants={entranceItem}
             className="max-w-xl font-heading text-3xl font-extrabold leading-[1.12] tracking-tighter text-paper drop-shadow-[0_2px_10px_rgba(7,34,72,0.7)] sm:text-5xl lg:text-[3.6rem]"

@@ -63,7 +63,7 @@ export function SplitHero({
           </>
         ) : (
           <>
-            <div className="absolute inset-0 bg-signal-deep/60 lg:hidden" />
+            <div className="absolute inset-0 bg-gradient-to-r from-signal-deep via-signal-deep/85 to-signal-deep/40 lg:hidden" />
             <div className="absolute inset-y-0 left-0 hidden w-[52%] bg-gradient-to-r from-signal-deep via-signal-deep/70 to-transparent lg:block" />
           </>
         )}
@@ -88,7 +88,7 @@ export function SplitHero({
       >
         {/* ── Hero Text + Children ───────────────────────────────────── */}
         <div
-          className={`relative z-10 transition-transform duration-300 ease-out lg:self-center my-0 lg:my-auto max-lg:rounded-2xl max-lg:bg-[#0B1B33]/25 max-lg:px-3 max-lg:py-3 max-lg:backdrop-blur-[2px] ${
+          className={`relative z-10 transition-transform duration-300 ease-out lg:self-center my-0 lg:my-auto ${
             bottomContentExpanded ? "-translate-y-6 sm:-translate-y-8 lg:-translate-y-0" : ""
           }`}
         >
