@@ -5,22 +5,14 @@ import { SectionLabel } from "@/components/common/SectionLabel";
 import { entranceContainer, entranceItem } from "@/components/common/Reveal";
 
 /**
- * Plans-style split hero: full-bleed image right on desktop, blended behind
- * the navy hero on mobile.
+ * Plans-style split hero: full-bleed image right on desktop, natural image on mobile.
  *
- * Mobile layout strategy (the hard part):
+ * Mobile UX:
  * ─────────────────────────────────────────
- * PROBLEM: `justify-center` + absolute `bottomContent` = content hovering in
- * the middle with dead gaps above AND below. The absolute element doesn't
- * participate in flow so `pb-40` just pushed the center-point upward, creating
- * a dead zone between the two elements.
- *
- * SOLUTION: On mobile, take `bottomContent` OUT of absolute positioning and
- * put it in the NORMAL FLEX FLOW with `mt-auto`. This makes the hero a proper
- * edge-to-edge column: nav-clearance → content → stretch → checker → safe-area.
- * No gaps, no dead zones, layout fills the viewport naturally.
- *
- * On lg+ desktop: restore the original grid + absolute layout.
+ * - OVERLAY: Smooth, balanced contrast scrim that keeps typography 100% crisp without
+ *   cutting the screen in half or obscuring the photography.
+ * - SPACING: Content flows from pt-20 (comfortably below the navbar) with balanced,
+ *   even vertical spacing. No forced 100svh centering, no dead 300px voids.
  */
 export function SplitHero({
   eyebrow,
@@ -49,79 +41,56 @@ export function SplitHero({
         }`}
         aria-hidden="true"
       >
-        {/*
-         * `block` ensures the <ImageWrapper> span (inline-block by default)
-         * fills its absolute parent rather than collapsing to intrinsic size.
-         */}
         <Image
           src={image}
           alt={alt}
           fittingType="fill"
           className={`block h-full w-full ${
             fullBleed
-              ? imageClassName || "object-cover object-center"
-              : "object-cover"
-          }`}
+              ? imageClassName || "object-cover object-[65%_center]"
+              : imageClassName || "object-cover object-center"
+          } max-lg:scale-[1.03] max-lg:blur-[2px]`}
         />
 
         {fullBleed ? (
           <>
-            {/* Horizontal gradient: strong on mobile (55%), feathers on desktop */}
-            <div className="pointer-events-none absolute inset-0 bg-gradient-to-r from-[#0B1B33] via-[#0B1B33]/92 via-55% sm:via-[#0B1B33]/88 sm:via-45% to-transparent lg:to-65%" />
-            {/* Vertical bottom-up gradient: always on mobile, heavier with bottomContent */}
-            <div
-              className={`pointer-events-none absolute inset-0 bg-gradient-to-t ${
-                bottomContent
-                  ? "from-[#0B1B33]/90 via-[#0B1B33]/40 to-transparent"
-                  : "from-[#0B1B33]/70 via-[#0B1B33]/20 to-transparent sm:hidden"
-              }`}
-            />
+            {/* Smooth contrast overlay: keeps text crisp without harsh vertical cutoff */}
+            <div className="pointer-events-none absolute inset-0 bg-gradient-to-r from-[#0B1B33]/85 via-[#0B1B33]/60 via-45% to-transparent lg:from-[#0B1B33] lg:via-[#0B1B33]/92 lg:via-45% lg:to-transparent" />
+            <div className="pointer-events-none absolute inset-x-0 top-0 h-28 bg-gradient-to-b from-[#0B1B33]/70 to-transparent" />
+            {bottomContent && (
+              <div className="pointer-events-none absolute inset-0 bg-gradient-to-t from-[#0B1B33]/85 via-[#0B1B33]/30 to-transparent to-35%" />
+            )}
           </>
         ) : (
           <>
-            <div className="absolute inset-0 bg-signal-deep/65 lg:hidden" />
+            <div className="absolute inset-0 bg-signal-deep/60 lg:hidden" />
             <div className="absolute inset-y-0 left-0 hidden w-[52%] bg-gradient-to-r from-signal-deep via-signal-deep/70 to-transparent lg:block" />
           </>
         )}
       </div>
 
-      {/* ── Content wrapper ───────────────────────────────────────────── */}
-      {/*
-       * Mobile (< lg):
-       *   - min-h-[100svh] fills the full viewport so there are no orphan gaps
-       *   - flex-col with justify-start: content flows from top, bottomContent
-       *     uses mt-auto to anchor at the bottom — no absolute positioning
-       *   - pt-[6.5rem] clears the transparent sticky nav (≈ 64px) with breathing room
-       *   - No large bottom padding hack needed
-       *
-       * Desktop (lg+):
-       *   - grid layout; bottomContent restores to absolute bottom-8 as designed
-       */}
+      {/* ── Content Wrapper ───────────────────────────────────────────── */}
       <motion.div
         className={`container-lattice relative flex flex-col ${
           fullBleed
-            ? "lg:grid lg:grid-cols-[50%_50%] lg:min-h-[88vh]"
+            ? `lg:grid lg:grid-cols-[50%_50%] ${
+                bottomContent ? "lg:grid-rows-[minmax(0,1fr)_auto]" : ""
+              } lg:min-h-[85vh]`
             : "lg:grid lg:grid-cols-[45%_55%] lg:min-h-[80svh]"
         } ${
           bottomContent
-            ? // With checker: fill exactly the viewport — content at top, checker at bottom
-              "min-h-[100svh] justify-start pt-[6.5rem] pb-6 sm:pt-28 sm:pb-8 lg:justify-start lg:pt-24 lg:pb-24"
-            : // Without checker: fill viewport so content centers with no orphan gap below
-              "min-h-[100svh] justify-center pt-28 pb-16 sm:pt-32 sm:pb-20 lg:min-h-[80svh] lg:pt-24 lg:pb-20"
+            ? "pt-28 pb-12 sm:pt-32 sm:pb-14 lg:min-h-[85vh] lg:justify-center lg:pt-20 lg:pb-10"
+            : "pt-28 pb-16 sm:pt-32 sm:pb-20 lg:min-h-[82vh] lg:justify-center lg:pt-24 lg:pb-20"
         } lg:items-stretch`}
         variants={entranceContainer}
         initial={reduce ? false : "hidden"}
         animate="show"
       >
-        {/* ── Hero text + children ───────────────────────────────────── */}
+        {/* ── Hero Text + Children ───────────────────────────────────── */}
         <div
-          className={`relative z-10 transition-transform duration-300 ease-out lg:self-center ${
-            bottomContent
-              ? // With checker: don't center — let content sit at top, checker at bottom
-                "flex flex-col justify-center flex-1 lg:flex-none lg:my-auto"
-              : // Without checker: center as before
-                "my-auto"
-          } ${bottomContentExpanded ? "-translate-y-8 sm:-translate-y-10 lg:-translate-y-0" : ""}`}
+          className={`relative z-10 transition-transform duration-300 ease-out lg:self-center my-0 lg:my-auto max-lg:rounded-2xl max-lg:bg-[#0B1B33]/25 max-lg:px-3 max-lg:py-3 max-lg:backdrop-blur-[2px] ${
+            bottomContentExpanded ? "-translate-y-6 sm:-translate-y-8 lg:-translate-y-0" : ""
+          }`}
         >
           {eyebrow && (
             <motion.div variants={entranceItem}>
@@ -131,7 +100,7 @@ export function SplitHero({
 
           <motion.h1
             variants={entranceItem}
-            className="mt-5 max-w-xl font-heading text-4xl font-extrabold leading-[1.05] tracking-tighter text-paper sm:text-5xl lg:text-[3.6rem]"
+            className="mt-5 max-w-xl font-heading text-3xl font-extrabold leading-[1.12] tracking-tighter text-paper drop-shadow-[0_2px_10px_rgba(7,34,72,0.7)] sm:mt-6 sm:text-4xl lg:text-[3.5rem] lg:leading-[1.05]"
           >
             {title}
           </motion.h1>
@@ -139,14 +108,14 @@ export function SplitHero({
           {subtitle && (
             <motion.p
               variants={entranceItem}
-              className="mt-5 max-w-md text-base leading-relaxed text-paper/85 sm:mt-6 sm:text-lg"
+              className="mt-4 max-w-lg text-sm leading-relaxed text-paper/90 drop-shadow-[0_1px_4px_rgba(7,34,72,0.8)] sm:mt-5 sm:text-base lg:text-lg"
             >
               {subtitle}
             </motion.p>
           )}
 
           {children && (
-            <motion.div variants={entranceItem} className="mt-8 sm:mt-10">
+            <motion.div variants={entranceItem} className="mt-7 sm:mt-9">
               {children}
             </motion.div>
           )}
@@ -158,16 +127,10 @@ export function SplitHero({
         )}
 
         {/* ── bottomContent ─────────────────────────────────────────── */}
-        {/*
-         * Mobile: in normal flow with mt-auto → anchors to bottom of the
-         *   100svh container without any absolute hacks or gap dead-zones.
-         * Desktop (lg+): absolute bottom-8 so it overlaps the grid column
-         *   exactly as the original design intended.
-         */}
         {bottomContent && (
           <motion.div
             variants={entranceItem}
-            className="relative z-10 mt-auto w-full lg:absolute lg:inset-x-0 lg:bottom-8 lg:px-12"
+            className="relative z-10 mt-7 w-full sm:mt-9 lg:col-span-2 lg:mt-6 lg:px-12"
             style={{ paddingBottom: "env(safe-area-inset-bottom, 0px)" }}
           >
             {bottomContent}

@@ -7,10 +7,10 @@ const WAVES = [
     color: "#ffe9ad",
     halo: "goldHalo",
     core: "goldCore",
-    widthHalo: 7,
-    widthCore: 1.6,
-    opacityHalo: 0.6,
-    opacityCore: 0.9,
+    widthHalo: 10,
+    widthCore: 2.8,
+    opacityHalo: 0.75,
+    opacityCore: 1,
     anchors: [[971, 616], [1154, 463], [847, 335], [745, 428], [860, 622]],
     controls: [
       [[1225, 640], [1157, 444]],
@@ -24,10 +24,10 @@ const WAVES = [
     color: "#ffe9ad",
     halo: "goldHalo",
     core: "goldCore",
-    widthHalo: 5,
-    widthCore: 1.2,
-    opacityHalo: 0.5,
-    opacityCore: 0.85,
+    widthHalo: 7,
+    widthCore: 2,
+    opacityHalo: 0.7,
+    opacityCore: 0.95,
     anchors: [[1071, 567], [1147, 465], [1067, 584]],
     controls: [[[1073, 515], [1188, 553]], [[1181, 502], [1210, 531]]]
   },
@@ -36,20 +36,20 @@ const WAVES = [
     color: "#d3fffa",
     halo: "tealHalo",
     core: "tealCore",
-    widthHalo: 2.5,
-    widthCore: 0.8,
-    opacityHalo: 0.5,
-    opacityCore: 0.8,
+    widthHalo: 4.5,
+    widthCore: 1.4,
+    opacityHalo: 0.65,
+    opacityCore: 0.9,
     anchors: [[644, 490], [884, 620]],
     controls: [[[539, 587], [798, 546]]]
   }
 ];
 
 const FADE_ZONES = [
-  { zone: "mom", cx: 612, cy: 410, r: 140 },
-  { zone: "girl", cx: 798, cy: 389, r: 80 },
-  { zone: "dad", cx: 1147, cy: 460, r: 70 },
-  { zone: "boy", cx: 1023, cy: 329, r: 80 }
+  { zone: "mom", cx: 612, cy: 410, r: 75 },
+  { zone: "girl", cx: 798, cy: 389, r: 45 },
+  { zone: "dad", cx: 1147, cy: 460, r: 45 },
+  { zone: "boy", cx: 1023, cy: 329, r: 45 }
 ];
 
 function pathFor(wave) {
@@ -78,41 +78,41 @@ export function HeroFibreWaves() {
       <defs>
         <linearGradient id={uid("goldHalo")} x1="0" y1="0" x2="1" y2="0">
           <stop offset="0%" stopColor="#ffb200" stopOpacity="0" />
-          <stop offset="12%" stopColor="#ffb200" stopOpacity="0.5" />
-          <stop offset="50%" stopColor="#ffd873" stopOpacity="0.6" />
-          <stop offset="88%" stopColor="#ffb200" stopOpacity="0.5" />
+          <stop offset="12%" stopColor="#ffb200" stopOpacity="0.6" />
+          <stop offset="50%" stopColor="#ffd873" stopOpacity="0.75" />
+          <stop offset="88%" stopColor="#ffb200" stopOpacity="0.6" />
           <stop offset="100%" stopColor="#ffb200" stopOpacity="0" />
         </linearGradient>
         <linearGradient id={uid("goldCore")} x1="0" y1="0" x2="1" y2="0">
           <stop offset="0%" stopColor="#ffd873" stopOpacity="0" />
-          <stop offset="12%" stopColor="#ffe9ad" stopOpacity="0.85" />
+          <stop offset="12%" stopColor="#ffe9ad" stopOpacity="0.9" />
           <stop offset="50%" stopColor="#fff6df" stopOpacity="1" />
-          <stop offset="88%" stopColor="#ffe9ad" stopOpacity="0.85" />
+          <stop offset="88%" stopColor="#ffe9ad" stopOpacity="0.9" />
           <stop offset="100%" stopColor="#ffd873" stopOpacity="0" />
         </linearGradient>
         <linearGradient id={uid("tealHalo")} x1="0" y1="0" x2="1" y2="0">
           <stop offset="0%" stopColor="#22c9d6" stopOpacity="0" />
-          <stop offset="15%" stopColor="#22c9d6" stopOpacity="0.45" />
-          <stop offset="50%" stopColor="#7cf0ea" stopOpacity="0.55" />
-          <stop offset="85%" stopColor="#22c9d6" stopOpacity="0.45" />
+          <stop offset="15%" stopColor="#22c9d6" stopOpacity="0.5" />
+          <stop offset="50%" stopColor="#7cf0ea" stopOpacity="0.65" />
+          <stop offset="85%" stopColor="#22c9d6" stopOpacity="0.5" />
           <stop offset="100%" stopColor="#22c9d6" stopOpacity="0" />
         </linearGradient>
         <linearGradient id={uid("tealCore")} x1="0" y1="0" x2="1" y2="0">
           <stop offset="0%" stopColor="#bafcf7" stopOpacity="0" />
-          <stop offset="15%" stopColor="#d3fffa" stopOpacity="0.8" />
+          <stop offset="15%" stopColor="#d3fffa" stopOpacity="0.85" />
           <stop offset="50%" stopColor="#f2fffd" stopOpacity="1" />
-          <stop offset="85%" stopColor="#d3fffa" stopOpacity="0.8" />
+          <stop offset="85%" stopColor="#d3fffa" stopOpacity="0.85" />
           <stop offset="100%" stopColor="#bafcf7" stopOpacity="0" />
         </linearGradient>
         <filter id={uid("glowSoft")} x="-80%" y="-80%" width="260%" height="260%">
-          <feGaussianBlur stdDeviation="4.5" result="blur" />
+          <feGaussianBlur stdDeviation="3.5" result="blur" />
           <feMerge>
             <feMergeNode in="blur" />
             <feMergeNode in="SourceGraphic" />
           </feMerge>
         </filter>
         <filter id={uid("glowTight")} x="-80%" y="-80%" width="260%" height="260%">
-          <feGaussianBlur stdDeviation="1.2" result="blur" />
+          <feGaussianBlur stdDeviation="1" result="blur" />
           <feMerge>
             <feMergeNode in="blur" />
             <feMergeNode in="SourceGraphic" />
@@ -120,7 +120,7 @@ export function HeroFibreWaves() {
         </filter>
         <radialGradient id={uid("fadeHole")}>
           <stop offset="0%" stopColor="#000" stopOpacity="1" />
-          <stop offset="55%" stopColor="#000" stopOpacity="1" />
+          <stop offset="60%" stopColor="#000" stopOpacity="1" />
           <stop offset="100%" stopColor="#000" stopOpacity="0" />
         </radialGradient>
         <mask id={uid("fadeMask")} maskUnits="userSpaceOnUse" x="-128" y="-128" width="1456" height="1152">
@@ -147,7 +147,6 @@ export function HeroFibreWaves() {
               strokeLinecap="round"
               opacity={wave.opacityHalo}
               filter={`url(#${uid("glowSoft")})`}
-              vectorEffect="non-scaling-stroke"
             />
             <path
               id={uid(`${wave.id}-core`)}
@@ -157,12 +156,11 @@ export function HeroFibreWaves() {
               strokeLinecap="round"
               opacity={wave.opacityCore}
               filter={`url(#${uid("glowTight")})`}
-              vectorEffect="non-scaling-stroke"
             />
             {!reduceMotion && [0, 1, 2].map((index) => (
               <circle
                 key={`${wave.id}-glint-${index}`}
-                r="2.6"
+                r="3.2"
                 fill={wave.color}
                 filter={`url(#${uid("glowTight")})`}
               >

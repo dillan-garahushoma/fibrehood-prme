@@ -19,7 +19,11 @@ export default function Installations() {
 
   return (
     <>
-      <PartnersHero image="/images/fibre-installation-hero.png" fullBleed />
+      <PartnersHero
+        image="/images/fibre-installation-hero.png"
+        imageClassName="object-cover object-[58%_center]"
+        fullBleed
+      />
       <AudienceCards />
       {/* Infrastructure partner logos marquee */}
       <TrustedPartnersBanner />

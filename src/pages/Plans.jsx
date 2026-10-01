@@ -263,8 +263,14 @@ function CompareTable({ plans }) {
     { label: "Installation", get: (p) => p.installation }
   ];
   return (
-    <div className="overflow-x-auto">
-      <table className="w-full border-collapse text-sm">
+    <div
+      className="min-w-0 max-w-full overflow-x-auto overscroll-x-contain"
+      role="region"
+      aria-label="Plan comparison details"
+      tabIndex={0}
+    >
+      <p className="mb-2 text-xs text-ink-soft sm:hidden">Swipe horizontally to compare plans.</p>
+      <table className="w-full min-w-[38rem] border-collapse text-sm">
         <thead>
           <tr>
             <th className="w-32 border-b border-line p-3 text-left text-xs font-semibold uppercase tracking-wider text-ink-soft">Plan</th>

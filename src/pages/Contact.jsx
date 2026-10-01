@@ -23,7 +23,7 @@ export default function Contact() {
   };
 
   const actionButtonClass =
-    "inline-flex h-12 items-center gap-2.5 whitespace-nowrap rounded-full px-6 text-sm transition-all duration-200 hover:-translate-y-0.5 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 lg:gap-1.5 lg:px-3 lg:text-xs xl:gap-2.5 xl:px-6 xl:text-sm";
+    "inline-flex h-12 items-center justify-center gap-2.5 whitespace-nowrap rounded-full px-6 text-sm transition-all duration-200 hover:-translate-y-0.5 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 w-full sm:w-auto lg:gap-1.5 lg:px-3.5 lg:text-xs xl:gap-2.5 xl:px-6 xl:text-sm";
 
   return (
     <>
@@ -31,7 +31,7 @@ export default function Contact() {
         image={IMAGES.contactHero}
         alt="Fibrehood customer support and field technician"
         fullBleed={true}
-        imageClassName="object-cover object-[85%_center] lg:object-[80%_center]"
+        imageClassName="object-cover object-[100%_center] sm:object-[85%_center] lg:object-[80%_center]"
         title={
           <>
             Let’s get you <br className="hidden sm:inline" />
@@ -42,7 +42,7 @@ export default function Contact() {
       >
         <div>
           {/* Action pills row */}
-          <div className="flex flex-wrap items-stretch gap-3 sm:gap-3.5 lg:flex-nowrap lg:gap-2 xl:gap-3.5">
+          <div className="flex flex-col gap-3 sm:flex-row sm:flex-wrap sm:items-center sm:gap-3 lg:flex-nowrap lg:gap-2 xl:gap-3.5">
             <a
               href={whatsappLink("Hi Fibrehood, I'd like to get connected.")}
               target="_blank"
@@ -75,7 +75,7 @@ export default function Contact() {
           </div>
 
           {/* Trust features row directly under buttons */}
-          <div className="mt-10 flex flex-wrap items-center gap-4 sm:gap-6 text-sm text-paper/85">
+          <div className="mt-6 flex flex-wrap items-center gap-x-6 gap-y-2 sm:mt-8 text-xs sm:text-sm text-paper/85">
             <div className="flex items-center gap-2.5">
               <Clock className="h-5 w-5 text-loop shrink-0" strokeWidth={1.75} aria-hidden="true" />
               <span className="font-medium text-paper/90">Quick response</span>

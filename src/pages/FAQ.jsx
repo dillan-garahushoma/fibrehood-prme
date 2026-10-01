@@ -319,6 +319,7 @@ export default function FAQ() {
         image={IMAGES.supportHero}
         alt="Fibrehood customer support specialist assisting a client"
         fullBleed
+        imageClassName="object-cover object-[72%_center]"
         eyebrow="SUPPORT & SELF-SERVICE"
         title="Find an answer, fast"
         subtitle="Search common issues, browse by category, and escalate to a human when you need to."

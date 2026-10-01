@@ -26,7 +26,7 @@ export function PageHero({ eyebrow, title, subtitle, tone = "dark", children, al
         <LoopMark className="h-56 w-[26rem]" stroke={2} animated />
       </div>
       <div
-        className="container-lattice relative flex flex-col justify-center pt-28 pb-14 md:pt-36 md:pb-20"
+        className="container-lattice relative flex flex-col justify-center pt-32 pb-16 md:pt-40 md:pb-24"
         style={{ minHeight }}
       >
         <motion.div

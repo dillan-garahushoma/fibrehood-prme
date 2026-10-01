@@ -21,10 +21,15 @@ const CTAS = [
  * - Each pill meets the 44px minimum touch target height via py-3 (12px * 2 + ~20px text)
  * - Slightly wider pill padding on mobile for comfortable tapping
  */
-export function PartnersHero({ image = "/images/partners-hero.png", fullBleed = false }) {
+export function PartnersHero({
+  image = "/images/partners-hero.png",
+  imageClassName,
+  fullBleed = false,
+}) {
   return (
     <SplitHero
       image={image}
+      imageClassName={imageClassName}
       alt="Fibrehood partnership programme for communities and developers"
       eyebrow="PARTNERSHIP PROGRAMME"
       title="Bring fibre to your community"
