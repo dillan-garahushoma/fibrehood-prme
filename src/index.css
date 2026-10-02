@@ -654,9 +654,10 @@
 }
 
 @media (max-width: 767px) {
-  /* On the stacked hero the copy occupies the image field; preserve its
-     contrast rather than letting a desktop-anchored fibre path cut through it. */
-  .fibre-art { display: none; }
+  /* Active on mobile: smoothly blend fibre line behind content */
+  .fibre-art {
+    display: block;
+  }
 }
 
 @keyframes draw-on {

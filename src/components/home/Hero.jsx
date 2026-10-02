@@ -42,36 +42,40 @@ export function Hero() {
       </div>
 
       <motion.div
-        className="container-lattice relative z-20 flex min-h-[82svh] sm:min-h-[86svh] flex-col justify-start pt-36 pb-16 sm:pt-40 sm:pb-20 lg:min-h-[88vh] lg:grid lg:grid-cols-[50%_50%] lg:items-center lg:pt-20 lg:pb-20"
+        className="container-lattice relative z-20 flex min-h-[82svh] sm:min-h-[86svh] flex-col justify-start pt-44 pb-14 sm:pt-40 sm:pb-20 lg:min-h-[88vh] lg:grid lg:grid-cols-[50%_50%] lg:items-center lg:pt-20 lg:pb-20"
         variants={entranceContainer}
         initial={reduce ? false : "hidden"}
         animate="show"
       >
-        {/* Brand logo — sits cleanly top-left */}
+        {/* Brand logo — almost double size on mobile, responsive scale on desktop */}
         <div className="absolute inset-x-0 top-0 z-20 flex items-start px-5 sm:px-8 lg:px-12">
           <img
             src="/white1.png"
             alt="Fibrehood"
-            className="-mt-5 -ml-2 h-[5.5rem] w-auto object-contain sm:-mt-8 sm:h-[7rem] md:-mt-10 md:-ml-2.5 md:h-[8.5rem]"
+            className="-mt-8 -ml-2 h-[9.5rem] w-auto object-contain sm:-mt-8 sm:h-[7rem] md:-mt-10 md:-ml-2.5 md:h-[8.5rem]"
           />
         </div>
 
         {/* Content: mobile = flex-col spread top-to-bottom; desktop = normal block */}
-        <div className="relative z-10 my-0 lg:my-0 flex flex-col min-h-[calc(82svh-9rem)] sm:min-h-[calc(86svh-10rem)] lg:block lg:min-h-0">
+        <div className="relative z-10 my-0 lg:my-0 flex flex-col flex-1 min-h-[calc(82svh-11rem)] sm:min-h-[calc(86svh-10rem)] lg:block lg:min-h-0">
           <motion.h1
             variants={entranceItem}
-            className="max-w-xl font-heading text-3xl font-extrabold leading-[1.12] tracking-tighter text-paper drop-shadow-[0_2px_10px_rgba(7,34,72,0.7)] sm:text-5xl lg:text-[3.6rem]"
+            className="max-w-xl font-heading text-[2.35rem] font-extrabold leading-[1.08] tracking-tight text-paper drop-shadow-[0_2px_10px_rgba(7,34,72,0.7)] sm:text-5xl lg:text-[3.6rem]"
           >
             Fast, reliable fibre internet for your community
           </motion.h1>
 
-          <motion.div variants={entranceItem} className="mt-5 sm:mt-7">
-            <span className="text-sm font-medium text-paper/85 drop-shadow-[0_1px_4px_rgba(7,34,72,0.8)]">Starting from</span>
-            <div className="mt-1 flex items-end gap-2">
-              <span className="font-heading text-4xl font-extrabold tracking-tight text-loop drop-shadow-[0_2px_8px_rgba(7,34,72,0.6)] sm:text-5xl">
+          <motion.div variants={entranceItem} className="mt-6 sm:mt-7">
+            <span className="text-xs font-bold uppercase tracking-[0.2em] text-paper/80 drop-shadow-[0_1px_4px_rgba(7,34,72,0.8)]">
+              Starting from
+            </span>
+            <div className="mt-2 flex items-baseline gap-2">
+              <span className="font-heading text-5xl font-black tracking-tight text-loop drop-shadow-[0_2px_14px_rgba(252,204,24,0.4)] sm:text-6xl">
                 US${STARTING_PRICE}
               </span>
-              <span className="pb-1 text-sm font-medium text-paper/90 drop-shadow-[0_1px_4px_rgba(7,34,72,0.8)]">/month</span>
+              <span className="text-lg font-semibold text-paper/90 drop-shadow-[0_1px_4px_rgba(7,34,72,0.8)]">
+                /month
+              </span>
             </div>
           </motion.div>
 
