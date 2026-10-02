@@ -150,19 +150,24 @@ export function Navbar() {
                   </Link>
                 );
               })}
-              <div className="mt-3 border-t border-line/50 pt-3 flex flex-col gap-2">
-                <Link
-                  to="/signup"
-                  onClick={() => setOpen(false)}
-                  className="flex items-center justify-center gap-2 rounded-full bg-loop px-4 py-3 text-base font-semibold text-signal transition-colors hover:bg-loop/90 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-loop"
-                >
-                  Sign Up <ArrowRight className="h-4 w-4" aria-hidden="true" />
-                </Link>
-                <ClientPortalLink
-                  className="px-3 py-2 text-base text-ink-soft hover:text-signal"
-                  onClick={() => setOpen(false)}
-                />
-              </div>
+              <Link
+                to="/signup"
+                onClick={() => setOpen(false)}
+                className="flex items-center gap-3 rounded-lg px-3 py-3 text-base font-medium transition-colors hover:bg-fog text-ink-soft"
+              >
+                <ArrowRight className="h-5 w-5" aria-hidden="true" />
+                Sign Up
+              </Link>
+              <a
+                href="https://fibrehood.splynx.app/portal/login"
+                target="_blank"
+                rel="noreferrer"
+                onClick={() => setOpen(false)}
+                className="flex items-center gap-3 rounded-lg px-3 py-3 text-base font-medium transition-colors hover:bg-fog text-ink-soft"
+              >
+                <User className="h-5 w-5" />
+                Client Portal
+              </a>
             </div>
           </motion.div>
         )}

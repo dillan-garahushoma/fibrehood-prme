@@ -49,8 +49,8 @@ export function PlansHero() {
         initial={reduce ? false : "hidden"}
         animate="show"
       >
-        {/* Logo at top */}
-        <div className="absolute inset-x-0 top-3 z-20 flex items-start px-5 sm:px-8 lg:px-12">
+        {/* Logo at top — visually aligned to container-lattice left margin */}
+        <div className="absolute inset-x-0 top-3 z-20 flex items-start container-lattice">
           <motion.div
             variants={entranceItem}
             className="w-[min(65vw,13.5rem)] sm:w-[min(75vw,13.5rem)]"
@@ -58,7 +58,7 @@ export function PlansHero() {
             <img
               src={HERO_LOGO}
               alt="Fibrehood Connect"
-              className="h-auto w-full object-contain drop-shadow-sm"
+              className="h-auto w-full object-contain drop-shadow-sm -ml-[14.5%]"
             />
           </motion.div>
         </div>

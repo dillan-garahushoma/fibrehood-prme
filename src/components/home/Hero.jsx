@@ -56,8 +56,8 @@ export function Hero() {
           />
         </div>
 
-        {/* Content: exact original copy only */}
-        <div className="relative z-10 my-0 lg:my-0">
+        {/* Content: mobile = flex-col spread top-to-bottom; desktop = normal block */}
+        <div className="relative z-10 my-0 lg:my-0 flex flex-col min-h-[calc(82svh-9rem)] sm:min-h-[calc(86svh-10rem)] lg:block lg:min-h-0">
           <motion.h1
             variants={entranceItem}
             className="max-w-xl font-heading text-3xl font-extrabold leading-[1.12] tracking-tighter text-paper drop-shadow-[0_2px_10px_rgba(7,34,72,0.7)] sm:text-5xl lg:text-[3.6rem]"
@@ -75,7 +75,7 @@ export function Hero() {
             </div>
           </motion.div>
 
-          <motion.div variants={entranceItem} className="mt-6 sm:mt-8 flex flex-col gap-3 sm:flex-row sm:items-center">
+          <motion.div variants={entranceItem} className="mt-auto pt-10 sm:pt-12 lg:mt-8 lg:pt-0 flex flex-col gap-3 sm:flex-row sm:items-center">
             <Link
               to="/signup"
               className="inline-flex h-12 items-center justify-center gap-2 rounded-full bg-loop px-7 text-sm font-semibold text-signal transition-all hover:bg-loop/90 hover:shadow-loop focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-loop w-full sm:w-auto"
