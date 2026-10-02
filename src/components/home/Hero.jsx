@@ -33,12 +33,12 @@ export function Hero() {
             fittingType="fill"
             className="block h-full w-full object-cover object-right lg:object-[center_right] max-lg:scale-[1.03] max-lg:blur-[2px]"
           />
+          <HeroFibreWaves />
           {/* Smooth contrast overlay: keeps white text 100% readable while letting family & glowing lines shine through */}
           <div className="pointer-events-none absolute inset-0 bg-gradient-to-r from-[#0B1B33]/85 via-[#0B1B33]/60 via-45% to-transparent lg:from-[#0B1B33] lg:via-[#0B1B33]/92 lg:via-45% lg:to-transparent" />
           {/* Top header protection so logo and hamburger menu stay crisp */}
           <div className="pointer-events-none absolute inset-x-0 top-0 h-28 bg-gradient-to-b from-[#0B1B33]/70 to-transparent" />
         </div>
-        <HeroFibreWaves />
       </div>
 
       <motion.div

@@ -60,6 +60,34 @@
     animation: dash-flow 6s linear infinite;
   }
 
+  /* The hero artwork shares the photograph's native coordinate system. The
+     reveal animates only stroke visibility, never the path geometry. */
+  .fibre-art__stroke {
+    fill: none;
+    stroke-linecap: round;
+    stroke-linejoin: round;
+    stroke-dasharray: 1;
+    stroke-dashoffset: 1;
+    animation: fibre-draw 1.4s cubic-bezier(.22, .8, .25, 1) var(--fibre-delay, 0s) both;
+  }
+
+  .fibre-art__halo { opacity: .78; }
+  .fibre-art__node {
+    opacity: 0;
+    animation: fibre-node-reveal .45s ease-out var(--node-delay, 0s) both;
+  }
+  .fibre-art__packet {
+    fill: none;
+    stroke-linecap: round;
+    stroke-dasharray: .035 .965;
+    stroke-dashoffset: 1;
+    opacity: 0;
+    animation: fibre-packet var(--packet-duration, 8s) linear var(--packet-delay, 4s) infinite;
+  }
+  .fibre-art--static .fibre-art__stroke { animation: none; stroke-dashoffset: 0; }
+  .fibre-art--static .fibre-art__node { animation: none; opacity: 1; }
+  .fibre-art--static .fibre-art__packet { display: none; }
+
   .pulse-glow {
     animation: signal-pulse 3s ease-in-out infinite;
   }
@@ -599,6 +627,36 @@
 
 @keyframes dash-flow {
   to { stroke-dashoffset: -1000; }
+}
+
+@keyframes fibre-draw {
+  to { stroke-dashoffset: 0; }
+}
+
+@keyframes fibre-packet {
+  0%, 8% { opacity: 0; stroke-dashoffset: 1; }
+  13%, 72% { opacity: .66; }
+  82%, 100% { opacity: 0; stroke-dashoffset: -1; }
+}
+
+@keyframes fibre-node-reveal {
+  to { opacity: 1; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .fibre-art__stroke {
+    animation: none;
+    stroke-dashoffset: 0;
+  }
+  .fibre-art__node { animation: none; opacity: 1; }
+
+  .fibre-art__packet { display: none; }
+}
+
+@media (max-width: 767px) {
+  /* On the stacked hero the copy occupies the image field; preserve its
+     contrast rather than letting a desktop-anchored fibre path cut through it. */
+  .fibre-art { display: none; }
 }
 
 @keyframes draw-on {

@@ -1,66 +1,104 @@
 import React, { useId } from "react";
 import { useReducedMotion } from "framer-motion";
+import {
+  FIBRE_LINES,
+  FIBRE_NODES,
+  FIBRE_OCCLUSION_PATHS,
+  FIBRE_TONES,
+  HERO_PHOTO,
+} from "./fibreLineConfig";
 
-const WAVES = [
-  {
-    id: "mainGold",
-    color: "#ffe9ad",
-    halo: "goldHalo",
-    core: "goldCore",
-    widthHalo: 10,
-    widthCore: 2.8,
-    opacityHalo: 0.75,
-    opacityCore: 1,
-    anchors: [[971, 616], [1154, 463], [847, 335], [745, 428], [860, 622]],
-    controls: [
-      [[1225, 640], [1157, 444]],
-      [[1219, 365], [1044, 299]],
-      [[702, 401], [970, 400]],
-      [[591, 473], [422, 609]]
-    ]
-  },
-  {
-    id: "knotLoop1",
-    color: "#ffe9ad",
-    halo: "goldHalo",
-    core: "goldCore",
-    widthHalo: 7,
-    widthCore: 2,
-    opacityHalo: 0.7,
-    opacityCore: 0.95,
-    anchors: [[1071, 567], [1147, 465], [1067, 584]],
-    controls: [[[1073, 515], [1188, 553]], [[1181, 502], [1210, 531]]]
-  },
-  {
-    id: "tealAccent",
-    color: "#d3fffa",
-    halo: "tealHalo",
-    core: "tealCore",
-    widthHalo: 4.5,
-    widthCore: 1.4,
-    opacityHalo: 0.65,
-    opacityCore: 0.9,
-    anchors: [[644, 490], [884, 620]],
-    controls: [[[539, 587], [798, 546]]]
-  }
-];
+function LineGradient({ id, line, tone, halo }) {
+  const [start, end] = line.range;
+  const depthOpacity = { background: 0.68, midground: 0.84, foreground: 0.94 }[line.depth] ?? 0.84;
+  const opacity = halo ? line.haloOpacity : depthOpacity;
+  const startColor = halo ? tone.glow : tone.core;
+  const middleColor = halo ? tone.core : tone.bright;
 
-const FADE_ZONES = [
-  { zone: "mom", cx: 612, cy: 410, r: 75 },
-  { zone: "girl", cx: 798, cy: 389, r: 45 },
-  { zone: "dad", cx: 1147, cy: 460, r: 45 },
-  { zone: "boy", cx: 1023, cy: 329, r: 45 }
-];
-
-function pathFor(wave) {
-  let path = `M ${wave.anchors[0][0]} ${wave.anchors[0][1]}`;
-  wave.controls.forEach(([first, second], index) => {
-    const [x, y] = wave.anchors[index + 1];
-    path += ` C ${first[0]} ${first[1]}, ${second[0]} ${second[1]}, ${x} ${y}`;
-  });
-  return path;
+  return (
+    <linearGradient id={id} gradientUnits="userSpaceOnUse" x1={start} y1="0" x2={end} y2="0">
+      <stop offset="0%" stopColor={startColor} stopOpacity="0" />
+      <stop offset="8%" stopColor={startColor} stopOpacity={opacity * 0.68} />
+      <stop offset="52%" stopColor={middleColor} stopOpacity={opacity} />
+      <stop offset="84%" stopColor={startColor} stopOpacity={opacity * 0.55} />
+      <stop offset="100%" stopColor={startColor} stopOpacity="0" />
+    </linearGradient>
+  );
 }
 
+function FibreLine({ line, uid, reduceMotion }) {
+  const tone = FIBRE_TONES[line.tone];
+  const coreGradient = uid(`${line.id}-core-gradient`);
+  const haloGradient = uid(`${line.id}-halo-gradient`);
+  const pathId = uid(`${line.id}-path`);
+
+  return (
+    <g
+      className="fibre-art__strand"
+      style={{ "--fibre-delay": `${line.delay}s` }}
+      data-fibre-line={line.id}
+      data-fibre-group={line.group}
+      data-fibre-depth={line.depth}
+    >
+      <LineGradient id={coreGradient} line={line} tone={tone} halo={false} />
+      <LineGradient id={haloGradient} line={line} tone={tone} halo />
+      <path
+        className="fibre-art__stroke fibre-art__halo"
+        d={line.path}
+        pathLength="1"
+        stroke={`url(#${haloGradient})`}
+        strokeWidth={line.haloWidth}
+        filter={`url(#${uid("soft-glow")})`}
+      />
+      <path
+        id={pathId}
+        className="fibre-art__stroke fibre-art__core"
+        d={line.path}
+        pathLength="1"
+        stroke={`url(#${coreGradient})`}
+        strokeWidth={line.coreWidth}
+        filter={`url(#${uid("core-glow")})`}
+      />
+      {!reduceMotion && line.packet && (
+        <path
+          className="fibre-art__packet"
+          d={line.path}
+          pathLength="1"
+          stroke={tone.packet}
+          strokeWidth={line.coreWidth + 0.55}
+          filter={`url(#${uid("core-glow")})`}
+          style={{
+            "--packet-delay": `${1.45 + line.packet.phase}s`,
+            "--packet-duration": `${line.packet.duration}s`,
+          }}
+        />
+      )}
+    </g>
+  );
+}
+
+function FibreNode({ node, uid, reduceMotion }) {
+  const tone = FIBRE_TONES[node.tone];
+  return (
+    <g
+      className="fibre-art__node"
+      data-fibre-node={node.id}
+      style={{ "--node-delay": `${node.delay ?? 0}s` }}
+    >
+      <circle cx={node.x} cy={node.y} r={node.radius * 3.6} fill={tone.glow} opacity="0.2" filter={`url(#${uid("soft-glow")})`} />
+      <circle cx={node.x} cy={node.y} r={node.radius} fill={tone.core}>
+        {!reduceMotion && <animate attributeName="opacity" values=".6;1;.6" dur="5.2s" begin={`${node.radius}s`} repeatCount="indefinite" />}
+      </circle>
+      <circle cx={node.x} cy={node.y} r={node.radius * 0.38} fill="#fff" />
+    </g>
+  );
+}
+
+/**
+ * The mask belongs exclusively to the fibre groups. No duplicate image, cutout,
+ * circle, or visible matte is rendered: the paths simply disappear behind the
+ * hand-traced subject silhouettes and re-emerge in the background pockets.
+ */
 export function HeroFibreWaves() {
   const id = useId().replace(/:/g, "");
   const reduceMotion = useReducedMotion();
@@ -68,114 +106,33 @@ export function HeroFibreWaves() {
 
   return (
     <svg
-      className="pointer-events-none absolute inset-0 z-10 h-full w-full"
-      viewBox="0 0 1200 896"
+      className={`fibre-art pointer-events-none absolute inset-0 z-10 h-full w-full ${reduceMotion ? "fibre-art--static" : ""}`}
+      viewBox={`0 0 ${HERO_PHOTO.width} ${HERO_PHOTO.height}`}
       preserveAspectRatio="xMaxYMid slice"
-      fill="none"
       xmlns="http://www.w3.org/2000/svg"
       aria-hidden="true"
+      data-testid="hero-fibre-lines"
     >
       <defs>
-        <linearGradient id={uid("goldHalo")} x1="0" y1="0" x2="1" y2="0">
-          <stop offset="0%" stopColor="#ffb200" stopOpacity="0" />
-          <stop offset="12%" stopColor="#ffb200" stopOpacity="0.6" />
-          <stop offset="50%" stopColor="#ffd873" stopOpacity="0.75" />
-          <stop offset="88%" stopColor="#ffb200" stopOpacity="0.6" />
-          <stop offset="100%" stopColor="#ffb200" stopOpacity="0" />
-        </linearGradient>
-        <linearGradient id={uid("goldCore")} x1="0" y1="0" x2="1" y2="0">
-          <stop offset="0%" stopColor="#ffd873" stopOpacity="0" />
-          <stop offset="12%" stopColor="#ffe9ad" stopOpacity="0.9" />
-          <stop offset="50%" stopColor="#fff6df" stopOpacity="1" />
-          <stop offset="88%" stopColor="#ffe9ad" stopOpacity="0.9" />
-          <stop offset="100%" stopColor="#ffd873" stopOpacity="0" />
-        </linearGradient>
-        <linearGradient id={uid("tealHalo")} x1="0" y1="0" x2="1" y2="0">
-          <stop offset="0%" stopColor="#22c9d6" stopOpacity="0" />
-          <stop offset="15%" stopColor="#22c9d6" stopOpacity="0.5" />
-          <stop offset="50%" stopColor="#7cf0ea" stopOpacity="0.65" />
-          <stop offset="85%" stopColor="#22c9d6" stopOpacity="0.5" />
-          <stop offset="100%" stopColor="#22c9d6" stopOpacity="0" />
-        </linearGradient>
-        <linearGradient id={uid("tealCore")} x1="0" y1="0" x2="1" y2="0">
-          <stop offset="0%" stopColor="#bafcf7" stopOpacity="0" />
-          <stop offset="15%" stopColor="#d3fffa" stopOpacity="0.85" />
-          <stop offset="50%" stopColor="#f2fffd" stopOpacity="1" />
-          <stop offset="85%" stopColor="#d3fffa" stopOpacity="0.85" />
-          <stop offset="100%" stopColor="#bafcf7" stopOpacity="0" />
-        </linearGradient>
-        <filter id={uid("glowSoft")} x="-80%" y="-80%" width="260%" height="260%">
-          <feGaussianBlur stdDeviation="3.5" result="blur" />
-          <feMerge>
-            <feMergeNode in="blur" />
-            <feMergeNode in="SourceGraphic" />
-          </feMerge>
+        <filter id={uid("soft-glow")} x="-30%" y="-30%" width="160%" height="160%">
+          <feGaussianBlur stdDeviation="3.5" />
         </filter>
-        <filter id={uid("glowTight")} x="-80%" y="-80%" width="260%" height="260%">
-          <feGaussianBlur stdDeviation="1" result="blur" />
-          <feMerge>
-            <feMergeNode in="blur" />
-            <feMergeNode in="SourceGraphic" />
-          </feMerge>
+        <filter id={uid("core-glow")} x="-18%" y="-18%" width="136%" height="136%">
+          <feGaussianBlur stdDeviation="0.48" result="blur" />
+          <feMerge><feMergeNode in="blur" /><feMergeNode in="SourceGraphic" /></feMerge>
         </filter>
-        <radialGradient id={uid("fadeHole")}>
-          <stop offset="0%" stopColor="#000" stopOpacity="1" />
-          <stop offset="60%" stopColor="#000" stopOpacity="1" />
-          <stop offset="100%" stopColor="#000" stopOpacity="0" />
-        </radialGradient>
-        <mask id={uid("fadeMask")} maskUnits="userSpaceOnUse" x="-128" y="-128" width="1456" height="1152">
-          <rect x="-128" y="-128" width="1456" height="1152" fill="white" />
-          {FADE_ZONES.map((zone) => (
-            <circle
-              key={zone.zone}
-              cx={zone.cx}
-              cy={zone.cy}
-              r={zone.r}
-              fill={`url(#${uid("fadeHole")})`}
-            />
-          ))}
+        <filter id={uid("occlusion-soft")} x="-4%" y="-4%" width="108%" height="108%">
+          <feGaussianBlur stdDeviation="1.8" />
+        </filter>
+        <mask id={uid("fibre-occlusion")} maskUnits="userSpaceOnUse" x="0" y="0" width={HERO_PHOTO.width} height={HERO_PHOTO.height}>
+          <rect width={HERO_PHOTO.width} height={HERO_PHOTO.height} fill="white" />
+          {FIBRE_OCCLUSION_PATHS.map((path) => <path key={path} d={path} fill="black" filter={`url(#${uid("occlusion-soft")})`} />)}
         </mask>
       </defs>
 
-      <g mask={`url(#${uid("fadeMask")})`}>
-        {WAVES.map((wave) => (
-          <g key={wave.id}>
-            <path
-              d={pathFor(wave)}
-              stroke={`url(#${uid(wave.halo)})`}
-              strokeWidth={wave.widthHalo}
-              strokeLinecap="round"
-              opacity={wave.opacityHalo}
-              filter={`url(#${uid("glowSoft")})`}
-            />
-            <path
-              id={uid(`${wave.id}-core`)}
-              d={pathFor(wave)}
-              stroke={`url(#${uid(wave.core)})`}
-              strokeWidth={wave.widthCore}
-              strokeLinecap="round"
-              opacity={wave.opacityCore}
-              filter={`url(#${uid("glowTight")})`}
-            />
-            {!reduceMotion && [0, 1, 2].map((index) => (
-              <circle
-                key={`${wave.id}-glint-${index}`}
-                r="3.2"
-                fill={wave.color}
-                filter={`url(#${uid("glowTight")})`}
-              >
-                <animateMotion
-                  dur={`${Math.max(3, WAVES.length * 4 + 6)}s`}
-                  begin={`${-index * 2}s`}
-                  repeatCount="indefinite"
-                  rotate="auto"
-                >
-                  <mpath xlinkHref={`#${uid(`${wave.id}-core`)}`} />
-                </animateMotion>
-              </circle>
-            ))}
-          </g>
-        ))}
+      <g mask={`url(#${uid("fibre-occlusion")})`} data-fibre-layer="masked-fibre-only" style={{ mixBlendMode: "screen" }}>
+        {FIBRE_LINES.map((line) => <FibreLine key={line.id} line={line} uid={uid} reduceMotion={reduceMotion} />)}
+        {FIBRE_NODES.map((node) => <FibreNode key={node.id} node={node} uid={uid} reduceMotion={reduceMotion} />)}
       </g>
     </svg>
   );

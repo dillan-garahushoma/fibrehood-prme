@@ -1,0 +1,324 @@
+- generic [ref=f3e2]:
+  - generic [ref=f3e3]:
+    - banner [ref=f3e4]:
+      - navigation [ref=f3e6]:
+        - generic [aria-hidden]:
+          - generic:
+            - generic:
+              - generic: fibreh
+              - generic: d
+            - generic: Bridging the access gap
+        - generic [ref=f3e7]:
+          - link "Home" [ref=f3e8] [cursor=pointer]:
+            - /url: /
+          - link "Fibre Plans" [ref=f3e10] [cursor=pointer]:
+            - /url: /plans
+          - link "Coverage" [ref=f3e11] [cursor=pointer]:
+            - /url: /coverage
+          - link "About" [ref=f3e12] [cursor=pointer]:
+            - /url: /about
+          - link "Fibre Installation" [ref=f3e13] [cursor=pointer]:
+            - /url: /fibre-installation
+          - link "Support" [ref=f3e14] [cursor=pointer]:
+            - /url: /faq
+          - link "Contact" [ref=f3e15] [cursor=pointer]:
+            - /url: /contact
+        - generic [ref=f3e16]:
+          - link "Client Portal" [ref=f3e17] [cursor=pointer]:
+            - /url: https://fibrehood.splynx.app/portal/login
+          - link "Sign Up" [ref=f3e21] [cursor=pointer]:
+            - /url: /signup
+    - main [ref=f3e24]:
+      - generic [ref=f3e29]:
+        - img "Fibrehood" [ref=f3e31]
+        - generic [ref=f3e32]:
+          - heading "Fast, reliable fibre internet for your community" [level=1] [ref=f3e33]
+          - generic [ref=f3e34]:
+            - text: Starting from
+            - generic [ref=f3e35]:
+              - generic [ref=f3e36]: US$40
+              - generic [ref=f3e37]: /month
+          - link "Sign Up" [ref=f3e39] [cursor=pointer]:
+            - /url: /signup
+      - generic [ref=f3e44]:
+        - generic [ref=f3e46]:
+          - paragraph [ref=f3e49]: No data caps
+          - paragraph [ref=f3e50]: Unlimited internet
+          - paragraph [ref=f3e51]: Seamless browsing, streaming, gaming and working from home.
+        - generic [ref=f3e53]:
+          - paragraph [ref=f3e57]: Plans from
+          - paragraph [ref=f3e58]:
+            - generic [ref=f3e59]: US$40
+            - generic [ref=f3e60]: /mo
+          - paragraph [ref=f3e61]: Affordable plans to suit every household.
+        - generic [ref=f3e63]:
+          - paragraph [ref=f3e66]: On us
+          - paragraph [ref=f3e67]: Free installation
+          - paragraph [ref=f3e68]: We handle the setup so you can connect hassle-free.
+        - generic [ref=f3e70]:
+          - paragraph [ref=f3e74]: Activation from
+          - paragraph [ref=f3e75]: US$65
+          - paragraph [ref=f3e76]: One-time fee applied at signup.
+      - generic [ref=f3e78]:
+        - generic [ref=f3e80]:
+          - generic [ref=f3e81]: Residential Fibre Plans
+          - heading "SELECT THE FIBRE SERVICE SUITABLE TO YOUR NEEDS" [level=2] [ref=f3e83]
+          - paragraph [ref=f3e84]: From light browsing to a fully connected household. Free installation, Wi-Fi router included, month-to-month — no lock-in.
+        - generic [ref=f3e86]:
+          - generic [ref=f3e87]:
+            - generic [ref=f3e90]:
+              - generic [ref=f3e91]:
+                - generic [ref=f3e92]: Starter
+                - generic [ref=f3e93]: Home Connect
+              - generic [ref=f3e94]:
+                - text: Up to
+                - generic [ref=f3e95]:
+                  - generic [ref=f3e96]: "5"
+                  - generic [ref=f3e97]: Mbps
+                - generic [ref=f3e98]: 1–3 devices · browsing, email, calls
+              - generic [ref=f3e101]:
+                - generic [ref=f3e102]: US$
+                - generic [ref=f3e103]: "40"
+                - generic [ref=f3e104]: /month
+              - generic [ref=f3e105]:
+                - generic [ref=f3e106]: Unlimited data
+                - generic [ref=f3e111]: FREE installation*
+                - generic [ref=f3e116]: Wi-Fi router included*
+                - generic [ref=f3e121]: Month-to-month
+              - link "Check availability" [ref=f3e127] [cursor=pointer]:
+                - /url: /coverage
+            - generic [ref=f3e132] [cursor=pointer]:
+              - generic [ref=f3e133]: Most Popular
+              - generic:
+                - generic:
+                  - generic: Smart
+                  - generic: Home Connect
+                - generic:
+                  - text: Up to
+                  - generic:
+                    - generic: "15"
+                    - generic: Mbps
+                  - generic: 4–6 devices · HD streaming, family WiFi
+                - generic:
+                  - generic:
+                    - generic: US$
+                    - generic: "50"
+                    - generic: /month
+                - generic:
+                  - generic: Unlimited data
+                  - generic: FREE installation*
+                  - generic: Wi-Fi router included*
+                  - generic: Month-to-month
+                - generic:
+                  - link "Check availability":
+                    - /url: /coverage
+            - generic [ref=f3e136] [cursor=pointer]:
+              - generic:
+                - generic:
+                  - generic: Pro
+                  - generic: Home Connect
+                - generic:
+                  - text: Up to
+                  - generic:
+                    - generic: "30"
+                    - generic: Mbps
+                  - generic: 7–10 devices · 4K streaming, gaming, WFH
+                - generic:
+                  - generic:
+                    - generic: US$
+                    - generic: "65"
+                    - generic: /month
+                - generic:
+                  - generic: Unlimited data
+                  - generic: FREE installation*
+                  - generic: Wi-Fi router included*
+                  - generic: Month-to-month
+                - generic:
+                  - link "Check availability":
+                    - /url: /coverage
+            - generic [ref=f3e138] [cursor=pointer]:
+              - generic:
+                - generic:
+                  - generic: Ultra-Home
+                  - generic: Connect
+                - generic:
+                  - text: Up to
+                  - generic:
+                    - generic: "100"
+                    - generic: Mbps
+                  - generic: 10+ devices · heavy streaming, smart home
+                - generic:
+                  - generic:
+                    - generic: US$
+                    - generic: "85"
+                    - generic: /month
+                - generic:
+                  - generic: Unlimited data
+                  - generic: FREE installation*
+                  - generic: Wi-Fi router included*
+                  - generic: Month-to-month
+                - generic:
+                  - link "Explore on plans page":
+                    - /url: /plans#ultra
+            - generic [ref=f3e140] [cursor=pointer]:
+              - generic:
+                - generic:
+                  - generic: Business
+                  - generic: SME Fibre
+                - generic:
+                  - text: Up to
+                  - generic:
+                    - generic: "50"
+                    - generic: Mbps
+                  - generic: 5–15 seats · cloud tools, VoIP, POS
+                - generic:
+                  - generic:
+                    - generic: US$
+                    - generic: "75"
+                    - generic: /month
+                - generic:
+                  - generic: Dedicated business support
+                  - generic: US$100 activation
+                  - generic: SLA-backed uptime
+                  - generic: Scalable to 100 Mbps
+                - generic:
+                  - link "View business plans":
+                    - /url: /plans#business
+          - button "Previous" [ref=f3e141] [cursor=pointer]
+          - button "Next" [ref=f3e144] [cursor=pointer]
+          - generic [ref=f3e147]:
+            - button "Go to slide 1" [ref=f3e148] [cursor=pointer]
+            - button "Go to slide 2" [ref=f3e149] [cursor=pointer]
+            - button "Go to slide 3" [ref=f3e150] [cursor=pointer]
+            - button "Go to slide 4" [ref=f3e151] [cursor=pointer]
+            - button "Go to slide 5" [ref=f3e152] [cursor=pointer]
+        - link "Compare all plans" [ref=f3e154] [cursor=pointer]:
+          - /url: /plans
+      - generic [ref=f3e158]:
+        - generic [ref=f3e159]: Get Connected
+        - heading "Four simple steps to get connected" [level=2] [ref=f3e161]
+        - generic [ref=f3e162]:
+          - generic [ref=f3e163]:
+            - generic [ref=f3e165]:
+              - generic [ref=f3e166]: Step 1
+              - heading "Check Coverage" [level=3] [ref=f3e172]
+              - paragraph [ref=f3e173]: Confirm availability for your area, building or community.
+            - generic [ref=f3e175]: ···
+          - generic [ref=f3e178]:
+            - generic [ref=f3e180]:
+              - generic [ref=f3e181]: Step 2
+              - heading "Choose Your Plan" [level=3] [ref=f3e188]
+              - paragraph [ref=f3e189]: Pick the fibre package that best suits your needs.
+            - generic [ref=f3e191]: ···
+          - generic [ref=f3e194]:
+            - generic [ref=f3e196]:
+              - generic [ref=f3e197]: Step 3
+              - heading "Sign Up" [level=3] [ref=f3e204]
+              - paragraph [ref=f3e205]: Share your details and complete the simple registration steps.
+            - generic [ref=f3e207]: ···
+          - generic [ref=f3e212]:
+            - generic [ref=f3e213]: Step 4
+            - heading "Get Connected" [level=3] [ref=f3e220]
+            - paragraph [ref=f3e221]: Fibrehood schedules installation and activates your service.
+        - link "Check Coverage" [ref=f3e222] [cursor=pointer]:
+          - /url: /coverage
+      - generic [ref=f3e227]:
+        - generic [ref=f3e228]:
+          - generic [ref=f3e229]: Fibre Installation
+          - heading "Get fibre for your neighbourhood, building, home or business" [level=2] [ref=f3e231]
+          - paragraph [ref=f3e232]: We make it simple to bring Fibrehood's fast, reliable fibre internet to your community, complex, office or home.
+          - generic [ref=f3e233]:
+            - generic [ref=f3e234]:
+              - heading "Homes" [level=3] [ref=f3e240]
+              - paragraph [ref=f3e241]: Reliable fibre for your home.
+            - generic [ref=f3e242]:
+              - heading "Apartments & MDUs" [level=3] [ref=f3e249]
+              - paragraph [ref=f3e250]: Connectivity for complexes and estates.
+            - generic [ref=f3e251]:
+              - heading "Communities" [level=3] [ref=f3e259]
+              - paragraph [ref=f3e260]: Partner with us for a connected community.
+            - generic [ref=f3e261]:
+              - heading "Businesses" [level=3] [ref=f3e267]
+              - paragraph [ref=f3e268]: Scalable solutions for your business.
+          - link "Express Interest" [ref=f3e269] [cursor=pointer]:
+            - /url: /fibre-installation
+        - generic [ref=f3e272]:
+          - img "Fibrehood technicians installing fibre equipment in a neighbourhood" [ref=f3e275]
+          - generic [ref=f3e283]:
+            - paragraph [ref=f3e284]: Building a more connected Zimbabwe
+            - paragraph [ref=f3e285]: Fibre for people, communities and opportunity.
+    - contentinfo [ref=f3e286]:
+      - generic [ref=f3e287]:
+        - generic [ref=f3e288]:
+          - generic [ref=f3e289]:
+            - paragraph [ref=f3e291]: Fibrehood builds direct fibre connections for homes and businesses — coverage-first, locally supported, and straightforward from check to connection.
+            - generic [ref=f3e292]:
+              - link "WhatsApp" [ref=f3e293] [cursor=pointer]:
+                - /url: https://wa.me/263784416605?text=I'd%20like%20to%20get%20connected%20to%20Fibrehood.
+              - link "Call" [ref=f3e296] [cursor=pointer]:
+                - /url: tel:+263784416605
+          - generic [ref=f3e299]:
+            - heading "Explore" [level=3] [ref=f3e300]
+            - list [ref=f3e301]:
+              - listitem [ref=f3e302]:
+                - link "Fibre Plans" [ref=f3e303] [cursor=pointer]:
+                  - /url: /plans
+              - listitem [ref=f3e304]:
+                - link "Coverage" [ref=f3e305] [cursor=pointer]:
+                  - /url: /coverage
+              - listitem [ref=f3e306]:
+                - link "Fibre Installation" [ref=f3e307] [cursor=pointer]:
+                  - /url: /fibre-installation
+              - listitem [ref=f3e308]:
+                - link "About" [ref=f3e309] [cursor=pointer]:
+                  - /url: /about
+              - listitem [ref=f3e310]:
+                - link "Support" [ref=f3e311] [cursor=pointer]:
+                  - /url: /faq
+              - listitem [ref=f3e312]:
+                - link "Contact" [ref=f3e313] [cursor=pointer]:
+                  - /url: /contact
+          - generic [ref=f3e314]:
+            - heading "Help" [level=3] [ref=f3e315]
+            - list [ref=f3e316]:
+              - listitem [ref=f3e317]:
+                - link "FAQ" [ref=f3e318] [cursor=pointer]:
+                  - /url: /faq
+              - listitem [ref=f3e319]:
+                - link "Installation" [ref=f3e320] [cursor=pointer]:
+                  - /url: /faq?cat=installation
+              - listitem [ref=f3e321]:
+                - link "Troubleshooting" [ref=f3e322] [cursor=pointer]:
+                  - /url: /faq?cat=router-wifi
+              - listitem [ref=f3e323]:
+                - link "Billing" [ref=f3e324] [cursor=pointer]:
+                  - /url: /faq?cat=billing
+          - generic [ref=f3e325]:
+            - heading "Connect" [level=3] [ref=f3e326]
+            - list [ref=f3e327]:
+              - listitem [ref=f3e328]:
+                - link "support@fibrehood.co.zw" [ref=f3e332] [cursor=pointer]:
+                  - /url: mailto:support@fibrehood.co.zw
+              - listitem [ref=f3e333]:
+                - link "+263 784 416 605" [ref=f3e336] [cursor=pointer]:
+                  - /url: tel:+263784416605
+              - listitem [ref=f3e337]:
+                - generic [ref=f3e341]: Zimbabwe
+            - generic [ref=f3e342]:
+              - link "Facebook" [ref=f3e343] [cursor=pointer]:
+                - /url: "#"
+              - link "X" [ref=f3e344] [cursor=pointer]:
+                - /url: "#"
+              - link "LinkedIn" [ref=f3e345] [cursor=pointer]:
+                - /url: "#"
+              - link "Instagram" [ref=f3e346] [cursor=pointer]:
+                - /url: "#"
+        - generic [ref=f3e347]:
+          - paragraph [ref=f3e348]: © 2026 Fibrehood. All rights reserved.
+          - generic [ref=f3e349]:
+            - link "Privacy Policy" [ref=f3e350] [cursor=pointer]:
+              - /url: /privacy
+            - link "Terms & Conditions" [ref=f3e351] [cursor=pointer]:
+              - /url: /terms
+  - region "Notifications (F8)":
+    - list
